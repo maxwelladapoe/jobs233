@@ -1,0 +1,96 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Project;
+use App\Models\ProjectCategory;
+use App\Models\Skill;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
+class ProjectController extends Controller
+{
+    //
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
+
+
+    public function create(Request $request)
+    {
+
+
+        $this->validate($request, [
+            'title' => ['string', 'required', 'min:3', 'max:150'],
+            'description' => ['string', 'required', 'min:3', 'max:2000'],
+            'category' => ['integer', 'required'],
+            'budget' => ['string'],
+            'additional_details' => ['nullable', 'string'],
+            'skills' => ['nullable'],
+            'tags' => ['nullable'],
+            'deadline' => ['date'],
+
+        ]);
+
+
+
+        $project = new Project();
+        $project->title = $request['title'];
+        $project->description = $request['description'];
+        $project->additional_details = $request['additional_details'];
+        $project->user_id = Auth::user()->id;
+        $project->category_id = $request['category'];
+        $project->budget = $request['budget'];
+        $project->secondary_category_id = $request['secondary_category'];
+        $project->skills = $request['skills'];
+        $project->tags = implode (',',$request['tags']);
+        $project->deadline = $request['deadline'];
+
+
+        if ($project->save()) {
+            return response()->json(['success' => true, 'project' => $project, 'message'=>'Your project has been created successfully' ], 200);
+        }else{
+
+            Log::debug("there seems to be an issue with project creation. you may have to check the database");
+            return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
+        }
+    }
+
+    public function read()
+    {
+
+
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function delete()
+    {
+
+    }
+
+
+
+    public function getProjects()
+    {
+        $projects = Project::where('status','created')->where('user_id','<>',Auth::user()->id)->orderby('created_at','desc')->paginate(10);
+        return response()->json(['success' => true, 'projects' => $projects], 200);
+
+    }
+
+    public function getCategoriesAndSkills()
+    {
+        $categories = ProjectCategory::all();
+        $skills = Skill::all();
+        return response()->json(['success' => true, 'categories' => $categories, 'skills' => $skills], 200);
+    }
+
+
+}
