@@ -11,7 +11,8 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
-} catch (e) {}
+} catch (e) {
+}
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -19,6 +20,7 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+let version = 'v1';
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
@@ -28,16 +30,16 @@ if (window.location.href.indexOf(".test") !== -1) {
 
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
 
-    window.axios.defaults.baseURL = "http://jobs233.test:8000/api/";
-    window.baseUrl = "http://jobs233.test:8000/api/"
+    window.axios.defaults.baseURL = "http://jobs233.test:8000/api/" + version + "/";
+    window.baseUrl = "http://jobs233.test:8000/api/" + version + "/"
 
 } else if (window.location.href.indexOf("localhost") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
-    window.axios.defaults.baseURL = "http://localhost:8000/api/";
-    window.baseUrl = "http://localhost:8000/api/"
+    window.axios.defaults.baseURL = "http://localhost:8000/api/" + version + "/";
+    window.baseUrl = "http://localhost:8000/api/" + version + "/"
 } else {
-    window.axios.defaults.baseURL = "https://jobs233.com/api/";
-    window.baseUrl = "https://jobs233.com/api/";
+    window.axios.defaults.baseURL = "https://jobs233.com/api/" + version + "/";
+    window.baseUrl = "https://jobs233.com/api/" + version + "/";
 }
 
 window.axios.defaults.withCredentials = true;

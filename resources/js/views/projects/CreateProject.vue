@@ -436,7 +436,6 @@
 <script>
 
 
-
     export default {
         data: function () {
             return {
@@ -516,10 +515,10 @@
                 if (this.step < this.totalSteps) {
                     this.step++
                 } else {
-                    axios.post('project/create', vm.project)
+                    axios.post('projects', vm.project)
                         .then(function (response) {
                             if (response.data === 'Your project was saved successfully') {
-                                resetProject();
+                                this.resetProject();
                             } else {
                                 return
                             }
@@ -534,7 +533,7 @@
 
         },
         mounted() {
-            axios.get('/project/categories').then(({data}) => {
+            axios.get('projects/categories').then(({data}) => {
                 this.categories = data.categories;
                 this.skillsList = data.skills;
 
@@ -548,10 +547,7 @@
                 }
             }
         },
-        components: {
-
-
-        }
+        components: {}
     }
 </script>
 

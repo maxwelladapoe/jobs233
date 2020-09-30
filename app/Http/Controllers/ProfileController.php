@@ -7,13 +7,17 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Skill;
 use App\Models\User;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
     //
+
+    protected $imageUploadPath;
 
     public function __construct()
     {
@@ -61,14 +65,68 @@ class ProfileController extends Controller
         $profile->city = $request['city'];
 
 
-        $user->name= $request['name'];
+        $user->name = $request['name'];
 
-        if ($profile->save() ) {
+        if ($profile->save()) {
             return response()->json(['success' => true, 'profile' => $profile], 200);
         } else {
 
             return response()->json(['success' => false, 'message' => 'the profile for this user does not seem to exist'], 400);
         }
+    }
+
+
+    public function projects()
+    {
+        $user = Auth::user();
+        $projects = Project::where('user_id', $user->id)->get();
+
+        return response()->json(['success' => true, 'projects' => $projects], 200);
+
+    }
+
+    public function changeProfilePicture(Request $request)
+    {
+
+        $this->validate($request, [
+            'image' => ['required', 'image', 'max:2000']
+        ]);
+
+        $profile = Profile::find(Auth::user()->profile->id);
+
+
+        if ($profile) {
+
+            // Handle file Upload
+            if ($request->hasFile('image')) {
+
+                //Storage::delete('/public/avatars/'.$user->avatar);
+
+                // Get filename with the extension
+                $filenameWithExt = $request->file('image')->getClientOriginalName();
+                //Get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                // Get just ext
+                $extension = $request->file('image')->getClientOriginalExtension();
+                // Filename to store
+                $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+                // Upload Image
+                $path = $request->file('image')->storeAs('public/userimages', $fileNameToStore);
+
+                $profile->picture = '/storage/userimages/' . $fileNameToStore;
+
+                if ($profile->save()) {
+                    return response()->json(['success' => true,
+                        'message' => 'profile picture changed successfully',
+                        'path' => '/storage/userimages/' . $fileNameToStore], 201);
+                }
+
+            }
+
+
+        }
+
+
     }
 
 

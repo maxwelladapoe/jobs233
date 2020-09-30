@@ -91,11 +91,11 @@
                                                         >
                                                             <b-form-input
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="phone-default"
                                                                 v-model="profileDetails.phone_number"
                                                             ></b-form-input>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="phone-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -117,9 +117,15 @@
                                                         >
                                                             <b-form-select
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="gender-default"
                                                                 v-model="profileDetails.gender"
                                                             >
+
+                                                                <template v-slot:first>
+                                                                    <b-form-select-option :value="null" disabled> Select
+                                                                        Gender
+                                                                    </b-form-select-option>
+                                                                </template>
 
                                                                 <b-form-select-option value="M">Male
                                                                 </b-form-select-option>
@@ -129,7 +135,7 @@
                                                                 </b-form-select-option>
                                                             </b-form-select>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="gender-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -153,11 +159,11 @@
                                                                 rows="4"
                                                                 no-resize
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="bio-default"
                                                                 v-model="profileDetails.bio"
                                                             ></b-form-textarea>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="bio-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -187,11 +193,11 @@
                                                         >
                                                             <b-form-input
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="country-default"
                                                                 v-model="profileDetails.country"
                                                             ></b-form-input>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="country-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -213,11 +219,11 @@
                                                         >
                                                             <b-form-input
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="city-default"
                                                                 v-model="profileDetails.city"
                                                             ></b-form-input>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="city-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -242,11 +248,11 @@
                                                                 no-resize
                                                                 rows="4"
                                                                 :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
+                                                                id="address-default"
                                                                 v-model="profileDetails.address"
                                                             ></b-form-textarea>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback id="address-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -257,20 +263,31 @@
                                             </div>
 
 
-                                            <div class=" form-group mr-auto text-right">
 
-                                                <button type="submit" class="btn bg-orange t-mont">
 
-                                                    Update Profile
+                                                <div class="form-group text-right d-flex align-items-start justify-content-end">
 
-                                                </button>
+                                                    <div class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
+                                                         v-if="profileUpdateLoading">
+                                                        <p class="mr-2 p-0 m-0">Loading </p>
+                                                        <div class="loader"></div>
+                                                    </div>
 
-                                            </div>
+                                                    <button type="submit" class=" btn bg-orange t-mont">
+
+                                                        Update Profile
+
+                                                    </button>
+
+                                                </div>
+
 
 
                                         </b-form>
 
                                     </ValidationObserver>
+
+
                                     <ValidationObserver v-slot="{handleSubmit}" ref="changePassword">
                                         <b-form @submit.prevent="handleSubmit(changePassword)">
 
@@ -290,11 +307,12 @@
                                                         >
                                                             <b-form-input type="password"
                                                                           :state="getValidationState(validationContext)"
-                                                                          id="textarea-default"
+                                                                          id="current_password"
                                                                           v-model="credentials.currentPassword"
                                                             ></b-form-input>
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
+                                                            <b-form-invalid-feedback
+                                                                id="current_password-live-feedback">
                                                                 {{validationContext.errors[0] }}
                                                             </b-form-invalid-feedback>
                                                         </b-form-group>
@@ -378,19 +396,22 @@
                             </div>
                             <div class="col-12 col-lg-3 ">
 
-                                <b-form class="">
-                                <div class="jb-profile-picture">
-                                    <b-img  fluid rounded
-                                           :src="profileDetails.picture ? profileDetails.picture : '/images/userimages/profile.svg'"
-                                           :alt="user.name"></b-img>
-                                    <div class="upload-functions">
-                                        <input type="file" name="" ref="changeProfilePicture" class="d-none">
-                                        <button class="change-btn" @click="$refs['changeProfilePicture'].click()" ><b-icon icon="pencil-fill"/></button>
+                                <b-form class="" @submit.prevent="changeProfilePicture">
+                                    <div class="jb-profile-picture">
+                                        <b-img fluid rounded
+                                               :src="imagePreview"
+                                               :alt="user.name"></b-img>
+                                        <div class="upload-functions">
+                                            <input type="file" name="file" ref="changeProfilePicture"
+                                                   @change="handleImageUpload" style="display:none" accept="image/*">
+                                            <button class="change-btn"
+                                                    @click.prevent="$refs['changeProfilePicture'].click()">
+                                                <b-icon icon="pencil-fill"/>
+                                            </button>
 
+                                        </div>
                                     </div>
-                                </div>
-
-                                    <b-button class="mt-3" type="submit">Change</b-button>
+                                    <b-button class="mt-3" type="submit" v-if="showUploadButton">Upload</b-button>
                                 </b-form>
 
                             </div>
@@ -417,32 +438,89 @@
         data() {
             return {
                 userDetails: {},
-                profileDetails: {},
+                showUploadButton: false,
+                profileDetails: {
+                    picture: '',
+                    gender: null
+                },
                 credentials: {
                     currentPassword: '',
                     newPassword: '',
                     confirmNewPassword: '',
-                }
+                },
+                imagePreview: '',
+                file: '',
+                profileUpdateLoading: false
+
             }
         },
         methods: {
 
+            ...mapActions({
+                refresh: 'auth/refresh'
+            }),
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
 
             editProfile() {
-                axios.post('/profile/update', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
-                    console.log(data)
+                this.profileUpdateLoading= true;
+                axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
+                    this.profileUpdateLoading= false;
+                    this.refresh();
                 }).catch()
             },
             changePassword() {
 
+            },
+            handleImageUpload() {
+                this.file = this.$refs.changeProfilePicture.files[0];
+                console.log(this.profileDetails.picture);
+
+                let reader = new FileReader();
+
+                reader.addEventListener("load", function () {
+
+                    this.imagePreview = reader.result;
+                }.bind(this), false);
+
+                if (this.file) {
+
+                    if (/\.(jpe?g|png|gif)$/i.test(this.file.name)) {
+                        this.showUploadButton = true;
+                        reader.readAsDataURL(this.file);
+                    }
+                }
+
+
+            },
+            changeProfilePicture() {
+
+                let data = new FormData();
+                const config = {}
+
+                data.append('image', this.file);
+                axios.post('profile/picture', data, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+
+                    onUploadProgress: (progressEvent) => {
+                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                        console.log(percentCompleted)
+                    }
+
+                }).then((data) => {
+                    this.refresh();
+                    console.log(data)
+                })
             }
         },
         mounted() {
             this.profileDetails = this.user.profile;
+            this.imagePreview = this.profileDetails.picture;
             this.userDetails = this.user;
+
             delete this.userDetails.profile;
         },
         computed: {

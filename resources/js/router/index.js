@@ -6,7 +6,7 @@ import store from "../store";
 import project from "./project";
 import profile from "./profile";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
     {
@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.state.auth.authenticated) {
-            next()
+            next();
             return
         }
         next('/login')

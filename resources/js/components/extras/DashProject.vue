@@ -17,13 +17,11 @@
                 </div>
                 <div class="col-md-4 text-right">
                     <div class="jb-project-price t-meri ">
-
-
                         <slot name="budget"></slot>
                     </div>
-                    <div class="jb-project-bid-btn text-right">
-                        <a href="" class="btn bg-orange  t-mont"> Bid</a>
-                    </div>
+
+                    <slot name="button"></slot>
+
                 </div>
             </div>
 

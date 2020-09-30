@@ -30,7 +30,9 @@
                                 </div>
 
                                 <div class="jb-dash-profile-extra">
-                                    <p class="t-mont t-white text-right ">Edit Profile</p>
+                                    <router-link :to="{name:'editProfile'}">
+                                        <p class="t-mont t-white text-right ">Edit Profile</p>
+                                    </router-link>
                                 </div>
                             </div>
 
@@ -45,7 +47,7 @@
                             </router-link>
 
                             <router-link to="/projects" v-if="profileType ==='work' || profileType ==='work&hire'">
-                                <div class="btn bg-black t-white">View All  Ongoing Projects</div>
+                                <div class="btn bg-black t-white">View All Ongoing Projects</div>
                             </router-link>
                         </div>
 
@@ -119,7 +121,38 @@
                         <dash-notification/>
 
 
-                        <div class="jb-quick-projects">
+                        <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
+                            <div class="jb-quick-projects-header">
+                                <p class="t-mont t-bold">Recent projects</p>
+                            </div>
+
+                            <div class="jb-projects-wrapper my-2">
+
+                                <dash-project v-for="project in somePostedProjects" :key="project.id">
+                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="time">
+                                        <timeago :datetime="project.created_at" :auto-update="60"/>
+                                    </template>
+                                    <template slot="description">{{project.description.replace(/(.{150})..+/, "$1&hellip;")}}</template>
+                                    <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
+                                    </template>
+                                    <template slot="budget"> ₵{{project.budget}}</template>
+                                    <template slot="button">
+                                        <div class="jb-project-bid-btn text-right">
+                                            <a href="" class="btn bg-orange  t-mont"> View</a>
+                                        </div>
+                                    </template>
+                                </dash-project>
+                            </div>
+
+
+                            <div class="text-center">
+                                <button class="btn bg-orange">View More</button>
+                            </div>
+
+
+                        </div>
+                        <div v-if="profileType ==='work' || profileType ==='work&hire'" class="jb-quick-projects">
                             <div class="jb-quick-projects-header">
                                 <p class="t-mont t-bold">Latest projects that match your skills</p>
                             </div>
@@ -135,6 +168,11 @@
                                     <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
                                     </template>
                                     <template slot="budget"> ₵{{project.budget}}</template>
+                                    <template slot="button">
+                                        <div class="jb-project-bid-btn text-right">
+                                            <a href="" class="btn bg-orange  t-mont">Bid</a>
+                                        </div>
+                                    </template>
                                 </dash-project>
                             </div>
 
@@ -173,6 +211,7 @@
         data() {
             return {
                 someProjects: [],
+                somePostedProjects: [],
             }
         },
         computed: {
@@ -190,13 +229,44 @@
         methods: {
 
             getSomeProjects() {
-                let vm = this;
-                axios.get('/projects')
-                    .then(({data}) => {
-                        vm.someProjects = data.projects.data;
-                    }).catch(error => {
-                    console.log(error)
-                })
+
+                switch (this.profileType) {
+
+                    case ('work'):
+                        axios.get('/projects')
+                            .then(({data}) => {
+                                this.someProjects = data.projects.data;
+                            }).catch(error => {
+                            console.log(error)
+                        });
+
+                        break;
+                    case ('hire'):
+                        axios.get('user/projects')
+                            .then(({data}) => {
+                                this.somePostedProjects = data.projects;
+                            }).catch(error => {
+                            console.log(error)
+                        });
+
+                        break;
+                    case ('work&hire'):
+                        axios.get('/projects')
+                            .then(({data}) => {
+                                this.someProjects = data.projects.data;
+                            }).catch(error => {
+                            console.log(error)
+                        });
+                        axios.get( 'user/projects')
+                            .then(({data}) => {
+                                this.somePostedProjects = data.projects.data;
+                            }).catch(error => {
+                            console.log(error)
+                        });
+                        break;
+                }
+
+
             },
 
         },

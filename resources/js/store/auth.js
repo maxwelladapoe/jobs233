@@ -60,6 +60,10 @@ export default {
             return dispatch('me')
         },
 
+        async refresh({dispatch}){
+            return dispatch('me');
+        },
+
         me({commit}) {
             return axios.get('/user').then((response) => {
                 commit('SET_AUTHENTICATED', true);

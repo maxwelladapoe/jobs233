@@ -218,7 +218,7 @@
                                             label="First Name"
                                             label-for="first_name">
                                             <b-form-input id="first_name" name="first_name"
-                                                          v-model="signupCredentials.first_name"
+                                                          v-model="signupCredentials.firstName"
                                                           :state="getValidationState(validationContext)"
                                                           aria-describedby="firstname-live-feedback"
                                                           placeholder="Kwame"></b-form-input>
@@ -243,7 +243,7 @@
 
 
                                             <b-form-input id="last_name" type="text" name="last_name"
-                                                          v-model="signupCredentials.last_name"
+                                                          v-model="signupCredentials.lastName"
                                                           :state="getValidationState(validationContext)"
                                                           aria-describedby="lastname-live-feedback"
                                                           placeholder="Antwi"></b-form-input>
@@ -440,10 +440,11 @@
 
             resetSignUpCredentials() {
                 this.signupCredentials = {
-                    name: '',
+                    firstName: '',
+                    lastName: '',
                     email: '',
                     password: '',
-                    action: ''
+                    preference: null
                 }
             },
 
@@ -469,7 +470,10 @@
                 this.isLoading = true;
                 this.loadingMessage = 'Signing you up ...';
                 await this.signUp(this.signupCredentials).then(response => {
-                    this.isLoading = false;
+                    setTimeout(()=>{
+                        this.resetSignUpCredentials();
+                        this.isLoading = false;
+                    }, 10000);
 
                 }).catch(errors => {
                     this.$refs.signupForm.setErrors({...errors.response.data.errors})

@@ -2,49 +2,46 @@
     <header>
 
         <nav class="navbar navbar-expand-lg bg-black">
-            <div class="container">
+            <div class="container h-100">
 
                 <a class="navbar-brand" href="/"><img src="/images/logowhite.png" alt="Jobs 233 logo"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                <button class="navbar-toggler bg-white" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse bg-black " id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link " href="#">How it Works</a>
+                            <router-link class="nav-link text-white" to="/">How it Works</router-link>
                         </li>
                     </ul>
 
                     <ul class="navbar-nav ml-auto">
 
-                        <li class="nav-item nav-item-special bg-orange">
+                        <li class="nav-item nav-item-special">
                             <div class="jb-profile-btn-image">
-                                <img class="rounded-circle" :src="user.profile.picture" />
+                                <img class="rounded-circle" :src="user.profile.picture"/>
                             </div>
                             <div class="jb-profile-btn-name">
-                                <p class="t-mont t-bold t-white">{{user.name}} <b-icon icon="caret-down-fill
-"/></p>
+                                <p class="t-mont t-bold t-white">{{user.name}}
+                                    <b-icon icon="caret-down-fill"/>
+                                </p>
 
                             </div>
 
                             <div class="jb-hover-dropdown-wrapper">
 
                                 <div class="row">
-
-
-                                    <div class="col-md-6">
+                                    <div class="col-6 col-md-6">
                                         <div class="links text-left">
                                             <a class="" href="#"><i class="fas fa-envelope"></i> Messages</a>
                                             <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-6">
+                                    <div class="col-6 col-md-6">
                                         <div class="links text-right">
                                             <router-link to="/dashboard">Dashboard</router-link>
                                             <a class="" href="#"><i class="fas fa-user"></i> My Profile</a>
@@ -76,8 +73,13 @@
 
 
         methods: {
+
+            ...mapActions({
+                logOut: 'auth/logOut'
+            }),
             logout() {
-               // this.$auth.logout()
+                this.logOut();
+                this.$router.push('/');
             }
         },
         computed: {
