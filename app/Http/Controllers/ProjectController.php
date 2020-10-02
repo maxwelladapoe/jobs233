@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('read','getProjects','getCategories','getSkills');;
 
     }
 
@@ -28,7 +28,8 @@ class ProjectController extends Controller
             'title' => ['string', 'required', 'min:3', 'max:150'],
             'description' => ['string', 'required', 'min:3', 'max:2000'],
             'category' => ['integer', 'required'],
-            'budget' => ['string'],
+            'budget' => ['required', 'string'],
+            'currency' => ['required', 'integer', 'min:1'],
             'additional_details' => ['nullable', 'string'],
             'skills' => ['nullable'],
             'tags' => ['nullable'],
@@ -45,6 +46,7 @@ class ProjectController extends Controller
             $project->user_id = Auth::user()->id;
             $project->category_id = $request['category'];
             $project->budget = $request['budget'];
+            $project->currency_id = $request['currency'];
             $project->secondary_category_id = $request['secondary_category'];
             $project->skills = $request['skills'];
             $project->tags = implode(',', $request['tags']);
@@ -66,9 +68,10 @@ class ProjectController extends Controller
 
     }
 
-    public function read()
+    public function read(Project $project)
     {
 
+        return response()->json(['success' => true, 'project' => $project], 200);
 
     }
 
@@ -85,7 +88,14 @@ class ProjectController extends Controller
 
     public function getProjects()
     {
-        $projects = Project::where('status', 'created')->where('user_id', '<>', Auth::user()->id)->orderby('created_at', 'desc')->paginate(10);
+
+        if (Auth::user()){
+            $projects = Project::where('status', 'created')->where('user_id', '<>', Auth::user()->id)->orderby('created_at', 'desc')->paginate(10);
+
+        }else{
+            $projects = Project::where('status', 'created')->orderby('created_at', 'desc')->paginate(10);
+
+        }
         return response()->json(['success' => true, 'projects' => $projects], 200);
 
     }
@@ -95,6 +105,16 @@ class ProjectController extends Controller
         $categories = ProjectCategory::all();
         $skills = Skill::all();
         return response()->json(['success' => true, 'categories' => $categories, 'skills' => $skills], 200);
+    }
+    public function getCategories()
+    {
+        $categories = ProjectCategory::all();
+        return response()->json(['success' => true, 'categories' => $categories], 200);
+    }
+    public function getSkills()
+    {
+        $skills = Skill::all();
+        return response()->json(['success' => true, 'skills' => $skills], 200);
     }
 
 

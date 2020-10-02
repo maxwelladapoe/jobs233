@@ -1,70 +1,61 @@
 <template>
+
     <div class="jb-project shadow">
         <div class="jb-project-content">
             <div class="row">
-                <div class="col-md-8">
-                    <p class="t-mont t-bold jb-project-title">
-                        <slot name="title"></slot>
-                        <span class="t-meri font-italic t-normal"><slot name="time"></slot> </span>
-                    </p>
+                <div class="col-12 col-md-12">
+                    <div class="jb-project-header">
+                        <p class="t-mont t-bold jb-project-title">
+                            <slot name="title"></slot>
+                            <span
+                                class="t-meri font-italic t-normal"> <slot name="time"></slot></span>
+                        </p>
+                        <div class="jb-project-price t-meri ">
+                            <slot name="budget"></slot>
+                        </div>
+                    </div>
+
+
                     <p class="t-meri jb-project-description t-orange">
                         <slot name="description"></slot>
-
                     </p>
 
-                    <div class="jb-project-tags">
-                        Tags & Skills: IOS, Mobile Applications, Programming
+                    <div class="jb-project-footer-alt">
+                        <div class="jb-project-tags">
+                            <slot name="tags"></slot>
+                        </div>
+
                     </div>
-                </div>
-                <div class="col-md-4 text-right">
-                    <div class="jb-project-price t-meri ">
-
-                        <slot name="budget"></slot>
-                    </div>
-                    <div class="jb-project-bids t-meri t-orange">
-                        15 bids
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
 
-        <div class="jb-project-footer">
+                    <div class="jb-project-footer">
+                        <div class="jb-project-posted-by">
 
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="jb-project-posted-by">
-
-                        <div class="row">
-                            <div class="col-md-1">
+                            <div class="posted-by-wrap">
                                 <div class="jb-project-posted-by-img">
-                                    <img src="../../../img/img1.jpg" alt=""
-                                         class="rounded-circle">
+                                    <slot name="image"></slot>
                                 </div>
+                                <div class="jb-project-posted-by-name t-bold">
+                                    <slot name="posted_by"></slot>
+
+                                    <div class="jb-project-posted-by-extra">
+                                        <span><b-icon icon="check-circle-fill"/> Verified</span>
+                                        <span><b-icon icon="cash-stack"/>  Deposited</span>
+
+                                    </div>
+                                </div>
+
+
                             </div>
 
-                            <div class="col-md-11">
-                                <div class="jb-project-posted-by-name t-bold">Mr. Alfred Appiah
-                                    <span class="t-normal">posted
-                                                            this</span>
-                                </div>
-                                <div class="jb-project-posted-by-extra">
-                                    <span><i class="fas fa-check-circle"></i> Verified</span>
-                                    <span><i class="fas fa-money-bill-alt"></i> Deposited</span>
-
-                                </div>
-                            </div>
 
                         </div>
 
+                        <div>
+                            <slot name="button"></slot>
+                        </div>
+                    </div>
 
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="jb-project-bid-btn text-right">
-                        <a href="" class="btn bg-orange  t-mont"> Bid</a>
-                    </div>
 
                 </div>
             </div>
@@ -72,6 +63,8 @@
         </div>
 
     </div>
+
+
 </template>
 
 <script>

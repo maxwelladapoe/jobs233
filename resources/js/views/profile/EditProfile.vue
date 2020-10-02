@@ -263,30 +263,27 @@
                                             </div>
 
 
+                                            <div
+                                                class="form-group text-right d-flex align-items-start justify-content-end">
 
-
-                                                <div class="form-group text-right d-flex align-items-start justify-content-end">
-
-                                                    <div class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
-                                                         v-if="profileUpdateLoading">
-                                                        <p class="mr-2 p-0 m-0">Loading </p>
-                                                        <div class="loader"></div>
-                                                    </div>
-
-                                                    <button type="submit" class=" btn bg-orange t-mont">
-
-                                                        Update Profile
-
-                                                    </button>
-
+                                                <div
+                                                    class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
+                                                    v-if="profileUpdateLoading">
+                                                    <p class="mr-2 p-0 m-0">Loading </p>
+                                                    <div class="loader"></div>
                                                 </div>
 
+                                                <button type="submit" class=" btn bg-orange t-mont">
+
+                                                    Update Profile
+
+                                                </button>
+
+                                            </div>
 
 
                                         </b-form>
-
                                     </ValidationObserver>
-
 
                                     <ValidationObserver v-slot="{handleSubmit}" ref="changePassword">
                                         <b-form @submit.prevent="handleSubmit(changePassword)">
@@ -389,8 +386,6 @@
                                         </b-form>
 
                                     </ValidationObserver>
-
-
                                 </div>
 
                             </div>
@@ -464,9 +459,9 @@
             },
 
             editProfile() {
-                this.profileUpdateLoading= true;
+                this.profileUpdateLoading = true;
                 axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
-                    this.profileUpdateLoading= false;
+                    this.profileUpdateLoading = false;
                     this.refresh();
                 }).catch()
             },

@@ -121,7 +121,7 @@ after login or sign up
 
 .navbar {
     min-height: 6em !important;
-    padding: 0!important;
+    padding: 0 !important;
     z-index: 222;
 
 
@@ -353,44 +353,80 @@ select.form-control {
 }
 
 .jb-projects-wrapper {
-    background-color: white;
     position: relative;
     height: auto;
 
     .jb-project {
-        height: 12em;
+        min-height: 13em;
         margin-bottom: 0.5em;
-        background-color: white;
         position: relative;
 
+        @include media-breakpoint-down(sm) {
+            min-height: 13em;
+        }
+        @include media-breakpoint-down(xs) {
+            min-height: 14em;
+        }
+
         .jb-project-content {
-            height: 8em;
+            min-height: 8em;
             padding: 1em;
 
-            .jb-project-title {
-                margin: 0;
-                height: 2em;
+            .jb-project-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                align-content: center;
+                margin-bottom: 10px;
 
-                span {
-                    font-size: 0.8em;
-                    letter-spacing: -0.1em;
+                .jb-project-title {
+                    margin: 0;
+                    height: 2em;
+
+                    span {
+                        font-size: 0.8em;
+                    }
                 }
+
+                .jb-project-price {
+
+                    height: 2em;
+                }
+
             }
+
 
             .jb-project-description {
                 margin: 0;
                 height: 4.5em;
                 font-size: 0.8em;
+
+                @include media-breakpoint-down(sm) {
+                    height: auto;
+
+
+                }
             }
 
-            .jb-project-tags {
-                height: 1.5em;
-                font-size: 0.7em;
+
+            .jb-project-footer-alt {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+
+
+                .jb-project-tags {
+                    font-size: 0.7em;
+                    width: 60%;
+
+                    @include media-breakpoint-down(sm) {
+                        width: 100%;
+                        margin-bottom: 1em;
+
+                    }
+                }
             }
 
-            .jb-project-price {
-                height: 5.6em;
-            }
 
             .jb-project-bids {
                 height: 1.5em;
@@ -400,12 +436,24 @@ select.form-control {
         }
 
         .jb-project-footer {
-            height: 4em;
-            padding: 1em;
+            margin-top: 10px;
+            height: auto;
+            width: 100%;
+            padding-top: 0.5em;
             border-top: 0.02em solid $ash-light;
+            display: flex;
+            justify-content: space-between;
 
             .jb-project-posted-by {
-                height: 2.2em;
+                display: flex;
+
+
+                .posted-by-wrap {
+
+                    display: flex;
+
+                }
+
 
                 .jb-project-posted-by-img {
                     width: 2.2em;
@@ -422,7 +470,6 @@ select.form-control {
                 }
 
                 .jb-project-posted-by-name {
-                    margin: 0;
                     font-size: 0.8em;
                     margin-left: 1em;
                 }
@@ -442,10 +489,7 @@ select.form-control {
 
             .jb-project-bid-btn {
 
-                .btn {
-                    height: 2.2em !important;
-                    padding: 0.6em;
-                }
+
             }
         }
     }
@@ -690,6 +734,7 @@ end of login or sign up
 
 /*--end of header--*/
 .jb-main-section-wrapper {
+    min-height: 100%;
     margin-top: 5em;
 
     .jb-section {
@@ -882,6 +927,15 @@ end of login or sign up
 
 .jb-project-title {
     font-size: 1em;
+}
+
+.jb-project-title-big {
+    font-size: 1.5em;
+}
+
+.jb-project-title-small {
+    font-size: 0.9em;
+    margin-bottom: 0;
 }
 
 /*-- close button --*/
@@ -1421,4 +1475,23 @@ end of login or sign up
     }
 }
 
+
+.jb-404 {
+    width: 100%;
+    height: 30em;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .error {
+        font-size: 10em;
+        margin-bottom: 0;
+        line-height: 1em;
+    }
+
+    .description {
+        font-size: 1em;
+    }
+}
 

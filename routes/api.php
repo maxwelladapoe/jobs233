@@ -15,17 +15,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-
 Route::prefix('v1')->group(function () {
 
 
-
-    Route::middleware('auth:sanctum')->prefix('user')->group(function (){
-        Route::get('/', function (Request $request){
+    Route::middleware('auth:sanctum')->prefix('user')->group(function () {
+        Route::get('/', function (Request $request) {
             return $request->user();
         });
 
-        Route::get('/projects',[App\Http\Controllers\ProfileController::class,'projects']);
+        Route::get('/projects', [App\Http\Controllers\ProfileController::class, 'projects']);
     });
 
     Route::prefix('auth')->group(function () {
@@ -33,16 +31,18 @@ Route::prefix('v1')->group(function () {
         Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
         Route::post('register', [App\Http\Controllers\Auth\AltRegisterController::class, 'register']);
     });
+    Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
 
 
     Route::prefix('projects')->group(function () {
         Route::post('/', [App\Http\Controllers\ProjectController::class, 'create']);
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'getProjects']);
-        Route::get('/{id}/{slug}', [App\Http\Controllers\ProjectController::class, 'read']);
+        Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
+        Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
         Route::patch('/update/{id}', [App\Http\Controllers\ProjectController::class, 'update']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
-        Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
     });
+
 
     Route::prefix('profile')->group(function () {
         Route::patch('/', [App\Http\Controllers\ProfileController::class, 'update']);

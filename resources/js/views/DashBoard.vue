@@ -133,18 +133,17 @@
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
-                                    <template slot="description">{{project.description.replace(/(.{150})..+/, "$1&hellip;")}}</template>
+                                    <template slot="description">{{truncate(project.description,200) }}</template>
                                     <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
                                     </template>
-                                    <template slot="budget"> ₵{{project.budget}}</template>
+                                    <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
                                         <div class="jb-project-bid-btn text-right">
-                                            <a href="" class="btn bg-orange  t-mont"> View</a>
+                                            <router-link :to="  {name:'singleProject', params:{id: project.id} }" class="btn bg-orange t-mont" > View </router-link>
                                         </div>
                                     </template>
                                 </dash-project>
                             </div>
-
 
                             <div class="text-center">
                                 <button class="btn bg-orange">View More</button>
@@ -164,10 +163,10 @@
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
-                                    <template slot="description">{{project.description.replace(/(.{150})..+/, "$1&hellip;")}}</template>
+                                    <template slot="description">{{truncate(project.description,200) }}</template>
                                     <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
                                     </template>
-                                    <template slot="budget"> ₵{{project.budget}}</template>
+                                    <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
                                         <div class="jb-project-bid-btn text-right">
                                             <a href="" class="btn bg-orange  t-mont">Bid</a>
@@ -227,6 +226,10 @@
             DashProject,
         },
         methods: {
+
+            truncate(str, n){
+                return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
+            },
 
             getSomeProjects() {
 

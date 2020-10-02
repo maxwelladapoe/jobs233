@@ -30,12 +30,32 @@
                             <project-component v-for="project in allProjects" :key="project.id">
                                 <template slot="title">{{project.title}}</template>
                                 <template slot="time">
-                                    <timeago :since="project.created_at.date" :auto-update="60"/>
+
+                                    <timeago :datetime="project.created_at" :auto-update="60"/>
+
                                 </template>
-                                <template slot="description">{{project.details}}</template>
-                                <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
+                                <template slot="description">{{truncate(project.description,200)}}</template>
+                                <template slot="tags">{{project.tags}}
                                 </template>
-                                <template slot="budget"> ₵{{project.price}}</template>
+                                <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
+                                <template slot="image">
+
+                                    <img :src="project.user.profile.picture" alt=""
+                                         class="rounded-circle">
+                                </template>
+
+                                <template slot="posted_by">
+
+                                    <p class="t-meri m-0 p-0">{{project.user.name}}</p>
+                                </template>
+
+                                <template>
+                                    <template slot="button">
+                                        <div class="jb-project-bid-btn text-right">
+                                            <a href="" class="btn bg-orange  t-mont">Bid</a>
+                                        </div>
+                                    </template>
+                                </template>
 
                             </project-component>
 
@@ -102,6 +122,8 @@
 
         data: function () {
             return {
+
+                categories:{},
                 allProjects: [],
                 lastPage: 1,
                 numItems: 7,
@@ -109,15 +131,19 @@
             }
         },
         methods: {
+
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n - 1) + '&hellip;' : str;
+            },
+
             getAllPosts() {
 
-                let vm = this;
                 axios.get('/projects').then(response => {
 
-                    vm.allProjects = response.data.data;
-                    vm.lastPage = parseInt(response.data.meta.last_page);
-                    vm.numItems = parseInt(response.data.meta.total);
-                    vm.currentPage = parseInt(response.data.meta.current_page);
+                    this.allProjects = response.data.data;
+                    this.lastPage = parseInt(response.data.meta.last_page);
+                    this.numItems = parseInt(response.data.meta.total);
+                    this.currentPage = parseInt(response.data.meta.current_page);
 
 
                 }).catch(errors => {
@@ -126,24 +152,29 @@
             },
             infiniteHandler($state) {
 
-                let vm = this;
-                console.log("loading");
                 if (this.currentPage < this.lastPage) {
 
                     setTimeout(() => {
                         const temp = [];
 
 
-                        axios.get('/projects?page=' + (vm.currentPage + 1)).then(response => {
+                        axios.get('/projects?page=' + (this.currentPage + 1)).then(({data}) => {
 
-                            let data = response.data.data;
-                            vm.lastPage = parseInt(response.data.meta.last_page);
-                            vm.numItems = parseInt(response.data.meta.total);
-                            vm.currentPage = parseInt(response.data.meta.current_page);
+                            console.log(data);
+                            this.lastPage = parseInt(data.projects.last_page);
 
-                            for (let i = 0; i < data.length; i++) {
-                                temp.push(data[i]);
+
+                            this.numItems = parseInt(data.projects.total);
+                            this.currentPage = parseInt(data.projects.current_page);
+                            console.log(data.projects);
+
+                            let projects = data.projects.data;
+                            console.log(projects);
+
+                            for (let i = 0; i < projects.length; i++) {
+                                temp.push(projects[i]);
                             }
+
                             this.allProjects = this.allProjects.concat(temp);
                             $state.loaded();
 
@@ -153,7 +184,7 @@
                         })
 
 
-                    }, 1000);
+                    }, 100);
                 } else {
                     $state.complete();
                 }
@@ -161,7 +192,12 @@
 
         },
         mounted() {
-            // this.getAllPosts();
+
+            axios.get('projects/categories').then(({data}) => {
+                this.categories= data.categories;
+                console.log(data);
+                console.log(data.categories);
+            })
         },
         components: {
             ProjectComponent,

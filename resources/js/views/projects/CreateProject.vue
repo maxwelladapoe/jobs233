@@ -74,17 +74,17 @@
 
                                             <ValidationObserver :key="1" v-if="step ===1">
                                                 <validation-provider
-                                                    persist
-                                                    name="title"
-                                                    :rules="{ required: true, min: 3, max:150}"
-                                                    v-slot="validationContext"
+                                                        persist
+                                                        name="title"
+                                                        :rules="{ required: true, min: 3, max:150}"
+                                                        v-slot="validationContext"
                                                 >
 
                                                     <b-form-group
-                                                        id="title"
-                                                        label="Title"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="title">
+                                                            id="title"
+                                                            label="Title"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="title">
                                                         <b-form-input id="title" type="text"
                                                                       rows="6"
                                                                       placeholder=""
@@ -111,24 +111,24 @@
 
 
                                                 <validation-provider
-                                                    persist
-                                                    name="description"
-                                                    :rules="{ required: true, min: 3, max:2000}"
-                                                    v-slot="validationContext"
+                                                        persist
+                                                        name="description"
+                                                        :rules="{ required: true, min: 3, max:2000}"
+                                                        v-slot="validationContext"
                                                 >
                                                     <b-form-group
-                                                        id="description"
-                                                        label="Description"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="description"
+                                                            id="description"
+                                                            label="Description"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="description"
                                                     >
                                                         <b-form-textarea
-                                                            rows="8"
-                                                            no-resize
-                                                            :state="getValidationState(validationContext)"
-                                                            id="textarea-default"
-                                                            placeholder="Describe the project here"
-                                                            v-model="project.description"
+                                                                rows="8"
+                                                                no-resize
+                                                                :state="getValidationState(validationContext)"
+                                                                id="textarea-default"
+                                                                placeholder="Describe the project here"
+                                                                v-model="project.description"
                                                         ></b-form-textarea>
 
                                                         <b-form-invalid-feedback id="description-live-feedback">
@@ -141,29 +141,28 @@
 
 
                                                 <validation-provider
-                                                    persist
-                                                    name="Category"
-                                                    :rules="{required: true}"
+                                                        persist
+                                                        name="Category"
+                                                        :rules="{required: true}"
                                                 >
 
                                                     <b-form-group
-                                                        id="category"
-                                                        label="Category"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="category"
+                                                            id="category"
+                                                            label="Category"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="category"
                                                     >
                                                         <b-form-select v-model="project.category"
                                                                        class="mb-3">
                                                             <!-- This slot appears above the categories from 'categories' prop -->
                                                             <template v-slot:first>
-                                                                <b-form-select-option :value="null" disabled>-- Please
-                                                                    select an
-                                                                    category --
+                                                                <b-form-select-option :value="null" disabled>Select a
+                                                                    category
                                                                 </b-form-select-option>
                                                             </template>
                                                             <b-form-select-option
-                                                                v-for="category  in categories" :key="category.id"
-                                                                :value="category.id">{{category.name}}
+                                                                    v-for="category  in categories" :key="category.id"
+                                                                    :value="category.id">{{category.name}}
                                                             </b-form-select-option>
 
                                                         </b-form-select>
@@ -173,34 +172,76 @@
 
                                                 </validation-provider>
 
-
-                                                <validation-provider
-                                                    :rules="{ required: true, integer:true}"
-                                                    name="budget"
-                                                    v-slot="validationContext"
-                                                >
-                                                    <b-form-group
+                                                <b-form-group
                                                         id="budget"
                                                         label="Budget"
                                                         label-class="t-mont t-bold"
                                                         label-for="budget"
-                                                    >
-                                                        <b-form-input id="budget" type="text"
-                                                                      placeholder=""
-                                                                      name="budget"
-                                                                      v-model="project.budget"
-                                                                      :state="getValidationState(validationContext)"
-                                                                      @input="titleCharacterCount()"
-                                                                      aria-describedby="title-live-feedback">
+                                                >
 
-                                                        </b-form-input>
+                                                    <div class="form-row">
+                                                        <div class="col-3">
+                                                            <validation-provider
+                                                                    :rules="{ required: true, integer:false}"
+                                                                    name="currency"
+                                                                    v-slot="validationContext"
+                                                            >
 
-                                                        <b-form-invalid-feedback id="title-live-feedback">
-                                                            {{validationContext.errors[0] }}
-                                                        </b-form-invalid-feedback>
+                                                                <b-form-select id="budget" type="text"
+                                                                               placeholder=""
+                                                                               name="currency"
+                                                                               v-model="project.currency"
+                                                                               :state="getValidationState(validationContext)"
+                                                                               aria-describedby="currency-live-feedback">
 
-                                                    </b-form-group>
-                                                </validation-provider>
+                                                                    <!-- This slot appears above the categories from 'categories' prop -->
+                                                                    <template v-slot:first>
+                                                                        <b-form-select-option :value="null" disabled>Select a
+                                                                            currency
+                                                                        </b-form-select-option>
+                                                                    </template>
+
+
+                                                                    <b-select-option v-for="currency in currencies"
+                                                                                     :key="currency.id"
+                                                                                     :value="currency.id">{{currency.name}}</b-select-option>
+
+                                                                </b-form-select>
+
+                                                                <b-form-invalid-feedback id="currency-live-feedback">
+                                                                    {{validationContext.errors[0] }}
+                                                                </b-form-invalid-feedback>
+
+
+                                                            </validation-provider>
+                                                        </div>
+
+                                                        <div class="col-9">
+                                                            <validation-provider
+                                                                    :rules="{ required: true, integer:true, min:1}"
+                                                                    name="budget"
+                                                                    v-slot="validationContext"
+                                                            >
+                                                                <b-form-input id="budget" type="text" min="1"
+                                                                              placeholder=""
+                                                                              name="budget"
+                                                                              v-model="project.budget"
+                                                                              :state="getValidationState(validationContext)"
+                                                                              aria-describedby="budget-live-feedback">
+
+                                                                </b-form-input>
+
+                                                                <b-form-invalid-feedback id="budget-live-feedback">
+                                                                    {{validationContext.errors[0] }}
+                                                                </b-form-invalid-feedback>
+
+                                                            </validation-provider>
+                                                        </div>
+
+                                                    </div>
+
+                                                </b-form-group>
+
 
                                             </ValidationObserver>
 
@@ -208,24 +249,24 @@
                                             <ValidationObserver :key="2" v-if="step===2">
 
                                                 <validation-provider
-                                                    :rules="{ required: true,}"
-                                                    name="skills"
-                                                    v-slot="validationContext"
+                                                        :rules="{ required: true,}"
+                                                        name="skills"
+                                                        v-slot="validationContext"
                                                 >
                                                     <b-form-group
-                                                        id="skills"
-                                                        label="Skills"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="skills"
+                                                            id="skills"
+                                                            label="Skills"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="skills"
                                                     >
                                                         <b-form-input
-                                                            input-id="tags-separators"
-                                                            name="skills"
-                                                            placeholder=""
-                                                            v-model="project.skills"
-                                                            :state="getValidationState(validationContext)"
-                                                            @input="titleCharacterCount()"
-                                                            aria-describedby="title-live-feedback">
+                                                                input-id="tags-separators"
+                                                                name="skills"
+                                                                placeholder=""
+                                                                v-model="project.skills"
+                                                                :state="getValidationState(validationContext)"
+                                                                @input="titleCharacterCount()"
+                                                                aria-describedby="title-live-feedback">
 
                                                         </b-form-input>
 
@@ -236,23 +277,23 @@
                                                     </b-form-group>
                                                 </validation-provider>
                                                 <validation-provider
-                                                    :rules="{ required: true,}"
-                                                    v-slot="validationContext"
+                                                        :rules="{ required: true,}"
+                                                        v-slot="validationContext"
                                                 >
                                                     <b-form-group
-                                                        id="tags"
-                                                        label="Tags"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="budget"
+                                                            id="tags"
+                                                            label="Tags"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="budget"
                                                     >
                                                         <b-form-tags
-                                                            input-id="tags-separators"
+                                                                input-id="tags-separators"
 
-                                                            placeholder=""
-                                                            v-model="project.tags"
-                                                            :state="getValidationState(validationContext)"
-                                                            @input="titleCharacterCount()"
-                                                            aria-describedby="title-live-feedback">
+                                                                placeholder=""
+                                                                v-model="project.tags"
+                                                                :state="getValidationState(validationContext)"
+                                                                @input="titleCharacterCount()"
+                                                                aria-describedby="title-live-feedback">
 
                                                         </b-form-tags>
 
@@ -279,7 +320,7 @@
 
                                                 <div class="form-group">
                                                     <a href="#" class="t-orange t-mont t-bold"><i
-                                                        class="fas fa-paperclip"></i>
+                                                            class="fas fa-paperclip"></i>
                                                         Attach
                                                         Necessary Files(Optional)</a>
 
@@ -294,24 +335,24 @@
 
                                                 <!--deadline -->
                                                 <validation-provider
-                                                    :rules="{ required: true,}"
-                                                    name="deadline"
-                                                    v-slot="validationContext"
+                                                        :rules="{ required: true,}"
+                                                        name="deadline"
+                                                        v-slot="validationContext"
                                                 >
                                                     <b-form-group
-                                                        id="deadline"
-                                                        label="Expected time"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="deadline"
+                                                            id="deadline"
+                                                            label="Expected time"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="deadline"
                                                     >
                                                         <b-form-datepicker
-                                                            input-id="tags-separators"
-                                                            name="skills"
-                                                            placeholder=""
-                                                            v-model="project.deadline"
-                                                            :state="getValidationState(validationContext)"
-                                                            @input="titleCharacterCount()"
-                                                            aria-describedby="title-live-feedback">
+                                                                input-id="tags-separators"
+                                                                name="skills"
+                                                                placeholder=""
+                                                                v-model="project.deadline"
+                                                                :state="getValidationState(validationContext)"
+                                                                @input="titleCharacterCount()"
+                                                                aria-describedby="title-live-feedback">
 
                                                         </b-form-datepicker>
 
@@ -446,11 +487,14 @@
                     description: '',
                     category: null,
                     budget: '',
+                    currency: null,
                     additional_details: '',
                     skills: '',
-                    tags: ['apple', 'orange', 'grape'],
+                    tags: [],
                     deadline: '',
                 },
+
+                currencies: [],
 
                 titleLength: 0,
                 step: 1,
@@ -492,7 +536,7 @@
             },
 
             editor(e) {
-                console.log(e.target.innerHTML)
+
                 this.project.description = e.target.innerHTML;
 
             },
@@ -532,12 +576,18 @@
             }
 
         },
-        mounted() {
+        beforeCreate() {
             axios.get('projects/categories').then(({data}) => {
                 this.categories = data.categories;
                 this.skillsList = data.skills;
 
+            });
+
+            axios.get('currencies').then(({data}) => {
+                this.currencies = data.currencies;
+
             })
+
         },
         computed: {},
         watch: {
@@ -554,6 +604,10 @@
 
 <style lang="scss">
 
+
+    .b-form-tags-button{
+
+    }
     .b-form-tag {
         margin-right: 5px;
         min-width: 70px;

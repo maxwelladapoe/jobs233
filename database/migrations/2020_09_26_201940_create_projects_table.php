@@ -25,6 +25,7 @@ class CreateProjectsTable extends Migration
             $table->text('additional_details')->nullable();
             $table->string('skills')->nullable();
             $table->string('complexity')->nullable();
+            $table->string('currency_id');
             $table->string('budget');
             $table->string('tags')->nullable();
             $table->boolean('allow_bidding')->nullable();
