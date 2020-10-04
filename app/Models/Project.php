@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-    protected $with =['user','currency'];
+    protected $with =['user','currency','category','subcategory'];
 
 
 
@@ -18,5 +18,11 @@ class Project extends Model
 
     public function currency(){
         return $this->belongsTo(Currency::class);
+    }
+    public function category(){
+        return $this->belongsTo(ProjectCategory::class,'category_id','id');
+    }
+    public function subcategory(){
+        return $this->belongsTo(ProjectSubCategory::class,'secondary_category_id','id');
     }
 }

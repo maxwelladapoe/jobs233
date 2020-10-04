@@ -1,8 +1,8 @@
 <template>
 
-    <div class="jb-main-section-wrapper">
+    <div class="jb-main-section-wrapper" v-if="authenticated">
 
-        <div class="jb-section">
+        <div class="jb-section" >
             <div class="container">
                 <h1 class="t-mont">Create a project</h1>
                 <p class="text-left t-meri t-normal ">Don't waste any more time. Post your project for free <br>
@@ -140,37 +140,80 @@
                                                 </validation-provider>
 
 
-                                                <validation-provider
-                                                        persist
-                                                        name="Category"
-                                                        :rules="{required: true}"
-                                                >
+                                                <div class="form-row">
+                                                    <div class="col-12 col-md-6">
+                                                        <validation-provider
+                                                                persist
+                                                                name="Category"
+                                                                :rules="{required: true}"
+                                                        >
 
-                                                    <b-form-group
-                                                            id="category"
-                                                            label="Category"
-                                                            label-class="t-mont t-bold"
-                                                            label-for="category"
-                                                    >
-                                                        <b-form-select v-model="project.category"
-                                                                       class="mb-3">
-                                                            <!-- This slot appears above the categories from 'categories' prop -->
-                                                            <template v-slot:first>
-                                                                <b-form-select-option :value="null" disabled>Select a
-                                                                    category
-                                                                </b-form-select-option>
-                                                            </template>
-                                                            <b-form-select-option
-                                                                    v-for="category  in categories" :key="category.id"
-                                                                    :value="category.id">{{category.name}}
-                                                            </b-form-select-option>
+                                                            <b-form-group
+                                                                    id="category"
+                                                                    label="Category"
+                                                                    label-class="t-mont t-bold"
+                                                                    label-for="category"
+                                                            >
+                                                                <b-form-select v-model="project.category"
 
-                                                        </b-form-select>
+                                                                               class="mb-3">
+                                                                    <!-- This slot appears above the categories from 'categories' prop -->
+                                                                    <template v-slot:first>
+                                                                        <b-form-select-option :value="null" disabled>
+                                                                            Select a
+                                                                            category
+                                                                        </b-form-select-option>
+                                                                    </template>
+                                                                    <b-form-select-option
+                                                                            v-for="category  in categories"
+                                                                            :key="category.id"
+                                                                            :value="category.id">{{category.name}}
+                                                                    </b-form-select-option>
 
-                                                    </b-form-group>
+                                                                </b-form-select>
+
+                                                            </b-form-group>
 
 
-                                                </validation-provider>
+                                                        </validation-provider>
+                                                    </div>
+                                                    <div class="col-12 col-md-6">
+                                                        <validation-provider
+                                                                persist
+                                                                name="subcategory"
+                                                                :rules="{required: true}"
+                                                        >
+
+                                                            <b-form-group
+                                                                    id="sub_category"
+                                                                    label="Subcategory"
+                                                                    label-class="t-mont t-bold"
+                                                                    label-for="sub_category"
+                                                            >
+                                                                <b-form-select v-model="project.subcategory"
+                                                                               class="mb-3" :disabled="subCategories == null">
+                                                                    <!-- This slot appears above the categories from 'categories' prop -->
+                                                                    <template v-slot:first>
+                                                                        <b-form-select-option :value="null" disabled>
+                                                                            Select a
+                                                                            subcategory
+                                                                        </b-form-select-option>
+                                                                    </template>
+                                                                    <b-form-select-option
+                                                                            v-for="subCategory  in subCategories"
+                                                                            :key="subCategory.id"
+                                                                            :value="subCategory.id">{{subCategory.name}}
+                                                                    </b-form-select-option>
+
+                                                                </b-form-select>
+
+                                                            </b-form-group>
+
+
+                                                        </validation-provider>
+                                                    </div>
+                                                </div>
+
 
                                                 <b-form-group
                                                         id="budget"
@@ -196,7 +239,8 @@
 
                                                                     <!-- This slot appears above the categories from 'categories' prop -->
                                                                     <template v-slot:first>
-                                                                        <b-form-select-option :value="null" disabled>Select a
+                                                                        <b-form-select-option :value="null" disabled>
+                                                                            Select a
                                                                             currency
                                                                         </b-form-select-option>
                                                                     </template>
@@ -204,7 +248,9 @@
 
                                                                     <b-select-option v-for="currency in currencies"
                                                                                      :key="currency.id"
-                                                                                     :value="currency.id">{{currency.name}}</b-select-option>
+                                                                                     :value="currency.id">
+                                                                        {{currency.name}}
+                                                                    </b-select-option>
 
                                                                 </b-form-select>
 
@@ -477,6 +523,8 @@
 <script>
 
 
+    import {mapGetters} from "vuex";
+
     export default {
         data: function () {
             return {
@@ -488,6 +536,7 @@
                     category: null,
                     budget: '',
                     currency: null,
+                    subcategory: null,
                     additional_details: '',
                     skills: '',
                     tags: [],
@@ -577,7 +626,7 @@
 
         },
         beforeCreate() {
-            axios.get('projects/categories').then(({data}) => {
+            axios.get('projects/categories-skills').then(({data}) => {
                 this.categories = data.categories;
                 this.skillsList = data.skills;
 
@@ -589,7 +638,31 @@
             })
 
         },
-        computed: {},
+        computed: {
+
+            subCategories() {
+                let subCat = null;
+
+                if (this.project.category != null) {
+                    let selectedCategory = this.categories.find(
+                        (category) => {
+                            return category.id === this.project.category
+                        }
+                    );
+                    subCat = selectedCategory.subcategories;
+                }
+
+
+                return subCat;
+            },
+
+            ...mapGetters({
+                authenticated: 'auth/authenticated',
+                user: 'auth/user',
+                profileType: 'auth/profileType',
+            })
+
+        },
         watch: {
             title: function () {
                 if (this.project.title.length === 10) {
@@ -605,9 +678,10 @@
 <style lang="scss">
 
 
-    .b-form-tags-button{
+    .b-form-tags-button {
 
     }
+
     .b-form-tag {
         margin-right: 5px;
         min-width: 70px;

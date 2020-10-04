@@ -75,6 +75,30 @@ header {
     white-space: pre !important;
 }
 
+
+.t-1 {
+    font-size: 2.2em !important;
+}
+
+.t-2 {
+    font-size: 2em !important;
+}
+
+.t-3 {
+    font-size: 1.8em !important;
+}
+
+.t-4 {
+    font-size: 1.5em !important;
+}
+.t-5 {
+    font-size: 1.2em !important;
+}
+
+.t-6 {
+    font-size: 0.8em  !important;
+}
+
 //end of text colors
 
 //background colors
@@ -114,6 +138,10 @@ header {
         margin-right: 0 !important;
     }
 }
+
+
+
+
 
 /*
 after login or sign up
@@ -476,7 +504,6 @@ select.form-control {
 
                 .jb-project-posted-by-extra {
                     font-size: 0.8em;
-                    margin-left: 1em;
                     color: $green;
 
                     span {
@@ -734,7 +761,7 @@ end of login or sign up
 
 /*--end of header--*/
 .jb-main-section-wrapper {
-    min-height: 100%;
+    min-height: 50em;
     margin-top: 5em;
 
     .jb-section {
@@ -981,110 +1008,117 @@ end of login or sign up
     z-index: 99999;
     transition: opacity 1s linear;
 
-    .jb-modal-box {
 
-        position: relative;
+    .jb-modal-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
 
-        padding: 1.5em 0;
-        top: 50%;
-        left: 50%;
-        width: 34em;
-        background-color: white;
-        min-height: 26em;
-        margin-top: -21em;
-        margin-left: -17em;
+        .jb-modal-box {
+            position: relative;
+            padding: 1.5em 0;
+            width: 34em;
+            background-color: white;
+            min-height: 26em;
 
-        .jb-modal-box-overlay {
-            width: 100%;
-            height: 100%;
-            background-color: $orange;
-            position: absolute;
-            top: 0;
-            z-index: 2;
-            display: none;
-            text-align: center;
 
-            .message {
-                font-size: 2em;
-            }
-
-            .loading-contents-wrap {
+            .jb-modal-box-overlay {
                 width: 100%;
                 height: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                background-color: $orange;
+                position: absolute;
+                top: 0;
+                z-index: 2;
+                display: none;
+                text-align: center;
 
+                .message {
+                    font-size: 2em;
+                }
 
-                .inner {
-                    display: block;
-                    padding: 0;
-                    margin: 0;
+                .loading-contents-wrap {
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    flex-direction: row;
 
-                    .loader {
+                    .inner {
+                        display: block;
+                        padding: 0;
+                        margin: 0;
+
+                        .loader {
+                        }
                     }
                 }
-            }
 
 
-            &.show {
-                display: block;
-            }
-        }
-
-        .jb-modal-header {
-
-            .jb-modal-logo {
-                width: 14em;
-            }
-
-            .jb-modal-text {
-                font-size: 1.5em;
-                padding: 0 5em;
-            }
-
-        }
-
-        .jb-modal-contents {
-            padding: 0 0.8em;
-
-            .jb-password-visibility {
-                cursor: pointer;
-            }
-
-            .jb-l-special {
-                display: inline-block;
-                background-color: $ash;
-                color: #fff;
-                min-width: 10em;
-                width: 49.5%;
-                height: 2.5em;
-                border-radius: 5px;
-                padding: 0.7em;
-                line-height: 1em;
-
-                .special-radio {
-                    background-color: red;
-                    border-radius: 0;
+                &.show {
+                    display: block;
                 }
             }
 
-            .jb-t-special {
-                line-height: 1em;
-                font-size: 0.8em;
+            .jb-modal-header {
+
+                .jb-modal-logo {
+                    width: 14em;
+                }
+
+                .jb-modal-text {
+                    font-size: 1.5em;
+                    padding: 0 5em;
+                }
+
             }
 
-        }
+            .jb-modal-contents {
+                padding: 0 0.8em;
 
-        .jb-modal-footer {
-            border-top: 0.08em solid $ash;
-            height: 2em;
-            width: 100%;
-            bottom: 0;
-            padding-top: 1em;
+                .jb-password-visibility {
+                    cursor: pointer;
+                }
+
+                .jb-l-special {
+                    display: inline-block;
+                    background-color: $ash;
+                    color: #fff;
+                    min-width: 10em;
+                    width: 49.5%;
+                    height: 2.5em;
+                    border-radius: 5px;
+                    padding: 0.7em;
+                    line-height: 1em;
+
+                    .special-radio {
+                        background-color: red;
+                        border-radius: 0;
+                    }
+                }
+
+                .jb-t-special {
+                    line-height: 1em;
+                    font-size: 0.8em;
+                }
+
+            }
+
+            .jb-modal-footer {
+                border-top: 0.08em solid $ash;
+                height: 2em;
+                width: 100%;
+                bottom: 0;
+                padding-top: 1em;
+            }
+
         }
 
     }
+
 
 }
 

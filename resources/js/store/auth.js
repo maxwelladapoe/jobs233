@@ -76,7 +76,7 @@ export default {
         },
 
         async signUp({dispatch}, credentials) {
-            await axios.post('/auth/register', credentials)
+            return await axios.post('/auth/register', credentials)
         }
     }
 

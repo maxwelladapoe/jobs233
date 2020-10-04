@@ -24,6 +24,8 @@ class CreateProfilesTable extends Migration
             $table->text('address')->nullable();
             $table->text('bio')->nullable();
             $table->string('preference');
+            $table->boolean('is_occupied')->default(false);
+            $table->bigInteger('preferred_currency_id')->default(1);
             $table->timestamps();
         });
     }

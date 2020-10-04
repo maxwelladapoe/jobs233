@@ -126,7 +126,7 @@
                                 <p class="t-mont t-bold">Recent projects</p>
                             </div>
 
-                            <div class="jb-projects-wrapper my-2">
+                            <div class="jb-projects-wrapper mb-5 my-2">
 
                                 <dash-project v-for="project in somePostedProjects" :key="project.id">
                                     <template slot="title">{{project.title}}</template>
@@ -146,7 +146,7 @@
                             </div>
 
                             <div class="text-center">
-                                <button class="btn bg-orange">View More</button>
+                                <router-link :to="{name:'projects'}" class="btn bg-orange ">View More</router-link>
                             </div>
 
 
@@ -168,16 +168,16 @@
                                     </template>
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
-                                        <div class="jb-project-bid-btn text-right">
-                                            <a href="" class="btn bg-orange  t-mont">Bid</a>
-                                        </div>
-                                    </template>
+                                    <div class="jb-project-bid-btn text-right">
+                                        <router-link :to="{name:'singleProject', params:{id:project.id} }" class="btn bg-orange  t-mont">Bid</router-link>
+                                    </div>
+                                </template>
                                 </dash-project>
                             </div>
 
 
                             <div class="text-center">
-                                <button class="btn bg-orange">View More</button>
+                                <router-link :to="{name:'projects'}" class="btn bg-orange">View More</router-link>
                             </div>
 
 

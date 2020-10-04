@@ -9,9 +9,9 @@ class ProjectCategory extends Model
 {
     use HasFactory;
 
-    protected $with=['subCategories'];
+//    protected $with=[''];
 
-    public function subCategories(){
+    public function subcategories(){
         return $this->hasMany(ProjectSubCategory::class);
     }
 

@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('read','getProjects','getCategories','getSkills');;
+        $this->middleware('auth')->except('read', 'getProjects', 'readProject','getCategories','getCategoriesAndSkills', 'getSkills');;
 
     }
 
@@ -28,6 +28,7 @@ class ProjectController extends Controller
             'title' => ['string', 'required', 'min:3', 'max:150'],
             'description' => ['string', 'required', 'min:3', 'max:2000'],
             'category' => ['integer', 'required'],
+            'subcategory' => ['integer', 'required'],
             'budget' => ['required', 'string'],
             'currency' => ['required', 'integer', 'min:1'],
             'additional_details' => ['nullable', 'string'],
@@ -45,9 +46,9 @@ class ProjectController extends Controller
             $project->additional_details = $request['additional_details'];
             $project->user_id = Auth::user()->id;
             $project->category_id = $request['category'];
-            $project->budget = $request['budget'];
+            $project->budget = number_format($request['budget'],2);
             $project->currency_id = $request['currency'];
-            $project->secondary_category_id = $request['secondary_category'];
+            $project->secondary_category_id = $request['subcategory'];
             $project->skills = $request['skills'];
             $project->tags = implode(',', $request['tags']);
             $project->deadline = $request['deadline'];
@@ -85,32 +86,27 @@ class ProjectController extends Controller
 
     }
 
-
     public function getProjects()
     {
+        $projects = Project::where('status', 'created')->orderby('created_at', 'desc')->paginate(10);
 
-        if (Auth::user()){
-            $projects = Project::where('status', 'created')->where('user_id', '<>', Auth::user()->id)->orderby('created_at', 'desc')->paginate(10);
-
-        }else{
-            $projects = Project::where('status', 'created')->orderby('created_at', 'desc')->paginate(10);
-
-        }
         return response()->json(['success' => true, 'projects' => $projects], 200);
 
     }
 
     public function getCategoriesAndSkills()
     {
-        $categories = ProjectCategory::all();
+        $categories = ProjectCategory::with(['subcategories'])->get();
         $skills = Skill::all();
         return response()->json(['success' => true, 'categories' => $categories, 'skills' => $skills], 200);
     }
+
     public function getCategories()
     {
-        $categories = ProjectCategory::all();
+        $categories = ProjectCategory::with(['subcategories'])->get();
         return response()->json(['success' => true, 'categories' => $categories], 200);
     }
+
     public function getSkills()
     {
         $skills = Skill::all();

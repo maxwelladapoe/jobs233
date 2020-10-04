@@ -26,14 +26,16 @@ class AltRegisterController extends Controller
         $this->validate($request, [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:10', 'min:5' , 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6',],
             'preference' => ['required', 'string']
         ]);
 
         $user = User::create([
-            'name' => ucfirst(trim($request['firstName'])) . " " . ucfirst(trim($request['lastName'])),
-            'email' => $request['email'],
+            'name' => ucfirst(strtolower(trim($request['firstName']))) . " " . ucfirst(strtolower(trim($request['lastName']))),
+            'username' => strtolower(trim($request['username'])),
+            'email' => strtolower($request['email']),
             'password' => Hash::make($request['password']),
         ]);
 

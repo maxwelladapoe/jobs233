@@ -37,10 +37,22 @@ Route::prefix('v1')->group(function () {
     Route::prefix('projects')->group(function () {
         Route::post('/', [App\Http\Controllers\ProjectController::class, 'create']);
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'getProjects']);
-        Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
+        Route::get('/categories-skills', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
+        Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategories']);
+        Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
         Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
         Route::patch('/update/{id}', [App\Http\Controllers\ProjectController::class, 'update']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
+
+
+        //bid
+        Route::prefix('{id}/bid')->group(function () {
+            Route::post('/', [App\Http\Controllers\BidController::class, 'create']);
+            Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
+
+        });
+
+
     });
 
 

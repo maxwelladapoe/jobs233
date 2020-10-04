@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name' => ['required', 'string', 'min:3'],
-            'email' => ['required', 'email'],
+            'username' => ['required', 'string', 'min:5', 'max:10', 'unique:users'],
             'phone_number' => ['nullable', 'integer'],
             'gender' => ['required'],
             'bio' => ['nullable', 'min:3'],
@@ -65,9 +65,10 @@ class ProfileController extends Controller
         $profile->city = $request['city'];
 
 
-        $user->name = $request['name'];
+        $user->name = ucwords(strtolower($request['name']));
 
-        if ($profile->save()) {
+
+        if ($profile->save() && $user->save()) {
             return response()->json(['success' => true, 'profile' => $profile], 200);
         } else {
 

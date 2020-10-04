@@ -46,16 +46,35 @@
 
                                 <template slot="posted_by">
 
-                                    <p class="t-meri m-0 p-0">{{project.user.name}}</p>
+                                    <p class="t-meri m-0 p-0" v-if=" authenticated && project.user.id === user.id">
+                                        You</p>
+
+                                    <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
                                 </template>
 
                                 <template>
-                                    <template slot="button">
-                                        <div class="jb-project-bid-btn text-right">
-                                            <a href="" class="btn bg-orange  t-mont">Bid</a>
-                                        </div>
+
+                                    <template v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated" >
+                                        <template slot="button">
+                                            <div class="jb-project-bid-btn text-right">
+                                                <router-link :to="{name:'singleProject' , params:{id:project.id}}"
+                                                             class="btn bg-orange  t-mont">View
+                                                </router-link>
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                    <template v-if="profileType ==='work' || profileType ==='work&hire'" >
+                                        <template slot="button">
+                                            <div class="jb-project-bid-btn text-right">
+                                                <router-link :to="{name:'singleProject' , params:{id:project.id}}"
+                                                             class="btn bg-orange  t-mont">Bid
+                                                </router-link>
+                                            </div>
+                                        </template>
                                     </template>
                                 </template>
+
 
                             </project-component>
 
@@ -85,10 +104,8 @@
                                     <p class="t-mont t-bold">Categories</p>
                                     <ul class="jb-filter-item">
                                         <li><a href="" class="t-orange t-bold">All Categories</a></li>
-                                        <li><a href="" class="t-orange t-bold">IT & Programming</a></li>
-                                        <li><a href="" class="t-orange t-bold">Graphic Design & Branding</a></li>
-                                        <li><a href="" class="t-orange t-bold">Website Development</a></li>
-                                        <li><a href="" class="t-orange t-bold">Photography</a></li>
+
+                                        <li v-for="category in categories"><a href="" class="t-orange t-bold" >{{category.name}}</a></li>
                                     </ul>
                                 </div>
                                 <div class="jb-project-filter-element">
@@ -116,6 +133,7 @@
 <script>
     import ProjectComponent from '../../components/extras/ProjectComponent'
     import InfiniteLoading from 'vue-infinite-loading';
+    import {mapGetters} from "vuex";
 
 
     export default {
@@ -123,7 +141,7 @@
         data: function () {
             return {
 
-                categories:{},
+                categories: {},
                 allProjects: [],
                 lastPage: 1,
                 numItems: 7,
@@ -194,15 +212,21 @@
         mounted() {
 
             axios.get('projects/categories').then(({data}) => {
-                this.categories= data.categories;
-                console.log(data);
-                console.log(data.categories);
+                this.categories = data.categories;
             })
         },
         components: {
             ProjectComponent,
             InfiniteLoading,
 
+        },
+
+        computed: {
+            ...mapGetters({
+                authenticated: 'auth/authenticated',
+                user: 'auth/user',
+                profileType: 'auth/profileType',
+            }),
         }
 
     }
