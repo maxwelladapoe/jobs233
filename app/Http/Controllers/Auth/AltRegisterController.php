@@ -35,8 +35,8 @@ class AltRegisterController extends Controller
         $user = User::create([
             'name' => ucfirst(strtolower(trim($request['firstName']))) . " " . ucfirst(strtolower(trim($request['lastName']))),
             'username' => strtolower(trim($request['username'])),
-            'email' => strtolower($request['email']),
-            'password' => Hash::make($request['password']),
+            'email' => strtolower(trim($request['email'])),
+            'password' => Hash::make(trim($request['password'])),
         ]);
 
         if ($user) {
@@ -69,8 +69,8 @@ class AltRegisterController extends Controller
     {
         $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'email' => trim($data['email']),
+            'password' => Hash::make(trim($data['password'])),
         ]);
 
         if ($user) {
