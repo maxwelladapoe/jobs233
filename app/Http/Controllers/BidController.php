@@ -15,7 +15,7 @@ class BidController extends Controller
     public function create(Request $request)
     {
         $this->validate($request, [
-            'project_id' => ['required', 'integer'],
+            //'project_id' => ['required', 'integer'],
             'currency' => ['required', 'integer'],
             'amount' => ['required', 'integer'],
             'additional_details' => ['nullable', 'string'],

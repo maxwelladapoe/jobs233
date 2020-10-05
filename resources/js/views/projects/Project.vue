@@ -7,22 +7,20 @@
                 <div class="container">
 
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
 
 
                             <p class="t-bold jb-project-title-big t-mont mb-0">{{project.title}}</p>
 
-                            <p class="t-bold">{{project.category.name}}
+                            <p class="t-meri t-bold">{{project.category.name}}
                                 <br>
                                 <span v-if="project.subcategory">{{project.subcategory.name}}</span>
-
-
                             </p>
 
-                            <p class="t-mont jb-project-title-small t-orange">Description</p>
+                            <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
                             <p class="t-meri">{{project.description}}</p>
 
-                            <p class="t-mont jb-project-title-small t-orange">Skills</p>
+                            <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                             <h5>
                                 <template v-for="skill in project.skills.split(',')">
 
@@ -34,13 +32,13 @@
 
 
                             <template v-if="project.complexity">
-                                <p class="t-mont jb-project-title-small t-orange">Complexity</p>
+                                <p class="t-mont jb-project-title-small t-bold t-orange">Complexity</p>
                                 <p>{{project.complexity}}</p>
                             </template>
 
 
                             <template v-if="project.tags">
-                                <p class="t-mont jb-project-title-small t-orange">Tags</p>
+                                <p class="t-mont jb-project-title-small t-bold t-orange">Tags</p>
 
                                 <h5>
                                     <template v-for="tag in project.tags.split(',')">
@@ -54,11 +52,18 @@
 
 
                             <hr>
-                            <p>Deadline
+                            <p class="t-meri"><span>Deadline</span>
+                                <span></span>
                                 <timeago :datetime="project.deadline" :auto-update="60"/>
                             </p>
                             <hr>
 
+                            <p class="t-mont jb-project-title-small t-bold t-orange">Activities on this Job</p>
+                            <p class="t-meri m-0">Bids: {{project.bids_count}}</p>
+                            <p class="t-meri">Views: 0</p>
+
+
+                            <hr>
 
                         </div>
 
@@ -99,14 +104,19 @@
                                 <router-link to="" class="btn bg-orange">Sign Up to get Hired</router-link>
                             </template>
 
+                            <template v-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
+                                <p class="t-meri t-bold t-5">You have already placed a Bid</p>
+                                <p>You should receive an email of confirmation if your bid has been accepted</p>
+                                <router-link to="" class="btn bg-orange">View other projects</router-link>
 
-                            <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                            </template>
+
+                            <template
+                                v-else-if=" !hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
 
                                 <p class="t-meri t-bold t-5">Interested in this project? <br>Bid now</p>
 
-
                                 <p>I am willing to do this Job at</p>
-
                                 <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
 
                                     <b-form @submit.prevent="handleSubmit(submitBid)">
@@ -228,6 +238,7 @@
                             </template>
 
 
+
                             <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
                                 <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
@@ -236,7 +247,6 @@
                                     <router-link to="" class="btn bg-orange mt-2 d-block">Edit this job</router-link>
                                 </template>
                             </template>
-
 
                         </div>
                     </div>
@@ -291,8 +301,10 @@
                 },
                 projectNotFound: false,
                 currencies: [],
+
+                bids: {},
                 bid: {
-                    project_id:'',
+                    // project_id:'',
                     currency: '',
                     amount: '',
                     additional_details: '',
@@ -304,8 +316,7 @@
 
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
-                this.bid.project_id= this.project.id
-
+                //this.bid.project_id= this.project.id;
                 this.bid.currency = this.project.currency.id;
             }).catch(() => {
                 this.projectNotFound = true;
@@ -315,6 +326,7 @@
                 this.currencies = data.currencies;
             })
 
+
         },
         methods: {
 
@@ -323,8 +335,8 @@
             },
 
             submitBid() {
-                axios.post(`projects/${this.project.id}/bid`, this.bid).then(({data}) => {
-                    console.log("BID ", data);
+                axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
+
                 })
             }
 
@@ -344,7 +356,26 @@
                 authenticated: 'auth/authenticated',
                 user: 'auth/user',
                 profileType: 'auth/profileType',
-            })
+            }),
+
+            hasAlreadyPlacedBid() {
+
+                if (!this.project.bids) {
+                    return false;
+                }
+
+                let userBid = this.project.bids.find((bid) => {
+                    return bid.user_id === this.user.id;
+                });
+
+                if (userBid) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+
+            }
         }
     }
 </script>
