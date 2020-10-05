@@ -6,5 +6,13 @@ Currently open sourced, It's built with Laravel and vue.js
 
 ## Contributing
 To contribute to this dream, You can simply send me a mail maxwelladapoe@wearepoe.com
-wearepoe: we are positive every day :smiley:
+
+## Setup
+To set up
+* pull the project
+* configure your env 
+* run composer install
+* run npm install
+
+
 
