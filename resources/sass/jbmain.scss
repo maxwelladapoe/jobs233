@@ -6,6 +6,7 @@ $orange: rgb(255, 103, 0);
 $ash: rgb(126, 126, 126);
 $dark_ash: #3F3F3F;
 $ash-light: #d7d7d7;
+$light-ash: rgba(0, 0, 0, 0.1);
 $green: #00901D;
 
 
@@ -14,6 +15,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
+    outline: none;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -91,12 +93,13 @@ header {
 .t-4 {
     font-size: 1.5em !important;
 }
+
 .t-5 {
     font-size: 1.2em !important;
 }
 
 .t-6 {
-    font-size: 0.8em  !important;
+    font-size: 0.8em !important;
 }
 
 //end of text colors
@@ -138,9 +141,6 @@ header {
         margin-right: 0 !important;
     }
 }
-
-
-
 
 
 /*
@@ -1509,6 +1509,52 @@ end of login or sign up
     }
 }
 
+[role=button] {
+    outline: none;
+}
+
+.jb-bids-wrap {
+
+    width: 100%;
+
+    .jb-bid {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-bottom: 5px;
+        min-height: 100px;
+        padding: 1em;
+        border-radius: 5px;
+        border: 1px solid $light-ash;
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .bottom {
+            width: 100%;
+
+            .more-info-wrap {
+                width: 100%;
+            }
+        }
+
+        .profile-details-wrap {
+            display: flex;
+            align-items: center;
+        }
+
+        .bid-details-wrap {
+            p {
+                margin: 0;
+            }
+        }
+    }
+}
+
 
 .jb-404 {
     width: 100%;
@@ -1528,4 +1574,6 @@ end of login or sign up
         font-size: 1em;
     }
 }
+
+
 

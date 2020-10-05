@@ -134,7 +134,22 @@
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
                                     <template slot="description">{{truncate(project.description,200) }}</template>
-                                    <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
+                                    <template slot="tags">
+                                        <p>
+
+                                            Tags & Skills:
+
+
+                                            <span>
+                                            <template v-for="tag in project.tags.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                            </template>
+                                            <template v-for="skill in project.skills.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                            </template>
+                                        </span>
+                                        </p>
+
                                     </template>
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
@@ -164,7 +179,18 @@
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
                                     <template slot="description">{{truncate(project.description,200) }}</template>
-                                    <template slot="tags">Tags & Skills: IOS, Mobile Applications, Programming
+                                    <template slot="tags">
+                                        Tags & Skills:
+                                        <h6>
+                                            <template v-for="tag in project.tags.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                            </template>
+                                            <template v-for="skill in project.skills.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                            </template>
+                                        </h6>
+
+
                                     </template>
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">

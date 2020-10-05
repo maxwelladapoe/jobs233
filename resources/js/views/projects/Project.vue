@@ -65,6 +65,80 @@
 
                             <hr>
 
+
+                            <!-- Placed bids -->
+
+                            <template v-if="project.bids">
+                                <p>Bids</p>
+
+
+                                <div class="jb-bids-wrap">
+
+                                    <div class="jb-bid" v-for="bid in project.bids" :key="bid.id">
+
+
+                                        <div class="top">
+                                            <div class="profile-details-wrap">
+
+                                                <div><p>
+                                                    <img :src="bid.user.profile.picture" alt=""
+                                                         class="rounded-circle mr-2"
+                                                         width="50px">
+                                                    <span class="t-meri">{{bid.user.name}}</span></p>
+
+                                                </div>
+
+                                                <div>
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="bid-details-wrap">
+
+                                                <div>
+                                                    <p class="t-meri">
+                                                        <timeago :datetime="bid.created_at" :auto-update="60"/>
+                                                    </p>
+                                                    <p class="t-meri t-5 t-bold">
+                                                        {{bid.currency.symbol}} {{bid.amount}}
+                                                    </p>
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="bottom">
+                                            <div class="more-info-wrap">
+                                                <template v-if="bid.additional_details">
+                                                    <p v-b-toggle="'collapse-'+bid.id+'-inner'" size="sm"
+                                                       class="t-orange t-6 text-right" style="border: none; cursor: pointer">More info</p>
+
+                                                    <b-collapse :id="'collapse-'+bid.id+'-inner'" class="mt-1 ">
+                                                        <div class="text-right mt-0 p-0">
+                                                            <p>{{bid.additional_details}}</p>
+                                                        </div>
+                                                    </b-collapse>
+
+                                                </template>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </template>
+
                         </div>
 
                         <div class="col-md-12 col-lg-4">
@@ -104,9 +178,11 @@
                                 <router-link to="" class="btn bg-orange">Sign Up to get Hired</router-link>
                             </template>
 
-                            <template v-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
+                            <template
+                                v-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
                                 <p class="t-meri t-bold t-5">You have already placed a Bid</p>
                                 <p>You should receive an email of confirmation if your bid has been accepted</p>
+                                <router-link to="" class="btn bg-orange">Edit your Bid</router-link>
                                 <router-link to="" class="btn bg-orange">View other projects</router-link>
 
                             </template>
@@ -238,7 +314,6 @@
                             </template>
 
 
-
                             <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
                                 <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
@@ -364,12 +439,17 @@
                     return false;
                 }
 
-                let userBid = this.project.bids.find((bid) => {
-                    return bid.user_id === this.user.id;
-                });
+                if (this.authenticated) {
+                    let userBid = this.project.bids.find((bid) => {
+                        return bid.user_id === this.user.id;
+                    });
 
-                if (userBid) {
-                    return true;
+                    if (userBid) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+
                 } else {
                     return false;
                 }

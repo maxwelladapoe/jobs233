@@ -15,7 +15,7 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('read', 'getProjects', 'readProject','getCategories','getCategoriesAndSkills', 'getSkills');;
+        $this->middleware('auth')->except('read', 'getProjects', 'readProject', 'getCategories', 'getCategoriesAndSkills', 'getSkills');;
 
     }
 
@@ -46,7 +46,7 @@ class ProjectController extends Controller
             $project->additional_details = $request['additional_details'];
             $project->user_id = Auth::user()->id;
             $project->category_id = $request['category'];
-            $project->budget = number_format($request['budget'],2);
+            $project->budget = number_format($request['budget'], 2);
             $project->currency_id = $request['currency'];
             $project->secondary_category_id = $request['subcategory'];
             $project->skills = $request['skills'];
@@ -57,7 +57,6 @@ class ProjectController extends Controller
             if ($project->save()) {
                 return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);
             } else {
-
                 Log::debug("there seems to be an issue with project creation. you may have to check the database");
                 return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
             }
