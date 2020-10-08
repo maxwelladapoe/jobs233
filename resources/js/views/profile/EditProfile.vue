@@ -8,7 +8,7 @@
 
 
                         <div class="row">
-                            <div class="col-12 col-lg-9">
+                            <div class="col-12 col-lg-9 order-1 order-md-0">
                                 <div class="jb-project-form p-3">
 
 
@@ -389,7 +389,7 @@
                                 </div>
 
                             </div>
-                            <div class="col-12 col-lg-3 ">
+                            <div class="col-10 offset-1 offset-sm-2 col-sm-8 offset-lg-0 col-lg-3 order-0 order-md-1 mb-5 ">
 
                                 <b-form class="" @submit.prevent="changeProfilePicture">
                                     <div class="jb-profile-picture">
@@ -501,9 +501,11 @@
                     },
 
                     onUploadProgress: (progressEvent) => {
+                        this.showUploadButton = false;
                         let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
                         console.log(percentCompleted)
-                    }
+                    },
+
 
                 }).then((data) => {
                     this.refresh();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attachment;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Skill;
@@ -39,7 +40,11 @@ class ProjectController extends Controller
         ]);
 
         $projectExists = Project::where('user_id', Auth::user()->id)->where('title', $request['title'])->where('status', 'created')->where('description', $request['description'])->get();
+
+
         if ($projectExists->count() == 0) {
+
+
             $project = new Project();
             $project->title = $request['title'];
             $project->description = $request['description'];
@@ -50,17 +55,55 @@ class ProjectController extends Controller
             $project->currency_id = $request['currency'];
             $project->secondary_category_id = $request['subcategory'];
             $project->skills = $request['skills'];
-            $project->tags = implode(',', $request['tags']);
+            $project->tags = $request['tags'];
             $project->deadline = $request['deadline'];
 
 
             if ($project->save()) {
+
+
+                if ($request->has('attachments')) {
+                    $files = $request['attachments'];
+
+                    foreach ($files as $file) {
+
+
+                        $filenameWithExt = $file->getClientOriginalName();
+                        //Get just filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        // Get just ext
+                        $extension = $file->getClientOriginalExtension();
+                        // Filename to store
+                        $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+
+                        $path = $file->storeAs('public/attachments', $fileNameToStore);
+
+
+                        if ($path) {
+                            $attachment = new Attachment();
+                            $attachment->user_id = Auth::user()->id;
+                            $attachment->project_id = $project->id;
+                            $attachment->name = $filenameWithExt;
+                            $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+                            $attachment->size = $file->getSize();
+                            $attachment->format = $file->getMimeType();
+                            $attachment->save();
+                        }
+
+                    }
+
+                }
+
                 return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);
             } else {
                 Log::debug("there seems to be an issue with project creation. you may have to check the database");
                 return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
             }
+
+
         } else {
+
+
             return response()->json(['success' => false, 'message' => 'this project already exists'], 500);
 
         }

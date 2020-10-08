@@ -33,6 +33,8 @@ class CreateProjectsTable extends Migration
             $table->date('deadline')->nullable();
             $table->string('status')->default('created');
             $table->boolean('published')->default(true);
+            $table->bigInteger('accepted_bid_id')->nullable();
+            $table->boolean('bidding_closed')->nullable();
             $table->timestamps();
         });
     }

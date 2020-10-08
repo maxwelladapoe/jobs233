@@ -112,14 +112,25 @@ header {
 .bg-orange {
     background-color: $orange !important;
 
+    &.btn{
+        color: #fff;
+    }
 }
 
 .bg-black {
     background-color: #000 !important;
+
+    &.btn{
+        color: #fff;
+    }
 }
 
 .bg-ash {
     background-color: $ash !important;
+
+    &.btn{
+        color: #fff;
+    }
 }
 
 .bg-ash-light {
@@ -600,13 +611,26 @@ select.form-control {
 }
 
 .jb-attached-files {
-    height: 12em;
+    height: auto;
     width: 100%;
 
     .dropzone {
-        border: 2px dashed $ash;
-        height: 100%;
+        border: 2px dashed $light-ash;
+        height: 12em;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+
+        .click-here{
+            cursor: pointer;
+        }
+
+        &.active {
+            border: 2px dashed #fff;
+            background-color: #30a869;
+        }
     }
 }
 
@@ -654,19 +678,6 @@ end of login or sign up
     margin-right: 0;
 }
 
-.btn {
-    border-radius: 0;
-    border: 0;
-    width: 12em;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    color: white !important;
-    font-weight: 700;
-    text-transform: capitalize;
-    line-height: 1em;
-    cursor: pointer;
-
-}
 
 .form-group {
 
@@ -675,13 +686,12 @@ end of login or sign up
     }
 }
 
-.form-control {
-    border: 0.1em solid $orange;
-    height: 3em;
-    border-radius: 0.15em;
-    font-family: 'Merriweather Sans', sans-serif;
-
+.dropdown-menu{
+    .btn{
+        padding: 0;
+    }
 }
+
 
 /*--end of nav--*/
 
@@ -693,6 +703,36 @@ end of login or sign up
     @include media-breakpoint-down(sm) {
         height: 35em;
     }
+}
+
+.b-form-btn-label-control{
+
+
+
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.b-form-datepicker{
+    padding: 0 !important;
+    label{
+        border: none !important;
+        height: 35px !important;
+        padding: 0 1em ;
+        margin: 0;
+        line-height: 35px;
+    }
+
+    .btn{
+     width: 20px;
+     height: 20px;
+
+    }
+
+
 }
 
 .jb-slider-img {
@@ -1236,6 +1276,12 @@ end of login or sign up
         .btn {
             width: 100% !important;
             margin-bottom: 0.2em;
+        }
+    }
+
+    .date-class{
+        .btn{
+            padding: 0 !important;
         }
     }
 

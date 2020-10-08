@@ -10,10 +10,12 @@
                         <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
 
 
-                            <p class="t-bold jb-project-title-big t-mont mb-0">{{project.title}}</p>
+                            <p class="t-bold jb-project-title-big t-mont ">{{project.title}}</p>
 
-                            <p class="t-meri t-bold">{{project.category.name}}
-                                <br>
+                            <p class="t-meri"> <span class="t-bold">
+                                {{project.category.name}}
+                            </span>
+                                 >
                                 <span v-if="project.subcategory">{{project.subcategory.name}}</span>
                             </p>
 
@@ -38,7 +40,7 @@
 
 
                             <template v-if="project.tags">
-                                <p class="t-mont jb-project-title-small t-bold t-orange">Tags</p>
+                                <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Tags</p>
 
                                 <h5>
                                     <template v-for="tag in project.tags.split(',')">
@@ -48,6 +50,48 @@
 
                                     </template>
                                 </h5>
+                            </template>
+
+
+                            <template v-if="project.attachments">
+                                <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
+
+
+                                <div class="row mt-2">
+                                    <template v-for="attachment in project.attachments">
+
+
+                                        <div class="col-4 col-lg-3">
+                                            <div class="d-flex justify-content-between">
+
+                                                <div >
+                                                    <template
+                                                        v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">
+                                                        <img
+                                                            src="/images/file_type_icons/doc.svg"
+                                                            alt="" width="35">
+                                                    </template>
+                                                    <template v-else>
+                                                        <img
+                                                            :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"
+                                                            alt="" width="35">
+                                                    </template>
+
+                                                </div>
+
+                                                <div class="ml-2">
+                                                    <p class="t-6">{{ attachment.name }}</p>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </template>
+                                </div>
+
+
                             </template>
 
 
@@ -69,70 +113,77 @@
                             <!-- Placed bids -->
 
                             <template v-if="project.bids">
-                                <p>Bids</p>
+                                <p>Recent Bids</p>
 
 
                                 <div class="jb-bids-wrap">
 
-                                    <div class="jb-bid" v-for="bid in project.bids" :key="bid.id">
+                                    <template v-for="(bid,index) in project.bids">
 
+                                        <template v-if="(index+1)<=initialBidsToShow">
+                                            <div class="jb-bid">
 
-                                        <div class="top">
-                                            <div class="profile-details-wrap">
+                                                <div class="top">
+                                                    <div class="profile-details-wrap">
 
-                                                <div><p>
-                                                    <img :src="bid.user.profile.picture" alt=""
-                                                         class="rounded-circle mr-2"
-                                                         width="50px">
-                                                    <span class="t-meri">{{bid.user.name}}</span></p>
+                                                        <div><p>
+                                                            <img :src="bid.user.profile.picture" alt=""
+                                                                 class="rounded-circle mr-2"
+                                                                 width="50px">
+                                                            <span class="t-meri">{{bid.user.name}}</span></p>
 
-                                                </div>
-
-                                                <div>
-
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="bid-details-wrap">
-
-                                                <div>
-                                                    <p class="t-meri">
-                                                        <timeago :datetime="bid.created_at" :auto-update="60"/>
-                                                    </p>
-                                                    <p class="t-meri t-5 t-bold">
-                                                        {{bid.currency.symbol}} {{bid.amount}}
-                                                    </p>
-
-                                                </div>
-
-
-                                            </div>
-
-                                        </div>
-
-
-                                        <div class="bottom">
-                                            <div class="more-info-wrap">
-                                                <template v-if="bid.additional_details">
-                                                    <p v-b-toggle="'collapse-'+bid.id+'-inner'" size="sm"
-                                                       class="t-orange t-6 text-right" style="border: none; cursor: pointer">More info</p>
-
-                                                    <b-collapse :id="'collapse-'+bid.id+'-inner'" class="mt-1 ">
-                                                        <div class="text-right mt-0 p-0">
-                                                            <p>{{bid.additional_details}}</p>
                                                         </div>
-                                                    </b-collapse>
 
-                                                </template>
+                                                        <div>
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="bid-details-wrap">
+
+                                                        <div>
+                                                            <p class="t-meri">
+                                                                <timeago :datetime="bid.created_at" :auto-update="60"/>
+                                                            </p>
+                                                            <p class="t-meri t-5 t-bold">
+                                                                {{bid.currency.symbol}} {{bid.amount}}
+                                                            </p>
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="bottom">
+                                                    <div class="more-info-wrap">
+                                                        <template v-if="bid.additional_details">
+                                                            <p v-b-toggle="'collapse-'+bid.id+'-inner'" size="sm"
+                                                               class="t-orange t-6 text-right"
+                                                               style="border: none; cursor: pointer">More info</p>
+
+                                                            <b-collapse :id="'collapse-'+bid.id+'-inner'" class="mt-1 ">
+                                                                <div class="text-right mt-0 p-0">
+                                                                    <p>{{bid.additional_details}}</p>
+                                                                </div>
+                                                            </b-collapse>
+
+                                                        </template>
+                                                    </div>
+
+                                                </div>
+
+
                                             </div>
+                                        </template>
 
-                                        </div>
+                                    </template>
 
-
-                                    </div>
-
+                                    <button @click="initialBidsToShow =project.bids_count">View All</button>
 
                                 </div>
 
@@ -319,7 +370,7 @@
                                 <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
 
                                 <template v-if="authenticated && project.user.id === user.id">
-                                    <router-link to="" class="btn bg-orange mt-2 d-block">Edit this job</router-link>
+                                    <router-link to="" class="btn bg-orange ">Edit this job</router-link>
                                 </template>
                             </template>
 
@@ -359,6 +410,8 @@
 
         data() {
             return {
+                initialBidsToShow: 0,
+                showBidsViewMore: 0,
                 project: {
                     category: {
                         name: '',

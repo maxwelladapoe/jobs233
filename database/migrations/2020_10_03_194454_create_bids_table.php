@@ -20,7 +20,6 @@ class CreateBidsTable extends Migration
             $table->bigInteger('currency_id');
             $table->string('amount');
             $table->text('additional_details')->nullable();
-            $table->boolean('is_highest')->default(false);
             $table->boolean('is_accepted')->default(false);
             $table->timestamps();
         });

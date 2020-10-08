@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-    protected $with = ['user', 'currency', 'category', 'subcategory','bids'];
-    protected $withCount= ['bids'];
+    protected $with = ['user', 'currency', 'category', 'subcategory', 'bids', 'attachments'];
+    protected $withCount = ['bids'];
 
 
     public function user()
@@ -35,6 +35,11 @@ class Project extends Model
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(Attachment::class);
     }
 
 }
