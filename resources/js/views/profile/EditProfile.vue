@@ -443,7 +443,7 @@
                     newPassword: '',
                     confirmNewPassword: '',
                 },
-                imagePreview: '',
+                imagePreview: null,
                 file: '',
                 profileUpdateLoading: false
 
@@ -470,7 +470,6 @@
             },
             handleImageUpload() {
                 this.file = this.$refs.changeProfilePicture.files[0];
-                console.log(this.profileDetails.picture);
 
                 let reader = new FileReader();
 
@@ -514,9 +513,9 @@
             }
         },
         mounted() {
-            this.profileDetails = this.user.profile;
-            this.imagePreview = this.profileDetails.picture;
-            this.userDetails = this.user;
+            this.profileDetails = {...this.user.profile};
+            this.imagePreview =this.profileDetails.picture;
+            this.userDetails = {...this.user};
 
             delete this.userDetails.profile;
         },

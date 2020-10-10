@@ -30,7 +30,7 @@
                                 </div>
 
                                 <div class="jb-dash-profile-extra">
-                                    <router-link :to="{name:'editProfile'}">
+                                    <router-link :to="{name:'EditProfile'}">
                                         <p class="t-mont t-white text-right ">Edit Profile</p>
                                     </router-link>
                                 </div>
@@ -109,8 +109,8 @@
 
 
                                 <div class="stats-item text-center">
-                                    <p class="jb-dash-stats-number t-bold t-mont">1</p>
-                                    <p class="jb-stats-brief">Pending Projects</p>
+                                    <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
+                                    <p class="jb-stats-brief">Projects posted</p>
                                 </div>
 
 
@@ -135,11 +135,11 @@
                                     </template>
                                     <template slot="description">{{truncate(project.description,200) }}</template>
                                     <template slot="tags">
-                                        <p>
-
-                                            Tags & Skills:
 
 
+                                        Tags & Skills:
+
+                                        <h6>
                                             <span>
                                             <template v-for="tag in project.tags.split(',')">
                                                 <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
@@ -148,13 +148,15 @@
                                                 <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
                                             </template>
                                         </span>
-                                        </p>
+                                        </h6>
 
                                     </template>
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
                                         <div class="jb-project-bid-btn text-right">
-                                            <router-link :to="  {name:'singleProject', params:{id: project.id} }" class="btn bg-orange t-mont" > View </router-link>
+                                            <router-link :to="  {name:'singleProject', params:{id: project.id} }"
+                                                         class="btn bg-orange t-mont"> View
+                                            </router-link>
                                         </div>
                                     </template>
                                 </dash-project>
@@ -194,10 +196,12 @@
                                     </template>
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="button">
-                                    <div class="jb-project-bid-btn text-right">
-                                        <router-link :to="{name:'singleProject', params:{id:project.id} }" class="btn bg-orange  t-mont">Bid</router-link>
-                                    </div>
-                                </template>
+                                        <div class="jb-project-bid-btn text-right">
+                                            <router-link :to="{name:'singleProject', params:{id:project.id} }"
+                                                         class="btn bg-orange  t-mont">Bid
+                                            </router-link>
+                                        </div>
+                                    </template>
                                 </dash-project>
                             </div>
 
@@ -253,8 +257,8 @@
         },
         methods: {
 
-            truncate(str, n){
-                return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n - 1) + '&hellip;' : str;
             },
 
             getSomeProjects() {
@@ -286,7 +290,7 @@
                             }).catch(error => {
                             console.log(error)
                         });
-                        axios.get( 'user/projects')
+                        axios.get('user/projects')
                             .then(({data}) => {
                                 this.somePostedProjects = data.projects.data;
                             }).catch(error => {

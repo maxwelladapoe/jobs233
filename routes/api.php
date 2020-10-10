@@ -46,10 +46,15 @@ Route::prefix('v1')->group(function () {
 
 
         //bid
-        Route::prefix('{project_id}/bids')->group(function () {
-            Route::post('/', [App\Http\Controllers\BidController::class, 'create']);
+        Route::prefix('{project_id}')->group(function () {
+            Route::post('/accept_bid', [App\Http\Controllers\BidController::class, 'acceptBid']);
             Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
 
+
+            Route::prefix('bids')->group(function () {
+                Route::post('/', [App\Http\Controllers\BidController::class, 'create']);
+                Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
+            });
         });
 
 

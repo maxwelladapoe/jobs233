@@ -15,8 +15,8 @@
                             <p class="t-meri"> <span class="t-bold">
                                 {{project.category.name}}
                             </span>
-                                 >
-                                <span v-if="project.subcategory">{{project.subcategory.name}}</span>
+
+                                <span v-if="project.subcategory">> {{project.subcategory.name}}</span>
                             </p>
 
                             <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
@@ -53,7 +53,7 @@
                             </template>
 
 
-                            <template v-if="project.attachments">
+                            <template v-if="project.attachments && project.attachments.length >0">
                                 <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
 
 
@@ -64,7 +64,7 @@
                                         <div class="col-4 col-lg-3">
                                             <div class="d-flex justify-content-between">
 
-                                                <div >
+                                                <div>
                                                     <template
                                                         v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">
                                                         <img
@@ -111,84 +111,107 @@
 
 
                             <!-- Placed bids -->
+                            <template v-if="project.user_id === user.id">
 
-                            <template v-if="project.bids">
-                                <p>Recent Bids</p>
+                                <!--if the project bids are available and the bids count is greater than zero -->
+                                <template v-if="project.bids && project.bids_count>0">
+                                    <p>Recent Bids</p>
 
+                                    <div class="jb-bids-wrap">
 
-                                <div class="jb-bids-wrap">
+                                        <template v-for="(bid,index) in project.bids">
 
-                                    <template v-for="(bid,index) in project.bids">
+                                            <template v-if="(index+1)<=initialBidsToShow">
 
-                                        <template v-if="(index+1)<=initialBidsToShow">
-                                            <div class="jb-bid">
+                                                <div class="jb-bid" :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''">
 
-                                                <div class="top">
-                                                    <div class="profile-details-wrap">
+                                                    <div class="top">
+                                                        <div class="profile-details-wrap">
 
-                                                        <div><p>
-                                                            <img :src="bid.user.profile.picture" alt=""
-                                                                 class="rounded-circle mr-2"
-                                                                 width="50px">
-                                                            <span class="t-meri">{{bid.user.name}}</span></p>
+                                                            <div><p>
+                                                                <img :src="bid.user.profile.picture" alt=""
+                                                                     class="rounded-circle mr-2"
+                                                                     width="30">
+                                                                <span class="t-meri">{{bid.user.name}}</span></p>
+
+                                                            </div>
+
+                                                            <div>
+
+                                                            </div>
+
 
                                                         </div>
 
-                                                        <div>
+                                                        <div class="bid-details-wrap">
+
+                                                            <div>
+                                                                <p class="t-meri text-right">
+                                                                    <timeago :datetime="bid.created_at"
+                                                                             :auto-update="60"/>
+                                                                </p>
+                                                                <p class="t-meri t-5">
+                                                                    offer <span class="t-bold">{{bid.currency.symbol}} {{bid.amount}}</span>
+                                                                </p>
+
+                                                            </div>
+
 
                                                         </div>
-
 
                                                     </div>
 
-                                                    <div class="bid-details-wrap">
 
-                                                        <div>
-                                                            <p class="t-meri">
-                                                                <timeago :datetime="bid.created_at" :auto-update="60"/>
-                                                            </p>
-                                                            <p class="t-meri t-5 t-bold">
-                                                                {{bid.currency.symbol}} {{bid.amount}}
-                                                            </p>
+                                                    <div class="bottom">
+                                                        <div class="more-info-wrap">
+                                                            <template v-if="bid.additional_details">
+                                                                <p v-b-toggle="'collapse-'+bid.id+'-inner'" size="sm"
+                                                                   class="t-orange t-6 text-right m-0"
+                                                                   style="border: none; cursor: pointer">More info</p>
 
+                                                                <b-collapse :id="'collapse-'+bid.id+'-inner'"
+                                                                            class="mt-1">
+                                                                    <div class="text-right mt-0 p-0">
+                                                                        <p>{{bid.additional_details}}</p>
+                                                                    </div>
+                                                                </b-collapse>
+
+                                                            </template>
                                                         </div>
-
 
                                                     </div>
 
-                                                </div>
+                                                    <div class="w-100 text-right mt-2">
 
-
-                                                <div class="bottom">
-                                                    <div class="more-info-wrap">
-                                                        <template v-if="bid.additional_details">
-                                                            <p v-b-toggle="'collapse-'+bid.id+'-inner'" size="sm"
-                                                               class="t-orange t-6 text-right"
-                                                               style="border: none; cursor: pointer">More info</p>
-
-                                                            <b-collapse :id="'collapse-'+bid.id+'-inner'" class="mt-1 ">
-                                                                <div class="text-right mt-0 p-0">
-                                                                    <p>{{bid.additional_details}}</p>
-                                                                </div>
-                                                            </b-collapse>
-
+                                                        <template  v-if="!bid.is_accepted && project.accepted_bid_id == null" >
+                                                            <b-button @click.prevent="acceptBid(bid.id)" variant="success"
+                                                                      class="ml-auto">
+                                                                Accept Bid
+                                                            </b-button>
                                                         </template>
+
+                                                        <div v-if="bid.is_accepted" @click.prevent="acceptBid(bid.id)"
+                                                                  class="ml-auto text-success">
+                                                           <b-icon icon="check-circle"/> Accepted Bid
+                                                        </div>
                                                     </div>
 
+
                                                 </div>
+                                            </template>
 
-
-                                            </div>
                                         </template>
 
-                                    </template>
+                                        <b-button v-if=" project.bids_count > initialBidsToShow"
+                                                  @click="initialBidsToShow =project.bids_count">View All
+                                        </b-button>
 
-                                    <button @click="initialBidsToShow =project.bids_count">View All</button>
-
-                                </div>
+                                    </div>
 
 
+                                </template>
                             </template>
+                            <!-- Placed bids -->
 
                         </div>
 
@@ -410,7 +433,7 @@
 
         data() {
             return {
-                initialBidsToShow: 0,
+                initialBidsToShow: 10,
                 showBidsViewMore: 0,
                 project: {
                     category: {
@@ -466,7 +489,18 @@
                 axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
 
                 })
-            }
+            },
+            acceptBid(bid_id) {
+                if (this.user.id === this.project.user_id) {
+                    let data = {
+                        bid_id,
+                        project_id: this.project.id
+                    };
+                    axios.post(`projects/${this.project.id}/accept_bid`, data).then(({data}) => {
+                        this.project = data.project;
+                    })
+                }
+            },
 
         },
         computed: {
@@ -475,7 +509,7 @@
 
                 let exAmount = '';
                 //get current project currency
-                let pcExhange = this.project.currency.exchange_rate_in_usd;
+                let pcExchange = this.project.currency.exchange_rate_in_usd;
 
 
                 return exAmount;

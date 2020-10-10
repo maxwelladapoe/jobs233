@@ -44,7 +44,7 @@
                                     <div class="col-6 col-md-6">
                                         <div class="links text-right">
                                             <router-link to="/dashboard">Dashboard</router-link>
-                                            <a class="" href="#"><i class="fas fa-user"></i> My Profile</a>
+                                            <router-link class="" :to="{name:'EditProfile'}"><i class="fas fa-user"></i> My Profile</router-link>
                                             <a class="" href="#">Accounts & Settings</a>
                                             <a class="" href="" @click.prevent="logout">Logout</a>
                                         </div>

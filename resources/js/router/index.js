@@ -2,9 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Dashboard from '../views/DashBoard.vue'
+import Login from '../views/auth/Login.vue'
 import store from "../store";
 import project from "./project";
 import profile from "./profile";
+import SignUp from "../views/auth/SignUp";
 
 Vue.use(VueRouter);
 
@@ -22,6 +24,18 @@ const routes = [
         name: 'Dashboard',
         component: Dashboard,
         meta: {requiresAuth: true}
+
+    },{
+        path: '/login',
+        name: 'Login',
+        component: Login,
+        meta: {requiresAuth: false}
+
+    },{
+        path: '/signup',
+        name: 'SignUp',
+        component: SignUp,
+        meta: {requiresAuth: false}
 
     },
     ...project,

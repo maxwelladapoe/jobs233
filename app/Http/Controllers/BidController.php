@@ -79,24 +79,36 @@ class BidController extends Controller
         //check if the bid id exists
         $bid = Bid::find($request['bid_id']);
         //check if the project id exists
-        $project = Project::find($request['project_id']);
+        $project = $bid->project;
         //check the initiator of the project and ensure it is the authorised user
-        if ($project->user_id === Auth::user()->id) {
-            //we can allow the user to modify the project and accept the bid
-            $bid->is_accepted = true;
-            $project->accepted_bid_id = $bid->id;
-            $project->bidding_closed = true;
 
-            if ($project->save() && $bid->save()) {
-                return response()->json(['success' => true, 'message' => 'You have accepted the bid with id: ' . $bid->id . ' successfully', 'bid' => $bid], 201);
+        if(!$project->bidding_closed || $project->accepted_bid_id ==null ){
+            if ($project->user_id === Auth::user()->id) {
+                //we can allow the user to modify the project and accept the bid
+                $bid->is_accepted = true;
+                $project->accepted_bid_id = $bid->id;
+                $project->bidding_closed = true;
+                $project->worker_id = $bid->user_id;
+
+                if ($project->save() && $bid->save()) {
+                    //notify the user of the accepted bid
+
+                    return response()->json(['success' => true,
+                        'message' => 'You have accepted the bid with id: ' . $bid->id . ' successfully',
+                        'bid' => $bid, 'project' => $project], 201);
+                } else {
+
+                }
+
             } else {
+                return response()->json(['success' => false, 'message' => 'You are not authorised to accept this bid'], 401);
 
             }
-
-        } else {
-            return response()->json(['success' => false, 'message' => 'You are not authorised to accept this bid'], 401);
+        }else{
+            return response()->json(['success' => false, 'message' => 'Bidding has been closed'], 401);
 
         }
+
 
         //check the initiator of the project and ensure it is the authorised user
 

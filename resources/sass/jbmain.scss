@@ -112,7 +112,7 @@ header {
 .bg-orange {
     background-color: $orange !important;
 
-    &.btn{
+    &.btn {
         color: #fff;
     }
 }
@@ -120,7 +120,7 @@ header {
 .bg-black {
     background-color: #000 !important;
 
-    &.btn{
+    &.btn {
         color: #fff;
     }
 }
@@ -128,7 +128,7 @@ header {
 .bg-ash {
     background-color: $ash !important;
 
-    &.btn{
+    &.btn {
         color: #fff;
     }
 }
@@ -623,7 +623,7 @@ select.form-control {
         justify-content: center;
         border-radius: 5px;
 
-        .click-here{
+        .click-here {
             cursor: pointer;
         }
 
@@ -686,8 +686,8 @@ end of login or sign up
     }
 }
 
-.dropdown-menu{
-    .btn{
+.dropdown-menu {
+    .btn {
         padding: 0;
     }
 }
@@ -705,8 +705,7 @@ end of login or sign up
     }
 }
 
-.b-form-btn-label-control{
-
+.b-form-btn-label-control {
 
 
 }
@@ -716,19 +715,20 @@ end of login or sign up
     box-shadow: none;
 }
 
-.b-form-datepicker{
+.b-form-datepicker {
     padding: 0 !important;
-    label{
+
+    label {
         border: none !important;
         height: 35px !important;
-        padding: 0 1em ;
+        padding: 0 1em;
         margin: 0;
         line-height: 35px;
     }
 
-    .btn{
-     width: 20px;
-     height: 20px;
+    .btn {
+        width: 20px;
+        height: 20px;
 
     }
 
@@ -743,7 +743,7 @@ end of login or sign up
     background: no-repeat center;
 
     .jb-overlay {
-        background-color: rgba(0, 0, 0, 0.2);
+        background-color: rgba(0, 0, 0, 0.3);
         width: 100%;
         height: 45em;
         position: absolute;
@@ -810,6 +810,105 @@ end of login or sign up
 
         .jb-section-img {
             width: 100%;
+        }
+    }
+
+    /*-----end of section-----*/
+
+    .jb-section-small {
+        margin-top: 5em;
+        width: 100%;
+        padding: 1.5em;
+        text-align: center;
+        line-height: 1em;
+
+        color: white;
+
+        .contents {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: center;
+
+            @include media-breakpoint-down(sm) {
+                flex-direction: column;
+                align-items: center;
+
+            }
+
+        }
+
+
+    }
+
+    .jb-video-bg {
+        position: absolute;
+        height: 30em;
+        background-position: center;
+        background-size: cover;
+        width: 100%;
+
+    }
+
+}
+
+.jb-main-section-wrapper-alt {
+    height: 55em;
+
+    .jb-section {
+        height: 100% !important;
+
+
+        .jb-overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            @include media-breakpoint-down(sm) {
+                height: 35em;
+            }
+        }
+
+        .container, .row {
+            height: 100% !important;
+        }
+
+        .jb-section-img {
+            width: 100%;
+        }
+
+        .jb-login-wrap {
+            height: 100%;
+            display: flex;
+            align-items: center;
+
+            .horizontal-box {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+
+                .image-wrap {
+                    width: 200px;
+                    height: 400px;
+
+                    img {
+                        width: 200px;
+                        height: 400px;
+                    }
+                }
+
+                .form-wrap {
+                    width: calc(100% - 200px);
+                }
+            }
+
+            .card {
+                width: 100% !important;
+                border-radius: 0;
+            }
         }
     }
 
@@ -1119,31 +1218,6 @@ end of login or sign up
             .jb-modal-contents {
                 padding: 0 0.8em;
 
-                .jb-password-visibility {
-                    cursor: pointer;
-                }
-
-                .jb-l-special {
-                    display: inline-block;
-                    background-color: $ash;
-                    color: #fff;
-                    min-width: 10em;
-                    width: 49.5%;
-                    height: 2.5em;
-                    border-radius: 5px;
-                    padding: 0.7em;
-                    line-height: 1em;
-
-                    .special-radio {
-                        background-color: red;
-                        border-radius: 0;
-                    }
-                }
-
-                .jb-t-special {
-                    line-height: 1em;
-                    font-size: 0.8em;
-                }
 
             }
 
@@ -1161,6 +1235,76 @@ end of login or sign up
 
 
 }
+
+.jb-password-visibility {
+    cursor: pointer;
+}
+
+.jb-l-wrap {
+    display: flex;
+    justify-content: space-between;
+}
+
+.jb-box-overlay {
+    width: 100%;
+    height: 100%;
+    background-color: $orange;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: none;
+    text-align: center;
+
+    .message {
+        font-size: 2em;
+    }
+
+    .loading-contents-wrap {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-direction: row;
+
+        .inner {
+            display: block;
+            padding: 0;
+            margin: 0;
+
+            .loader {
+            }
+        }
+    }
+
+
+    &.show {
+        display: block;
+    }
+}
+
+.jb-l-special {
+
+    background-color: $ash;
+    color: #fff;
+    width: 11em !important; ;
+    height: 2.5em;
+    border-radius: 5px;
+    padding: 0.7em;
+    line-height: 1em;
+
+    .special-radio {
+        border-radius: 0;
+    }
+}
+
+.jb-t-special {
+    line-height: 1em;
+    font-size: 0.8em;
+}
+
 
 .showModal {
     display: block;
@@ -1279,8 +1423,8 @@ end of login or sign up
         }
     }
 
-    .date-class{
-        .btn{
+    .date-class {
+        .btn {
             padding: 0 !important;
         }
     }
@@ -1569,10 +1713,14 @@ end of login or sign up
         flex-direction: row;
         flex-wrap: wrap;
         margin-bottom: 5px;
-        min-height: 100px;
+        min-height: 80px;
         padding: 1em;
         border-radius: 5px;
         border: 1px solid $light-ash;
+
+        &.disabled{
+            opacity: 0.5;
+        }
 
         .top {
             display: flex;

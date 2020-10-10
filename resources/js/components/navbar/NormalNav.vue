@@ -24,10 +24,10 @@
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link " href="#" @click.prevent="showSignUpModal">Sign Up</a>
+                            <router-link :to="{name:'SignUp'}" class="nav-link " >Sign Up</router-link>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#" @click.prevent="showLogInModal">Login</a>
+                            <router-link class="nav-link " :to="{name:'Login'}" >Login</router-link>
                         </li>
                     </ul>
                     <button class="btn bg-orange ml-5 my-sm-0" type="submit">Hire</button>

@@ -34,7 +34,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    public  $with=['profile'];
+    protected  $with=['profile'];
+    protected  $withCount=['projects'];
 
     /**
      * The attributes that should be cast to native types.
@@ -51,4 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+    
 }

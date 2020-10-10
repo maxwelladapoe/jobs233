@@ -5,7 +5,7 @@ import ViewProfile from "../views/profile/ViewProfile";
 export default [
     {
         path: '/profile/edit',
-        name: 'editProfile',
+        name: 'EditProfile',
         component: EditProfile,
         meta: {requiresAuth: true}
     },

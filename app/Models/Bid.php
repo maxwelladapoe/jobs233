@@ -11,12 +11,19 @@ class Bid extends Model
 
 
     protected $with = ['user','currency'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
-    } public function currency()
+    }
+
+    public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
     }
 
 }
