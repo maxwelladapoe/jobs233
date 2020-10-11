@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Project extends Model
 {
     use HasFactory;
-    protected $with = ['user', 'currency', 'category', 'subcategory', 'bids', 'attachments'];
+    protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
     protected $withCount = ['bids'];
 
 

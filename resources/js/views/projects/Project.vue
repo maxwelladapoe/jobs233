@@ -111,7 +111,7 @@
 
 
                             <!-- Placed bids -->
-                            <template v-if="project.user_id === user.id">
+                            <template v-if=" authenticated && user &&( project.user_id === user.id)">
 
                                 <!--if the project bids are available and the bids count is greater than zero -->
                                 <template v-if="project.bids && project.bids_count>0">
@@ -123,7 +123,8 @@
 
                                             <template v-if="(index+1)<=initialBidsToShow">
 
-                                                <div class="jb-bid" :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''">
+                                                <div class="jb-bid"
+                                                     :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''">
 
                                                     <div class="top">
                                                         <div class="profile-details-wrap">
@@ -183,16 +184,19 @@
 
                                                     <div class="w-100 text-right mt-2">
 
-                                                        <template  v-if="!bid.is_accepted && project.accepted_bid_id == null" >
-                                                            <b-button @click.prevent="acceptBid(bid.id)" variant="success"
+                                                        <template
+                                                            v-if="!bid.is_accepted && project.accepted_bid_id == null">
+                                                            <b-button @click.prevent="acceptBid(bid.id)"
+                                                                      variant="success"
                                                                       class="ml-auto">
                                                                 Accept Bid
                                                             </b-button>
                                                         </template>
 
                                                         <div v-if="bid.is_accepted" @click.prevent="acceptBid(bid.id)"
-                                                                  class="ml-auto text-success">
-                                                           <b-icon icon="check-circle"/> Accepted Bid
+                                                             class="ml-auto text-success">
+                                                            <b-icon icon="check-circle"/>
+                                                            Accepted Bid
                                                         </div>
                                                     </div>
 

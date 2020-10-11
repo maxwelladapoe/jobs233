@@ -6,6 +6,7 @@ export default {
         authenticated: false,
         user: null,
         preference: null,
+        previousPage:null,
 
     },
 
@@ -20,6 +21,10 @@ export default {
 
         preference(state) {
             return state.preference;
+        },
+
+        previousPage(state) {
+            return state.previousPage;
         },
         profileType(state) {
             if (state.preference) {
@@ -42,6 +47,9 @@ export default {
         },
         SET_PREFERENCE(state, value) {
             state.preference = value;
+        },
+        SET_PREVIOUS_PAGE(state, value) {
+            state.previousPage = value;
         }
 
     },
@@ -62,6 +70,10 @@ export default {
 
         async refresh({dispatch}){
             return dispatch('me');
+        },
+
+        setPreviousPage(previousPage){
+            commit('SET_PREVIOUS_PAGE', response.data);
         },
 
         me({commit}) {

@@ -25,13 +25,13 @@ const routes = [
         component: Dashboard,
         meta: {requiresAuth: true}
 
-    },{
+    }, {
         path: '/login',
         name: 'Login',
         component: Login,
         meta: {requiresAuth: false}
 
-    },{
+    }, {
         path: '/signup',
         name: 'SignUp',
         component: SignUp,
@@ -52,8 +52,12 @@ const router = new VueRouter({
 });
 
 
+let entryUrl = null;
+
 router.beforeEach((to, from, next) => {
 
+    entryUrl = to.path;
+    console.log(entryUrl);
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.state.auth.authenticated) {
             next();

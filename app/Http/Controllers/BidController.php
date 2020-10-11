@@ -82,13 +82,14 @@ class BidController extends Controller
         $project = $bid->project;
         //check the initiator of the project and ensure it is the authorised user
 
-        if(!$project->bidding_closed || $project->accepted_bid_id ==null ){
+        if (!$project->bidding_closed || $project->accepted_bid_id == null) {
             if ($project->user_id === Auth::user()->id) {
                 //we can allow the user to modify the project and accept the bid
                 $bid->is_accepted = true;
                 $project->accepted_bid_id = $bid->id;
                 $project->bidding_closed = true;
                 $project->worker_id = $bid->user_id;
+                $project->status = 'assigned';
 
                 if ($project->save() && $bid->save()) {
                     //notify the user of the accepted bid
@@ -104,7 +105,7 @@ class BidController extends Controller
                 return response()->json(['success' => false, 'message' => 'You are not authorised to accept this bid'], 401);
 
             }
-        }else{
+        } else {
             return response()->json(['success' => false, 'message' => 'Bidding has been closed'], 401);
 
         }

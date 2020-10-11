@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attachment;
+use App\Models\Bid;
 use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Skill;
@@ -43,7 +44,6 @@ class ProjectController extends Controller
 
 
         if ($projectExists->count() == 0) {
-
 
             $project = new Project();
             $project->title = $request['title'];
@@ -111,9 +111,10 @@ class ProjectController extends Controller
 
     }
 
-    public function read(Project $project)
+    public function read(Request $request)
     {
 
+        $project = Project::where('id',$request->project)->with('bids')->first();
         return response()->json(['success' => true, 'project' => $project], 200);
 
     }
@@ -131,6 +132,33 @@ class ProjectController extends Controller
     public function getProjects()
     {
         $projects = Project::where('status', 'created')->orderby('created_at', 'desc')->paginate(10);
+
+        return response()->json(['success' => true, 'projects' => $projects], 200);
+
+    }
+
+    public function getAssignedProject(Project $project)
+    {
+
+        if ($project->worker_id == Auth::user()->id) {
+
+            $acceptedBid = Bid::find($project->accepted_bid_id);
+
+            if($acceptedBid->user_id == Auth::user()->id ){
+                return response()->json(['success' => true, 'project' => $project, 'accepted_bid' => $acceptedBid], 200);
+            }
+
+
+        } else {
+            return response()->json(['success' => false, 'message' => 'this project has not been assigned to this user or has not been assigned'], 401);
+
+        }
+
+    }
+
+    public function getAssignedProjects()
+    {
+        $projects = Project::where('worker_id', Auth::user()->id)->where('status', '<>', 'completed')->orderby('updated_at', 'desc')->paginate(10);
 
         return response()->json(['success' => true, 'projects' => $projects], 200);
 

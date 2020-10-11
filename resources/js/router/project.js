@@ -1,6 +1,7 @@
 import CreateProject from "../views/projects/CreateProject";
 import ViewAllProjects from "../views/projects/ViewAllProjects";
 import Project from "../views/projects/Project";
+import AssignedProject from "../views/projects/AssignedProject";
 
 
 export default [
@@ -20,6 +21,12 @@ export default [
         path: '/projects/:id',
         name: 'singleProject',
         component: Project,
-        meta: {requiresAuth: false}
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/projects/assigned/:id/',
+        name: 'assignedProject',
+        component: AssignedProject,
+        meta: {requiresAuth: true}
     }
 ]

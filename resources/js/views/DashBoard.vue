@@ -168,7 +168,54 @@
 
 
                         </div>
-                        <div v-if="profileType ==='work' || profileType ==='work&hire'" class="jb-quick-projects">
+                        <div v-if="assignedProjects.length>0 &&(profileType ==='work' || profileType ==='work&hire')"
+                             class="jb-quick-projects">
+
+                            <div class="jb-quick-projects-header">
+                                <p class="t-mont t-bold">Assigned Projects</p>
+                            </div>
+
+                            <div class="jb-projects-wrapper my-2">
+
+                                <dash-project v-for="project in assignedProjects" :key="project.id">
+                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="time">
+                                        <timeago :datetime="project.created_at" :auto-update="60"/>
+                                    </template>
+                                    <template slot="description">{{truncate(project.description,200) }}</template>
+                                    <template slot="tags">
+                                        Tags & Skills:
+                                        <h6>
+                                            <template v-for="tag in project.tags.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                            </template>
+                                            <template v-for="skill in project.skills.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                            </template>
+                                        </h6>
+
+
+                                    </template>
+                                    <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
+                                    <template slot="button">
+                                        <div class="jb-project-bid-btn text-right">
+                                            <router-link :to="{name:'assignedProject', params:{id:project.id} }"
+                                                         class="btn bg-orange  t-mont">View
+                                            </router-link>
+                                        </div>
+                                    </template>
+                                </dash-project>
+                            </div>
+
+
+                            <div class="text-center">
+                                <router-link :to="{name:'projects'}" class="btn bg-orange">View All</router-link>
+                            </div>
+
+
+                        </div>
+                        <div v-if="assignedProjects.length<1 && (profileType ==='work' || profileType ==='work&hire')"
+                             class="jb-quick-projects">
                             <div class="jb-quick-projects-header">
                                 <p class="t-mont t-bold">Latest projects that match your skills</p>
                             </div>
@@ -240,6 +287,7 @@
         data() {
             return {
                 someProjects: [],
+                assignedProjects: [],
                 somePostedProjects: [],
             }
         },
@@ -269,6 +317,12 @@
                         axios.get('/projects')
                             .then(({data}) => {
                                 this.someProjects = data.projects.data;
+                            }).catch(error => {
+                            console.log(error)
+                        });
+                        axios.get('/projects/assigned')
+                            .then(({data}) => {
+                                this.assignedProjects = data.projects.data;
                             }).catch(error => {
                             console.log(error)
                         });
