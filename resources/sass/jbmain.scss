@@ -240,10 +240,10 @@ after login or sign up
     .jb-profile-btn-image {
         display: inline-block;
         float: left;
-        height: 4em;
+        height: 3em;
 
         img {
-            width: 4em;
+            width: 3em;
         }
     }
 
@@ -1290,7 +1290,7 @@ end of login or sign up
 
     background-color: $ash;
     color: #fff;
-    width: 11em !important; ;
+    width: 11em !important;;
     height: 2.5em;
     border-radius: 5px;
     padding: 0.7em;
@@ -1704,7 +1704,7 @@ end of login or sign up
     outline: none;
 }
 
-.strike-through{
+.strike-through {
     text-decoration: line-through;
 }
 
@@ -1723,7 +1723,7 @@ end of login or sign up
         border-radius: 5px;
         border: 1px solid $light-ash;
 
-        &.disabled{
+        &.disabled {
             opacity: 0.5;
         }
 
@@ -1775,7 +1775,7 @@ end of login or sign up
 }
 
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 

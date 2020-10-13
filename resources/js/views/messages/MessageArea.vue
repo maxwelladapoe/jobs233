@@ -111,7 +111,6 @@
                                 <ul class="jb-chat-messages" v-if="">
                                     <template v-for="message in messages">
 
-
                                         <!--sender-->
                                         <li class="jb-message" v-if="message.user_id === user.id">
 
@@ -216,11 +215,15 @@
 
 <script>
     import DashNav from "../../components/navbar/DashNav";
+    import InfiniteLoading from 'vue-infinite-loading';
     import {mapGetters} from "vuex";
 
     export default {
         name: "AllMessages",
-        components: {DashNav},
+        components: {
+            DashNav,
+            InfiniteLoading,
+        },
         data() {
             return {
                 selectedChat: null,
@@ -232,7 +235,9 @@
 
                 messages: [],
                 contacts: [],
-                selectedContact: {}
+                selectedContact: {},
+                currentPage: 1,
+                lastPage: null,
             }
         },
 
@@ -270,6 +275,8 @@
                 //getMessages
                 axios.get(`messages/${relatedUserId}/getAll`).then(
                     ({data}) => {
+                        this.currentPage = data.messages.current_page;
+                        this.lastPage = data.messages.last_page;
                         this.messages = data.messages.data.reverse();
                     }
                 ).catch(
@@ -306,7 +313,8 @@
                 user: 'auth/user',
                 profileType: 'auth/profileType',
             })
-        }
+        },
+
     }
 </script>
 

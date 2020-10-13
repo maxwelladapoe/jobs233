@@ -37,14 +37,18 @@
                                 <div class="row">
                                     <div class="col-6 col-md-6">
                                         <div class="links text-left">
-                                            <a class="" href="#"><i class="fas fa-envelope"></i> Messages</a>
+                                            <router-link class="" :to="{name:'Messages'}"><i
+                                                class="fas fa-envelope"></i> Messages
+                                            </router-link>
                                             <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
                                         </div>
                                     </div>
                                     <div class="col-6 col-md-6">
                                         <div class="links text-right">
                                             <router-link to="/dashboard">Dashboard</router-link>
-                                            <router-link class="" :to="{name:'EditProfile'}"><i class="fas fa-user"></i> My Profile</router-link>
+                                            <router-link class="" :to="{name:'EditProfile'}"><i class="fas fa-user"></i>
+                                                My Profile
+                                            </router-link>
                                             <a class="" href="#">Accounts & Settings</a>
                                             <a class="" href="" @click.prevent="logout">Logout</a>
                                         </div>

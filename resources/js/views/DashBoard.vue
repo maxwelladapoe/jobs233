@@ -84,6 +84,12 @@
                                         <p class="jb-stats-brief">Earned This Month</p>
                                     </div>
 
+
+                                    <div class="stats-item text-center" v-if="">
+                                        <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
+                                        <p class="jb-stats-brief">Projects assigned</p>
+                                    </div>
+
                                 </template>
 
 
@@ -96,7 +102,10 @@
                                         </p>
                                         <p class="jb-stats-brief">Spent</p>
                                     </div>
-
+                                    <div class="stats-item text-center" v-if="">
+                                        <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
+                                        <p class="jb-stats-brief">Projects posted</p>
+                                    </div>
 
                                 </template>
 
@@ -108,10 +117,7 @@
                                 </div>
 
 
-                                <div class="stats-item text-center">
-                                    <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
-                                    <p class="jb-stats-brief">Projects posted</p>
-                                </div>
+
 
 
                             </div>
