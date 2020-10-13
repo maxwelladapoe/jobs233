@@ -275,7 +275,7 @@
 
 <script>
 
-    import DashNav from '../components/navbar/DashBoardTop'
+    import DashNav from '../components/navbar/DashNav'
     import DashNotification from '../components/notification/DashNotification'
     import DashProject from '../components/extras/DashProject'
     import {mapGetters, mapActions} from 'vuex';

@@ -114,7 +114,7 @@ class ProjectController extends Controller
     public function read(Request $request)
     {
 
-        $project = Project::where('id',$request->project)->with('bids')->first();
+        $project = Project::where('id', $request->project)->with('bids')->first();
         return response()->json(['success' => true, 'project' => $project], 200);
 
     }
@@ -144,7 +144,7 @@ class ProjectController extends Controller
 
             $acceptedBid = Bid::find($project->accepted_bid_id);
 
-            if($acceptedBid->user_id == Auth::user()->id ){
+            if ($acceptedBid->user_id == Auth::user()->id) {
                 return response()->json(['success' => true, 'project' => $project, 'accepted_bid' => $acceptedBid], 200);
             }
 

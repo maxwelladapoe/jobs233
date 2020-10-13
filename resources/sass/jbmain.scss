@@ -803,6 +803,7 @@ end of login or sign up
 .jb-main-section-wrapper {
     min-height: 50em;
     margin-top: 5em;
+    margin-bottom: 5em;
 
     .jb-section {
         margin-bottom: 5em;
@@ -1774,4 +1775,9 @@ end of login or sign up
 }
 
 
+.cursor-pointer{
+    cursor: pointer;
+}
 
+
+@import "messageArea";

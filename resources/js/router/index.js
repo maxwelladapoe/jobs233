@@ -7,6 +7,7 @@ import store from "../store";
 import project from "./project";
 import profile from "./profile";
 import SignUp from "../views/auth/SignUp";
+import Messages from "../views/messages/MessageArea";
 
 Vue.use(VueRouter);
 
@@ -36,6 +37,12 @@ const routes = [
         name: 'SignUp',
         component: SignUp,
         meta: {requiresAuth: false}
+
+    }, {
+        path: '/messages',
+        name: 'Messages',
+        component: Messages,
+        meta: {requiresAuth: true}
 
     },
     ...project,

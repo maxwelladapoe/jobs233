@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AttachmentController extends Controller
+class NoteController extends Controller
 {
     //
 
     public function __construct()
     {
-        $this->middleware('auth')->except();
+        $this->middleware('auth');
 
     }
 }

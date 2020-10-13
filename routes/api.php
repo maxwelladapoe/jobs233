@@ -68,6 +68,12 @@ Route::prefix('v1')->group(function () {
         Route::post('/picture', [App\Http\Controllers\ProfileController::class, 'changeProfilePicture']);
     });
 
+    Route::prefix('messages')->group(function () {
+        Route::post('/', [App\Http\Controllers\MessageController::class, 'create']);
+        Route::get('{user}/getAll', [App\Http\Controllers\MessageController::class, 'read']);
+        Route::get('/contacts', [App\Http\Controllers\ChatContactController::class, 'getAllContacts']);
+    });
+
 
 });
 

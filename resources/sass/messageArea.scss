@@ -1,0 +1,203 @@
+.jb-chat-list {
+    height: 50em;
+
+    .jb-chat-users-list {
+        padding: 0;
+        margin: 0;
+        overflow-y: auto;
+
+        .jb-chat-user {
+            cursor: pointer;
+            list-style-type: none;
+            border-bottom: 0.05em solid $light-ash;
+
+            &:last-of-type {
+                border-bottom: none;
+
+            }
+
+            .user {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1em 0;
+
+                @include media-breakpoint-down(sm) {
+                    justify-content: flex-start;
+                }
+
+                .img-wrap {
+                    margin-right: 10px;
+                    position: relative;
+
+                    .online-status {
+                        position: absolute;
+                        background-color: green;
+                        width: 10px;
+                        height: 10px;
+                        border-radius: 5px;
+                        bottom: 1px;
+                        left: 2px;
+                    }
+                }
+
+                .user-details {
+
+                    .name-time {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: baseline;
+                    }
+                }
+            }
+        }
+    }
+
+
+}
+
+
+.jb-main-chat-area {
+    height: 50em;
+    display: flex;
+    flex-direction: column;
+
+    padding-left: 1em;
+    @include media-breakpoint-down(sm) {
+        padding-left: 0;
+
+    }
+
+    .jb-chat-header {
+        height: 5em;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1em;
+        border-bottom: 0.05em solid $light-ash;
+        @include media-breakpoint-down(sm) {
+            justify-content: space-between;
+
+        }
+
+
+    }
+
+    .jb-chat-box {
+        width: 100%;
+        flex: 1;
+        padding: 0 1.5em;
+        overflow-y: auto;
+
+        .jb-chat-messages {
+            margin: 0;
+            padding: 0;
+
+
+            .message-sender-image-wrap {
+                width: 40px;
+                margin-right: 1em;
+            }
+
+            .jb-message {
+                list-style-type: none;
+
+
+                .left {
+                    margin-bottom: 1.5em;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: flex-end;
+                    padding-right: 20%;
+
+                    @include media-breakpoint-down(sm) {
+                        padding-right: 1em;
+
+                    }
+
+                    .message-sender-image-wrap {
+                        width: 40px;
+                        margin-right: 1em;
+
+                        @include media-breakpoint-down(sm) {
+                            margin-right: 1em;
+
+                        }
+                    }
+
+                    .message-description {
+                        border: 0.05em solid $light-ash;
+                        height: auto;
+                        border-radius: 1em 1em 1em 0;
+                        padding: 1em;
+
+                        .footer {
+                            height: 1.5em;
+                            margin-top: 0.5em;
+                        }
+                    }
+                }
+
+                .right {
+                    display: flex;
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    padding-left: 20%;
+
+                    @include media-breakpoint-down(sm) {
+                        padding-left: 1em;
+
+                    }
+
+
+                    margin-bottom: 1.5em;
+
+                    .message-sender-image-wrap {
+                        width: 40px;
+                        margin-left: 1em;
+                    }
+
+                    .message-description {
+                        border: 0.05em solid $light-ash;
+
+                        height: auto;
+                        border-radius: 1em 1em 0 1em;
+                        padding: 1em;
+
+                        .footer {
+                            height: 1.5em;
+                            margin-top: 0.5em;
+                            text-align: right;
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+
+    .jb-chat-input {
+        margin-top: 1em;
+        width: 100%;
+
+        border-top: 0.05em solid $light-ash;
+        padding-top: 1em;
+    }
+}
+
+
+.hide-on-mobile {
+    display: block;
+    @include media-breakpoint-down(sm) {
+        display: none;
+    }
+
+}
+
+.display-on-mobile {
+    display: block;
+    @include media-breakpoint-down(sm) {
+        display: block;
+    }
+
+}

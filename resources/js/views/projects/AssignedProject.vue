@@ -157,44 +157,44 @@
                                 <validationObserver v-slot="{handleSubmit}" ref="submitForReview">
 
                                     <b-form @submit.prevent="handleSubmit(submitForReview)">
-                                    <validation-provider>
+                                        <validation-provider>
 
-                                        <b-form-group
-
-
-                                            id="status"
-                                            label="Select Status"
-                                            label-class="t-mont t-bold"
-                                            label-for="select_status"
-                                        >
+                                            <b-form-group
 
 
-                                            <b-select>
-                                                <b-select-option value="in-progress">
-                                                    In progress
-                                                </b-select-option>
-                                                <b-select-option value="submitted-for-review">
-                                                    Submitted for Review
-                                                </b-select-option>
-                                            </b-select>
-
-                                        </b-form-group>
-                                    </validation-provider>
+                                                id="status"
+                                                label="Select Status"
+                                                label-class="t-mont t-bold"
+                                                label-for="select_status"
+                                            >
 
 
-                                    <validation-provider>
-                                        <b-form-group
+                                                <b-select>
+                                                    <b-select-option value="in-progress">
+                                                        In progress
+                                                    </b-select-option>
+                                                    <b-select-option value="submitted-for-review">
+                                                        Submitted for Review
+                                                    </b-select-option>
+                                                </b-select>
 
-                                            id="note"
-                                            label="Add Note"
-                                            label-class="t-mont t-bold"
-                                            label-for="add_note"
-                                        >
-                                            <b-textarea rows="3" no-resize>
-                                            </b-textarea>
-                                        </b-form-group>
+                                            </b-form-group>
+                                        </validation-provider>
 
-                                    </validation-provider>
+
+                                        <validation-provider>
+                                            <b-form-group
+
+                                                id="note"
+                                                label="Add Note"
+                                                label-class="t-mont t-bold"
+                                                label-for="add_note"
+                                            >
+                                                <b-textarea rows="3" no-resize>
+                                                </b-textarea>
+                                            </b-form-group>
+
+                                        </validation-provider>
 
                                         <b-form-group>
                                             <attach-files v-model="attachedFiles"></attach-files>
@@ -202,17 +202,14 @@
                                         </b-form-group>
 
 
-                                    <b-form-group>
-                                        <b-button type="submit">
-                                            Submit
-                                        </b-button>
-                                    </b-form-group>
+                                        <b-form-group>
+                                            <b-button type="submit">
+                                                Submit
+                                            </b-button>
+                                        </b-form-group>
 
                                     </b-form>
                                 </validationObserver>
-
-
-
 
 
                             </div>
@@ -255,7 +252,7 @@
         data() {
             return {
 
-                attachedFiles:[],
+                attachedFiles: [],
                 initialBidsToShow: 10,
                 showBidsViewMore: 0,
                 project: {
@@ -305,7 +302,7 @@
                 return dirty || validated ? valid : null;
             },
 
-            submitForReview(){
+            submitForReview() {
                 console.log(this.attachedFiles)
             }
         },
@@ -350,7 +347,7 @@
 
             }
         },
-        components:{
+        components: {
             AttachFiles
         }
     }

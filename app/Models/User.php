@@ -34,8 +34,8 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    protected  $with=['profile'];
-    protected  $withCount=['projects'];
+    protected $with = ['profile'];
+    protected $withCount = ['projects'];
 
     /**
      * The attributes that should be cast to native types.
@@ -45,7 +45,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
 
 
     public function profile()
@@ -60,7 +59,35 @@ class User extends Authenticatable
 
     public function assigned_projects()
     {
-
-        return $this->hasMany(Project::class,'worker_id');
+        return $this->hasMany(Project::class, 'worker_id');
     }
+
+
+    public function chatContacts()
+    {
+        return $this->hasMany(ChatContact::class);
+    }
+
+    public function relatedChatContacts()
+    {
+        return $this->hasMany(ChatContact::class, 'related_user_id');
+    }
+
+    public function allChatContacts()
+    {
+        return $this->chatContacts->merge($this->relatedChatContacts());
+    }
+
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+
+
+
+
+
+
 }
