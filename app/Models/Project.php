@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Project extends Model
 {
     use HasFactory;
+
+    use Searchable;
+
     protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
     protected $withCount = ['bids'];
 
@@ -40,6 +44,22 @@ class Project extends Model
     public function attachments()
     {
         return $this->hasMany(Attachment::class);
+    }
+
+    public function toSearchableArray()
+    {
+        $array =  [
+
+            'id'    => $this->id,
+            'title'    => $this->title,
+            'description' => $this->description,
+            'skills' => $this->skills,
+            'tags' => $this->tags,
+        ];
+
+        // Customize array...
+
+        return $array;
     }
 
 }

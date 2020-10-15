@@ -183,5 +183,17 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'skills' => $skills], 200);
     }
 
+    public function search(Request $request)
+    {
+        $this->validate($request,[
+            "term"=>['required']
+        ]);
+
+        $projects =Project::search($request->term)->get();
+        return response()->json(['success' => true, 'projects' => $projects], 200);
+
+
+    }
+
 
 }

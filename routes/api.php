@@ -39,6 +39,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/', [App\Http\Controllers\ProjectController::class, 'create']);
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'getProjects']);
         Route::get('/assigned', [App\Http\Controllers\ProjectController::class, 'getAssignedProjects']);
+        Route::post('/search', [App\Http\Controllers\ProjectController::class, 'search']);
         Route::get('/categories-skills', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
         Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategories']);
         Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);

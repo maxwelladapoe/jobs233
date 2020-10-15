@@ -15,9 +15,11 @@
                     <form method="post" action="">
                         <div class="input-group mb-5">
                             <input type="text" class="form-control" placeholder="Search by Skill, Title, Description"
-                                   aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                   aria-label="" aria-describedby="basic-addon2" v-model="search.term">
                             <div class="input-group-append">
-                                <button class="btn bg-black" type="button"><i class="fas fa-search"></i> Search</button>
+                                <button class="btn bg-black" type="button" @click="searchSubmit"><i
+                                    class="fas fa-search"></i> Search
+                                </button>
                             </div>
                         </div>
                     </form>
@@ -66,7 +68,8 @@
 
                                 <template>
 
-                                    <template v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated" >
+                                    <template
+                                        v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated">
                                         <template slot="button">
                                             <div class="jb-project-bid-btn text-right">
                                                 <router-link :to="{name:'singleProject' , params:{id:project.id}}"
@@ -76,7 +79,7 @@
                                         </template>
                                     </template>
 
-                                    <template v-if="profileType ==='work' || profileType ==='work&hire'" >
+                                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
                                         <template slot="button">
                                             <div class="jb-project-bid-btn text-right">
                                                 <router-link :to="{name:'singleProject' , params:{id:project.id}}"
@@ -117,7 +120,8 @@
                                     <ul class="jb-filter-item">
                                         <li><a href="" class="t-orange t-bold">All Categories</a></li>
 
-                                        <li v-for="category in categories"><a href="" class="t-orange t-bold" >{{category.name}}</a></li>
+                                        <li v-for="category in categories"><a href="" class="t-orange t-bold">{{category.name}}</a>
+                                        </li>
                                     </ul>
                                 </div>
                                 <div class="jb-project-filter-element">
@@ -158,6 +162,9 @@
                 lastPage: 1,
                 numItems: 7,
                 currentPage: 0,
+                search: {
+                    term: '',
+                }
             }
         },
         methods: {
@@ -219,6 +226,12 @@
                     $state.complete();
                 }
             },
+
+            searchSubmit() {
+                axios.post('projects/search', this.search).then(({data}) => {
+                    this.allProjects = data.projects;
+                })
+            }
 
         },
         mounted() {

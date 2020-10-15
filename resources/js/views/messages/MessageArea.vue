@@ -1,6 +1,6 @@
 <template>
 
-    <div>
+    <div class="h-100">
         <DashNav/>
 
         <div class="jb-main-section-wrapper">
@@ -71,7 +71,8 @@
                                                  alt=""
                                                  class="rounded-circle message-sender-image" width="50">
 
-                                            <span v-if="selectedContact" class="name ml-2">{{selectedContact.name}} </span>
+                                            <span v-if="selectedContact"
+                                                  class="name ml-2">{{selectedContact.name}} </span>
 
                                         </template>
 

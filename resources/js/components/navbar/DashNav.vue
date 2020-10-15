@@ -7,7 +7,6 @@
                 <a href="#" class="jb-dash-link t-white ">Billing</a>
                 <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
                 <a href="#" class="jb-dash-link t-white ">Profile</a>
-                <a href="#" class="jb-dash-link t-white ">Inbox</a>
             </div>
         </div>
     </div>

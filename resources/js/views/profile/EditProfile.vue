@@ -269,11 +269,11 @@
                                                 <div
                                                     class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
                                                     v-if="profileUpdateLoading">
-                                                    <p class="mr-2 p-0 m-0">Loading </p>
+                                                    <p class="mr-2 p-0 m-0">Updating </p>
                                                     <div class="loader"></div>
                                                 </div>
 
-                                                <button type="submit" class=" btn bg-orange t-mont">
+                                                <button type="submit" :class="profileUpdateLoading?'d-none':''" class="btn bg-orange t-mont">
 
                                                     Update Profile
 
@@ -406,7 +406,7 @@
 
                                         </div>
                                     </div>
-                                    <b-button class="mt-3" type="submit" v-if="showUploadButton">Upload</b-button>
+                                    <b-button class="mt-3"  type="submit" v-if="showUploadButton">Upload</b-button>
                                 </b-form>
 
                             </div>
