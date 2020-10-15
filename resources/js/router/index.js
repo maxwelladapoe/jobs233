@@ -8,6 +8,7 @@ import project from "./project";
 import profile from "./profile";
 import SignUp from "../views/auth/SignUp";
 import Messages from "../views/messages/MessageArea";
+import HowItWorks from "../views/others/HowItWorks";
 
 Vue.use(VueRouter);
 
@@ -24,6 +25,12 @@ const routes = [
         name: 'Dashboard',
         component: Dashboard,
         meta: {requiresAuth: true}
+
+    }, {
+        path: '/how-it-works',
+        name: 'HowItWorks',
+        component: HowItWorks,
+        meta: {requiresAuth: false}
 
     }, {
         path: '/login',

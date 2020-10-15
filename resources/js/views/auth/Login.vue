@@ -171,6 +171,10 @@
 
     export default {
         name: "Login",
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Log In',
+        },
         data() {
             return {
 

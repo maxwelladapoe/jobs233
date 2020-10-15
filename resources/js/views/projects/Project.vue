@@ -434,7 +434,10 @@
 
     export default {
         name: "projects",
-
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Freelance Projects',
+        },
         data() {
             return {
                 initialBidsToShow: 10,

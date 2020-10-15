@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" placeholder="Search by Skill, Title, Description"
                                    aria-label="" aria-describedby="basic-addon2" v-model="search.term">
                             <div class="input-group-append">
-                                <button class="btn bg-black" type="button" @click="searchSubmit"><i
+                                <button class="btn bg-black" type="button" @click.prevent="searchSubmit"><i
                                     class="fas fa-search"></i> Search
                                 </button>
                             </div>
@@ -153,8 +153,11 @@
 
 
     export default {
-
-        data: function () {
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Projects',
+        },
+        data() {
             return {
 
                 categories: {},

@@ -15,7 +15,8 @@
                     <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
-                            <router-link class="nav-link text-white" to="/">How it Works</router-link>
+                            <router-link class="nav-link text-white" :to="{name:'HowItWorks'}">How it Works
+                            </router-link>
                         </li>
                     </ul>
 
@@ -84,7 +85,7 @@
             logout() {
                 this.logOut();
 
-                this.$router.push('/');
+                this.$router.push('/login');
             }
         },
         computed: {

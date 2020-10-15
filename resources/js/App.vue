@@ -21,7 +21,12 @@
     import {mapGetters} from "vuex";
 
     export default {
-
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Jobs233',
+            // all titles will be injected into this template
+            titleTemplate: '%s - Jobs233'
+        },
         data: function () {
             return {
                 // user: this.$auth.user()

@@ -583,6 +583,12 @@
     import {mapGetters} from "vuex";
 
     export default {
+
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Create Project',
+        },
+
         data: function () {
             return {
                 categories: [],

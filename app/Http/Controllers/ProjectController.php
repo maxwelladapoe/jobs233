@@ -131,7 +131,7 @@ class ProjectController extends Controller
 
     public function getProjects()
     {
-        $projects = Project::where('status', 'created')->orderby('created_at', 'desc')->paginate(10);
+        $projects = Project::where('status', 'created')->where('bidding_closed', false)->orderby('created_at', 'desc')->paginate(10);
 
         return response()->json(['success' => true, 'projects' => $projects], 200);
 
@@ -185,11 +185,11 @@ class ProjectController extends Controller
 
     public function search(Request $request)
     {
-        $this->validate($request,[
-            "term"=>['required']
+        $this->validate($request, [
+            "term" => ['required']
         ]);
 
-        $projects =Project::search($request->term)->get();
+        $projects = Project::search($request->term)->get();
         return response()->json(['success' => true, 'projects' => $projects], 200);
 
 
