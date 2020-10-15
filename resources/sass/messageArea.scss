@@ -32,12 +32,17 @@
 
                     .online-status {
                         position: absolute;
-                        background-color: green;
                         width: 10px;
                         height: 10px;
                         border-radius: 5px;
                         bottom: 1px;
                         left: 2px;
+                        background-color: #8a8a8a;
+
+
+                        &.active {
+                            background-color: #28A745;
+                        }
                     }
                 }
 

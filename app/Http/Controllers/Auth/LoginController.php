@@ -40,7 +40,6 @@ class LoginController extends Controller
     }
 
 
-
     /**
      * Get the login username to be used by the controller.
      *
@@ -60,7 +59,7 @@ class LoginController extends Controller
     /**
      * Validate the user login request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return void
      *
      * @throws \Illuminate\Validation\ValidationException

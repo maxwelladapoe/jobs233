@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/fontawesome-all.min.css">
     <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700|Montserrat:400,600" rel="stylesheet">
+
 </head>
 <body>
 <div id="app">

@@ -83,6 +83,7 @@
             }),
             logout() {
                 this.logOut();
+
                 this.$router.push('/');
             }
         },

@@ -37,6 +37,10 @@ if (window.location.href.indexOf(".test") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
     window.axios.defaults.baseURL = "http://localhost:8000/api/" + version + "/";
     window.baseUrl = "http://localhost:8000/api/" + version + "/"
+}else if (window.location.href.indexOf("127.0.0.1") !== -1) {
+    console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
+    window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/" + version + "/";
+    window.baseUrl = "http://127.0.0.1:8000/api/" + version + "/"
 } else {
     window.axios.defaults.baseURL = "https://jobs233.com/api/" + version + "/";
     window.baseUrl = "https://jobs233.com/api/" + version + "/";
@@ -53,13 +57,16 @@ window.axios.defaults.withCredentials = true;
 axios.defaults.withCredentials = true;
 
 
-// import Echo from 'laravel-echo';
+import Echo from 'laravel-echo';
 
-// window.Pusher = require('pusher-js');
+window.Pusher = require('pusher-js');
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    forceTLS: false,
+    disableStats: true,
+});

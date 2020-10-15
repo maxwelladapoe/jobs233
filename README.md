@@ -13,6 +13,8 @@ To set up
 * configure your env 
 * run composer install
 * run npm install
+* php artisan storage:link
+
 
 
 

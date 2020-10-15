@@ -131,7 +131,7 @@
                                                                 </b-form-select-option>
                                                                 <b-form-select-option value="F">Female
                                                                 </b-form-select-option>
-                                                                <b-form-select-option value="O">Rather not state
+                                                                <b-form-select-option value="O">Rather not say
                                                                 </b-form-select-option>
                                                             </b-form-select>
 

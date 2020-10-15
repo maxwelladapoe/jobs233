@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
 
-
     Route::middleware('auth:sanctum')->prefix('user')->group(function () {
         Route::get('/', function (Request $request) {
             return $request->user();
@@ -30,6 +29,8 @@ Route::prefix('v1')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
         Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
         Route::post('register', [App\Http\Controllers\Auth\AltRegisterController::class, 'register']);
+        Route::put('{user}/is_online', [App\Http\Controllers\UserOnlineController::class, 'setOnlineStatus']);
+        Route::put('{user}/is_offline', [App\Http\Controllers\UserOnlineController::class, 'setOfflineStatus']);
     });
     Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
 

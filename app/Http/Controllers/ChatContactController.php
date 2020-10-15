@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatContactController extends Controller
 {
-
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -27,15 +25,15 @@ class ChatContactController extends Controller
     {
 
 
-        $contacts = ChatContact::where('user_id', Auth::user()->id)->with('relatedUser')->get();
+        $contacts = ChatContact::where('user_id', Auth::user()->id)->pluck('related_user_id')->toArray();
 
-        $relatedContacts = ChatContact::where('related_user_id', Auth::user()->id)->with('user')->get();
-
-        $mergedContacts =$relatedContacts->merge($contacts);
+        $relatedContacts = ChatContact::where('related_user_id', Auth::user()->id)->pluck('user_id')->toArray();
 
 
+        $allContacts = User::whereIn('id',array_merge($contacts,$relatedContacts))->orderBy('updated_at','desc')->get();
 
-        return response()->json(['success' => true, 'contacts' => $mergedContacts], 200);
+
+        return response()->json(['success' => true, 'contacts' => $allContacts], 200);
 
     }
 

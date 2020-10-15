@@ -20,45 +20,23 @@
                             <ul class="jb-chat-users-list">
 
                                 <template v-for="contact in contacts">
-                                    <li v-if="contact.user" class="jb-chat-user"
+                                    <li v-if="contact" class="jb-chat-user"
                                         @click="changeSelectedMessages(contact)">
                                         <div class="user">
                                             <div class="img-wrap">
-                                                <div class="online-status"></div>
-                                                <img :src="contact.user.profile.picture" alt="" class="rounded-circle"
+                                                <div class="online-status"
+                                                     :class="contact.is_online?'active':''"></div>
+                                                <img :src="contact.profile.picture" alt="" class="rounded-circle"
                                                      width="40">
                                             </div>
-
                                             <div class="user-details">
                                                 <div class="name-time">
-                                                    <span>{{contact.user.name}}</span> <span
+                                                    <span>{{contact.name}}</span> <span
                                                     class="text-right small ml-auto">10 mins</span></div>
-                                                <div class="last-message t-6">Lorem ipsum dolor sit amet edfdfx elit...
+                                                <div class="last-message t-6">
+                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}
                                                 </div>
                                             </div>
-
-
-                                        </div>
-
-                                    </li>
-                                    <li v-if="contact.related_user" class="jb-chat-user"
-                                        @click="changeSelectedMessages(contact)">
-                                        <div class="user">
-                                            <div class="img-wrap">
-                                                <div class="online-status"></div>
-                                                <img :src="contact.related_user.profile.picture" alt=""
-                                                     class="rounded-circle" width="40">
-                                            </div>
-
-                                            <div class="user-details">
-                                                <div class="name-time">
-                                                    <span>{{contact.related_user.name}}</span> <span
-                                                    class="text-right small ml-auto">10 mins</span></div>
-                                                <div class="last-message t-6">Lorem ipsum dolor sit amet edfdfx elit...
-                                                </div>
-                                            </div>
-
-
                                         </div>
 
                                     </li>
@@ -89,15 +67,11 @@
                                     <div class="message-sender-image-wrap">
 
                                         <template v-if="selectedContact">
-                                            <img v-if="selectedContact.user" :src="selectedContact.user.profile.picture"
+                                            <img v-if="selectedContact" :src="selectedContact.profile.picture"
                                                  alt=""
                                                  class="rounded-circle message-sender-image" width="50">
-                                            <img v-if="selectedContact.related_user"
-                                                 :src="selectedContact.related_user.profile.picture" alt=""
-                                                 class="rounded-circle message-sender-image" width="50">
 
-                                            <span v-if="selectedContact.user" class="name ml-2">{{selectedContact.user.name}}</span>
-                                            <span v-if="selectedContact.related_user" class="name ml-2">{{selectedContact.related_user.name}}</span>
+                                            <span v-if="selectedContact" class="name ml-2">{{selectedContact.name}} </span>
 
                                         </template>
 
@@ -217,6 +191,7 @@
     import DashNav from "../../components/navbar/DashNav";
     import InfiniteLoading from 'vue-infinite-loading';
     import {mapGetters} from "vuex";
+    import axios from "axios";
 
     export default {
         name: "AllMessages",
@@ -244,12 +219,19 @@
         beforeCreate() {
             axios.get('messages/contacts').then(({data}) => {
                 this.contacts = data.contacts;
+
                 this.changeSelectedMessages(this.contacts[0]);
 
                 this.scrollChatBoxDown();
             })
         },
         methods: {
+
+
+            truncate(str, n) {
+                return (str.length > n) ? str.substr(0, n - 1) + '&hellip;' : str;
+            },
+
 
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
@@ -259,21 +241,10 @@
                 this.selectedContact = contact;
                 this.showChatArea = true;
 
-                let relatedUserId;
-
-
-                if (this.selectedContact.user_id === this.user.id) {
-
-                    relatedUserId = this.selectedContact.related_user_id;
-                } else if (this.selectedContact.related_user_id === this.user.id) {
-
-                    relatedUserId = this.selectedContact.user_id;
-
-                }
-                this.messageDetails.receiver_id = relatedUserId;
+                this.messageDetails.receiver_id = contact.id;
 
                 //getMessages
-                axios.get(`messages/${relatedUserId}/getAll`).then(
+                axios.get(`messages/${contact.id}/getAll`).then(
                     ({data}) => {
                         this.currentPage = data.messages.current_page;
                         this.lastPage = data.messages.last_page;
@@ -307,13 +278,64 @@
             this.scrollChatBoxDown();
         },
 
+
+        created() {
+
+            Echo.join('jobs233_ymiutkyihzrihztnzwar')
+                .listen('UserOnline', (e) => {
+                    console.log("the user", e.user)
+                    let contact = this.contacts.find((contact) => {
+                        return contact.id = e.user.id
+                    });
+                    console.log("hello i am here ")
+                    console.log(contact)
+                    if (contact) {
+                        console.log("i am the first one")
+                        contact.is_online = e.user.is_online
+                    }
+                    //.user.is_online = e.user.is_online
+
+                    // console.log("login");
+                    // console.log(contact);
+                    // console.log(e.user);
+                })
+                .listen('UserOffline', (e) => {
+                    console.log("the user", e.user)
+                    let contact = this.contacts.find((contact) => {
+                        return contact.id = e.user.id
+                    });
+                    console.log("hello i am here ")
+                    console.log(contact)
+                    if (contact) {
+                        console.log("i am the first one")
+                        contact.is_online = e.user.is_online
+                    }
+                });
+
+
+            Echo.private('jobs233_messaging.' + this.user.id)
+                .listen('MessageSent', (e) => {
+                    console.log('message sent');
+                    //this.activeFriend=e.message.user_id;
+                    this.messages.push(e.message);
+
+                    //this.allMessages.push(e.message)
+                    //setTimeout(this.scrollToEnd,100);
+                })
+
+        },
+
         computed: {
             ...mapGetters({
                 authenticated: 'auth/authenticated',
                 user: 'auth/user',
                 profileType: 'auth/profileType',
-            })
+            }),
+
         },
+
+        watch: {}
+
 
     }
 </script>

@@ -6,7 +6,7 @@ export default {
         authenticated: false,
         user: null,
         preference: null,
-        previousPage:null,
+        previousPage: null,
 
     },
 
@@ -31,8 +31,8 @@ export default {
                 let prefs = state.preference.split(',');
                 if (prefs.length === 2 && prefs.includes('work') && prefs.includes('hire')) {
                     return 'work&hire'
-                }else if(prefs.length ===1){
-                   return prefs[0]
+                } else if (prefs.length === 1) {
+                    return prefs[0]
                 }
             }
         }
@@ -55,31 +55,36 @@ export default {
     },
 
     actions: {
-        async logIn({dispatch}, credentials) {
+        async logIn({dispatch, state}, credentials) {
             await axios.get('/sanctum/csrf-cookie');
             await axios.post('/auth/login', credentials);
 
             return dispatch('me');
         },
 
-        async logOut({dispatch}) {
-            await axios.get('/auth/logout');
+        async logOut({dispatch, state}) {
 
-            return dispatch('me')
+            await axios.put(`/auth/${state.user.id}/is_offline`);
+
+            await axios.get(`/auth/logout`)
+            return dispatch('me');
+
+
         },
 
-        async refresh({dispatch}){
+        async refresh({dispatch}) {
             return dispatch('me');
         },
 
-        setPreviousPage(previousPage){
+        setPreviousPage(previousPage) {
             commit('SET_PREVIOUS_PAGE', response.data);
         },
 
-        me({commit}) {
+        me({commit, state}) {
             return axios.get('/user').then((response) => {
                 commit('SET_AUTHENTICATED', true);
                 commit('SET_USER', response.data);
+                axios.put(`/auth/${state.user.id}/is_online`);
                 commit('SET_PREFERENCE', response.data.profile.preference);
             }).catch(() => {
                 commit('SET_AUTHENTICATED', false);

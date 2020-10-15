@@ -23,6 +23,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'is_online',
     ];
 
     /**
@@ -77,7 +78,6 @@ class User extends Authenticatable
     {
         return $this->chatContacts->merge($this->relatedChatContacts());
     }
-
 
     public function messages()
     {
