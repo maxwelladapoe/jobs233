@@ -7,9 +7,9 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Skill;
 use App\Models\User;
-use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
@@ -112,6 +112,13 @@ class ProfileController extends Controller
                 $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
                 // Upload Image
                 $path = $request->file('image')->storeAs('public/userimages', $fileNameToStore);
+
+                //delete the old profile picture
+
+                if ($profile->picture != '/storage/userimages/profile.svg') {
+                    File::delete($profile->picture);
+                }
+
 
                 $profile->picture = '/storage/userimages/' . $fileNameToStore;
 

@@ -22,8 +22,8 @@
                                         <p class="t-mont t-bold t-white">{{user.name}}</p>
                                     </div>
                                     <div class="jb-dash-profile-credit">
-                                        <p class="small-title t-black t-mont">Credit Balance</p>
-                                        <p class="t-mont t-bold t-white">₵ 100</p>
+                                        <p class="small-title t-black t-mont">Your Balance</p>
+                                        <p class="t-mont t-bold t-white">₵ {{user.wallet.balance}}</p>
                                     </div>
 
 
@@ -79,7 +79,7 @@
                                     <div class="stats-item text-center">
                                         <p class="jb-dash-stats-number t-bold t-mont">
                                             <span class="t-normal">₵</span>
-                                            50
+                                            {{user.wallet.balance}}
                                         </p>
                                         <p class="jb-stats-brief">Earned This Month</p>
                                     </div>
@@ -115,9 +115,6 @@
                                     <p class="jb-stats-brief">Completed {{'project' | pluralize(0)}}
                                     </p>
                                 </div>
-
-
-
 
 
                             </div>
@@ -289,7 +286,10 @@
 
     export default {
         name: "dash-board",
-
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Dashboard',
+        },
         data() {
             return {
                 someProjects: [],

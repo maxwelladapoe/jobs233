@@ -2,9 +2,8 @@
 
     <header>
 
-
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container">
+            <div class="container p-3">
 
                 <a class="navbar-brand" href="/"><img src="/images/logo2.png" alt="Jobs 233 logo"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -24,13 +23,16 @@
                     <ul class="navbar-nav ml-auto">
 
                         <li class="nav-item">
-                            <router-link :to="{name:'SignUp'}" class="nav-link " >Sign Up</router-link>
+                            <router-link :to="{name:'SignUp'}" class="nav-link ">Sign Up</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link " :to="{name:'Login'}" >Login</router-link>
+                            <router-link class="nav-link" :to="{name:'Login'}">Login</router-link>
+                        </li>
+
+                        <li class="nav-item">
+                            <router-link to="#" class="nav-link btn bg-orange  px-4">Hire</router-link>
                         </li>
                     </ul>
-                    <button class="btn bg-orange ml-5 my-sm-0" type="submit">Hire</button>
 
                 </div>
 
@@ -85,7 +87,8 @@
                                                 id="email"
                                                 label="Email / Username"
                                                 label-for="identity">
-                                                <b-form-input id="identity" name="identity" v-model="loginCredentials.identity"
+                                                <b-form-input id="identity" name="identity"
+                                                              v-model="loginCredentials.identity"
 
                                                               :state="getValidationState(validationContext)"
                                                               aria-describedby="email-live-feedback"
@@ -194,8 +197,8 @@
                             <div class="loading-contents-wrap">
 
                                 <div class="inner">
-                                <div class="loader"></div>
-                                <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
+                                    <div class="loader"></div>
+                                    <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
 
                                 </div>
                             </div>

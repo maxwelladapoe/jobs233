@@ -148,6 +148,11 @@ header {
     margin-left: 1em;
     margin-right: 1em;
 
+    @include media-breakpoint-down(md) {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
     .btn {
         margin-right: 0 !important;
     }
@@ -159,7 +164,7 @@ after login or sign up
  */
 
 .navbar {
-    min-height: 6em !important;
+    //min-height: 6em !important;
     padding: 0 !important;
     z-index: 222;
 
@@ -168,20 +173,21 @@ after login or sign up
 
 .nav-item-special {
     height: 6em;
-    width: 16em !important;
+    width: 18em !important;
     padding: 1em;
     cursor: pointer;
     position: relative;
     background-color: $orange;
+    display: flex;
+    justify-content: center;
 
     @include media-breakpoint-down(sm) {
         width: 100% !important;
-        background-color: transparent;
     }
 
     .jb-hover-dropdown-wrapper {
         position: absolute;
-        top: 6.2em;
+        top: 6em;
         z-index: 3333;
         right: 0;
         height: auto;
@@ -191,7 +197,24 @@ after login or sign up
         display: none;
 
         @include media-breakpoint-down(sm) {
+            top: 6em;
+            min-width: 100%;
+            display: none;
+        }
 
+        &:before, &:after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            right: 19px;
+            border: 8px solid transparent;
+            border-bottom-color: $ash-light;
+        }
+
+        &:after {
+            right: 20px;
+            border: 7px solid transparent;
+            border-bottom-color: $ash-light;
         }
 
         &:hover {
@@ -213,7 +236,6 @@ after login or sign up
         .links {
 
             position: relative;
-            width: 12em;
             height: auto;
             padding: 0;
 
@@ -1290,7 +1312,7 @@ end of login or sign up
 
     background-color: $ash;
     color: #fff;
-    width: 11em !important; ;
+    width: 11em !important;;
     height: 2.5em;
     border-radius: 5px;
     padding: 0.7em;
@@ -1704,7 +1726,7 @@ end of login or sign up
     outline: none;
 }
 
-.strike-through{
+.strike-through {
     text-decoration: line-through;
 }
 
@@ -1723,7 +1745,7 @@ end of login or sign up
         border-radius: 5px;
         border: 1px solid $light-ash;
 
-        &.disabled{
+        &.disabled {
             opacity: 0.5;
         }
 
@@ -1775,9 +1797,17 @@ end of login or sign up
 }
 
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 
 
 @import "messageArea";
+
+
+.navbar-toggler, .btn {
+    &:focus {
+        outline: none;
+
+    }
+}

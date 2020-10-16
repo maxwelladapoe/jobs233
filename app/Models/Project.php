@@ -8,9 +8,7 @@ use Laravel\Scout\Searchable;
 
 class Project extends Model
 {
-    use HasFactory;
-
-    use Searchable;
+    use HasFactory, Searchable;
 
     protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
     protected $withCount = ['bids'];
@@ -48,10 +46,10 @@ class Project extends Model
 
     public function toSearchableArray()
     {
-        $array =  [
+        $array = [
 
-            'id'    => $this->id,
-            'title'    => $this->title,
+            'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
             'skills' => $this->skills,
             'tags' => $this->tags,

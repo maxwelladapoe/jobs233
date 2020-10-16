@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Bavix\Wallet\Interfaces\Customer;
+use Bavix\Wallet\Traits\CanPay;
+use Bavix\Wallet\Traits\CanPayFloat;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,9 +13,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 
 
-class User extends Authenticatable
+class User extends Authenticatable implements Customer
 {
-    use HasFactory, Notifiable, Searchable;
+    use HasFactory, Notifiable, Searchable, CanPayFloat;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +39,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    protected $with = ['profile'];
+    protected $with = ['profile', 'wallet'];
     protected $withCount = ['projects'];
 
     /**
@@ -87,10 +90,10 @@ class User extends Authenticatable
 
     public function toSearchableArray()
     {
-        $array =  [
+        $array = [
 
-            'id'    => $this->id,
-            'username'    => $this->username,
+            'id' => $this->id,
+            'username' => $this->username,
             'name' => $this->name,
         ];
 
@@ -98,10 +101,6 @@ class User extends Authenticatable
 
         return $array;
     }
-
-
-
-
 
 
 }
