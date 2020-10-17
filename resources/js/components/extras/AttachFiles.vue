@@ -2,7 +2,8 @@
 
     <div>
 
-        <label  class=" t-mont t-bold"> <b-icon-paperclip/>
+        <label class=" t-mont t-bold">
+            <b-icon-paperclip/>
             Attach
             Necessary Files(Optional)</label>
 
@@ -77,21 +78,21 @@
 <script>
     export default {
         name: "AttachFiles",
-        props:{
-            value:{
-                type:Array
+        props: {
+            value: {
+                type: Array
             }
         },
 
-        data(){
-          return{
-              uploadedFileList:[],
-              dropAreaDragOver: false,
-              dropAreaDragLeave: false,
-          }
+        data() {
+            return {
+                uploadedFileList: [],
+                dropAreaDragOver: false,
+                dropAreaDragLeave: false,
+            }
         },
 
-        methods:{
+        methods: {
 
             onFileInputChange() {
                 this.uploadedFileList.push(...this.$refs.file.files);
@@ -104,7 +105,6 @@
 
                 this.dropAreaDragOver = false;
                 this.dropAreaDragLeave = false;
-                console.log("the uploaded file  list is ", this.uploadedFileList);
             },
             dragover(event) {
                 this.dropAreaDragOver = true;

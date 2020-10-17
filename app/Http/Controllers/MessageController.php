@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\MessageSent;
 use App\Models\Message;
 use App\Models\User;
+use App\Notifications\MessageSentNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,12 +37,9 @@ class MessageController extends Controller
         );
 
 
-
-
         if ($message) {
+            $message->receiver->notify(new MessageSentNotification($message->without('receiver'), Auth::user()));
             broadcast(new MessageSent($message->load('user')))->toOthers();
-
-
             return response()->json(['success' => true, 'message' => $message], 200);
         } else {
             return response()->json(['success' => false], 500);

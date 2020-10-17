@@ -28,6 +28,10 @@ small {
     width: 100%;
 }
 
+.btn {
+    border-radius: 6px !important;
+}
+
 header {
     width: 100%;
     height: auto;
@@ -109,6 +113,11 @@ header {
     background-color: white !important;
 }
 
+.btn-white {
+    background-color: white !important;
+    color: #000;
+}
+
 .bg-orange {
     background-color: $orange !important;
 
@@ -117,12 +126,22 @@ header {
     }
 }
 
+.btn-orange {
+    background-color: $orange !important;
+    color: #fff;
+}
+
 .bg-black {
     background-color: #000 !important;
 
     &.btn {
         color: #fff;
     }
+}
+
+.btn-black {
+    background-color: #000 !important;
+    color: #fff;
 }
 
 .bg-ash {
@@ -441,11 +460,14 @@ select.form-control {
                 margin-bottom: 10px;
 
                 .jb-project-title {
-                    margin: 0;
-                    height: 2em;
+                    margin-right: 2em;
+                    min-height: 2em;
 
                     span {
                         font-size: 0.8em;
+                        @include media-breakpoint-down(sm) {
+                            display: block;
+                        }
                     }
                 }
 
@@ -643,7 +665,7 @@ select.form-control {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 5px;
+        border-radius: 8px;
 
         .click-here {
             cursor: pointer;
@@ -1314,7 +1336,7 @@ end of login or sign up
     color: #fff;
     width: 11em !important;;
     height: 2.5em;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 0.7em;
     line-height: 1em;
 
@@ -1354,11 +1376,19 @@ end of login or sign up
 
 .jb-dashboard {
 
+
     .b-bottom {
         border-bottom: 0.05em solid #fff;
     }
 
+    .jb-dash-right {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
     .jb-dash-profile {
+        border-radius: 8px;
         min-height: 8em;
         padding: 1em;
 
@@ -1427,10 +1457,10 @@ end of login or sign up
         }
 
         .jb-dash-profile-img {
-            width: 4em;
+            width: 3.5em;
 
             img {
-                width: 4em;
+                width: 3.5em;
             }
         }
 
@@ -1453,8 +1483,10 @@ end of login or sign up
     }
 
     .jb-dash-invite-box {
+        border-radius: 8px;
         margin-top: 1em;
         padding: 2em;
+        flex: 1;
 
         .invite {
             font-size: 1.2em;
@@ -1481,6 +1513,8 @@ end of login or sign up
     }
 
     .jb-dash-stats-wrapper {
+        border: 0.1em solid $light-ash;
+        border-radius: 8px;
         min-height: 8em;
         padding: 1em;
 
@@ -1502,18 +1536,6 @@ end of login or sign up
                 border: none;
             }
 
-            @include media-breakpoint-down(xs) {
-                flex-direction: column;
-                .stats-item {
-                    flex: 1;
-                    width: 100%;
-                    border-right: 0;
-                    border-bottom: 1px solid $ash;
-                }
-                .stats-item:last-child {
-                    border: none;
-                }
-            }
         }
 
 
@@ -1538,6 +1560,7 @@ end of login or sign up
     }
 
     .jb-notifications {
+        border-radius: 8px;
         position: relative;
         margin-top: 1em;
 
@@ -1555,21 +1578,31 @@ end of login or sign up
 
         .js-notifications-wrapper {
 
+            overflow-y: scroll;
+            max-height: 13em;
+            min-height: 13em;
+
+
             .jb-notification {
-                padding-top: 1em;
-                padding-bottom: 1em;
+                display: flex;
+                padding: 0.5em 1em;
+                align-items: center;
                 border-bottom: 0.05em solid #fff;
 
-                .icon {
-                    font-size: 1.5em;
+                .notification-icon {
+                    margin-right: 1em;
 
                 }
 
-                .title {
-                    font-size: 1em;
-                    line-height: 1em;
-                    margin-bottom: 0;
+                .notification-details {
+
+                    .title {
+                        font-size: 1em;
+                        line-height: 1em;
+                        margin: 0;
+                    }
                 }
+
 
                 .from {
                     font-size: 0.8em;
@@ -1585,7 +1618,7 @@ end of login or sign up
             }
 
             :last-child.jb-notification {
-                border-bottom: 0;
+                //border-bottom: 0;
             }
 
         }
@@ -1609,7 +1642,9 @@ end of login or sign up
         }
 
         .jb-project {
-            height: 9em;
+            border-radius: 8px;
+            border: 0.1em solid $light-ash;
+            min-height: 9em;
 
             .jb-project-price {
                 height: 3.6em;
@@ -1742,7 +1777,7 @@ end of login or sign up
         margin-bottom: 5px;
         min-height: 80px;
         padding: 1em;
-        border-radius: 5px;
+        border-radius: 8px;
         border: 1px solid $light-ash;
 
         &.disabled {

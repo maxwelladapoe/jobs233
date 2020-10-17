@@ -216,8 +216,8 @@
                 messages: [],
                 contacts: [],
                 selectedContact: {
-                    profile:{
-                        picture:''
+                    profile: {
+                        picture: ''
                     }
                 },
                 currentPage: 1,
@@ -269,12 +269,13 @@
             sendMessage() {
                 axios.post('/messages', this.messageDetails).then(({data}) => {
                     this.messageDetails.message = '';
+                    this.$refs.sendMessageForm.reset();
                     this.messages.push(data.message);
 
                     //push the scrollbar to the bottom
 
-                }).catch(() => {
-                    this.$refs.sendMessageForm.setErrors({...errors.response.data.errors})
+                }).catch((errorsRes) => {
+                    this.$refs.sendMessageForm.setErrors({...errorsRes.response.data.errors})
                 });
             },
 
@@ -292,31 +293,19 @@
 
             Echo.join('jobs233_ymiutkyihzrihztnzwar')
                 .listen('UserOnline', (e) => {
-                    console.log("the user", e.user)
                     let contact = this.contacts.find((contact) => {
                         return contact.id = e.user.id
                     });
-                    console.log("hello i am here ")
-                    console.log(contact)
+
                     if (contact) {
-                        console.log("i am the first one")
                         contact.is_online = e.user.is_online
                     }
-                    //.user.is_online = e.user.is_online
-
-                    // console.log("login");
-                    // console.log(contact);
-                    // console.log(e.user);
                 })
                 .listen('UserOffline', (e) => {
-                    console.log("the user", e.user)
                     let contact = this.contacts.find((contact) => {
                         return contact.id = e.user.id
                     });
-                    console.log("hello i am here ")
-                    console.log(contact)
                     if (contact) {
-                        console.log("i am the first one")
                         contact.is_online = e.user.is_online
                     }
                 });
@@ -324,7 +313,6 @@
 
             Echo.private('jobs233_messaging.' + this.user.id)
                 .listen('MessageSent', (e) => {
-                    console.log('message sent');
                     //this.activeFriend=e.message.user_id;
                     this.messages.push(e.message);
 

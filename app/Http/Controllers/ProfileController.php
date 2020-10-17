@@ -125,9 +125,9 @@ class ProfileController extends Controller
                 //delete the old profile picture
 
                 if ($profile->picture != '/storage/userimages/profile.svg') {
-                    $fda=explode('/',$profile->picture);
-                    $fd= end($fda);
-                    Storage::delete('public/userimages/'.$fd);
+                    $fda = explode('/', $profile->picture);
+                    $fd = end($fda);
+                    Storage::delete('public/userimages/' . $fd);
 
                 }
 
@@ -150,5 +150,22 @@ class ProfileController extends Controller
 
     }
 
+
+    public function getNotifications(Request $request)
+    {
+
+        if ($request->has('category')) {
+
+            if ($request['category'] == 'unread') {
+                $notifications = Auth::user()->unreadNotifications;
+
+            } elseif ($request['category'] == 'read') {
+                $notifications = Auth::user()->readNotifications;
+            }
+        } else {
+            $notifications = Auth::user()->notifications;
+        }
+        return response()->json(['success' => true, 'notifications' => $notifications], 200);
+    }
 
 }

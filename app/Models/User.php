@@ -88,6 +88,11 @@ class User extends Authenticatable implements Customer
         return $this->hasMany(Message::class);
     }
 
+    public function preferences()
+    {
+        return $this->hasOne(Preference::class);
+    }
+
     public function toSearchableArray()
     {
         $array = [

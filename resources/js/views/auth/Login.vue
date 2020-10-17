@@ -211,7 +211,6 @@
 
                 }).catch(errors => {
                     this.displayErrors = true;
-                    console.log(errors.response);
                     this.errorMessages = errors.response.data.errors;
                     this.$refs.loginForm.setErrors({...errors.response.data.errors})
                     this.isLoading = false;

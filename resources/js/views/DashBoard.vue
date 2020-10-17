@@ -7,68 +7,72 @@
             <div class="container jb-dashboard">
                 <div class="row">
 
-                    <div class="col-12 col-md-5 col-lg-3">
-                        <div class=" jb-dash-profile bg-orange">
+                    <div class="col-12 col-md-5 col-lg-4 col-xl-4">
 
-                            <div class="wrapper">
+                        <div class="jb-dash-right">
+                            <div class=" jb-dash-profile bg-orange">
 
-                                <div class="jb-dash-profile-img">
-                                    <img class="rounded-circle"
-                                         :src="user.profile.picture"/>
-                                </div>
+                                <div class="wrapper">
 
-                                <div class="details">
-                                    <div class="jb-dash-profile-name">
-                                        <p class="t-mont t-bold t-white">{{user.name}}</p>
-                                    </div>
-                                    <div class="jb-dash-profile-credit">
-                                        <p class="small-title t-black t-mont">Your Balance</p>
-                                        <p class="t-mont t-bold t-white">₵ {{user.wallet.balance}}</p>
+                                    <div class="jb-dash-profile-img">
+                                        <img class="rounded-circle"
+                                             :src="user.profile.picture"/>
                                     </div>
 
+                                    <div class="details">
+                                        <div class="jb-dash-profile-name">
+                                            <p class="t-mont t-bold t-white">{{user.name}}</p>
+                                        </div>
+                                        <div class="jb-dash-profile-credit">
+                                            <p class="small-title t-black t-mont">Your Balance</p>
+                                            <p class="t-mont t-bold t-white">₵ {{user.wallet.balance}}</p>
+                                        </div>
 
+
+                                    </div>
+
+                                    <div class="jb-dash-profile-extra">
+                                        <router-link :to="{name:'EditProfile'}">
+                                            <p class="t-mont t-white text-right ">Edit Profile</p>
+                                        </router-link>
+                                    </div>
                                 </div>
 
-                                <div class="jb-dash-profile-extra">
-                                    <router-link :to="{name:'EditProfile'}">
-                                        <p class="t-mont t-white text-right ">Edit Profile</p>
-                                    </router-link>
-                                </div>
+
                             </div>
 
 
+                            <div class="jb-dash-quick-links">
+                                <router-link to="/project/create"
+                                             v-if="profileType ==='hire' || profileType ==='work&hire'">
+                                    <div class="btn bg-black t-white">Post a Project</div>
+                                </router-link>
+
+                                <router-link to="/projects" v-if="profileType ==='work' || profileType ==='work&hire'">
+                                    <div class="btn bg-black t-white">View All Ongoing Projects</div>
+                                </router-link>
+                            </div>
+
+                            <div class="jb-dash-invite-box bg-ash-light text-center ">
+                                <p class="invite t-mont t-bold">Invite your friends</p>
+                                <p class="earn t-meri t-orange">Earn a reward for each <br>friend you invite</p>
+                                <p class="icon t-black">
+                                    <i class="fa fa-users" id="jb-dash-icon"></i>
+                                </p>
+
+                                <p class="copy t-meri">Copy your Reference link to share </p>
+
+                                <a href="#">
+                                    <div class="btn bg-orange"><i class="fa fa-clipboard"></i> Copy Link
+                                    </div>
+                                </a>
+                            </div>
                         </div>
 
-
-                        <div class="jb-dash-quick-links">
-                            <router-link to="/project/create"
-                                         v-if="profileType ==='hire' || profileType ==='work&hire'">
-                                <div class="btn bg-black t-white">Post a Project</div>
-                            </router-link>
-
-                            <router-link to="/projects" v-if="profileType ==='work' || profileType ==='work&hire'">
-                                <div class="btn bg-black t-white">View All Ongoing Projects</div>
-                            </router-link>
-                        </div>
-
-                        <div class="jb-dash-invite-box bg-ash-light text-center shadow">
-                            <p class="invite t-mont t-bold">Invite your friends</p>
-                            <p class="earn t-meri t-orange">Earn a reward for each <br>friend you invite</p>
-                            <p class="icon t-black">
-                                <i class="fa fa-users" id="jb-dash-icon"></i>
-                            </p>
-
-                            <p class="copy t-meri">Copy your Reference link to share </p>
-
-                            <a href="#">
-                                <div class="btn bg-orange"><i class="fa fa-clipboard"></i> Copy Link
-                                </div>
-                            </a>
-                        </div>
                     </div>
 
 
-                    <div class="col-12 col-md-7 col-lg-9 mt-5 mt-md-0">
+                    <div class="col-12 col-md-7 col-lg-8 col-xl-8 mt-5 mt-md-0">
 
                         <div class="jb-dash-stats-wrapper shadow">
                             <div class="container stats-container">
@@ -122,7 +126,8 @@
                         </div>
 
                         <dash-notification/>
-
+                    </div>
+                    <div class="col-12 mt-5 mt-md-0">
 
                         <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
                             <div class="jb-quick-projects-header">
@@ -131,7 +136,7 @@
 
                             <div class="jb-projects-wrapper mb-5 my-2">
 
-                                <dash-project v-for="project in somePostedProjects" :key="project.id">
+                                <project-component v-for="project in somePostedProjects" :key="project.id">
                                     <template slot="title">{{project.title}}</template>
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
@@ -162,7 +167,7 @@
                                             </router-link>
                                         </div>
                                     </template>
-                                </dash-project>
+                                </project-component>
                             </div>
 
                             <div class="text-center">
@@ -180,7 +185,7 @@
 
                             <div class="jb-projects-wrapper my-2">
 
-                                <dash-project v-for="project in assignedProjects" :key="project.id">
+                                <project-component v-for="project in assignedProjects" :key="project.id">
                                     <template slot="title">{{project.title}}</template>
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
@@ -207,11 +212,11 @@
                                             </router-link>
                                         </div>
                                     </template>
-                                </dash-project>
+                                </project-component>
                             </div>
 
 
-                            <div class="text-center">
+                            <div class="text-center" v-if="someProjects.length >0">
                                 <router-link :to="{name:'projects'}" class="btn bg-orange">View All</router-link>
                             </div>
 
@@ -225,7 +230,7 @@
 
                             <div class="jb-projects-wrapper my-2">
 
-                                <dash-project v-for="project in someProjects" :key="project.id">
+                                <project-component v-for="project in someProjects" :key="project.id">
                                     <template slot="title">{{project.title}}</template>
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
@@ -252,11 +257,11 @@
                                             </router-link>
                                         </div>
                                     </template>
-                                </dash-project>
+                                </project-component>
                             </div>
 
 
-                            <div class="text-center">
+                            <div class="text-center" v-if="someProjects.length >0">
                                 <router-link :to="{name:'projects'}" class="btn bg-orange">View More</router-link>
                             </div>
 
@@ -280,7 +285,7 @@
 
     import DashNav from '../components/navbar/DashNav'
     import DashNotification from '../components/notification/DashNotification'
-    import DashProject from '../components/extras/DashProject'
+    import ProjectComponent from '../components/extras/ProjectComponent'
     import {mapGetters, mapActions} from 'vuex';
 
 
@@ -307,7 +312,7 @@
         components: {
             DashNav,
             DashNotification,
-            DashProject,
+            ProjectComponent,
         },
         methods: {
 
@@ -361,6 +366,7 @@
 
 
             },
+
 
         },
         mounted() {

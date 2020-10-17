@@ -18,9 +18,23 @@
                             <router-link class="nav-link text-white" :to="{name:'HowItWorks'}">How it Works
                             </router-link>
                         </li>
+
+
+                        <template v-if="profileType ==='hire' || profileType ==='work&hire'">
+                            <li class="nav-item">
+                                <router-link to="#" class="nav-link btn bg-orange  px-4">Hire</router-link>
+                            </li>
+                        </template>
+
+                        <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                            <li class="nav-item">
+                                <router-link to="#" class="nav-link btn bg-orange  px-4">Work</router-link>
+                            </li>
+                        </template>
                     </ul>
 
                     <ul class="navbar-nav ml-auto">
+
 
                         <li class="nav-item nav-item-special">
 
@@ -99,6 +113,7 @@
             ...mapGetters({
                 authenticated: 'auth/authenticated',
                 user: 'auth/user',
+                profileType: 'auth/profileType',
             })
         }
     }

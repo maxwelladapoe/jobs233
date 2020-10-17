@@ -41,14 +41,14 @@
                     </div>
 
 
-                    <div class="col-md-4">
-                        <div class="jb-project-save text-right">
-                            <a href="#">
-                                <b-icon icon="hdd"/>
-                                Save</a> | <a href="#"><i class="fas fa-save"></i>
-                            Save & Preview </a>
-                        </div>
-                    </div>
+                    <!--                    <div class="col-md-4">-->
+                    <!--                        <div class="jb-project-save text-right">-->
+                    <!--                            <a href="#">-->
+                    <!--                                <b-icon icon="hdd"/>-->
+                    <!--                                Save</a> | <a href="#"><i class="fas fa-save"></i>-->
+                    <!--                            Save & Preview </a>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
                 </div>
 
@@ -392,78 +392,7 @@
                                                     </b-form-group>
                                                 </validation-provider>
 
-                                                <div class="form-group">
-                                                    <a href="#" class="t-orange t-mont t-bold"><i
-                                                        class="fas fa-paperclip"></i>
-                                                        Attach
-                                                        Necessary Files(Optional)</a>
-
-                                                    <div class="jb-attached-files">
-                                                        <div class="dropzone" @dragover.prevent="dragover"
-                                                             :class="dropAreaDragOver?'active':''"
-                                                             @dragleave.prevent="dragleave" @drop.prevent="drop">
-                                                            <input type="file" multiple
-                                                                   name="fields[assetsFieldHandle][]"
-                                                                   id="assetsFieldHandle"
-                                                                   class="d-none "
-                                                                   @change="onFileInputChange" ref="file"
-                                                                   accept=".pdf,.jpg,.jpeg,.png"/>
-
-                                                            <label for="assetsFieldHandle"
-                                                                   class="text-center click-here">
-                                                                <div>
-                                                                    <p class="t-meri m-0">Drag or drop files here or
-                                                                        <span
-                                                                            class="underline">click here</span></p>
-                                                                    <p class="t-meri m-0">to select</p>
-                                                                </div>
-                                                            </label>
-
-                                                        </div>
-
-
-                                                        <div>
-                                                            <ul class="mt-4 list-unstyled"
-                                                                v-if="uploadedFileList.length">
-                                                                <li class="text-sm p-1 d-flex justify-content-between"
-                                                                    v-for="file in uploadedFileList">
-
-                                                                    <div>
-                                                                        <p>
-                                                                            <template
-                                                                                v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
-                                                                                <img
-                                                                                    src="/images/file_type_icons/doc.svg"
-                                                                                    alt="" width="35">
-                                                                            </template>
-                                                                            <template v-else>
-                                                                                <img
-                                                                                    :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
-                                                                                    alt="" width="35">
-                                                                            </template>
-
-
-                                                                            <span>
-                                                                            {{ file.name }}
-                                                                        </span>
-                                                                        </p>
-
-                                                                    </div>
-                                                                    <button type="button"
-                                                                            class="rounded-circle btn btn-primary"
-                                                                            style="width: 30px; height: 30px; text-align: center; padding: 0;"
-                                                                            @click="remove(uploadedFileList.indexOf(file))"
-                                                                            title="Remove file">x
-                                                                    </button>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-
-
-                                                    </div>
-
-
-                                                </div>
+                                                <attach-files v-model="uploadedFileList" class="mb-3"></attach-files>
 
 
                                             </ValidationObserver>
@@ -486,15 +415,27 @@
                                                 <p>{{project.additional_details}}</p>
 
                                                 <p class="t-mont t-bold t-orange"> skills</p>
-                                                <p>{{project.skills}}</p>
+                                                <h6>
+                                                    <template v-for="skill in project.skills.split(',')">
+                                                        <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                                    </template>
+                                                </h6>
+
                                                 <p class="t-mont t-bold t-orange"> tags</p>
-                                                <p>{{project.tags}}</p>
+
+                                                <h6>
+                                                    <template v-for="tag in project.tags.split(',')">
+                                                        <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                                    </template>
+
+                                                </h6>
 
 
                                             </div>
 
 
-                                            <div class=" form-group mr-auto text-right t-white">
+                                            <div v-if="!isLoading && !isSuccessful"
+                                                 class=" form-group mr-auto text-right t-white">
 
                                                 <button type="submit" class="btn bg-orange t-mont"
                                                         v-if="step> 1 && step <= totalSteps"
@@ -506,7 +447,6 @@
                                             <span v-if="step ===totalSteps">
                                                 Create Project
                                             </span>
-
                                                     <span v-else>
                                                   Next
                                             </span>
@@ -514,6 +454,28 @@
 
                                             </div>
 
+                                            <div v-if="isSuccessful && project.id" class="text-right">
+                                                <span class="text-success"><b-icon-check-circle-fill/> Your Project was Posted Successfully</span>
+
+                                                <b-button @click="resetProject()" variant="orange" class="ml-2">Post
+                                                    Another Project
+                                                </b-button>
+
+                                                <b-button @click="viewPostedProject"
+                                                          class="ml-2" variant="success">View Project
+                                                </b-button>
+                                            </div>
+
+                                            <div
+                                                class="form-group text-right d-flex align-items-start justify-content-end"
+                                                v-if="isLoading">
+                                                <div
+                                                    class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
+                                                >
+                                                    <p class="mr-2 p-0 m-0">Posting... </p>
+                                                    <div class="loader"></div>
+                                                </div>
+                                            </div>
 
                                         </b-form>
 
@@ -532,41 +494,6 @@
 
                     </div>
 
-                    <!-- hide this till the person begins to fill the form -->
-                    <!--                    <div class="col-sm-12 col-md-4">-->
-                    <!--                        <div class="jb-project-form-preview p-3 bg-ash-light">-->
-                    <!--                            <div class="jb-arrow-left">-->
-
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element">-->
-                    <!--                                <p class="t-mont t-bold">Project Title</p>-->
-                    <!--                                <small class="t-meri t-orange t-normal">{{project.title}}</small>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element">-->
-                    <!--                                <p class="t-mont t-bold">Project Description</p>-->
-                    <!--                                <small class="t-meri t-orange t-normal"-->
-                    <!--                                       style="display: block; position: relative; margin-top: 1em"-->
-                    <!--                                       v-html="project.description">-->
-                    <!--                                </small>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element">-->
-                    <!--                                <p class="t-mont t-bold">Project Category</p>-->
-                    <!--                                <small class="t-meri t-orange t-normal">{{project.category}}</small>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element">-->
-                    <!--                                <p class="t-mont t-bold">Attached Files </p>-->
-                    <!--                                <small></small>-->
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element"><p class="t-mont t-bold">Budget</p>-->
-                    <!--                                <small class="t-meri t-orange t-normal">{{project.price}}</small>-->
-
-                    <!--                            </div>-->
-                    <!--                            <div class="jb-project-preview-element"><p class="t-mont t-bold">Extra Requirements</p>-->
-                    <!--                                <small class="t-meri t-orange t-normal">{{project.extraRequirements}}-->
-                    <!--                                </small>-->
-                    <!--                            </div>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                 </div>
 
             </div>
@@ -581,6 +508,7 @@
 
 
     import {mapGetters} from "vuex";
+    import AttachFiles from "../../components/extras/AttachFiles";
 
     export default {
 
@@ -594,6 +522,8 @@
                 categories: [],
                 skillsList: [],
                 uploadedFileList: [],
+                isLoading: false,
+                isSuccessful: false,
 
                 dropAreaDragOver: false,
                 dropAreaDragLeave: false,
@@ -610,7 +540,6 @@
                     tags: [],
                     deadline: '',
                 },
-
                 currencies: [],
 
                 titleLength: 0,
@@ -626,77 +555,61 @@
         },
         methods: {
 
-            onFileInputChange() {
-                this.uploadedFileList.push(...this.$refs.file.files);
-                console.log("the uploaded file onfileInputChange list is ", this.uploadedFileList);
-            },
+            viewPostedProject() {
+                if (this.project.id) {
+                    this.$router.push({name: 'singleProject', params: {id: this.project.id}});
 
-            drop(event) {
-                this.$refs.file.files = event.dataTransfer.files;
-                this.onFileInputChange();
-
-                this.dropAreaDragOver = false;
-                this.dropAreaDragLeave = false;
-                console.log("the uploaded file  list is ", this.uploadedFileList);
-            },
-            dragover(event) {
-                this.dropAreaDragOver = true;
-            },
-            dragleave(event) {
-                this.dropAreaDragOver = false;
-                this.dropAreaDragLeave = true;
-            },
-
-
-            remove(i) {
-                this.uploadedFileList.splice(i, 1);
-            },
-
-            resetProject() {
-                this.project = {
-                    title: '',
-                    description: '',
-                    category: '',
-                    budget: '',
-                    minimumBid: '',
-                    maximumBid: '',
-                    extraRequirements: '',
                 }
             },
-
 
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
 
-
-            titleCharacterCount: function () {
+            titleCharacterCount() {
                 const length = this.project.title.length;
                 this.titleLength = length;
-                    if (length === 150) {
+                if (length === 150) {
 
-                    }
+                }
             },
 
             prev() {
                 this.step--;
             },
 
+
+            resetProject() {
+                this.project = {
+                    title: '',
+                    description: '',
+                    category: null,
+                    budget: '',
+                    currency: null,
+                    subcategory: null,
+                    additional_details: '',
+                    skills: '',
+                    tags: [],
+                    deadline: '',
+                }
+                this.step = 1;
+                this.$refs.submitProject.reset();
+                //reset the errors
+            },
             submitProject() {
-                let vm = this;
 
                 let formData = new FormData();
 
 
-                for (let i=0; i < this.uploadedFileList.length; i++){
-                    formData.append('attachments['+ i +']', this.uploadedFileList[i]);
+                for (let i = 0; i < this.uploadedFileList.length; i++) {
+                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
                 }
 
                 for (let key in this.project) {
                     formData.append(key, this.project[key]);
                 }
 
-               // data.append(...this.project);
+                // data.append(...this.project);
                 const config = {
 
                     headers: {
@@ -712,17 +625,23 @@
                 if (this.step < this.totalSteps) {
                     this.step++
                 } else {
+                    this.isLoading = true;
                     axios.post('projects', formData, config)
-                        .then(function (response) {
-                            if (response.data === 'Your project was saved successfully') {
-                                this.resetProject();
+
+                        .then(({data}) => {
+                            if (data.status === 'true') {
+                                this.project = data.project;
+                                //this.resetProject();
+                                this.isLoading = false;
+                                this.isSuccessful = true;
                             } else {
                                 return
                             }
 
                         })
-                        .catch(function (error) {
-                            console.log(error);
+                        .catch((errorRes) => {
+                            //show error
+                            this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
                         });
                 }
 
@@ -756,7 +675,6 @@
                     subCat = selectedCategory.subcategories;
                 }
 
-
                 return subCat;
             },
 
@@ -770,11 +688,11 @@
         watch: {
             title: function () {
                 if (this.project.title.length === 10) {
-                    alert("hello")
+
                 }
             }
         },
-        components: {}
+        components: {AttachFiles}
     }
 </script>
 

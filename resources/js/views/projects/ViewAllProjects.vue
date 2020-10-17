@@ -187,7 +187,7 @@
 
 
                 }).catch(errors => {
-                    console.log(errors)
+
                 })
             },
             infiniteHandler($state) {
@@ -200,16 +200,16 @@
 
                         axios.get('/projects?page=' + (this.currentPage + 1)).then(({data}) => {
 
-                            console.log(data);
+
                             this.lastPage = parseInt(data.projects.last_page);
 
 
                             this.numItems = parseInt(data.projects.total);
                             this.currentPage = parseInt(data.projects.current_page);
-                            console.log(data.projects);
+
 
                             let projects = data.projects.data;
-                            console.log(projects);
+
 
                             for (let i = 0; i < projects.length; i++) {
                                 temp.push(projects[i]);
@@ -220,11 +220,11 @@
 
 
                         }).catch(errors => {
-                            console.log(errors)
+
                         })
 
 
-                    }, 100);
+                    }, 10);
                 } else {
                     $state.complete();
                 }

@@ -131,6 +131,9 @@ class ProjectController extends Controller
 
     public function getProjects()
     {
+
+
+
         $projects = Project::where('status', 'created')->where('bidding_closed', false)->orderby('created_at', 'desc')->paginate(10);
 
         return response()->json(['success' => true, 'projects' => $projects], 200);

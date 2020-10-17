@@ -195,8 +195,8 @@
 
                                                         <div v-if="bid.is_accepted" @click.prevent="acceptBid(bid.id)"
                                                              class="ml-auto text-success">
-                                                            <b-icon icon="check-circle"/>
-                                                            Accepted Bid
+                                                            <b-icon-check-circle-fill/>
+                                                            Accepted Offer
                                                         </div>
                                                     </div>
 

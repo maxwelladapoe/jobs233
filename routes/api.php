@@ -33,6 +33,7 @@ Route::prefix('v1')->group(function () {
         Route::put('{user}/is_offline', [App\Http\Controllers\UserOnlineController::class, 'setOfflineStatus']);
     });
     Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
+    Route::get('/notifications', [App\Http\Controllers\ProfileController::class, 'getNotifications']);
 
 
     Route::prefix('projects')->group(function () {
