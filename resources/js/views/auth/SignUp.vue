@@ -10,7 +10,7 @@
 
 
                 <div class="row jb-login-wrap">
-                    <div class="col-sm-12 col-lg-5 order-1 order-md-0" >
+                    <div class="col-sm-12 col-lg-5 order-1 order-md-0">
 
 
                         <b-card class="p-0" footer-class="bg-white" header-class="bg-white">
@@ -153,22 +153,18 @@
                                                 label="Password"
                                                 description=""
                                                 label-for="password">
-                                                <b-input-group>
+                                                <div class="input-with-icon">
 
 
                                                     <b-form-input id="s_password" :type="!ipv?'password':'text'"
                                                                   v-model="signupCredentials.password"
                                                                   :state="getValidationState(validationContext)"
                                                                   aria-describedby="password-live-feedback"></b-form-input>
+                                                    <b-icon class="the-icon" :icon="!ipv?'eye':'eye-slash'"
+                                                            @click="ipv = !ipv"/>
 
-                                                    <b-input-group-append>
-                                                        <b-input-group-text>
-                                                            <b-icon :icon="!ipv?'eye':'eye-slash'"
-                                                                    @click="ipv = !ipv"/>
-                                                        </b-input-group-text>
-                                                    </b-input-group-append>
+                                                </div>
 
-                                                </b-input-group>
                                                 <b-form-invalid-feedback id="password-live-feedback">
                                                     {{validationContext.errors[0]}}
                                                 </b-form-invalid-feedback>

@@ -1811,3 +1811,18 @@ end of login or sign up
 
     }
 }
+
+.input-with-icon {
+    position: relative;
+
+    input {
+        padding-right: 40px;
+    }
+
+    .the-icon {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        cursor: pointer;
+    }
+}

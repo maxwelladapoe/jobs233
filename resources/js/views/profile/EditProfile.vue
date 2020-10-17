@@ -5,17 +5,16 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 mx-auto  ">
-
-
                         <div class="row">
                             <div class="col-12 col-lg-9 order-1 order-md-0">
-                                <div class="jb-project-form p-3">
+                                <p>Profile</p>
+                                <div class="jb-project-form pr-3">
 
 
                                     <ValidationObserver v-slot="{handleSubmit}" ref="editProfile">
                                         <b-form @submit.prevent="handleSubmit(editProfile)">
 
-                                            <p>Profile</p>
+
                                             <div class="row">
 
                                                 <div class="col-md-12">
@@ -273,7 +272,8 @@
                                                     <div class="loader"></div>
                                                 </div>
 
-                                                <button type="submit" :class="profileUpdateLoading?'d-none':''" class="btn bg-orange t-mont">
+                                                <button type="submit" :class="profileUpdateLoading?'d-none':''"
+                                                        class="btn bg-orange t-mont">
 
                                                     Update Profile
 
@@ -285,111 +285,112 @@
                                         </b-form>
                                     </ValidationObserver>
 
-                                    <ValidationObserver v-slot="{handleSubmit}" ref="changePassword">
-                                        <b-form @submit.prevent="handleSubmit(changePassword)">
+<!--                                    <ValidationObserver v-slot="{handleSubmit}" ref="changePassword">-->
+<!--                                        <b-form @submit.prevent="handleSubmit(changePassword)">-->
 
-                                            <p>Credentials</p>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <validation-provider
-                                                        name="current password"
-                                                        :rules="{ required: true, min: 6}"
-                                                        v-slot="validationContext"
-                                                    >
-                                                        <b-form-group
-                                                            id="current_password"
-                                                            label="Current Password"
-                                                            label-class="t-mont t-bold"
-                                                            label-for="current_password"
-                                                        >
-                                                            <b-form-input type="password"
-                                                                          :state="getValidationState(validationContext)"
-                                                                          id="current_password"
-                                                                          v-model="credentials.currentPassword"
-                                                            ></b-form-input>
+<!--                                            <p>Credentials</p>-->
+<!--                                            <div class="row">-->
+<!--                                                <div class="col-md-12">-->
+<!--                                                    <validation-provider-->
+<!--                                                        name="current password"-->
+<!--                                                        :rules="{ required: true, min: 6}"-->
+<!--                                                        v-slot="validationContext"-->
+<!--                                                    >-->
+<!--                                                        <b-form-group-->
+<!--                                                            id="current_password"-->
+<!--                                                            label="Current Password"-->
+<!--                                                            label-class="t-mont t-bold"-->
+<!--                                                            label-for="current_password"-->
+<!--                                                        >-->
+<!--                                                            <b-form-input type="password"-->
+<!--                                                                          :state="getValidationState(validationContext)"-->
+<!--                                                                          id="current_password"-->
+<!--                                                                          v-model="credentials.currentPassword"-->
+<!--                                                            ></b-form-input>-->
 
-                                                            <b-form-invalid-feedback
-                                                                id="current_password-live-feedback">
-                                                                {{validationContext.errors[0] }}
-                                                            </b-form-invalid-feedback>
-                                                        </b-form-group>
-                                                    </validation-provider>
+<!--                                                            <b-form-invalid-feedback-->
+<!--                                                                id="current_password-live-feedback">-->
+<!--                                                                {{validationContext.errors[0] }}-->
+<!--                                                            </b-form-invalid-feedback>-->
+<!--                                                        </b-form-group>-->
+<!--                                                    </validation-provider>-->
 
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <validation-provider
-                                                        persist
-                                                        name="country"
-                                                        :rules="{ required: true, min: 6}"
-                                                        v-slot="validationContext"
-                                                    >
-                                                        <b-form-group
-                                                            id="new_password"
-                                                            label="New Password"
-                                                            label-class="t-mont t-bold"
-                                                            label-for="new_password"
-                                                        >
-                                                            <b-form-input
-                                                                :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
-                                                                v-model="credentials.newPassword"
-                                                            ></b-form-input>
+<!--                                                </div>-->
+<!--                                                <div class="col-md-6">-->
+<!--                                                    <validation-provider-->
+<!--                                                        persist-->
+<!--                                                        name="country"-->
+<!--                                                        :rules="{ required: true, min: 6}"-->
+<!--                                                        v-slot="validationContext"-->
+<!--                                                    >-->
+<!--                                                        <b-form-group-->
+<!--                                                            id="new_password"-->
+<!--                                                            label="New Password"-->
+<!--                                                            label-class="t-mont t-bold"-->
+<!--                                                            label-for="new_password"-->
+<!--                                                        >-->
+<!--                                                            <b-form-input-->
+<!--                                                                :state="getValidationState(validationContext)"-->
+<!--                                                                id="textarea-default"-->
+<!--                                                                v-model="credentials.newPassword"-->
+<!--                                                            ></b-form-input>-->
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
-                                                                {{validationContext.errors[0] }}
-                                                            </b-form-invalid-feedback>
-                                                        </b-form-group>
-                                                    </validation-provider>
+<!--                                                            <b-form-invalid-feedback id="description-live-feedback">-->
+<!--                                                                {{validationContext.errors[0] }}-->
+<!--                                                            </b-form-invalid-feedback>-->
+<!--                                                        </b-form-group>-->
+<!--                                                    </validation-provider>-->
 
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <validation-provider
-                                                        persist
-                                                        name="confirm_new_password"
-                                                        :rules="{ required: true, min: 6}"
-                                                        v-slot="validationContext"
-                                                    >
-                                                        <b-form-group
-                                                            id="confirm_new_password"
-                                                            label="Confirm New Password"
-                                                            label-class="t-mont t-bold"
-                                                            label-for="confirm_new_password"
-                                                        >
-                                                            <b-form-input
-                                                                :state="getValidationState(validationContext)"
-                                                                id="textarea-default"
-                                                                v-model="credentials.confirmNewPassword"
-                                                            ></b-form-input>
+<!--                                                </div>-->
+<!--                                                <div class="col-md-6">-->
+<!--                                                    <validation-provider-->
+<!--                                                        persist-->
+<!--                                                        name="confirm_new_password"-->
+<!--                                                        :rules="{ required: true, min: 6}"-->
+<!--                                                        v-slot="validationContext"-->
+<!--                                                    >-->
+<!--                                                        <b-form-group-->
+<!--                                                            id="confirm_new_password"-->
+<!--                                                            label="Confirm New Password"-->
+<!--                                                            label-class="t-mont t-bold"-->
+<!--                                                            label-for="confirm_new_password"-->
+<!--                                                        >-->
+<!--                                                            <b-form-input-->
+<!--                                                                :state="getValidationState(validationContext)"-->
+<!--                                                                id="textarea-default"-->
+<!--                                                                v-model="credentials.confirmNewPassword"-->
+<!--                                                            ></b-form-input>-->
 
-                                                            <b-form-invalid-feedback id="description-live-feedback">
-                                                                {{validationContext.errors[0] }}
-                                                            </b-form-invalid-feedback>
-                                                        </b-form-group>
-                                                    </validation-provider>
+<!--                                                            <b-form-invalid-feedback id="description-live-feedback">-->
+<!--                                                                {{validationContext.errors[0] }}-->
+<!--                                                            </b-form-invalid-feedback>-->
+<!--                                                        </b-form-group>-->
+<!--                                                    </validation-provider>-->
 
-                                                </div>
+<!--                                                </div>-->
 
-                                            </div>
-
-
-                                            <div class=" form-group mr-auto text-right">
-
-                                                <button type="submit" class="btn bg-orange t-mont">
-
-                                                    Change Password
-
-                                                </button>
-
-                                            </div>
+<!--                                            </div>-->
 
 
-                                        </b-form>
+<!--                                            <div class=" form-group mr-auto text-right">-->
 
-                                    </ValidationObserver>
+<!--                                                <button type="submit" class="btn bg-orange t-mont">-->
+
+<!--                                                    Change Password-->
+
+<!--                                                </button>-->
+
+<!--                                            </div>-->
+
+
+<!--                                        </b-form>-->
+
+<!--                                    </ValidationObserver>-->
                                 </div>
 
                             </div>
-                            <div class="col-10 offset-1 offset-sm-2 col-sm-8 offset-lg-0 col-lg-3 order-0 order-md-1 mb-5 ">
+                            <div
+                                class="col-10 offset-1 offset-sm-2 col-sm-8 offset-lg-0 col-lg-3 order-0 order-md-1 mb-5 ">
 
                                 <b-form class="" @submit.prevent="changeProfilePicture">
                                     <div class="jb-profile-picture">
@@ -406,14 +407,16 @@
 
                                         </div>
                                     </div>
-                                    <b-button class="mt-3"  type="submit" v-if="showUploadButton">Upload</b-button>
+                                    <b-button class="mt-3" type="submit" v-if="showUploadButton">Upload</b-button>
                                 </b-form>
 
                             </div>
 
                         </div>
+                    </div>
 
-
+                    <div class="col-12 col-lg-9">
+                        <p>Your Portfolio </p>
                     </div>
 
                 </div>
@@ -430,6 +433,10 @@
 
     export default {
         name: "EditProfile",
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Edit Profile',
+        },
         data() {
             return {
                 userDetails: {},
@@ -514,7 +521,7 @@
         },
         mounted() {
             this.profileDetails = {...this.user.profile};
-            this.imagePreview =this.profileDetails.picture;
+            this.imagePreview = this.profileDetails.picture;
             this.userDetails = {...this.user};
 
             delete this.userDetails.profile;

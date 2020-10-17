@@ -16,7 +16,7 @@
                     <ul class="navbar-nav mr-auto">
 
                         <li class="nav-item">
-                            <a class="nav-link " href="#">How it Works</a>
+                            <router-link class="nav-link " :to="{name:'HowItWorks'}">How it Works</router-link>
                         </li>
                     </ul>
 

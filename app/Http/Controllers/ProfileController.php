@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProfileController extends Controller
 {
@@ -109,15 +110,28 @@ class ProfileController extends Controller
                 // Get just ext
                 $extension = $request->file('image')->getClientOriginalExtension();
                 // Filename to store
-                $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+
+                $finalExtension = 'webp';
+                $fileNameToStore = md5($filename) . '_' . time() . '.' . $finalExtension;
                 // Upload Image
-                $path = $request->file('image')->storeAs('public/userimages', $fileNameToStore);
+
+                $image = Image::make($request->file('image'));
+
+
+                $resizeImage = $image->fit(400, 400, function ($constraint) {
+                    $constraint->upsize();
+                })->encode($finalExtension);
 
                 //delete the old profile picture
 
                 if ($profile->picture != '/storage/userimages/profile.svg') {
-                    File::delete($profile->picture);
+                    $fda=explode('/',$profile->picture);
+                    $fd= end($fda);
+                    Storage::delete('public/userimages/'.$fd);
+
                 }
+
+                $store = Storage::put('public/userimages/' . $fileNameToStore, $resizeImage);
 
 
                 $profile->picture = '/storage/userimages/' . $fileNameToStore;

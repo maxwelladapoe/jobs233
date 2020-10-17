@@ -18,7 +18,7 @@
 
             .user {
                 display: flex;
-                justify-content: space-between;
+
                 align-items: center;
                 padding: 1em 0;
 
@@ -63,14 +63,16 @@
 
 
 .jb-main-chat-area {
-    height: 48em;
+    min-height: 36em;
+    height: calc(100vh - 250px);
     display: flex;
     flex-direction: column;
 
     padding-left: 1em;
     @include media-breakpoint-down(sm) {
+        min-height: 20em;
         padding-left: 0;
-
+        height: calc(100vh - 230px);
     }
 
     .jb-chat-header {
@@ -184,7 +186,6 @@
     .jb-chat-input {
         margin-top: 1em;
         width: 100%;
-
         border-top: 0.05em solid $light-ash;
         padding-top: 1em;
     }

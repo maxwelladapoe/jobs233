@@ -103,7 +103,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="message-sender-image-wrap">
+                                                <div v-if="user" class="message-sender-image-wrap">
                                                     <img :src="user.profile.picture"
                                                          class="rounded-circle message-sender-image" width="40">
                                                 </div>
@@ -117,7 +117,7 @@
                                         <li class="jb-message" v-else>
 
                                             <div class="left">
-                                                <div class="message-sender-image-wrap">
+                                                <div v-if="message.user" class="message-sender-image-wrap">
                                                     <img :src="message.user.profile.picture"
                                                          class="rounded-circle message-sender-image" width="40">
                                                 </div>
@@ -196,6 +196,10 @@
 
     export default {
         name: "AllMessages",
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Dashboard',
+        },
         components: {
             DashNav,
             InfiniteLoading,
@@ -211,7 +215,11 @@
 
                 messages: [],
                 contacts: [],
-                selectedContact: {},
+                selectedContact: {
+                    profile:{
+                        picture:''
+                    }
+                },
                 currentPage: 1,
                 lastPage: null,
             }

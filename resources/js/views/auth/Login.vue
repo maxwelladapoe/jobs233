@@ -77,7 +77,8 @@
                                             label="Password"
                                             label-for="password">
 
-                                            <b-input-group>
+
+                                            <div class="input-with-icon">
 
 
                                                 <b-form-input id="password" :type="!ipv?'password':'text'"
@@ -85,14 +86,11 @@
                                                               :state="getValidationState(validationContext)"
                                                               placeholder=""
                                                               aria-describedby="password-live-feedback"></b-form-input>
+                                                <b-icon :icon="!ipv?'eye':'eye-slash'" class="the-icon"
+                                                        @click="ipv = !ipv"/>
 
-                                                <b-input-group-append>
-                                                    <b-input-group-text>
-                                                        <b-icon :icon="!ipv?'eye':'eye-slash'" @click="ipv = !ipv"/>
-                                                    </b-input-group-text>
-                                                </b-input-group-append>
+                                            </div>
 
-                                            </b-input-group>
 
                                             <b-form-invalid-feedback id="password-live-feedback">
                                                 {{validationContext.errors[0]
@@ -116,7 +114,7 @@
                                     <div class="form-group">
 
                                         <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0 t-mont"
-                                                         v-model="loginCredentials.rememberMe"> <span
+                                                         v-model="loginCredentials.remember"> <span
                                             class="small" switch>Remember Me
                                     </span>
                                         </b-form-checkbox>
@@ -184,7 +182,7 @@
                 loginCredentials: {
                     identity: '',
                     password: '',
-                    rememberMe: true,
+                    remember: false,
                 },
 
                 displayErrors: false,
@@ -208,7 +206,8 @@
                 this.loadingMessage = 'Logging you in ...';
                 await this.logIn(this.loginCredentials).then(response => {
                     this.isLoading = false;
-                    this.$router.push('/dashboard');
+
+                    this.$router.push(this.$route.query.redirect || '/');
 
                 }).catch(errors => {
                     this.displayErrors = true;
