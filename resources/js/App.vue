@@ -128,6 +128,6 @@
 </script>
 
 <style lang="scss">
-    @import "../sass/jbmain";
+    /*@import "../sass/jbmain";*/
     @import "../sass/quotes";
 </style>
