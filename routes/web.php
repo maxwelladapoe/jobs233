@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 //});
 
 //Auth::routes();
+Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController::class, 'handleGatewayCallback']);
+
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->where('any', '.*');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

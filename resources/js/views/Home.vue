@@ -34,7 +34,7 @@
                                 <div class="jb-player-overlay"></div>
 
                                 <img src="/images/play.png" class="jb-play-icon"/>
-                                <img src="/images/img2.jpg" class="img-fluid jb-section-img">
+                                <img src="/images/img2.webp" class="img-fluid jb-section-img">
                             </div>
 
 
@@ -54,8 +54,7 @@
                     <div class="text-center contents">
 
                         <p class="t-bold  t-mont mr-md-3">Need a flexible job? Register as a freelancer</p>
-                        <a href="#" class="btn bg-black t-bold t-mont ml-md-3">Register to Work</a>
-
+                        <a href="#" class="btn bg-black  ml-md-3">Register to Work</a>
 
                     </div>
 
@@ -111,7 +110,7 @@
                             </div>
                         </div>
                         <br>
-                        <a href="#" class="btn bg-black  t-bold  t-mont">View More</a>
+                        <a href="#" class="btn bg-black">View More</a>
 
                     </div>
                 </div>
@@ -124,7 +123,7 @@
 
                     <div class="text-center contents">
                         <p class="t-bold t-mont mr-md-3">Convinced? Hire a freelancer</p>
-                        <a href="#" class="btn bg-black t-bold t-mont ml-md-3">Hire</a>
+                        <a href="#" class="btn bg-black ml-md-3">Hire</a>
                     </div>
 
                 </div>

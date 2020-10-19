@@ -23,6 +23,9 @@ Route::prefix('v1')->group(function () {
         });
 
         Route::get('/projects', [App\Http\Controllers\ProfileController::class, 'projects']);
+
+        Route::get('/pp/get-transaction-reference', [App\Http\Controllers\PaystackPaymentController::class, 'getTransferRef']);
+
     });
 
     Route::prefix('auth')->group(function () {
@@ -76,6 +79,12 @@ Route::prefix('v1')->group(function () {
         Route::get('{user}/getAll', [App\Http\Controllers\MessageController::class, 'read']);
         Route::get('/contacts', [App\Http\Controllers\ChatContactController::class, 'getAllContacts']);
     });
+
+
+    //payment paystack
+
+    Route::post('/pay', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGateway']);
+    Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController::class, 'handleGatewayCallback']);
 
 
 });

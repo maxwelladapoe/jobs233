@@ -263,7 +263,7 @@
         },
         data() {
             return {
-
+                ipv: false,
                 isLoading: false,
                 loadingMessage: 'Signing you up ...',
                 signupCredentials: {

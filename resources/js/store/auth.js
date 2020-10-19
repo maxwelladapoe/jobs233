@@ -64,7 +64,7 @@ export default {
 
         async logOut({dispatch, state}) {
 
-            await axios.put(`/auth/${state.user.id}/is_offline`);
+             axios.put(`/auth/${state.user.id}/is_offline`);
 
             await axios.get(`/auth/logout`)
             return dispatch('me');

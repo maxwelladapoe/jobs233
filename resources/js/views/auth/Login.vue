@@ -44,7 +44,7 @@
 
 
                                     <validation-provider
-                                        name="identity"
+                                        name="Email / Username"
                                         :rules="{ required: true, min: 3,  }"
                                         v-slot="validationContext"
                                     >
@@ -126,7 +126,10 @@
 
                                         <div class="row">
                                             <div class="col-sm-12 col-md-6">
-                                                <button class="btn bg-orange" type="submit">Login
+                                                <button class="btn bg-orange" type="submit">
+                                                   <span>
+
+                                                    Login</span>
                                                 </button>
                                             </div>
                                             <div class="col-sm-12 col-md-6">

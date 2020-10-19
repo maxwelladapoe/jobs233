@@ -28,12 +28,15 @@ Broadcast::channel('jobs233_messaging.{receiverid}', function ($user, $receiveri
 
     return auth()->check();
 });
+Broadcast::channel('jobs233_messaging.{receiverid}', function ($user, $receiverid) {
+
+    return auth()->check();
+});
 
 Broadcast::channel('jobs233_ymiutkyihzrihztnzwar', function ($user) {
 
     if (auth()->check()) {
         //check if the user is part of the contact before returning
-
         if (Auth::user()->allChatContacts()->where('user_id', $user->id)->count() > 0
             || Auth::user()->allChatContacts()->where('related_user_id', $user->id)->count()>0) {
             return $user;

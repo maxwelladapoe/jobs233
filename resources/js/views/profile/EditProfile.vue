@@ -273,7 +273,7 @@
                                                 </div>
 
                                                 <button type="submit" :class="profileUpdateLoading?'d-none':''"
-                                                        class="btn bg-orange t-mont">
+                                                        class="btn bg-orange">
 
                                                     Update Profile
 

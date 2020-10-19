@@ -10,7 +10,7 @@
                     <div class="col-12 col-md-5 col-lg-4 col-xl-4">
 
                         <div class="jb-dash-right">
-                            <div class=" jb-dash-profile bg-orange">
+                            <div class=" jb-dash-profile bg-orange shadow">
 
                                 <div class="wrapper">
 
@@ -25,7 +25,9 @@
                                         </div>
                                         <div class="jb-dash-profile-credit">
                                             <p class="small-title t-black t-mont">Your Balance</p>
-                                            <p class="t-mont t-bold t-white">₵ {{user.wallet.balance}}</p>
+                                            <p class="t-mont t-bold t-white">₵ {{user.wallet.balance}}
+                                                <span> <router-link :to="{name:'AddFunds'}"
+                                                                    class=" t-normal">Add Funds</router-link></span></p>
                                         </div>
 
 
@@ -74,24 +76,30 @@
 
                     <div class="col-12 col-md-7 col-lg-8 col-xl-8 mt-5 mt-md-0">
 
-                        <div class="jb-dash-stats-wrapper shadow">
-                            <div class="container stats-container">
+                        <div class="jb-dash-stats-wrapper">
+                            <div class="container stats-container  p-0">
 
                                 <template v-if="profileType ==='work' || profileType ==='work&hire'">
 
 
-                                    <div class="stats-item text-center">
-                                        <p class="jb-dash-stats-number t-bold t-mont">
-                                            <span class="t-normal">₵</span>
-                                            {{user.wallet.balance}}
-                                        </p>
-                                        <p class="jb-stats-brief">Earned This Month</p>
+                                    <div class="stats-item shadow text-center">
+                                        <div>
+                                            <p class="jb-dash-stats-number t-bold t-mont">
+                                                <span class="t-normal">₵</span>
+                                                {{user.wallet.balance}}
+                                            </p>
+                                            <p class="jb-stats-brief">Earned This Month</p>
+                                        </div>
+
                                     </div>
 
 
-                                    <div class="stats-item text-center" v-if="">
-                                        <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
-                                        <p class="jb-stats-brief">Projects assigned</p>
+                                    <div class="stats-item shadow text-center" v-if="">
+                                        <div>
+                                            <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
+                                            <p class="jb-stats-brief">Projects assigned</p>
+                                        </div>
+
                                     </div>
 
                                 </template>
@@ -99,25 +107,44 @@
 
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                                    <div class="stats-item text-center">
-                                        <p class="jb-dash-stats-number t-bold t-mont">
-                                            <span class="t-normal">₵</span>
-                                            50
-                                        </p>
-                                        <p class="jb-stats-brief">Spent</p>
+                                    <div class="stats-item shadow text-center">
+
+                                        <div>
+                                            <p class="jb-dash-stats-number t-bold t-mont">
+                                                <span class="t-normal">₵</span>
+                                                50
+                                            </p>
+                                            <p class="jb-stats-brief">Spent</p>
+                                        </div>
+
                                     </div>
-                                    <div class="stats-item text-center" v-if="">
-                                        <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
-                                        <p class="jb-stats-brief">Projects posted</p>
+                                    <div class="stats-item shadow text-center" v-if="">
+                                        <div>
+                                            <p class="jb-dash-stats-number t-bold t-mont">{{user.projects_count}}</p>
+                                            <p class="jb-stats-brief">Projects posted</p>
+                                        </div>
+
                                     </div>
 
                                 </template>
 
 
-                                <div class="stats-item text-center">
-                                    <p class="jb-dash-stats-number t-bold t-mont">0</p>
-                                    <p class="jb-stats-brief">Completed {{'project' | pluralize(0)}}
-                                    </p>
+                                <div class="stats-item shadow text-center">
+
+                                    <div>
+                                        <p class="jb-dash-stats-number t-bold t-mont">0</p>
+                                        <p class="jb-stats-brief">Completed {{'project' | pluralize(0)}}
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="stats-item shadow text-center">
+                                    <div>
+                                        <p class="jb-dash-stats-number t-bold t-mont">0</p>
+                                        <p class="jb-stats-brief">Completed {{'project' | pluralize(0)}}
+                                        </p>
+                                    </div>
+
                                 </div>
 
 
@@ -127,6 +154,8 @@
 
                         <dash-notification/>
                     </div>
+
+
                     <div class="col-12 mt-5 mt-md-0">
 
                         <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
@@ -170,8 +199,8 @@
                                 </project-component>
                             </div>
 
-                            <div class="text-center">
-                                <router-link :to="{name:'projects'}" class="btn bg-orange ">View More</router-link>
+                            <div class="text-center" v-if="somePostedProjectsCount > somePostedProjects.length">
+                                <router-link :to="{name:'projects'}" class="btn bg-orange ">View All</router-link>
                             </div>
 
 
@@ -208,7 +237,7 @@
                                     <template slot="button">
                                         <div class="jb-project-bid-btn text-right">
                                             <router-link :to="{name:'assignedProject', params:{id:project.id} }"
-                                                         class="btn bg-orange  t-mont">View
+                                                         class="btn bg-orange">View
                                             </router-link>
                                         </div>
                                     </template>
@@ -253,7 +282,7 @@
                                     <template slot="button">
                                         <div class="jb-project-bid-btn text-right">
                                             <router-link :to="{name:'singleProject', params:{id:project.id} }"
-                                                         class="btn bg-orange  t-mont">Bid
+                                                         class="btn bg-orange">Bid
                                             </router-link>
                                         </div>
                                     </template>
@@ -300,6 +329,7 @@
                 someProjects: [],
                 assignedProjects: [],
                 somePostedProjects: [],
+                somePostedProjectsCount: 0,
             }
         },
         computed: {
@@ -340,9 +370,10 @@
 
                         break;
                     case ('hire'):
-                        axios.get('user/projects')
+                        axios.get('user/projects/?paginate=5')
                             .then(({data}) => {
-                                this.somePostedProjects = data.projects;
+                                this.somePostedProjects = data.projects.data;
+                                this.somePostedProjectsCount = data.projects.total;
                             }).catch(error => {
                             console.log(error)
                         });
@@ -352,12 +383,15 @@
                         axios.get('/projects')
                             .then(({data}) => {
                                 this.someProjects = data.projects.data;
+
                             }).catch(error => {
                             console.log(error)
                         });
-                        axios.get('user/projects')
+                        axios.get('user/projects/?paginate=5')
                             .then(({data}) => {
                                 this.somePostedProjects = data.projects.data;
+                                this.somePostedProjectsCount = data.projects.total;
+
                             }).catch(error => {
                             console.log(error)
                         });

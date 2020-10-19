@@ -18,7 +18,17 @@ html, body {
     margin: 0;
     padding: 0;
     outline: none;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1em;
+}
+
+h1 {
+    font-weight: 600 !important;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.icon-inner {
+    background-color: green !important;
 }
 
 small {
@@ -31,7 +41,15 @@ small {
 }
 
 .btn {
-    border-radius: 6px !important;
+    border-radius: 10px !important;
+    padding: 8px !important;
+    height: 46px !important;
+    font-family: 'Open Sans', sans-serif !important;
+    font-weight: 400;
+
+    &.nav-link {
+        padding: 5px 15px !important;
+    }
 }
 
 header {
@@ -46,12 +64,12 @@ header {
 }
 
 .t-meri {
-    font-family: 'Merriweather Sans', sans-serif;
+    font-family: 'Open Sans', sans-serif;
 
 }
 
 .t-bold {
-    font-weight: 700 !important;
+    font-weight: bold !important;
 }
 
 .t-normal {
@@ -161,7 +179,7 @@ header {
 //end of background colors
 
 .navbar-brand img {
-    width: 10em;
+    width: 8em;
 
 }
 
@@ -203,7 +221,9 @@ after login or sign up
     justify-content: center;
 
     @include media-breakpoint-down(sm) {
+        margin-top: 5px;
         width: 100% !important;
+        background-color: transparent;
     }
 
     .jb-hover-dropdown-wrapper {
@@ -374,7 +394,7 @@ select.form-control {
         button {
             padding: 0.6em 0.6em !important;
             border-right: 0.1em solid $ash-light !important;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Open Sans', sans-serif;
             font-size: 1em;
             color: #fff;
         }
@@ -392,7 +412,7 @@ select.form-control {
         height: 20em !important;
         border: 0.15em solid rgb(255, 103, 0) !important;
         background-color: #fff;
-        font-family: 'Merriweather Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         font-size: 1.1em !important;
         border-radius: 0.1em;
     }
@@ -411,7 +431,7 @@ select.form-control {
         border-radius: 0.15em;
         background-color: #fff;
         padding: 0.7em;
-        font-family: 'Merriweather Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
 
     }
 }
@@ -422,7 +442,9 @@ select.form-control {
 }
 
 .shadow {
-    box-shadow: 0.1em 0.2em 0.5em rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 1px 5px 0px #676767;
+    -webkit-box-shadow: 0px 1px 5px 0px #676767;
+    box-shadow: 0px 1px 5px 0px #676767;
 }
 
 
@@ -457,16 +479,21 @@ select.form-control {
             .jb-project-header {
                 display: flex;
                 justify-content: space-between;
-                align-items: center;
                 align-content: center;
                 margin-bottom: 10px;
+                height: auto;
 
                 .jb-project-title {
                     margin-right: 2em;
-                    min-height: 2em;
+                    height: auto;
+
+                    margin-bottom: 0;
+
 
                     span {
                         font-size: 0.8em;
+                        padding-bottom: 0;
+                        margin-bottom: 0;
                         @include media-breakpoint-down(sm) {
                             display: block;
                         }
@@ -474,17 +501,16 @@ select.form-control {
                 }
 
                 .jb-project-price {
-
-                    height: 2em;
+                    height: auto;
                 }
 
             }
 
 
             .jb-project-description {
-                margin: 0;
                 height: 4.5em;
                 font-size: 0.8em;
+                margin: 0 0 10px;
 
                 @include media-breakpoint-down(sm) {
                     height: auto;
@@ -632,7 +658,7 @@ select.form-control {
                 color: white;
                 border: none;
                 border-right: 0.1em solid $ash-light !important;
-                font-family: 'Montserrat', sans-serif;
+                font-family: 'Open Sans', sans-serif;
                 font-size: 1em;
 
             }
@@ -651,7 +677,7 @@ select.form-control {
         border-radius: 0.15em;
         background-color: #fff;
         padding: 0.7em;
-        font-family: 'Merriweather Sans', sans-serif;
+        font-family: 'Open Sans', sans-serif;
 
     }
 }
@@ -713,6 +739,8 @@ end of login or sign up
     line-height: 2em;
     text-align: center !important;
     cursor: pointer;
+    font-size: 1em;
+
 
 }
 
@@ -892,8 +920,7 @@ end of login or sign up
     .jb-video-bg {
         position: absolute;
         height: 30em;
-        background-position: center;
-        background-size: cover;
+        background: center top no-repeat;
         width: 100%;
 
     }
@@ -1428,15 +1455,19 @@ end of login or sign up
             }
 
             .jb-dash-profile-credit {
-                font-size: 1.5em;
+                font-size: 1.6em;
 
                 @include media-breakpoint-down(sm) {
-                    font-size: 1.5em;
+                    font-size: 1.6em;
                 }
 
                 p {
                     line-height: 1em;
                     margin-bottom: 0.5em;
+
+                    span{
+                        font-size: 0.5em;
+                    }
                 }
 
 
@@ -1515,10 +1546,8 @@ end of login or sign up
     }
 
     .jb-dash-stats-wrapper {
-        border: 0.1em solid $light-ash;
-        border-radius: 8px;
+
         min-height: 8em;
-        padding: 1em;
 
 
         .stats-container {
@@ -1529,14 +1558,20 @@ end of login or sign up
             justify-content: space-between;
 
             .stats-item {
-                flex: 1;
+                border-radius: 8px;
+                min-width: 9em;
+                height: 8em;
                 text-align: center;
-                border-right: 1px solid $ash;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+
+                @include media-breakpoint-down(md) {
+                    margin-bottom: 1em;
+                }
             }
 
-            .stats-item:last-child {
-                border: none;
-            }
 
         }
 

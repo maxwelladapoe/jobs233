@@ -7,7 +7,7 @@
             <div class="jb-overlay"></div>
             <div class="jb-slider-text">
                 <div class="container">
-                    <h1 class="t-mont">Be your <br>Own Boss</h1>
+                    <h1 class="t-meri">Be your <br>Own Boss</h1>
                     <p class="t-meri">Work as a freelancer using your existing skill set</p>
                     <a href="register.html" class="btn bg-orange">Register to work </a>
                 </div>
@@ -22,7 +22,7 @@
     export default {
         data: function () {
             return {
-                sliderImages: ['/images/img1.jpg']
+                sliderImages: ['/images/img1.webp']
             }
         }
     }

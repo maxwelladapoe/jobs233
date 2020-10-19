@@ -10,7 +10,7 @@
                             <span
                                 class="t-meri font-italic t-normal"> <slot name="time"></slot></span>
                         </p>
-                        <div class="jb-project-price t-meri ">
+                        <div class="jb-project-price t-mont t-bold ">
                             <slot name="budget"></slot>
                         </div>
                     </div>

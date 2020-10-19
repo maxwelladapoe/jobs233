@@ -73,7 +73,7 @@
                                         <template slot="button">
                                             <div class="jb-project-bid-btn text-right">
                                                 <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                             class="btn bg-orange  t-mont">View
+                                                             class="btn bg-orange">View
                                                 </router-link>
                                             </div>
                                         </template>
@@ -83,7 +83,7 @@
                                         <template slot="button">
                                             <div class="jb-project-bid-btn text-right">
                                                 <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                             class="btn bg-orange  t-mont">Bid
+                                                             class="btn bg-orange">Bid
                                                 </router-link>
                                             </div>
                                         </template>

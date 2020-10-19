@@ -6,6 +6,7 @@ import Login from '../views/auth/Login.vue'
 import store from "../store";
 import project from "./project";
 import profile from "./profile";
+import payment from "./payment";
 import SignUp from "../views/auth/SignUp";
 import Messages from "../views/messages/MessageArea";
 import HowItWorks from "../views/others/HowItWorks";
@@ -53,6 +54,7 @@ const routes = [
     },
     ...project,
     ...profile,
+    ...payment,
 ];
 
 const router = new VueRouter({
@@ -69,8 +71,6 @@ let entryUrl = null;
 
 router.beforeEach((to, from, next) => {
 
-    entryUrl = to.path;
-    console.log(entryUrl);
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.state.auth.authenticated) {
             next();
