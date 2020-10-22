@@ -1,5 +1,5 @@
 /*!
-  * Bootstrap v4.5.2 (https://getbootstrap.com/)
+  * Bootstrap v4.5.3 (https://getbootstrap.com/)
   * Copyright 2011-2020 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
   */
@@ -52,7 +52,7 @@
  */
 
 /*!
- * vue-i18n v8.21.1 
+ * vue-i18n v8.22.1 
  * (c) 2020 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -81,7 +81,7 @@
  */
 
 /**
-  * vee-validate v3.4.0
+  * vee-validate v3.4.2
   * (c) 2020 Abdelrahman Awad
   * @license MIT
   */

@@ -192,7 +192,11 @@
     import Quote from '../components/Quote';
 
     export default {
-
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Jobs233',
+            titleTemplate: false
+        },
 
         data() {
             return {

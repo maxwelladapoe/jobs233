@@ -42,8 +42,8 @@ if (window.location.href.indexOf(".test") !== -1) {
     window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/" + version + "/";
     window.baseUrl = "http://127.0.0.1:8000/api/" + version + "/"
 } else {
-    window.axios.defaults.baseURL = "https://jobs233.com/api/" + version + "/";
-    window.baseUrl = "https://jobs233.com/api/" + version + "/";
+    window.axios.defaults.baseURL = "https://www.jobs233.com/api/" + version + "/";
+    window.baseUrl = "https://www.jobs233.com/api/" + version + "/";
 }
 
 window.axios.defaults.withCredentials = true;

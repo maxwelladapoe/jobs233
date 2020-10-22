@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Profile;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -46,6 +47,8 @@ class AltRegisterController extends Controller
             ]);
 
             if ($profile) {
+                event(new Registered($user));
+
                 return response()->json(['success' => true, 'message' => 'The user was created successfully'], 200);
             }
         } else {

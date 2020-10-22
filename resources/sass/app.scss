@@ -216,14 +216,12 @@ after login or sign up
     padding: 1em;
     cursor: pointer;
     position: relative;
-    background-color: $orange;
     display: flex;
     justify-content: center;
 
     @include media-breakpoint-down(sm) {
         margin-top: 5px;
         width: 100% !important;
-        background-color: transparent;
     }
 
     .jb-hover-dropdown-wrapper {
