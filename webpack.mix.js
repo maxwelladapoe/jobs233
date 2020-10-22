@@ -23,7 +23,6 @@ mix.js('resources/js/app.js', 'public/js')
         'vue',
         'axios',
         'bootstrap-vue',
-        'bootstrap',
         'vue-infinite-loading',
         'vee-validate',
         'pusher-js',
