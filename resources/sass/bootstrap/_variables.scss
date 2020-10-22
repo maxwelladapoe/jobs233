@@ -27,5 +27,6 @@ $container-max-widths: (
         xl: 1140px
 ) !default;
 
+$enable-validation-icons:false;
 @include _assert-ascending($container-max-widths, "$container-max-widths");
 
