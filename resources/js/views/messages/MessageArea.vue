@@ -1,7 +1,7 @@
 <template>
 
     <div class="h-100">
-        <DashNav/>
+
 
         <div class="jb-main-section-wrapper">
             <div class="container jb-messaging-area">
@@ -162,7 +162,9 @@
                                                                  placeholder="Type your message..."
                                                                  aria-describedby="message-live-feedback"></b-form-textarea>
                                                 <b-input-group-append>
-                                                    <b-button type="submit" variant="success">Send</b-button>
+                                                    <b-button type="submit" variant="success"> <span>Send</span> <span><md-send-icon  /></span>
+
+                                                    </b-button>
                                                 </b-input-group-append>
                                             </b-input-group>
 

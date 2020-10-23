@@ -2,7 +2,7 @@
 
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
             <div class="container  p-3 px-lg-0">
 
                 <a class="navbar-brand" href="/"><img src="/images/logo2.png" alt="Jobs 233 logo"></a>

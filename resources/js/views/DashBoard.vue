@@ -1,7 +1,6 @@
 <template>
 
     <div>
-        <dash-nav/>
 
         <div class="jb-main-section-wrapper">
             <div class="container jb-dashboard">
@@ -158,6 +157,7 @@
 
                     <div class="col-12 mt-5 mt-md-0">
 
+                        <!-- Is employer -->
                         <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
                             <div class="jb-quick-projects-header">
                                 <p class="t-mont t-bold">Recent projects</p>
@@ -166,7 +166,12 @@
                             <div class="jb-projects-wrapper mb-5 my-2">
 
                                 <project-component v-for="project in somePostedProjects" :key="project.id">
-                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="title">
+                                        <router-link :to="  {name:'singleProject', params:{id: project.id} }"
+                                                     class="t-black"> {{project.title}}
+                                        </router-link>
+                                    </template>
+
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
@@ -205,6 +210,11 @@
 
 
                         </div>
+
+                        <!-- End is employer -->
+
+
+                        <!--Assigned projects and is worker -->
                         <div v-if="assignedProjects.length>0 &&(profileType ==='work' || profileType ==='work&hire')"
                              class="jb-quick-projects">
 
@@ -215,7 +225,12 @@
                             <div class="jb-projects-wrapper my-2">
 
                                 <project-component v-for="project in assignedProjects" :key="project.id">
-                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="title">
+                                        <router-link :to="{name:'assignedProject', params:{id:project.id} }"
+                                                     class="t-black">
+                                            {{project.title}}
+                                        </router-link>
+                                    </template>
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
@@ -251,6 +266,10 @@
 
 
                         </div>
+                        <!-- End Assigned projects and is worker -->
+
+
+                        <!--No assigned projects and is worker -->
                         <div v-if="assignedProjects.length<1 && (profileType ==='work' || profileType ==='work&hire')"
                              class="jb-quick-projects">
                             <div class="jb-quick-projects-header">
@@ -260,7 +279,12 @@
                             <div class="jb-projects-wrapper my-2">
 
                                 <project-component v-for="project in someProjects" :key="project.id">
-                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="title">
+                                        <router-link :to="{name:'singleProject', params:{id:project.id} }"
+                                                     class="t-black">
+                                            {{project.title}}
+                                        </router-link>
+                                    </template>
                                     <template slot="time">
                                         <timeago :datetime="project.created_at" :auto-update="60"/>
                                     </template>
@@ -296,7 +320,7 @@
 
 
                         </div>
-
+                        <!-- End No assigned projects and is worker -->
 
                     </div>
 

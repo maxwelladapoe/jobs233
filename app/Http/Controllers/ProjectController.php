@@ -78,7 +78,6 @@ class ProjectController extends Controller
 
                         $path = $file->storeAs('public/attachments', $fileNameToStore);
 
-
                         if ($path) {
                             $attachment = new Attachment();
                             $attachment->user_id = Auth::user()->id;
@@ -113,10 +112,8 @@ class ProjectController extends Controller
 
     public function read(Request $request)
     {
-
         $project = Project::where('id', $request->project)->with('bids')->first();
         return response()->json(['success' => true, 'project' => $project], 200);
-
     }
 
     public function update()
@@ -129,10 +126,33 @@ class ProjectController extends Controller
 
     }
 
-    public function getProjects()
+    public function getProjects(Request $request)
     {
 
-        $projects = Project::where('status', 'created')->where('bidding_closed', false)->orderby('created_at', 'desc')->paginate(10);
+        if ($request->has('status')) {
+            $query = Project::where('status', $request['status'])->where('bidding_closed', false);
+        } else {
+            $query = Project::where('status', 'created')->where('bidding_closed', false);
+        }
+
+
+        //checking if a category key has been added
+        if ($request->has('category')) {
+            if ($request['category'] != 'all') {
+
+
+                $categoryIds = ProjectCategory::whereIn('name', explode(',', $request['category']))->pluck('id');
+                $query->whereIn('category_id',$categoryIds );
+            }
+        }
+
+        if ($request->has('sort')) {
+            $query->orderby('created_at', 'desc');
+        } else {
+            $query->orderby('created_at', 'desc');
+        }
+
+        $projects = $query->paginate(10);
 
         return response()->json(['success' => true, 'projects' => $projects], 200);
 

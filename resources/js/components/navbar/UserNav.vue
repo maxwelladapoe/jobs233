@@ -44,7 +44,7 @@
                                     <img class="rounded-circle" :src="user.profile.picture"/>
                                 </div>
                                 <div class="jb-profile-btn-name">
-                                <span class="t-mont t-bold t-white">{{user.name}}
+                                <span class="t-white t-meri">{{user.name}}
                                     <b-icon icon="caret-down-fill"/>
                                 </span>
                                 </div>
@@ -87,17 +87,18 @@
 
         </nav>
 
+        <dash-nav/>
     </header>
 </template>
 
 <script>
 
     import {mapGetters, mapActions} from 'vuex';
+    import DashNav from "./DashNav";
 
     export default {
         name: "user-nav",
-
-
+        components: {DashNav},
         methods: {
 
             ...mapActions({

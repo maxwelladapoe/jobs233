@@ -23,115 +23,143 @@
                             </div>
                         </div>
                     </form>
+
+                    <div class="d-lg-none">
+                        <div class="row my-3 ">
+                            <div class="col-4">
+                                <b-form-select v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
+                                    <b-form-select-option value="all">All Categories</b-form-select-option>
+                                    <b-form-select-option v-for="category in categories" :key="category.id"
+                                                          :value="category.name">
+                                        {{category.name}}
+                                    </b-form-select-option>
+                                </b-form-select>
+                            </div>
+                            <div class="col-4">
+                                <b-form-select v-model="selectedSortOption">
+                                    <b-form-select-option value="latest">Latest</b-form-select-option>
+                                    <b-form-select-option value="oldest">Oldest</b-form-select-option>
+
+                                </b-form-select>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12 col-md-8">
+                    <div class="col-sm-12 col-lg-8">
                         <div class="jb-projects-wrapper">
 
-                            <project-component v-for="project in allProjects" :key="project.id">
-                                <template slot="title">{{project.title}}</template>
-                                <template slot="time">
+                            <template v-if="allProjects">
 
-                                    <timeago :datetime="project.created_at" :auto-update="60"/>
 
-                                </template>
-                                <template slot="description">{{truncate(project.description,200)}}</template>
-                                <template slot="tags">
+                                <project-component v-for="project in allProjects" :key="project.id">
+                                    <template slot="title">{{project.title}}</template>
+                                    <template slot="time">
 
-                                    Tags & Skills:
-                                    <h6>
-                                        <template v-for="tag in project.tags.split(',')">
-                                            <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                        <timeago :datetime="project.created_at" :auto-update="60"/>
+
+                                    </template>
+                                    <template slot="description">{{truncate(project.description,200)}}</template>
+                                    <template slot="tags">
+
+                                        Tags & Skills:
+                                        <h6>
+                                            <template v-for="tag in project.tags.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                            </template>
+                                            <template v-for="skill in project.skills.split(',')">
+                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                            </template>
+                                        </h6>
+
+
+                                    </template>
+                                    <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
+                                    <template slot="image">
+
+                                        <img :src="project.user.profile.picture" alt=""
+                                             class="rounded-circle">
+                                    </template>
+
+                                    <template slot="posted_by">
+
+                                        <p class="t-meri m-0 p-0" v-if=" authenticated && project.user.id === user.id">
+                                            You</p>
+
+                                        <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
+                                    </template>
+
+                                    <template>
+
+                                        <template
+                                            v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated">
+                                            <template slot="button">
+                                                <div class="jb-project-bid-btn text-right">
+                                                    <router-link :to="{name:'singleProject' , params:{id:project.id}}"
+                                                                 class="btn bg-orange">View
+                                                    </router-link>
+                                                </div>
+                                            </template>
                                         </template>
-                                        <template v-for="skill in project.skills.split(',')">
-                                            <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
-                                        </template>
-                                    </h6>
 
-
-                                </template>
-                                <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
-                                <template slot="image">
-
-                                    <img :src="project.user.profile.picture" alt=""
-                                         class="rounded-circle">
-                                </template>
-
-                                <template slot="posted_by">
-
-                                    <p class="t-meri m-0 p-0" v-if=" authenticated && project.user.id === user.id">
-                                        You</p>
-
-                                    <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
-                                </template>
-
-                                <template>
-
-                                    <template
-                                        v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated">
-                                        <template slot="button">
-                                            <div class="jb-project-bid-btn text-right">
-                                                <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                             class="btn bg-orange">View
-                                                </router-link>
-                                            </div>
+                                        <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                                            <template slot="button">
+                                                <div class="jb-project-bid-btn text-right">
+                                                    <router-link :to="{name:'singleProject' , params:{id:project.id}}"
+                                                                 class="btn bg-orange">Bid
+                                                    </router-link>
+                                                </div>
+                                            </template>
                                         </template>
                                     </template>
 
-                                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                                        <template slot="button">
-                                            <div class="jb-project-bid-btn text-right">
-                                                <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                             class="btn bg-orange">Bid
-                                                </router-link>
-                                            </div>
-                                        </template>
+
+                                </project-component>
+
+
+                                <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId">
+                                    <template slot="spinner">
+                                        <div class="jb-project-loading text-center">
+                                            <img src="/images/loading.gif" alt="">
+                                        </div>
+
                                     </template>
-                                </template>
 
+                                    <template slot="no-more">No more Projects</template>
+                                </infinite-loading>
+                            </template>
 
-                            </project-component>
-
-
-                            <infinite-loading @infinite="infiniteHandler">
-                                <template slot="spinner">
-                                    <div class="jb-project-loading text-center">
-                                        <img src="/images/loading.gif" alt="">
-                                    </div>
-
-                                </template>
-
-                                <template slot="no-more">No more Projects</template>
-                            </infinite-loading>
-
+                            <template v-else>
+                                <p class="t-ash">there are no project items</p>
+                            </template>
 
                         </div>
                     </div>
-                    <div class="col-sm-12 col-md-4">
-                        <div class="jb-project-filter-wrapper">
-                            <div class="jb-project-filter p-3 bg-ash-light shadow">
+                    <div class="col-sm-12 col-lg-4">
+                        <div class="jb-project-filter-wrapper  d-none d-lg-block">
+                            <div class="jb-project-filter p-3 text-right">
                                 <div class="jb-arrow-left">
 
                                 </div>
 
-                                <div class="jb-project-filter-element">
+                                <div class="jb-project-filter-element ">
                                     <p class="t-mont t-bold">Categories</p>
                                     <ul class="jb-filter-item">
                                         <li><a href="" class="t-orange t-bold">All Categories</a></li>
-
-                                        <li v-for="category in categories"><a href="" class="t-orange t-bold">{{category.name}}</a>
+                                        <li v-for="category in categories">
+                                            <a href="" class="t-orange"
+                                               @click.prevent="fetchWithSelectedCategory(category.name)">{{category.name}}</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="jb-project-filter-element">
                                     <p class="t-mont t-bold">Sort By</p>
                                     <ul class="jb-filter-item">
-                                        <li><a href="" class="t-orange t-bold">Latest</a></li>
-                                        <li><a href="" class="t-orange t-bold">Popular</a></li>
-                                        <li><a href="" class="t-orange t-bold">Featured</a></li>
-                                        <li><a href="" class="t-orange t-bold">Budget</a></li>
-                                        <li><a href="" class="t-orange t-bold">Skill</a></li>
+                                        <li><a href="" class="t-orange">Latest</a></li>
+                                        <li><a href="" class="t-orange">Oldest</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -165,9 +193,14 @@
                 lastPage: 1,
                 numItems: 7,
                 currentPage: 0,
+                selectedCategory: 'all',
+                selectedSortOption: 'latest',
                 search: {
                     term: '',
-                }
+                },
+                temp: [],
+                infiniteId: +new Date(),
+
             }
         },
         methods: {
@@ -190,41 +223,58 @@
 
                 })
             },
+
+            fetchWithSelectedCategory(category) {
+                this.selectedCategory = category;
+
+                this.temp = [];
+                this.currentPage = 0;
+                this.infiniteId += 1;
+                this.allProjects = [];
+
+
+                // this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+
+
+            },
+            fetchWithSelectedCategoryDropDown() {
+                this.temp = [];
+                this.currentPage = 0;
+                this.infiniteId += 1;
+                this.allProjects = [];
+                // this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
+            },
             infiniteHandler($state) {
 
                 if (this.currentPage < this.lastPage) {
 
-                    setTimeout(() => {
-                        const temp = [];
+
+                    axios.get(this.api).then(({data}) => {
+
+                        console.log(data);
+                        this.lastPage = parseInt(data.projects.last_page);
 
 
-                        axios.get('/projects?page=' + (this.currentPage + 1)).then(({data}) => {
+                        this.numItems = parseInt(data.projects.total);
+                        this.currentPage = parseInt(data.projects.current_page);
 
 
-                            this.lastPage = parseInt(data.projects.last_page);
+                        let projects = data.projects.data;
 
 
-                            this.numItems = parseInt(data.projects.total);
-                            this.currentPage = parseInt(data.projects.current_page);
+                        for (let i = 0; i < projects.length; i++) {
+                            this.temp.push(projects[i]);
+                        }
+
+                        this.allProjects = this.allProjects.concat(this.temp);
+                        $state.loaded();
 
 
-                            let projects = data.projects.data;
+                    }).catch(errors => {
+
+                    })
 
 
-                            for (let i = 0; i < projects.length; i++) {
-                                temp.push(projects[i]);
-                            }
-
-                            this.allProjects = this.allProjects.concat(temp);
-                            $state.loaded();
-
-
-                        }).catch(errors => {
-
-                        })
-
-
-                    }, 10);
                 } else {
                     $state.complete();
                 }
@@ -255,6 +305,10 @@
                 user: 'auth/user',
                 profileType: 'auth/profileType',
             }),
+
+            api() {
+                return `/projects?category=${(this.selectedCategory).toLowerCase().trim()}&page=` + (this.currentPage + 1)
+            }
         }
 
     }
