@@ -18,6 +18,9 @@
                         <li class="nav-item">
                             <router-link class="nav-link " :to="{name:'HowItWorks'}">How it Works</router-link>
                         </li>
+                        <li class="nav-item">
+                            <router-link class="nav-link " :to="{name:'Projects'}">Browse Projects</router-link>
+                        </li>
                     </ul>
 
                     <ul class="navbar-nav ml-auto">

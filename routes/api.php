@@ -81,6 +81,11 @@ Route::prefix('v1')->group(function () {
     });
 
 
+    Route::prefix('{user}')->group(function () {
+        Route::post('/portfolio',[App\Http\Controllers\PortfolioController::class,'create']);
+    });
+
+
     //payment paystack
 
     Route::post('/pay', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGateway']);

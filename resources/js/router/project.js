@@ -13,7 +13,7 @@ export default [
     },
     {
         path: '/projects',
-        name: 'projects',
+        name: 'Projects',
         component: ViewAllProjects,
         meta: {requiresAuth: false}
     },

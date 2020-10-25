@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PortfolioController extends Controller
@@ -22,9 +23,13 @@ class PortfolioController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(User $user, Request $request)
     {
-        //
+       $this->validate($request,[
+           'title'=>['required','string','min:3'],
+           'description'=>['required','string','min:3'],
+           'cover_image'=>['required','image'],
+       ]);
     }
 
     /**

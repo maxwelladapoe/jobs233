@@ -1110,10 +1110,18 @@ end of login or sign up
     height: 30em;
     position: relative;
 
+    .jb-video-details {
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        align-items: center;
+        position: relative;
+    }
+
     .jb-section-text {
-        padding-top: 4em;
         font-size: 2em;
-        line-height: 1em;
+        width: 50%;
     }
 }
 
@@ -1225,16 +1233,6 @@ end of login or sign up
     cursor: pointer;
 }
 
-.jb-play-icon2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -3em;
-    margin-top: -3em;
-    width: 6em;
-    height: 6em;
-    cursor: pointer;
-}
 
 .jb-projects {
     text-align: center;

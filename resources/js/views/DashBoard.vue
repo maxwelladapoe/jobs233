@@ -205,7 +205,7 @@
                             </div>
 
                             <div class="text-center" v-if="somePostedProjectsCount > somePostedProjects.length">
-                                <router-link :to="{name:'projects'}" class="btn bg-orange ">View All</router-link>
+                                <router-link :to="{name:'Projects'}" class="btn bg-orange ">View All</router-link>
                             </div>
 
 
@@ -261,7 +261,7 @@
 
 
                             <div class="text-center" v-if="someProjects.length >0">
-                                <router-link :to="{name:'projects'}" class="btn bg-orange">View All</router-link>
+                                <router-link :to="{name:'Projects'}" class="btn bg-orange">View All</router-link>
                             </div>
 
 
@@ -315,7 +315,7 @@
 
 
                             <div class="text-center" v-if="someProjects.length >0">
-                                <router-link :to="{name:'projects'}" class="btn bg-orange">View More</router-link>
+                                <router-link :to="{name:'Projects'}" class="btn bg-orange">View More</router-link>
                             </div>
 
 

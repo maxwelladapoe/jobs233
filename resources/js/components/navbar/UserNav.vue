@@ -87,7 +87,29 @@
 
         </nav>
 
-        <dash-nav/>
+        <div class="jb-dash-nav bg-ash">
+            <div class="container">
+                <div class="jb-dash-links">
+                    <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">My Dashboard</router-link>
+
+                    <template v-if="profileType ==='hire' || profileType ==='work&hire'">
+                        <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#" class="jb-dash-link t-white ">
+                            My Projects
+                        </router-link>
+
+                    </template>
+                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                        <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#" class="jb-dash-link t-white ">
+                            My Assigned Projects
+                        </router-link>
+                    </template>
+
+                    <a href="#" class="jb-dash-link t-white ">Wallet</a>
+                    <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
+                </div>
+            </div>
+        </div>
+
     </header>
 </template>
 

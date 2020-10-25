@@ -9,7 +9,7 @@
                 <div class="container">
                     <h1 class="t-meri">Be your <br>Own Boss</h1>
                     <p class="t-meri">Work as a freelancer using your existing skill set</p>
-                    <a href="register.html" class="btn bg-orange">Register to work </a>
+                    <router-link :to="{name:'SignUp'}" class="btn bg-orange">Register to work</router-link>
                 </div>
 
             </div>

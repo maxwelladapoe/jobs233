@@ -12,13 +12,13 @@
             <div class="container">
 
                 <div class="jb-project-search">
-                    <form method="post" action="">
+                    <form @submit.prevent="searchSubmit">
                         <div class="input-group mb-5">
                             <input type="text" class="form-control" placeholder="Search by Skill, Title, Description"
                                    aria-label="" aria-describedby="basic-addon2" v-model="search.term">
                             <div class="input-group-append">
-                                <button class="btn bg-black" type="button" @click.prevent="searchSubmit"><i
-                                    class="fas fa-search"></i> Search
+                                <button class="btn bg-black" type="submit">
+                                    <span><md-search-icon/></span> Search
                                 </button>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                     <div class="col-sm-12 col-lg-8">
                         <div class="jb-projects-wrapper">
 
-                            <template v-if="allProjects">
+                            <template v-if="allProjects.length>0 || allProjects">
 
 
                                 <project-component v-for="project in allProjects" :key="project.id">
@@ -195,6 +195,8 @@
                 currentPage: 0,
                 selectedCategory: 'all',
                 selectedSortOption: 'latest',
+                owner: '',
+                assignedTo: '',
                 search: {
                     term: '',
                 },
@@ -287,8 +289,23 @@
             }
 
         },
-        mounted() {
 
+        mounted() {
+            if (this.$route.query.owner) {
+                this.owner = this.$route.query.owner;
+            }
+            if (this.$route.query.category) {
+                this.selectedCategory = this.$route.query.category;
+            }
+            if (this.$route.query.assigned_to) {
+                console.log(this.$route.query.assigned_to)
+                this.assignedTo = this.$route.query.assigned_to;
+            }
+            if (this.$route.query.page) {
+                //doing this inorder use the currentPage variable.
+                //in the creating the api link +1 is added to the link
+                this.currentPage = parseInt(this.$route.query.page) - 1;
+            }
             axios.get('projects/categories').then(({data}) => {
                 this.categories = data.categories;
             })
@@ -307,7 +324,22 @@
             }),
 
             api() {
-                return `/projects?category=${(this.selectedCategory).toLowerCase().trim()}&page=` + (this.currentPage + 1)
+
+                let link = `/projects?category=${(this.selectedCategory).toLowerCase().trim()}&`
+
+                if (this.owner) {
+                    link += `owner=${(this.owner).toLowerCase().trim() + '&'}`
+                }
+                if (this.assignedTo) {
+                    link += `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
+                }
+                if (this.page) {
+                    link += `page=${(this.currentPage + 1)}`
+                }
+
+
+                return link;
+
             }
         }
 

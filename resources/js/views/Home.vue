@@ -12,7 +12,7 @@
 
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-sm-12 col-lg-6 ">
                             <h1 class="t-bold t-orange t-mont">Get more done <br>hire a freelancer</h1>
                             <p class="t-meri t-normal">Speed up your workflow by hiring an experienced freelancer in any
                                 field.
@@ -28,7 +28,7 @@
                                 be a freelancer to get it done.</p>
                         </div>
 
-                        <div class="col-sm-12 col-md-6">
+                        <div class="col-12 col-lg-6">
 
                             <div class="jb-player-wrapper">
                                 <div class="jb-player-overlay"></div>
@@ -67,19 +67,29 @@
                 <div class="jb-video-bg" style="background-image: url('/images/video.jpg')"></div>
                 <div class="jb-player-overlay">
                 </div>
-                <img src="/images/play@2x.png" class="jb-play-icon2"/>
 
 
-                <div class="container">
+                <div class="container h-100">
 
-                    <div class="col-md-4">
+                    <div class="jb-video-details">
 
-                        <div class="jb-section-text t-white t-bold  t-mont">
-                            Post your first job
-                            in just a few steps.
-                            Its simple! Here is a walk through
+                        <div class="jb-section-text t-white t-bold">
+                            <p> Post your first job
+                                in just a few steps.
+                                Its simple! <br> Here is a walk through.
+                            </p>
+
                         </div>
+
+
+                        <div>
+                            <img src="/images/play@2x.png" class="jb-play-icon2"/>
+
+                        </div>
+
+
                     </div>
+
                 </div>
 
             </div>

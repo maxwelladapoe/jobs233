@@ -472,6 +472,8 @@
         },
         beforeCreate() {
 
+
+
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
                 //this.bid.project_id= this.project.id;

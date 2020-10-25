@@ -129,6 +129,9 @@ class ProjectController extends Controller
     public function getProjects(Request $request)
     {
 
+        //check if there is an assigned to
+
+
         if ($request->has('status')) {
             $query = Project::where('status', $request['status'])->where('bidding_closed', false);
         } else {
@@ -136,21 +139,32 @@ class ProjectController extends Controller
         }
 
 
+        //check if there is a created by
+
+        if ($request->has('owner')) {
+            $query->where('user_id', Auth::user()->id);
+        }
+        if ($request->has('assigned_to')) {
+            $query->where('worker_id', Auth::user()->id);
+        }
+
+
         //checking if a category key has been added
         if ($request->has('category')) {
             if ($request['category'] != 'all') {
-
-
                 $categoryIds = ProjectCategory::whereIn('name', explode(',', $request['category']))->pluck('id');
-                $query->whereIn('category_id',$categoryIds );
+                $query->whereIn('category_id', $categoryIds);
             }
         }
 
+
+        //check if a sort key has been added
         if ($request->has('sort')) {
             $query->orderby('created_at', 'desc');
         } else {
             $query->orderby('created_at', 'desc');
         }
+
 
         $projects = $query->paginate(10);
 
