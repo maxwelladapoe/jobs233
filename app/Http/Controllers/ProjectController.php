@@ -133,9 +133,9 @@ class ProjectController extends Controller
 
 
         if ($request->has('status')) {
-            $query = Project::where('status', $request['status'])->where('bidding_closed', false);
+            $query = Project::where('status', $request['status']);
         } else {
-            $query = Project::where('status', 'created')->where('bidding_closed', false);
+            $query = Project::latest();
         }
 
 
@@ -160,13 +160,19 @@ class ProjectController extends Controller
 
         //check if a sort key has been added
         if ($request->has('sort')) {
-            $query->orderby('created_at', 'desc');
+            $query->orderby('created_at', $request['sort']);
         } else {
             $query->orderby('created_at', 'desc');
         }
 
 
-        $projects = $query->paginate(10);
+        if ($request->has('count')) {
+            $projects = $query->take($request['count']);
+        } elseif($request->has('paginate')) {
+            $projects = $query->paginate($request['paginate']);
+        }else{
+            $projects = $query->paginate(10);
+        }
 
         return response()->json(['success' => true, 'projects' => $projects], 200);
 

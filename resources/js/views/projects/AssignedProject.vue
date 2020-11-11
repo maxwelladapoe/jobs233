@@ -6,7 +6,7 @@
             <div class="jb-section">
                 <div class="container">
 
-                    <div class="row">
+                    <div class="columns">
                         <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
 
 
@@ -27,7 +27,7 @@
                                 <template v-for="skill in project.skills.split(',')">
 
 
-                                    <b-badge variant="success" class="mr-1">{{skill}}</b-badge>
+                                    <b-tag variant="success" class="mr-1">{{skill}}</b-tag>
 
                                 </template>
                             </h5>
@@ -46,7 +46,7 @@
                                     <template v-for="tag in project.tags.split(',')">
 
 
-                                        <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                        <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
 
                                     </template>
                                 </h5>
@@ -57,7 +57,7 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
 
 
-                                <div class="row mt-2">
+                                <div class="columns mt-2">
                                     <template v-for="attachment in project.attachments">
 
 

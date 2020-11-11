@@ -11,9 +11,9 @@
             <div class="jb-section" style="position: relative">
 
                 <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-lg-6 ">
-                            <h1 class="t-bold t-orange t-mont">Get more done <br>hire a freelancer</h1>
+                    <div class="columns">
+                        <div class="column is-12 is-6-desktop">
+                            <h1 class="title t-bold t-orange t-mont">Get more done <br>hire a freelancer</h1>
                             <p class="t-meri t-normal">Speed up your workflow by hiring an experienced freelancer in any
                                 field.
                                 Just post your projects and get bids from freelancers. With ranking and reps it
@@ -28,7 +28,7 @@
                                 be a freelancer to get it done.</p>
                         </div>
 
-                        <div class="col-12 col-lg-6">
+                        <div class=" column is-12 is-6-desktop">
 
                             <div class="jb-player-wrapper">
                                 <div class="jb-player-overlay"></div>
@@ -101,20 +101,20 @@
                     <div class="">
                         <h1 class="t-bold  t-mont">Get your project started</h1>
                         <br>
-                        <div class="row">
-                            <div class="col-sm-3">
+                        <div class="columns">
+                            <div class="column is-sm-3 ">
                                 <img class="jb-projects-img" src="/images/icon.png">
                                 <p class="t-bold jb-project-title  t-mont">Website Development</p>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="column is-sm-3 ">
                                 <img class="jb-projects-img" src="/images/icon2.png">
                                 <p class="t-bold jb-project-title  t-mont">Graphic Design</p>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="column is-sm-3 ">
                                 <img class="jb-projects-img" src="/images/icon3.png">
                                 <p class="t-bold jb-project-title t-mont">Mobile Applications</p>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="column is-sm-3 ">
                                 <img class="jb-projects-img" src="/images/icon4.png">
                                 <p class="t-bold jb-project-title t-mont">Photography</p>
                             </div>
@@ -143,8 +143,8 @@
             <div class="jb-section jb-quote-background">
 
                 <div class="container">
-                    <div class="row">
-                        <div class="col-md-12 jb-quote-wrapper">
+                    <div class="columns">
+                        <div class="column is-12 jb-quote-wrapper">
 
                             <div class="jb-bg-overlay">
 

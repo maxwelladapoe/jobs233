@@ -3,8 +3,16 @@
 
         <div class="jb-section">
             <div class="container">
-                <h1 class="t-mont">Start Working Now</h1>
-                <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+
+                <template v-if="owner">
+
+                    <h1 class="t-mont">Your Projects</h1>
+                    <p class="text-left t-meri t-normal ">Review your projects</p>
+                </template>
+                <template v-else>
+                    <h1 class="t-mont">Start Working Now</h1>
+                    <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                </template>
             </div>
         </div>
 
@@ -25,7 +33,7 @@
                     </form>
 
                     <div class="d-lg-none">
-                        <div class="row my-3 ">
+                        <div class="columns my-3 ">
                             <div class="col-4">
                                 <b-form-select v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
                                     <b-form-select-option value="all">All Categories</b-form-select-option>
@@ -48,7 +56,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="columns">
                     <div class="col-sm-12 col-lg-8">
                         <div class="jb-projects-wrapper">
 
@@ -148,7 +156,7 @@
                                 <div class="jb-project-filter-element ">
                                     <p class="t-mont t-bold">Categories</p>
                                     <ul class="jb-filter-item">
-                                        <li><a href="" class="t-orange t-bold">All Categories</a></li>
+                                        <li><a href="" @click.prevent="fetchWithSelectedCategory('all')" class="t-orange">All Categories</a></li>
                                         <li v-for="category in categories">
                                             <a href="" class="t-orange"
                                                @click.prevent="fetchWithSelectedCategory(category.name)">{{category.name}}</a>
@@ -325,16 +333,16 @@
 
             api() {
 
-                let link = `/projects?category=${(this.selectedCategory).toLowerCase().trim()}&`
+                let link = `/projects?category=${(this.selectedCategory).toLowerCase().trim()}`
 
                 if (this.owner) {
-                    link += `owner=${(this.owner).toLowerCase().trim() + '&'}`
+                    link += '&' + `owner=${(this.owner).toLowerCase().trim()}`
                 }
                 if (this.assignedTo) {
-                    link += `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
+                    link += '&' + `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
                 }
                 if (this.page) {
-                    link += `page=${(this.currentPage + 1)}`
+                    link += '&' + `page=${(this.currentPage + 1)}`
                 }
 
 

@@ -39,8 +39,8 @@
                                     <slot name="posted_by"></slot>
 
                                     <div class="jb-project-posted-by-extra">
-                                        <span><b-icon icon="check-circle-fill"/> Verified</span>
-                                        <span><b-icon icon="cash-stack"/>  Deposited</span>
+                                        <span><b-icon icon="check-circle" size="is-ok"/> Verified</span>
+                                        <span><b-icon icon="cash-plus" size="is-ok" />  Deposited</span>
 
                                     </div>
                                 </div>

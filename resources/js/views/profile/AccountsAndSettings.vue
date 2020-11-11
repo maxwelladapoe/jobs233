@@ -3,11 +3,11 @@
 
         <div class="jb-section">
             <div class="container">
-                <div class="row">
+                <div class="columns">
                     <div class="col-12 mx-auto  ">
 
 
-                        <div class="row">
+                        <div class="columns">
                             <div class="col-12 col-lg-9 order-1 order-md-0">
                                 <p>Profile</p>
                                 <div class="card bg-white p-3 shadow">
@@ -19,7 +19,7 @@
                                             <b-form @submit.prevent="handleSubmit(changePassword)">
 
                                                 <p>Credentials</p>
-                                                <div class="row">
+                                                <div class="columns">
                                                     <div class="col-md-12">
                                                         <validation-provider
                                                             name="current password"

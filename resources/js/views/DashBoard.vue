@@ -155,7 +155,7 @@
                     </div>
 
 
-                    <div class="col-12 mt-5 mt-md-0">
+                    <div class="col-12 col-lg-8 mt-5 mt-md-0">
 
                         <!-- Is employer -->
                         <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
@@ -205,7 +205,7 @@
                             </div>
 
                             <div class="text-center" v-if="somePostedProjectsCount > somePostedProjects.length">
-                                <router-link :to="{name:'Projects'}" class="btn bg-orange ">View All</router-link>
+                                <router-link :to="{name:'Projects',params:{owner:'me'}}" class="btn bg-orange ">View All</router-link>
                             </div>
 
 
@@ -324,6 +324,7 @@
 
                     </div>
 
+                    <div class="col-12 col-lg-4"></div>
 
                 </div>
 
@@ -336,7 +337,6 @@
 
 <script>
 
-    import DashNav from '../components/navbar/DashNav'
     import DashNotification from '../components/notification/DashNotification'
     import ProjectComponent from '../components/extras/ProjectComponent'
     import {mapGetters, mapActions} from 'vuex';
@@ -364,7 +364,6 @@
             })
         },
         components: {
-            DashNav,
             DashNotification,
             ProjectComponent,
         },

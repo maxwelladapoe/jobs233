@@ -22,7 +22,7 @@ class ProfileController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('readProfileForPublic');
 
     }
 
@@ -37,6 +37,19 @@ class ProfileController extends Controller
         } else {
 
             return response()->json(['success' => false, 'message' => 'the profile for this user does not seem to exist'], 400);
+        }
+    }
+
+
+    public function readProfileForPublic(Request $request)
+    {
+        $user = User::where('username', $request['username'])->get();
+
+        if ($user) {
+            return response()->json(['success' => true, 'user' => $user], 200);
+        } else {
+            return response()->json(['success' => false, 'message' => 'the profile for this user does not seem to exist'], 400);
+
         }
     }
 
@@ -84,7 +97,7 @@ class ProfileController extends Controller
 
         if ($request->has('paginate')) {
             $projects = $query->latest()->paginate($request->paginate);
-        }else{
+        } else {
             $projects = $query->latest()->paginate(10);
         }
 
@@ -173,6 +186,21 @@ class ProfileController extends Controller
             $notifications = Auth::user()->notifications;
         }
         return response()->json(['success' => true, 'notifications' => $notifications], 200);
+    }
+
+    public function markAllAsRead()
+    {
+        //Auth::user()->unreadNotifications->markAsRead();
+        Auth::user()->notifications()->delete();
+        return response()->json(['success' => true], 200);
+
+    }
+
+    public function addSkill(Skill $skill)
+    {
+
+        dd($skill);
+        Auth::user()->skills()->attach($skill->id);
     }
 
 }

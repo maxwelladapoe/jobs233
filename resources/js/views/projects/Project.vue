@@ -6,7 +6,7 @@
             <div class="jb-section">
                 <div class="container">
 
-                    <div class="row">
+                    <div class="columns">
                         <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
 
 
@@ -57,7 +57,7 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
 
 
-                                <div class="row mt-2">
+                                <div class="columns mt-2">
                                     <template v-for="attachment in project.attachments">
 
 
@@ -128,15 +128,17 @@
 
                                                     <div class="top">
                                                         <div class="profile-details-wrap">
+                                                            <router-link
+                                                                :to="{name:'ViewProfile',params:{username:bid.user.username}}">
 
-                                                            <div><p>
-                                                                <img :src="bid.user.profile.picture" alt=""
-                                                                     class="rounded-circle mr-2"
-                                                                     width="30">
-                                                                <span class="t-meri">{{bid.user.name}}</span></p>
 
-                                                            </div>
-
+                                                                <div><p>
+                                                                    <img :src="bid.user.profile.picture" alt=""
+                                                                         class="rounded-circle mr-2"
+                                                                         width="30">
+                                                                    <span class="t-meri">{{bid.user.name}}</span></p>
+                                                                </div>
+                                                            </router-link>
                                                             <div>
 
                                                             </div>
@@ -471,7 +473,6 @@
             }
         },
         beforeCreate() {
-
 
 
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {

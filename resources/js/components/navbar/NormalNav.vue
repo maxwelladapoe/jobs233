@@ -1,436 +1,48 @@
 <template>
 
-    <header>
+    <header class="pt-3 pb-3"style="z-index: 9999; position: relative; background-color: #fff">
+        <div class="container">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white">
-            <div class="container  p-3 px-lg-0">
+            <b-navbar spaced transparent>
+                <template slot="brand">
+                    <router-link to="/"><img src="/images/logo2.png" alt="Jobs 233 logo"></router-link>
+                </template>
+                <template slot="start">
+                    <b-navbar-item>
+                        <router-link :to="{name:'HowItWorks'}">How it Works</router-link>
+                    </b-navbar-item>
+                    <b-navbar-item>
+                        <router-link :to="{name:'Projects'}">Browse Projects</router-link>
+                    </b-navbar-item>
+                    <b-navbar-dropdown label="Info">
+                        <b-navbar-item href="#">
+                            About
+                        </b-navbar-item>
+                        <b-navbar-item href="#">
+                            Contact
+                        </b-navbar-item>
+                    </b-navbar-dropdown>
+                </template>
 
-                <a class="navbar-brand" href="/"><img src="/images/logo2.png" alt="Jobs 233 logo"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <template slot="end">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
+                    <b-navbar-item>
+                        <router-link :to="{name:'SignUp'}" class="button is-primary">
+                            <strong>Sign up</strong>
+                        </router-link>
+                    </b-navbar-item>
 
-                        <li class="nav-item">
-                            <router-link class="nav-link " :to="{name:'HowItWorks'}">How it Works</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link " :to="{name:'Projects'}">Browse Projects</router-link>
-                        </li>
-                    </ul>
+                    <b-navbar-item>
+                        <router-link :to="{name:'Login'}" class="button is-outlined is-primary">
+                            <strong>Login</strong>
+                        </router-link>
+                    </b-navbar-item>
 
-                    <ul class="navbar-nav ml-auto">
+                </template>
 
-                        <li class="nav-item">
-                            <router-link :to="{name:'SignUp'}" class="nav-link ">Sign Up</router-link>
-                        </li>
-                        <li class="nav-item">
-                            <router-link class="nav-link" :to="{name:'Login'}">Login</router-link>
-                        </li>
-
-                        <li class="nav-item">
-                            <router-link to="#" class="nav-link btn bg-orange  px-4">Hire</router-link>
-                        </li>
-                    </ul>
-
-                </div>
-
-            </div>
-
-        </nav>
-
-        <div v-if="showLogin  && ismv">
-
-
-            <div class="jb-modal" :class="{'showModal':ismv}">
-
-                <div class="jb-modal-wrap">
-
-
-                    <div id="login" class="jb-modal-box text-center">
-                        <div class="jb-modal-box-overlay" :class="{'show':isLoading}">
-
-                            <div class="loading-contents-wrap">
-
-                                <div class="inner">
-
-                                    <div class="loader"></div>
-                                    <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <!-- this is the close btn -->
-                        <div class="jb-close" @click="closeModal"></div>
-
-                        <div class="jb-modal-header">
-                            <p class="jb-modal-text">Login to start work</p>
-                        </div>
-
-
-                        <div class="jb-modal-contents text-left">
-                            <div class="container">
-                                <validation-observer v-slot="{ handleSubmit }" ref="loginForm">
-
-                                    <b-form @submit.prevent="handleSubmit(loginSubmit)">
-
-
-                                        <validation-provider
-                                            name="identity"
-                                            :rules="{ required: true, min: 3,  }"
-                                            v-slot="validationContext"
-                                        >
-
-                                            <b-form-group
-                                                id="email"
-                                                label="Email / Username"
-                                                label-for="identity">
-                                                <b-form-input id="identity" name="identity"
-                                                              v-model="loginCredentials.identity"
-
-                                                              :state="getValidationState(validationContext)"
-                                                              aria-describedby="email-live-feedback"
-                                                              placeholder="kwame@example.com"></b-form-input>
-
-                                                <b-form-invalid-feedback id="email-live-feedback">{{
-                                                    validationContext.errors[0] }}
-                                                </b-form-invalid-feedback>
-
-                                            </b-form-group>
-
-                                        </validation-provider>
-
-                                        <validation-provider
-                                            rules="required"
-                                            name="password"
-                                            v-slot="validationContext">
-                                            <b-form-group
-                                                id="password"
-                                                label="Password"
-                                                label-for="password">
-
-                                                <b-input-group>
-
-
-                                                    <b-form-input id="password" :type="!ipv?'password':'text'"
-                                                                  v-model="loginCredentials.password"
-                                                                  :state="getValidationState(validationContext)"
-                                                                  placeholder=""
-                                                                  aria-describedby="password-live-feedback"></b-form-input>
-
-                                                    <b-input-group-append>
-                                                        <b-input-group-text>
-                                                            <b-icon :icon="!ipv?'eye':'eye-slash'" @click="ipv = !ipv"/>
-                                                        </b-input-group-text>
-                                                    </b-input-group-append>
-
-                                                </b-input-group>
-
-                                                <b-form-invalid-feedback id="password-live-feedback">
-                                                    {{validationContext.errors[0]
-                                                    }}
-                                                </b-form-invalid-feedback>
-
-                                            </b-form-group>
-
-                                        </validation-provider>
-
-                                        <div class="form-group">
-
-                                            <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0 t-mont"
-                                                             v-model="loginCredentials.rememberMe"> <span
-                                                class="small" switch>Remember Me
-                                    </span>
-                                            </b-form-checkbox>
-
-                                        </div>
-
-                                        <div class="form-group">
-
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6">
-                                                    <button class="btn bg-orange" type="submit">Login
-                                                    </button>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6">
-
-                                                </div>
-
-                                            </div>
-
-
-                                        </div>
-
-                                    </b-form>
-
-                                </validation-observer>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="jb-modal-footer">
-
-                            <p>Not a member?
-                                <a class="t-orange" href="#" @click.prevent="showSignUpModal">SignUp</a>
-                            </p>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-
-
+            </b-navbar>
         </div>
-        <div v-if="showSignUp && ismv">
 
-            <div class="jb-modal" :class="{'showModal':ismv}">
-
-                <div class="jb-modal-wrap">
-                    <div id="signup" class="jb-modal-box text-center" v-if="showSignUp">
-
-                        <div class="jb-modal-box-overlay" :class="{'show':isLoading}">
-                            <div class="loading-contents-wrap">
-
-                                <div class="inner">
-                                    <div class="loader"></div>
-                                    <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- this is the close btn -->
-                        <div class="jb-close" @click="closeModal"></div>
-
-                        <div class="jb-modal-header">
-                            <p class="jb-modal-text">Sign up and become your own boss</p>
-                        </div>
-
-
-                        <div class="jb-modal-contents text-left">
-                            <div class="container">
-                                <validation-observer v-slot="{ handleSubmit }" ref="signupForm">
-
-                                    <b-form @submit.prevent="handleSubmit(signUpSubmit)">
-
-
-                                        <div class="form-row">
-
-                                            <div class="col-12 col-md-6">
-                                                <validation-provider
-                                                    name="First Name"
-                                                    :rules="{ required: true, min: 2, alpha_dash: true  }"
-                                                    v-slot="validationContext"
-
-                                                >
-
-                                                    <b-form-group
-                                                        id="first_name"
-                                                        label="First Name"
-                                                        label-for="first_name">
-                                                        <b-form-input id="first_name" name="first_name"
-                                                                      v-model="signupCredentials.firstName"
-                                                                      :state="getValidationState(validationContext)"
-                                                                      aria-describedby="firstname-live-feedback"
-                                                                      placeholder="Kwame"></b-form-input>
-                                                        <b-form-invalid-feedback id="firstname-live-feedback">{{
-                                                            validationContext.errors[0]}}
-                                                        </b-form-invalid-feedback>
-                                                    </b-form-group>
-                                                </validation-provider>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                                <validation-provider
-                                                    name="Last Name"
-                                                    :rules="{ required: true, min: 2, alpha_dash: true }"
-                                                    v-slot="validationContext"
-
-                                                >
-
-                                                    <b-form-group
-                                                        id="lastname"
-                                                        label="Last Name"
-                                                        label-for="lastname">
-
-
-                                                        <b-form-input id="last_name" type="text" name="last_name"
-                                                                      v-model="signupCredentials.lastName"
-                                                                      :state="getValidationState(validationContext)"
-                                                                      aria-describedby="lastname-live-feedback"
-                                                                      placeholder="Antwi"></b-form-input>
-
-                                                        <b-form-invalid-feedback id="lastname-live-feedback">{{
-                                                            validationContext.errors[0]}}
-                                                        </b-form-invalid-feedback>
-
-
-                                                    </b-form-group>
-                                                </validation-provider>
-                                            </div>
-                                        </div>
-
-
-                                        <validation-provider
-                                            name="username"
-                                            :rules="{ required: true, min: 5, max:10}"
-                                            v-slot="validationContext"
-                                        >
-
-                                            <b-form-group
-                                                id="s_username"
-                                                label="Username"
-                                                label-for="s_username">
-                                                <b-form-input id="s_username" name="username" type="text"
-                                                              v-model="signupCredentials.username"
-
-                                                              :state="getValidationState(validationContext)"
-                                                              aria-describedby="username-live-feedback"
-                                                              placeholder="kwamemax"></b-form-input>
-
-                                                <b-form-invalid-feedback id="username-live-feedback">{{
-                                                    validationContext.errors[0] }}
-                                                </b-form-invalid-feedback>
-
-                                            </b-form-group>
-
-                                        </validation-provider>
-                                        <validation-provider
-                                            name="email"
-                                            :rules="{ required: true, min: 3, email: true }"
-                                            v-slot="validationContext"
-                                        >
-
-                                            <b-form-group
-                                                id="s_email"
-                                                label="Email"
-                                                label-for="s_email">
-                                                <b-form-input id="s_email" name="email" type="email"
-                                                              v-model="signupCredentials.email"
-
-                                                              :state="getValidationState(validationContext)"
-                                                              aria-describedby="email-live-feedback"
-                                                              placeholder="kwame@example.com"></b-form-input>
-
-                                                <b-form-invalid-feedback id="email-live-feedback">{{
-                                                    validationContext.errors[0] }}
-                                                </b-form-invalid-feedback>
-
-                                            </b-form-group>
-
-                                        </validation-provider>
-
-
-                                        <div>
-
-                                            <validation-provider
-                                                rules="required|min:6"
-                                                name="password"
-                                                v-slot="validationContext">
-                                                <b-form-group
-                                                    id="s_password"
-                                                    label="Password"
-                                                    description="  All new passwords must contain at least 8 characters.
-                                        We also suggest having at least one capital and one lower-case letter (Aa-Zz), one
-                                        special
-                                        symbol (#, &, % etc), and one number (0-9) in your password for the best strength."
-                                                    label-for="password">
-                                                    <b-input-group>
-
-
-                                                        <b-form-input id="s_password" :type="!ipv?'password':'text'"
-                                                                      v-model="signupCredentials.password"
-                                                                      :state="getValidationState(validationContext)"
-                                                                      aria-describedby="password-live-feedback"></b-form-input>
-
-                                                        <b-input-group-append>
-                                                            <b-input-group-text>
-                                                                <b-icon :icon="!ipv?'eye':'eye-slash'"
-                                                                        @click="ipv = !ipv"/>
-                                                            </b-input-group-text>
-                                                        </b-input-group-append>
-
-                                                    </b-input-group>
-                                                    <b-form-invalid-feedback id="password-live-feedback">
-                                                        {{validationContext.errors[0]
-                                                        }}
-                                                    </b-form-invalid-feedback>
-
-                                                </b-form-group>
-
-                                            </validation-provider>
-
-                                        </div>
-
-
-                                        <div class="form-group text-center">
-
-                                            <label for="work" class="t-bold jb-l-special ">
-                                                <input type="radio" name="work-or-hire-1" id="work"
-                                                       class="special-radio"
-                                                       v-model="signupCredentials.preference" value="work"> Work
-                                            </label>
-
-                                            <label for="hire" class="t-bold jb-l-special">
-                                                <input type="radio" name="work-or-hire-2" id="hire"
-                                                       class="special-radio"
-                                                       v-model="signupCredentials.preference" value="hire"> Hire
-                                            </label>
-                                        </div>
-
-
-                                        <div class="form-group">
-
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-6">
-                                                    <button type="submit" class="btn bg-orange">
-                                                        Register
-                                                    </button>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6">
-                                                    <p class="text-left jb-t-special">By clicking this
-                                                        button, you agree
-                                                        to our <a href="" class="t-orange">Terms and conditions</a> of
-                                                        use
-                                                    </p>
-                                                </div>
-
-                                            </div>
-
-
-                                        </div>
-
-                                    </b-form>
-
-                                </validation-observer>
-
-                            </div>
-
-
-                        </div>
-
-                        <div class="jb-modal-footer">
-                            <p>Already a member?
-                                <span class="t-orange" @click="showLogInModal">Login</span>
-                            </p>
-                        </div>
-
-
-                    </div>
-                </div>
-
-
-            </div>
-
-
-        </div>
 
     </header>
 </template>

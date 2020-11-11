@@ -37,6 +37,7 @@ Route::prefix('v1')->group(function () {
     });
     Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
     Route::get('/notifications', [App\Http\Controllers\ProfileController::class, 'getNotifications']);
+    Route::post('/notifications/mark_all_as_read', [App\Http\Controllers\ProfileController::class, 'markAllAsRead']);
 
 
     Route::prefix('projects')->group(function () {
@@ -51,7 +52,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
         Route::patch('/update/{id}', [App\Http\Controllers\ProjectController::class, 'update']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
-
 
         //bid
         Route::prefix('{project_id}')->group(function () {
@@ -82,7 +82,7 @@ Route::prefix('v1')->group(function () {
 
 
     Route::prefix('{user}')->group(function () {
-        Route::post('/portfolio',[App\Http\Controllers\PortfolioController::class,'create']);
+        Route::post('/portfolio', [App\Http\Controllers\PortfolioController::class, 'create']);
     });
 
 
@@ -91,6 +91,12 @@ Route::prefix('v1')->group(function () {
     Route::post('/pay', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGateway']);
     Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController::class, 'handleGatewayCallback']);
 
+
+    //skills
+    Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
+
+    //getting he profile
+    Route::get('{username}', [App\Http\Controllers\ProfileController::class, 'readProfileForPublic']);
 
 });
 

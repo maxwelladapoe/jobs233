@@ -1,164 +1,159 @@
 <template>
-    <div class="jb-main-section-wrapper-alt p-0  ">
+    <div class="jb-main-section-wrapper-alt">
 
         <div class="jb-section p-0 m-0">
             <img src="/images/slider/1.jpg" class="bg-image" alt="">
 
             <div class="jb-overlay"></div>
 
-            <div class="container ">
+            <div class="container jb-login-wrap">
 
 
-                <div class="row jb-login-wrap">
-                    <div class="col-lg-6">
-                        <p class="t-1 t-meri t-white">Work / Get hired</p>
-                        <p class="t-meri t-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid
-                            architecto aspernatur
-                            assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis quo
-                            quod rem sed similique unde voluptatibus.</p>
-                    </div>
-                    <div class="col-sm-12 col-lg-5 offset-lg-1">
-                        <b-card class="border-0" footer-class="bg-white" header-class="bg-white">
 
-                            <div class="jb-box-overlay" :class="{'show':isLoading}">
+                    <div class="columns  is-vcentered" >
+                        <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
 
-                                <div class="loading-contents-wrap">
+                            <h1 class=" t-white title">Work / Get hired</h1>
+                            <p class="t-meri t-white subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                Aliquid
+                                architecto aspernatur
+                                assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis quo
+                                quod rem sed similique unde voluptatibus.</p>
+                        </div>
+                        <div class="column is-12-mobile is-5-desktop is-offset-1-desktop">
+                            <div class="card">
 
-                                    <div class="inner">
+                                <div class="jb-box-overlay" :class="{'show':isLoading}">
 
-                                        <div class="loader"></div>
-                                        <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
-                                    </div>
-                                </div>
+                                    <div class="loading-contents-wrap">
 
+                                        <div class="inner">
 
-                            </div>
-
-                            <template v-slot:header>
-                                Login
-                            </template>
-
-                            <validation-observer v-slot="{ handleSubmit }" ref="loginForm">
-
-                                <b-form @submit.prevent="handleSubmit(loginSubmit)">
-
-
-                                    <validation-provider
-                                        name="Email / Username"
-                                        :rules="{ required: true, min: 3,  }"
-                                        v-slot="validationContext"
-                                    >
-
-                                        <b-form-group
-                                            id="email"
-                                            label="Email / Username"
-                                            label-for="identity">
-                                            <b-form-input id="identity" name="identity"
-                                                          v-model="loginCredentials.identity"
-
-                                                          :state="getValidationState(validationContext)"
-                                                          aria-describedby="email-live-feedback"
-                                                          placeholder="kwame@example.com"></b-form-input>
-
-                                            <b-form-invalid-feedback id="email-live-feedback">{{
-                                                validationContext.errors[0] }}
-                                            </b-form-invalid-feedback>
-
-                                        </b-form-group>
-
-                                    </validation-provider>
-
-                                    <validation-provider
-                                        rules="required"
-                                        name="password"
-                                        v-slot="validationContext">
-                                        <b-form-group
-                                            id="password"
-                                            label="Password"
-                                            label-for="password">
-
-
-                                            <div class="input-with-icon">
-
-
-                                                <b-form-input id="password" :type="!ipv?'password':'text'"
-                                                              v-model="loginCredentials.password"
-                                                              :state="getValidationState(validationContext)"
-                                                              placeholder=""
-                                                              aria-describedby="password-live-feedback"></b-form-input>
-                                                <b-icon :icon="!ipv?'eye':'eye-slash'" class="the-icon"
-                                                        @click="ipv = !ipv"/>
-
-                                            </div>
-
-
-                                            <b-form-invalid-feedback id="password-live-feedback">
-                                                {{validationContext.errors[0]
-                                                }}
-                                            </b-form-invalid-feedback>
-
-                                        </b-form-group>
-
-                                    </validation-provider>
-
-
-                                    <div class="errors" v-if="displayErrors">
-
-                                        <p class="t-6 text-danger" v-for="error in errorMessages">
-                                            {{error[0]}}
-                                        </p>
-
-                                    </div>
-
-
-                                    <div class="form-group">
-
-                                        <b-form-checkbox class="mb-2 mr-sm-2 mb-sm-0 t-mont"
-                                                         v-model="loginCredentials.remember"> <span
-                                            class="small" switch>Remember Me
-                                    </span>
-                                        </b-form-checkbox>
-
-                                    </div>
-
-
-                                    <div class="form-group mb-0">
-
-                                        <div class="row">
-                                            <div class="col-sm-12 col-md-6">
-                                                <button class="btn bg-orange" type="submit">
-                                                   <span>
-
-                                                    Login</span>
-                                                </button>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-
-                                            </div>
-
+                                            <div class="loader"></div>
+                                            <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
                                         </div>
-
-
                                     </div>
 
-                                </b-form>
 
-                            </validation-observer>
-
-
-                            <template v-slot:footer>
-                                <div class="jb-modal-footer">
-
-                                    Not a member?
-                                    <span><router-link class="t-orange"
-                                                       :to="{name:'SignUp'}">SignUp</router-link></span>
                                 </div>
-                            </template>
-                        </b-card>
+
+                                <header class="card-header">
+                                    Login
+                                </header>
+
+                                <div class="card-content">
+
+
+                                    <validation-observer v-slot="{ handleSubmit }" ref="loginForm">
+
+                                        <section>
+                                            <form @submit.prevent="handleSubmit(loginSubmit)">
+
+
+                                                <ValidationProvider
+                                                    name="Email / Username"
+                                                    :rules="{ required: true, min: 3,  }"
+                                                    v-slot="{ errors, valid }"
+                                                >
+                                                    <b-field
+                                                        label="Email / Username"
+                                                        label-for="identity"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }">
+                                                        <b-input id="identity" name="identity"
+                                                                 v-model="loginCredentials.identity"
+                                                                 aria-describedby="email-live-feedback"
+                                                                 placeholder="kwame@example.com"></b-input>
+
+                                                    </b-field>
+
+                                                </ValidationProvider>
+
+                                                <ValidationProvider
+                                                    rules="required"
+                                                    name="password"
+                                                    v-slot="{ errors, valid }">
+                                                    <b-field
+                                                        label="Password"
+                                                        label-for="password"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+
+
+                                                        <div class="input-with-icon">
+
+
+                                                            <b-input id="password" :type="!ipv?'password':'text'"
+                                                                     v-model="loginCredentials.password"
+                                                                     placeholder=""
+                                                                     aria-describedby="password-live-feedback"></b-input>
+                                                            <b-icon :icon="!ipv?'eye':'eye-slash'" class="the-icon"
+                                                                    @click="ipv = !ipv"/>
+
+                                                        </div>
+
+                                                    </b-field>
+
+                                                </ValidationProvider>
+
+
+                                                <div class="errors" v-if="displayErrors">
+
+                                                    <p class="t-6 text-danger" v-for="error in errorMessages">
+                                                        {{error[0]}}
+                                                    </p>
+
+                                                </div>
+
+
+                                                <b-field class="mt-3">
+
+                                                    <b-switch :rounded="false" class="mb-2 mr-sm-2 mb-sm-0 t-mont"
+                                                              v-model="loginCredentials.remember"> <span
+                                                        class="small" switch>Remember Me
+                                    </span>
+                                                    </b-switch>
+
+                                                </b-field>
+
+
+                                                <div class="field mb-0">
+
+                                                    <div class="columns">
+                                                        <div class="column is-12 is-6-tablet">
+                                                            <button class="button bg-orange" type="submit">
+                                                                Login
+                                                            </button>
+                                                        </div>
+                                                        <div class="column is-12 is-6-tablet">
+
+                                                        </div>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </form>
+                                        </section>
+                                    </validation-observer>
+                                </div>
+
+                                <footer class="card-footer">
+                                    <div class="jb-modal-footer">
+
+                                        Not a member?
+                                        <span><router-link class="t-orange"
+                                                           :to="{name:'SignUp'}">SignUp</router-link></span>
+                                    </div>
+                                </footer>
+                            </div>
+                        </div>
+
+
                     </div>
 
-
-                </div>
             </div>
 
 
@@ -230,6 +225,7 @@
 
         .bg-image {
             position: absolute;
+
             width: 100%;
             height: 100%;
             object-fit: cover;

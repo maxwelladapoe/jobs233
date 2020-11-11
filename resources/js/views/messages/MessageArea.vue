@@ -12,9 +12,9 @@
                         <div class="jb-chat-list">
 
                             <div class="search-box">
-                                <b-form-group>
-                                    <b-form-input placeholder="Search"></b-form-input>
-                                </b-form-group>
+                                <b-field>
+                                    <b-input placeholder="Search"></b-input>
+                                </b-field>
                             </div>
 
                             <ul class="jb-chat-users-list">
@@ -59,8 +59,10 @@
                             <div class="jb-chat-header">
 
                                 <div>
-                                    <span class="t-1 text-success"> <b-icon-arrow-left-circle-fill
-                                        @click="showChatArea=!showChatArea" class="d-md-none cursor-pointer"/></span>
+                                    <span class="t-1 text-success">
+                                        <b-icon icon="arrow_back"
+                                                @click="showChatArea=!showChatArea"
+                                                class="d-md-none cursor-pointer"/></span>
                                 </div>
 
                                 <div>
@@ -142,34 +144,30 @@
                             <div class="jb-chat-input">
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="sendMessageForm">
-                                    <b-form @submit.prevent="handleSubmit(sendMessage)">
-                                        <validation-provider
+                                    <form @submit.prevent="handleSubmit(sendMessage)">
+                                        <ValidationProvider
                                             persist
                                             name="additional details"
                                             :rules="{ required: true, min: 3, max:2000}"
-                                            v-slot="validationContext">
+                                            v-slot="validationContext" slim>
 
-                                            <b-form-invalid-feedback id="message-live-feedback">
-                                                {{validationContext.errors[0] }}
-                                            </b-form-invalid-feedback>
+                                            <b-field expanded>
 
-
-                                            <b-input-group>
-
-                                                <b-form-textarea no-resize rows="2"
-                                                                 v-model="messageDetails.message"
-                                                                 :state="getValidationState(validationContext)"
-                                                                 placeholder="Type your message..."
-                                                                 aria-describedby="message-live-feedback"></b-form-textarea>
-                                                <b-input-group-append>
-                                                    <b-button type="submit" variant="success"> <span>Send</span> <span><md-send-icon  /></span>
-
+                                                <b-input rows="2"
+                                                         type="textarea"
+                                                         expanded
+                                                         v-model="messageDetails.message"
+                                                         placeholder="Type your message..."
+                                                         icon="chat_bubble"></b-input>
+                                                <p class="control">
+                                                    <b-button size="is-large" type="is-success" icon-right="send">
                                                     </b-button>
-                                                </b-input-group-append>
-                                            </b-input-group>
+                                                </p>
 
-                                        </validation-provider>
-                                    </b-form>
+                                            </b-field>
+
+                                        </ValidationProvider>
+                                    </form>
                                 </ValidationObserver>
 
                             </div>
