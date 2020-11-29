@@ -7,10 +7,10 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
-    window.$ = window.jQuery = require('jquery');
+    //window.Popper = require('popper.js').default;
+    //window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
+    //require('bootstrap');
 } catch (e) {
 }
 
@@ -37,7 +37,7 @@ if (window.location.href.indexOf(".test") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
     window.axios.defaults.baseURL = "http://localhost:8000/api/" + version + "/";
     window.baseUrl = "http://localhost:8000/api/" + version + "/"
-}else if (window.location.href.indexOf("127.0.0.1") !== -1) {
+} else if (window.location.href.indexOf("127.0.0.1") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
     window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/" + version + "/";
     window.baseUrl = "http://127.0.0.1:8000/api/" + version + "/"

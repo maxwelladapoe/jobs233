@@ -2,13 +2,7 @@
 
     <div class="jb-main-section-wrapper" v-if="authenticated">
 
-        <div class="jb-section">
-            <div class="container">
-                <h1 class="t-mont title">Create a project</h1>
-                <p class="text-left t-meri t-normal subtitle">Don't waste any more time. Post your project for free <br>
-                    and start getting responses in minutes</p>
-            </div>
-        </div>
+
 
         <div class="jb-section-small-special bg-ash-light">
             <div class="container">
@@ -79,13 +73,12 @@
                                             <b-field
                                                 label="Title"
                                                 label-class="t-mont t-bold"
-
                                                 :message="errors"
                                                 :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                 label-for="title">
 
                                                 <b-input id="title" type="text"
-                                                         placeholder="Project title here"
+                                                         placeholder=""
                                                          v-model="project.title"
                                                          aria-describedby="title-live-feedback">
 
@@ -145,11 +138,11 @@
                                                 >
 
                                                     <b-select placeholder="Select a category"
-                                                              v-model="project.category" expanded>
+                                                              v-model="project.category_id" expanded>
                                                         <option
                                                             v-for="category  in categories"
                                                             :key="category.id"
-                                                            :value="category">{{category.name}}
+                                                            :value="category.id">{{category.name}}
                                                         </option>
 
                                                     </b-select>
@@ -172,7 +165,7 @@
                                                     :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                     expanded
                                                 >
-                                                    <b-select v-model="project.subcategory"
+                                                    <b-select v-model="project.secondary_category_id"
                                                               placeholder="Select a subcategory"
                                                               expanded
                                                               :disabled="subCategories == null">
@@ -180,7 +173,7 @@
                                                         <option
                                                             v-for="subCategory  in subCategories"
                                                             :key="subCategory.id"
-                                                            :value="subCategory">{{subCategory.name}}
+                                                            :value="subCategory.id">{{subCategory.name}}
                                                         </option>
 
                                                     </b-select>
@@ -219,7 +212,7 @@
                                                             placeholder="  Select a
                                                                             currency"
                                                             name="currency"
-                                                            v-model="project.currency">
+                                                            v-model="project.currency_id">
 
                                                             <option v-for="currency in currencies"
                                                                     :key="currency.id"
@@ -234,7 +227,7 @@
 
 
                                                 <ValidationProvider
-                                                    :rules="{ required: true, integer:true, min:1}"
+                                                    :rules="{ required: true,  min:1}"
                                                     name="budget"
                                                     v-slot="{ errors, valid }" slim
                                                 >
@@ -243,8 +236,8 @@
                                                         :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                         expanded
                                                     >
-                                                        <b-input id="budget" type="number" min="1"
-                                                                 placeholder="120"
+                                                        <b-input id="budget" type="text" min="1"
+                                                                 placeholder=""
                                                                  name="budget"
                                                                  expanded
                                                                  v-model="project.budget">
@@ -269,7 +262,7 @@
 
                                         <ValidationProvider
                                             :rules="{ required: true,}"
-                                            name="skills" slim
+                                            name="skills"
                                             v-slot="{ errors, valid }"
                                         >
                                             <b-field
@@ -286,29 +279,30 @@
                                                     :data="skillsListFiltered"
                                                     icon="label"
                                                     autocomplete
-                                                    maxtags="5"
                                                     field="name"
                                                     @typing="getFilteredSkills"
                                                     placeholder="Add preferred skills"
                                                     v-model="project.skills"
 
+                                                    @input="titleCharacterCount()"
                                                     aria-describedby="title-live-feedback">
-                                                    <template slot-scope="props" >
+                                                    <template slot-scope="props">
                                                        {{props.option.name}}
                                                     </template>
                                                     <template slot="empty">
-                                                        There are no skills
+                                                        There are no items
                                                     </template>
                                                 </b-taginput>
 
                                             </b-field>
 
+                                            <pre style="max-height: 400px"><b>Skills:</b>{{ project.skills }}</pre>
 
                                         </ValidationProvider>
                                         <ValidationProvider
                                             :rules="{ required: false,}"
                                             v-slot="{ errors, valid }"
-                                            name="Tags" slim
+                                            name="Tags"
                                         >
                                             <b-field
                                                 id="tags"
@@ -336,7 +330,7 @@
                                         <ValidationProvider
                                             :rules="{ required: false,}"
                                             v-slot="{ errors, valid }"
-                                            name="extra requirements" slim
+                                            name="extra requirements"
                                         >
                                             <b-field label="Any Extra
                                                 Requirements"
@@ -353,9 +347,9 @@
 
                                         <!--deadline -->
                                         <ValidationProvider
-                                            :rules="{ required: true}"
+                                            :rules="{ required: true,}"
                                             name="deadline"
-                                            v-slot="{ errors, valid }" slim
+                                            v-slot="{ errors, valid }"
                                         >
                                             <b-field
                                                 id="deadline"
@@ -368,8 +362,6 @@
                                                 <b-datepicker
                                                     input-id="deadline"
                                                     name="deadline"
-                                                    :min-date="minDate"
-                                                    icon="calendar-today"
                                                     placeholder=" Select deadline"
                                                     v-model="project.deadline"
                                                     aria-describedby="deadline-live-feedback">
@@ -387,40 +379,41 @@
 
                                     <div :key="4" v-if="step===3">
                                         <p class="t-mont t-bold t-orange">Title</p>
-                                        <p class="mb-3">{{project.title}}</p>
+                                        <p>{{project.title}}</p>
 
                                         <p class="t-mont t-bold t-orange"> Description</p>
-                                        <p class="mb-3">{{project.description}}</p>
+                                        <p>{{project.description}}</p>
 
                                         <p class="t-mont t-bold t-orange"> Category</p>
-                                        <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> > {{project.subcategory.name}}  </p>
+                                        <p>{{project.category}}</p>
 
                                         <p class="t-mont t-bold t-orange"> Budget</p>
-                                        <p class="mb-3">{{project.currency}} {{project.budget}}</p>
+                                        <p>{{project.budget}}</p>
 
                                         <p class="t-mont t-bold t-orange"> Additional Information</p>
-                                        <p class="mb-3">{{project.additional_details}}</p>
+                                        <p>{{project.additional_details}}</p>
 
-                                        <p class="t-mont t-bold t-orange"> Skills</p>
-                                            <b-taglist class="mb-3">
-                                            <template v-for="skill in project.skills">
-                                                <b-tag class="mr-1" type="is-success">{{skill.name}}</b-tag>
+                                        <p class="t-mont t-bold t-orange"> skills</p>
+                                        <h6>
+                                            <b-taglist>
+                                            <template v-for="skill in project.skills.split(',')">
+
+                                                    <b-tag  type="is-success">{{skill}}</b-tag>
+
+
                                             </template>
                                             </b-taglist>
+                                        </h6>
 
+                                        <p class="t-mont t-bold t-orange"> tags</p>
 
-
-                                        <p class="t-mont t-bold t-orange"> Tags</p>
-
-
-
-                                        <b-taglist>
-                                            <template v-for="tag in project.tags">
+                                        <h6>
+                                            <b-taglist>
+                                            <template v-for="tag in project.tags.split(',')">
                                                 <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
                                             </template>
-                                        </b-taglist>
-
-
+                                            </b-taglist>
+                                        </h6>
 
 
                                     </div>
@@ -507,9 +500,7 @@
             title: 'Create Project',
         },
 
-        data() {
-            const today = new Date();
-
+        data: function () {
             return {
                 categories: [],
                 skillsList: [],
@@ -518,11 +509,9 @@
                 isLoading: false,
                 isSuccessful: false,
 
-                minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1),
-
-
                 dropAreaDragOver: false,
                 dropAreaDragLeave: false,
+                projectNotFound:false,
 
                 project: {
                     title: '',
@@ -532,6 +521,8 @@
                     currency: null,
                     subcategory: null,
                     additional_details: '',
+                    category_id:null,
+                    secondary_category_id:null,
                     skills: [],
                     tags: [],
                     deadline: null,
@@ -539,7 +530,7 @@
                 currencies: [],
 
                 titleLength: 0,
-                step: 2,
+                step: 1,
                 totalSteps: 3,
 
                 editorOption: {
@@ -591,6 +582,8 @@
                     budget: '',
                     currency: null,
                     subcategory: null,
+                    category_id:null,
+                    secondary_category_id:null,
                     additional_details: '',
                     skills: '',
                     tags: [],
@@ -610,28 +603,7 @@
                 }
 
                 for (let key in this.project) {
-
-                    //some filtering is going on here to reduce the request size
-                    if(key ==='category'){
-                        formData.append(key, this.project[key].id)
-                    }
-                    else if(key ==='subcategory'){
-                        formData.append(key, this.project[key].id)
-                    } else if(key ==='skills'){
-
-                        let skillArray = []
-                        for( let i=0; i< this.project[key].length ;i++ ){
-                            skillArray.push(this.project[key][i].name)
-                        }
-
-
-                        formData.append(key, skillArray.toString())
-
-                    }
-                    else{
-                        formData.append(key, this.project[key]);
-
-                    }
+                    formData.append(key, this.project[key]);
                 }
 
                 // data.append(...this.project);
@@ -684,6 +656,18 @@
                 this.currencies = data.currencies;
 
             })
+            axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
+                this.project = data.project;
+
+                console.log("the project" ,this.project);
+                //this.bid.project_id= this.project.id;
+                //this.bid.currency = this.project.currency.id;
+            }).catch(() => {
+                this.projectNotFound = true;
+            });
+
+
+
 
         },
         computed: {
@@ -691,8 +675,12 @@
             subCategories() {
                 let subCat = null;
 
-                if (this.project.category != null) {
-                    let selectedCategory = this.project.category;
+                if (this.project.category_id != null) {
+                    let selectedCategory = this.categories.find(
+                        (category) => {
+                            return category.id === this.project.category_id
+                        }
+                    );
                     subCat = selectedCategory.subcategories;
                 }
 

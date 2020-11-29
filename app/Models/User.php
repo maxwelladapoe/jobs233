@@ -39,7 +39,7 @@ class User extends Authenticatable implements Customer
         'password',
         'remember_token',
     ];
-    protected $with = ['profile', 'wallet'];
+    protected $with = ['profile', 'wallet', 'skills'];
     protected $withCount = ['projects'];
 
     /**
@@ -105,6 +105,12 @@ class User extends Authenticatable implements Customer
         // Customize array...
 
         return $array;
+    }
+
+//the skills function is primary accessed through the pivot table UserSkill
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
     }
 
 

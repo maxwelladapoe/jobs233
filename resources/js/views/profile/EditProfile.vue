@@ -3,12 +3,12 @@
 
         <div class="jb-section">
             <div class="container">
-                <div class="row">
+                <div class="columns">
                     <div class="col-12 mx-auto  ">
 
 
-                        <div class="row">
-                            <div class="col-12 col-lg-9 order-1 order-md-0">
+                        <div class="columns">
+                            <div class="col-12 col-lg-9 order-1 order-lg-0">
                                 <p>Profile</p>
                                 <div class="card bg-white ">
 
@@ -21,7 +21,7 @@
                                                 <b-form @submit.prevent="handleSubmit(editProfile)">
 
 
-                                                    <div class="row">
+                                                    <div class="columns">
 
                                                         <div class="col-md-12">
                                                             <validation-provider
@@ -186,7 +186,7 @@
 
                                                     <p>Location Details</p>
 
-                                                    <div class="row">
+                                                    <div class="columns">
                                                         <div class="col-md-6">
                                                             <validation-provider
                                                                 persist
@@ -401,7 +401,7 @@
                                 </div>
                             </div>
                             <div
-                                class="col-10 offset-1 offset-sm-2 col-sm-8 offset-lg-0 col-lg-3 order-0 order-md-1 mb-5 ">
+                                class="col-10  col-sm-8  col-lg-3 order-0 order-lg-1 mb-5 ">
 
                                 <b-form class="" @submit.prevent="changeProfilePicture">
                                     <div class="jb-profile-picture">
@@ -422,6 +422,69 @@
                                     <b-button class="mt-3" type="submit" v-if="showUploadButton">Upload</b-button>
                                 </b-form>
 
+
+                                <div class=" mt-5">
+                                    <p>Skills</p>
+                                    <div class="">
+
+                                        <div class="jb-project-form ">
+
+
+                                            <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
+                                                <b-form @submit.prevent="handleSubmit(editProfile)">
+
+
+                                                    <validation-provider
+                                                        persist
+                                                        name="skills"
+                                                        :rules="{ required: true, min: 3, max:150}"
+                                                        v-slot="validationContext"
+                                                    >
+
+                                                        <b-form-group
+                                                            id="skills">
+                                                            <b-input-group class="mb-2">
+                                                                <b-form-input
+                                                                    v-model="additionalSkill"
+                                                                    placeholder="Add Skill"
+                                                                    class="form-control"
+                                                                ></b-form-input>
+                                                                <b-input-group-append>
+                                                                    <b-button @click="addSkill()" variant="primary">Add
+                                                                    </b-button>
+                                                                </b-input-group-append>
+                                                            </b-input-group>
+
+                                                            <b-form-invalid-feedback id="title-live-feedback">
+                                                                {{validationContext.errors[0] }}
+                                                            </b-form-invalid-feedback>
+
+
+                                                            <div class="d-inline-block" style="font-size: 1.5rem;">
+                                                                <b-form-tag
+                                                                    v-for="skill in skills"
+                                                                    @remove="removeTag(skill)"
+                                                                    :key="skill"
+                                                                    :title="skill"
+                                                                    :variant="tagVariant"
+                                                                    class="mr-1"
+                                                                >{{ skill }}
+                                                                </b-form-tag>
+                                                            </div>
+
+                                                        </b-form-group>
+
+                                                    </validation-provider>
+
+                                                </b-form>
+                                            </ValidationObserver>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
                             </div>
 
                         </div>
@@ -435,13 +498,13 @@
         </div>
         <div class="jb-section">
             <div class="container">
-                <div class="row">
+                <div class="columns">
 
                     <div class="col-12 col-lg-9  ">
                         <div class="jb-title-with-icon">
                             <div><p>Your Portfolio</p></div>
                             <div @click="showPortfolioForm = !showPortfolioForm" class="cursor-pointer t-6 t-orange">
-                                <ion-icon name="add-circle"></ion-icon>
+                                <span><md-add-icon/></span>
                                 <span>Add Item</span>
                             </div>
                         </div>
@@ -536,13 +599,16 @@
                 profileUpdateLoading: false,
                 showPortfolioItem: false,
 
+
                 portfolio: {
                     file: new File([], "", undefined),
-                    skillsAndTools: ['Apple', 'Orange', 'Banana', 'Lime', 'Peach', 'Chocolate', 'Strawberry']
+                    skillsAndTools: []
 
                 },
-                portfolioItems: []
-
+                portfolioItems: [],
+                allSkills: [],
+                additionalSkill: '',
+                skills: [],
             }
         },
         methods: {
@@ -566,6 +632,13 @@
             },
 
             addPortfolioItem() {
+
+            },
+
+            addSkill() {
+
+            },
+            removeTag() {
 
             },
             submitPortfolio() {
@@ -625,6 +698,9 @@
             this.imagePreview = this.profileDetails.picture;
             this.userDetails = {...this.user};
 
+            axios.get('skills').then(({data}) => {
+                this.allSkills = data.skills;
+            })
             delete this.userDetails.profile;
         },
         computed: {

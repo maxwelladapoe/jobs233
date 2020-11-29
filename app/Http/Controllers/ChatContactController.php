@@ -27,8 +27,9 @@ class ChatContactController extends Controller
 
         $contacts = ChatContact::where('user_id', Auth::user()->id)->pluck('related_user_id')->toArray();
 
-        $relatedContacts = ChatContact::where('related_user_id', Auth::user()->id)->pluck('user_id')->toArray();
 
+
+        $relatedContacts = ChatContact::where('related_user_id', Auth::user()->id)->pluck('user_id')->toArray();
 
         $allContacts = User::whereIn('id',array_merge($contacts,$relatedContacts))->orderBy('updated_at','desc')->get();
 

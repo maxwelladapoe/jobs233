@@ -6,13 +6,12 @@
             <div class="jb-section">
                 <div class="container">
 
-                    <div class="row">
-                        <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
+                    <div class="columns is-multiline ">
+                        <div class=" column is-8">
 
+                            <p class="t-bold jb-project-title-big t-mont mb-3">{{project.title}}</p>
 
-                            <p class="t-bold jb-project-title-big t-mont ">{{project.title}}</p>
-
-                            <p class="t-meri"> <span class="t-bold">
+                            <p class="t-meri mb-3"> <span class="t-bold">
                                 {{project.category.name}}
                             </span>
 
@@ -20,36 +19,35 @@
                             </p>
 
                             <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
-                            <p class="t-meri">{{project.description}}</p>
+                            <p class="t-meri mb-3">{{project.description}}</p>
 
                             <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
-                            <h5>
+                            <b-taglist>
                                 <template v-for="skill in project.skills.split(',')">
 
 
-                                    <b-badge variant="success" class="mr-1">{{skill}}</b-badge>
+                                    <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
 
                                 </template>
-                            </h5>
+                            </b-taglist>
 
 
                             <template v-if="project.complexity">
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Complexity</p>
-                                <p>{{project.complexity}}</p>
+                                <p class="mb-3">{{project.complexity}}</p>
                             </template>
 
 
                             <template v-if="project.tags">
                                 <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Tags</p>
 
-                                <h5>
+                                <b-taglist>
                                     <template v-for="tag in project.tags.split(',')">
 
-
-                                        <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                        <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
 
                                     </template>
-                                </h5>
+                                </b-taglist>
                             </template>
 
 
@@ -57,7 +55,7 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
 
 
-                                <div class="row mt-2">
+                                <div class="columns mt-2">
                                     <template v-for="attachment in project.attachments">
 
 
@@ -102,13 +100,94 @@
 
                         </div>
 
-                        <div class="col-md-12 col-lg-4">
+                        <div class="column is-4 ">
                             <p class="t-mont jb-project-title-small t-bold t-orange">Accepted Offer</p>
-                            <p class="t-meri t-4 t-bold">{{acceptedBid.currency.symbol}} {{acceptedBid.amount}}</p>
+                            <p class="t-meri t-4 t-bold mb-3">{{acceptedBid.currency.symbol}} {{acceptedBid.amount}}</p>
 
-                            <p class="t-mont jb-project-title-small t-bold t-orange">Official Budget</p>
-                            <p class="t-meri t-4 t-bold">{{project.currency.symbol}} {{project.budget}}</p>
 
+                            <!-- Placed bids -->
+                            <template v-if=" authenticated && user &&( project.user_id === user.id)">
+
+                                <!--if the project bids are available and the bids count is greater than zero -->
+                                <template v-if="acceptedBid">
+
+
+                                    <div class="jb-bids-wrap">
+                                        <div class="jb-bid">
+
+                                            <div class="top">
+                                                <div class="profile-details-wrap">
+                                                    <router-link
+                                                        :to="{name:'ViewProfile',params:{username:acceptedBid.user.username}}">
+
+                                                        <div><p>
+                                                            <img :src="acceptedBid.user.profile.picture" alt=""
+                                                                 class="rounded-circle mr-2"
+                                                                 width="30">
+                                                            <span class="t-meri">{{acceptedBid.user.name}}</span></p>
+                                                        </div>
+                                                    </router-link>
+                                                    <div>
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="bid-details-wrap">
+                                                    <div>
+                                                        <p class="t-meri text-right t-6">
+                                                            <timeago :datetime="acceptedBid.created_at"
+                                                                     :auto-update="60"/>
+                                                        </p>
+                                                        <p class="t-meri t-5">
+                                                            offer <span class="t-bold">{{acceptedBid.currency.symbol}} {{acceptedBid.amount}}</span>
+                                                        </p>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="bottom">
+                                                <div class="more-info-wrap">
+                                                    <template v-if="acceptedBid.additional_details">
+                                                        <p v-b-toggle="'collapse-'+acceptedBid.id+'-inner'"
+                                                           size="is-small"
+                                                           class="t-orange t-6 text-right m-0"
+                                                           style="border: none; cursor: pointer">More info</p>
+
+                                                        <b-collapse :id="'collapse-'+acceptedBid.id+'-inner'"
+                                                                    class="mt-1">
+                                                            <div class="text-right mt-0 p-0">
+                                                                <p>{{acceptedBid.additional_details}}</p>
+                                                            </div>
+                                                        </b-collapse>
+
+                                                    </template>
+                                                </div>
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+
+
+                                </template>
+                            </template>
+                            <!-- Placed bids -->
+                            <hr>
+
+
+
+                            <p class="t-meri"><span>Deadline</span>
+                                <span class="t-6 badge pill badge-danger">
+                                <timeago :datetime="project.deadline" :auto-update="60"/></span>
+                            </p>
 
                             <hr>
 
@@ -123,98 +202,235 @@
                                 <span class="mr-auto" v-if="authenticated && (user.id === project.user.id)">You</span>
                                 <span class="mr-auto" v-else>{{project.user.name}}</span>
 
+
                             </p>
-
-                            <p>Joined
-                                <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
-                            </p>
-
-
-                            <hr>
-
-                            <p class="t-meri"><span>Deadline</span>
-                                <span class="t-6 badge pill badge-danger">
-                                <timeago :datetime="project.deadline" :auto-update="60"/></span>
-                            </p>
-                            <hr>
 
 
                             <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
+                                <hr>
+
                                 <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
 
-                                <template v-if="authenticated && project.user.id === user.id">
-                                    <router-link to="" class="btn bg-orange ">Edit this job</router-link>
-                                </template>
                             </template>
 
                         </div>
 
+                        <div class="column is-8">
 
-                        <div class="col-md-12 col-lg-8" v-if="acceptedBid.user_id === user.id">
+                            <div v-if="acceptedBid.user_id === user.id">
 
-                            <div>
-                                <validationObserver v-slot="{handleSubmit}" ref="submitForReview">
+                                <p class="h4 t-mont t-bold"> Status Update</p>
+                                <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
 
-                                    <b-form @submit.prevent="handleSubmit(submitForReview)">
-                                        <validation-provider>
+                                    <form>
+                                        <ValidationProvider
+                                            :rules="{ required: true}"
+                                            v-slot="{ errors, valid }"
+                                            name="Status" slim>
 
-                                            <b-form-group
-
-
+                                            <b-field
                                                 id="status"
-                                                label="Select Status"
+                                                label="Status"
                                                 label-class="t-mont t-bold"
                                                 label-for="select_status"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                expanded
                                             >
-
-
-                                                <b-select>
-                                                    <b-select-option value="in-progress">
+                                                <b-select expanded placeholder="Select Project Status"
+                                                          v-model="statusUpdate.status">
+                                                    <option value="assigned" disabled>
+                                                        Assigned
+                                                    </option>
+                                                    <option value="in-progress">
                                                         In progress
-                                                    </b-select-option>
-                                                    <b-select-option value="submitted-for-review">
+                                                    </option>
+                                                    <option value="submitted-for-review">
                                                         Submitted for Review
-                                                    </b-select-option>
+                                                    </option>
                                                 </b-select>
 
-                                            </b-form-group>
-                                        </validation-provider>
+                                            </b-field>
+                                        </ValidationProvider>
 
 
-                                        <validation-provider>
-                                            <b-form-group
+                                        <ValidationProvider :rules="{ required: true}"
+                                                            v-slot="{ errors, valid }"
+                                                            name="Message" slim>
+                                            <b-field
 
-                                                id="note"
-                                                label="Add Note"
+                                                id="message"
+                                                label="Message"
                                                 label-class="t-mont t-bold"
                                                 label-for="add_note"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                             >
-                                                <b-textarea rows="3" no-resize>
-                                                </b-textarea>
-                                            </b-form-group>
+                                                <b-input
+                                                    type="textarea"
+                                                    placeholder="Enter message here"
+                                                    rows="3"
+                                                    v-model="statusUpdate.message"
+                                                    no-resize>
+                                                </b-input>
+                                            </b-field>
 
-                                        </validation-provider>
-
-                                        <b-form-group>
-                                            <attach-files v-model="attachedFiles"></attach-files>
-
-                                        </b-form-group>
+                                        </ValidationProvider>
 
 
-                                        <b-form-group>
-                                            <b-button type="submit">
+                                        <b-field>
+                                            <attach-files v-model="uploadedFileList"></attach-files>
+
+                                        </b-field>
+
+
+                                        <b-field>
+                                            <b-button type="is-success"
+                                                      @click.prevent="handleSubmit(projectStatusUpdate)">
                                                 Submit
                                             </b-button>
-                                        </b-form-group>
+                                        </b-field>
 
-                                    </b-form>
-                                </validationObserver>
+                                    </form>
+                                </ValidationObserver>
+
+
+                            </div>
+                            <div v-if="project.user_id === user.id">
+
+                                <p class="h4 t-mont t-bold"> Review Update</p>
+
+                                <template v-if="latestStatusUpdate">
+
+                                    <div class="mt-2 mb-3 p-3 border" >
+                                        <p class="t-6 t-orange">
+                                            <b-icon icon="update" size="is-small"/>
+                                            <span>{{latestStatusUpdate.status.replace('-',' ')}}</span></p>
+                                        <p>
+                                            <b-icon icon="message" size="is-small"></b-icon>
+                                            {{latestStatusUpdate.message}}
+                                        </p>
+                                        <p class="t-6 mt-2 t-ash text-right">
+                                            <timeago :datetime="latestStatusUpdate.created_at" :auto-update="60"/>
+                                        </p>
+                                    </div>
+
+                                </template>
+
+
+
+
+                                <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
+
+                                    <form>
+                                        <ValidationProvider
+                                            :rules="{ required: true}"
+                                            v-slot="{ errors, valid }"
+                                            name="Status" slim>
+
+                                            <b-field
+                                                id="status"
+                                                label="Status"
+                                                label-class="t-mont t-bold"
+                                                label-for="select_status"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                expanded
+                                            >
+                                                <b-select expanded placeholder="Select Project Status"
+                                                          v-model="statusUpdate.status">
+
+                                                    <option value="further-changes-required">
+                                                        Further Changes Required
+                                                    </option>
+                                                    <option value="completed-successfully">
+                                                        Submitted for Review
+                                                    </option>
+
+
+                                                    <option value="assigned" disabled>
+                                                        Assigned
+                                                    </option>
+                                                    <option value="in-progress" disabled>
+                                                        In progress
+                                                    </option>
+                                                    <option value="submitted-for-review" disabled>
+                                                        Submitted for Review
+                                                    </option>
+                                                </b-select>
+
+                                            </b-field>
+                                        </ValidationProvider>
+
+
+                                        <ValidationProvider :rules="{ required: true}"
+                                                            v-slot="{ errors, valid }"
+                                                            name="Message" slim>
+                                            <b-field
+
+                                                id="message"
+                                                label="Message"
+                                                label-class="t-mont t-bold"
+                                                label-for="add_note"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                            >
+                                                <b-input
+                                                    type="textarea"
+                                                    placeholder="Enter message here"
+                                                    rows="3"
+                                                    v-model="statusUpdate.message"
+                                                    no-resize>
+                                                </b-input>
+                                            </b-field>
+
+                                        </ValidationProvider>
+
+
+                                        <b-field>
+                                            <attach-files v-model="uploadedFileList"></attach-files>
+
+                                        </b-field>
+
+
+                                        <b-field>
+                                            <b-button type="is-success"
+                                                      @click.prevent="handleSubmit(projectStatusUpdate)">
+                                                Submit
+                                            </b-button>
+                                        </b-field>
+
+                                    </form>
+                                </ValidationObserver>
 
 
                             </div>
 
+
                         </div>
+
+
+                        <div class="column is-4">
+
+                            <template v-if="statusUpdates.length> 0 ">
+                                <p class="t-bold">Recent Updates</p>
+
+                                <div class="mt-2 p-3 border" v-for="update in statusUpdates">
+                                    <p class="t-6 t-orange">
+                                        <b-icon icon="update" size="is-small"/>
+                                        <span>{{update.status.replace('-',' ')}}</span></p>
+                                    <p>
+                                        <b-icon icon="message" size="is-small"></b-icon>
+                                        {{update.message}}
+                                    </p>
+                                    <p class="t-6 mt-2 t-ash text-right">
+                                        <timeago :datetime="update.created_at" :auto-update="60"/>
+                                    </p>
+                                </div>
+
+                            </template>
+
+                        </div>
+
                     </div>
 
 
@@ -248,13 +464,18 @@
 
     export default {
         name: "projects",
+        metaInfo: {
+            // if no subcomponents specify a metaInfo.title, this title will be used
+            title: 'Assigned Project',
+        },
 
         data() {
             return {
-
-                attachedFiles: [],
+                uploadedFileList: [],
                 initialBidsToShow: 10,
                 showBidsViewMore: 0,
+                statusUpdates: [],
+                latestStatusUpdate:'',
                 project: {
                     category: {
                         name: '',
@@ -270,6 +491,12 @@
                     skills: '',
                     tags: '',
                 },
+
+                statusUpdate: {
+                    project_id: '',
+                    status: '',
+                    message: ''
+                },
                 projectNotFound: false,
                 currencies: [],
 
@@ -282,10 +509,18 @@
             }
         },
         beforeCreate() {
-
             axios.get(`projects/assigned/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
+                this.statusUpdate.status = this.project.status;
+                this.statusUpdate.project_id = this.project.id;
+
+
                 this.acceptedBid = data.accepted_bid;
+
+                this.statusUpdates = data.status_updates;
+                this.latestStatusUpdate = data.latest_status_update;
+
+
             }).catch(() => {
                 this.projectNotFound = true;
             });
@@ -301,9 +536,38 @@
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
-
             submitForReview() {
-                console.log(this.attachedFiles)
+                // console.log(this.attachedFiles)
+            },
+            projectStatusUpdate() {
+
+                if (this.project.status === 'assigned') {
+                    this.statusUpdate.status = 'in-progress'
+                }
+                let formData = new FormData();
+
+                for (let i = 0; i < this.uploadedFileList.length; i++) {
+                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+                }
+                for (let key in this.statusUpdate) {
+                    formData.append(key, this.statusUpdate[key]);
+                }
+                const config = {
+
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+
+                    onUploadProgress: (progressEvent) => {
+                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                        console.log(percentCompleted)
+                    }
+                };
+                axios.post('projects/update-status', formData, config)
+                    .then(({data}) => {
+                        console.log(data.project);
+                        this.project = data.project;
+                    })
             }
         },
         computed: {
@@ -311,10 +575,9 @@
             exchangeAmount() {
 
                 let exAmount = '';
+
                 //get current project currency
                 let pcExchange = this.project.currency.exchange_rate_in_usd;
-
-
                 return exAmount;
             },
             ...mapGetters({

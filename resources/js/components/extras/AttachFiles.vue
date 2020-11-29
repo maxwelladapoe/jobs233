@@ -3,7 +3,7 @@
     <div>
 
         <label class=" t-mont t-bold">
-            <b-icon-paperclip/>
+            <b-icon icon="paperclip" type="is-primary" size=""/>
             Attach
             Necessary Files(Optional)</label>
 

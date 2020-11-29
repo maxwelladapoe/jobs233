@@ -1,4 +1,87 @@
-// Bootstrap
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+
+// Set your colors
+$primary: #ff6700;
+$primary-light: findLightColor($primary);
+$primary-dark: findDarkColor($primary);
+$primary-invert: findColorInvert($primary);
+$twitter: #4099FF;
+$twitter-invert: findColorInvert($twitter);
+
+// Lists and maps
+$custom-colors: null !default;
+$custom-shades: null !default;
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: mergeColorMaps(
+        (
+            "white": (
+                $white,
+                $black,
+            ),
+            "black": (
+                $black,
+                $white,
+            ),
+            "light": (
+                $light,
+                $light-invert,
+            ),
+            "dark": (
+                $dark,
+                $dark-invert,
+            ),
+            "primary": (
+                $primary,
+                $primary-invert,
+                $primary-light,
+                $primary-dark,
+            ),
+            "link": (
+                $link,
+                $link-invert,
+                $link-light,
+                $link-dark,
+            ),
+            "info": (
+                $info,
+                $info-invert,
+                $info-light,
+                $info-dark,
+            ),
+            "success": (
+                $success,
+                $success-invert,
+                $success-light,
+                $success-dark,
+            ),
+            "warning": (
+                $warning,
+                $warning-invert,
+                $warning-light,
+                $warning-dark,
+            ),
+            "danger": (
+                $danger,
+                $danger-invert,
+                $danger-light,
+                $danger-dark,
+            ),
+        ),
+        $custom-colors
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+
+
 @import "bootstrap/functions";
 @import "bootstrap/variables";
 @import "bootstrap/breakpoints";
@@ -34,6 +117,10 @@ h1 {
     fill: #fff;
 }
 
+.button, .button:hover {
+    text-decoration: none;
+}
+
 
 small {
     word-wrap: break-word !important;
@@ -45,19 +132,19 @@ small {
 }
 
 input, select, textarea {
-    border-radius: 10px !important;
+    // border-radius: 10px !important;
 }
 
 .input-group {
     input {
-        border-radius: 10px 0 0 10px !important;
+        //border-radius: 10px 0 0 10px !important;
     }
 }
 
 
-.btn {
-    border-radius: 10px;
-    padding: 10px 15px !important;
+.button {
+    //border-radius: 10px;
+    // padding: 10px 15px !important;
     font-family: 'Merriweather Sans', sans-serif !important;
     font-weight: 400;
 
@@ -150,7 +237,7 @@ header {
 
 
 .t-1 {
-    font-size: 2.2em !important;
+    font-size: 4.5rem !important;
 }
 
 .t-2 {
@@ -225,8 +312,22 @@ header {
 
 //end of background colors
 
-.navbar-brand img {
-    width: 8em;
+.navbar-brand {
+    .navbar-item {
+
+    }
+
+    img {
+        width: 9em;
+    }
+
+    @include media-breakpoint-down('lg') {
+        width: 100%;
+    }
+
+}
+
+.navbar {
 
 }
 
@@ -253,13 +354,13 @@ after login or sign up
     //min-height: 6em !important;
     padding: 0 !important;
     z-index: 222;
+    background-color: transparent !important;
 
 
 }
 
 .nav-item-special {
     width: 18em !important;
-    padding: 1em;
     cursor: pointer;
     position: relative;
     display: flex;
@@ -272,7 +373,7 @@ after login or sign up
 
     .jb-hover-dropdown-wrapper {
         position: absolute;
-        top: 5em;
+        top: 3em;
         z-index: 3333;
         right: 0;
         height: auto;
@@ -482,6 +583,10 @@ select.form-control {
     height: 10em;
     width: 100%;
 }
+.is-ok {
+    height: 1.2rem !important;
+    width: 1.2rem !important;
+}
 
 .shadow {
     -moz-box-shadow: 0px 1px 5px 0px #676767;
@@ -498,6 +603,57 @@ select.form-control {
     }
 }
 
+.jb-profile-container {
+    background-color: orange;
+    height: auto;
+
+}
+
+.jb-profile-cover {
+    background-color: chocolate;
+
+    width: 100%;
+    height: 20em;
+    top: 0;
+}
+
+.jb-profile-row {
+    margin-top: -8em;
+    padding: 0 2em;
+    height: auto;
+}
+
+
+.jb-profile-details {
+    margin-top: 10em;
+}
+
+
+.jb-profile-bio {
+    min-height: 200px;
+    padding: 1em 1em 1em 0;
+}
+
+.jb-profile-portfolio {
+    margin-top: 1em;
+}
+
+.jb-title-with-underline {
+    display: flex;
+    align-items: baseline;
+
+    .title {
+
+    }
+
+    .underline {
+        max-width: 150px;
+        flex: 1;
+        border-bottom: 1px solid $light-ash;
+        margin-left: 5px;
+    }
+}
+
 .jb-projects-wrapper {
     position: relative;
     height: auto;
@@ -507,7 +663,7 @@ select.form-control {
         min-height: 13em;
         margin-bottom: 0.5em;
         position: relative;
-        border-radius: 8px;
+        border-radius: 4px;
 
         @include media-breakpoint-down(sm) {
             min-height: 13em;
@@ -636,6 +792,7 @@ select.form-control {
                     span {
                         margin-right: 0.5em;
                     }
+
 
                 }
 
@@ -773,7 +930,7 @@ select.form-control {
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 8px;
+        border-radius: 4px;
 
         .click-here {
             cursor: pointer;
@@ -854,6 +1011,58 @@ end of login or sign up
     height: 45em;
     z-index: -1;
 
+    .carousel {
+        height: 100%;
+
+        .carousel-items {
+            height: 100%;
+
+            .carousel-item {
+                height: 100% !important;
+                display: block;
+
+                .hero, .hero-body {
+                    height: 100% !important;
+                }
+
+                .hero {
+                    position: relative;
+
+                    .hero-bg {
+                        width: 100%;
+                        height: 100%;
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        left: 0;
+
+                        .overlay {
+                            background: no-repeat center center;
+                            position: absolute;
+                            height: 100%;
+                            width: 100%;
+                            z-index: 0;
+                            opacity: 0.3;
+                        }
+
+                        .carousel-image {
+                            object-fit: cover;
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
+                }
+
+                .hero-body {
+                    display: flex;
+
+                    align-items: center;
+                }
+            }
+
+        }
+    }
+
     @include media-breakpoint-down(sm) {
         height: 35em;
     }
@@ -864,29 +1073,9 @@ end of login or sign up
 
 }
 
-.btn:focus {
+.button:focus {
     outline: none;
     box-shadow: none;
-}
-
-.b-form-datepicker {
-    padding: 0 !important;
-
-    label {
-        border: none !important;
-        height: 35px !important;
-        padding: 0 1em;
-        margin: 0;
-        line-height: 35px;
-    }
-
-    .btn {
-        width: 20px;
-        height: 20px;
-
-    }
-
-
 }
 
 .jb-slider-img {
@@ -960,7 +1149,7 @@ end of login or sign up
     margin-bottom: 5em;
 
     .jb-section {
-        margin-bottom: 5em;
+        margin-bottom: 2em;
         min-height: 2em;
 
         .jb-section-img {
@@ -1222,6 +1411,10 @@ end of login or sign up
     }
 }
 
+textarea {
+    resize: none !important;
+}
+
 .jb-play-icon {
     position: absolute;
     top: 50%;
@@ -1325,9 +1518,6 @@ end of login or sign up
                 display: none;
                 text-align: center;
 
-                .message {
-                    font-size: 2em;
-                }
 
                 .loading-contents-wrap {
                     width: 100%;
@@ -1443,7 +1633,7 @@ end of login or sign up
     color: #fff;
     width: 11em !important;;
     height: 2.5em;
-    border-radius: 8px;
+    border-radius: 4px;
     padding: 0.7em;
     line-height: 1em;
 
@@ -1467,12 +1657,12 @@ end of login or sign up
 /*-- dashboard --*/
 
 .jb-dash-nav {
-    height: 4em;
+    height: 3em;
     width: 100%;
 
     .jb-dash-links {
         top: 1em;
-        line-height: 4em;
+        line-height: 3em;
 
         .jb-dash-link {
             margin-right: 0.8em;
@@ -1500,7 +1690,7 @@ end of login or sign up
     }
 
     .jb-dash-profile {
-        border-radius: 8px;
+        border-radius: 4px;
         min-height: 8em;
         padding: 1em;
 
@@ -1599,7 +1789,7 @@ end of login or sign up
     }
 
     .jb-dash-invite-box {
-        border-radius: 8px;
+        border-radius: 4px;
         margin-top: 1em;
         padding: 2em;
         flex: 1;
@@ -1629,7 +1819,6 @@ end of login or sign up
     }
 
     .jb-dash-stats-wrapper {
-
         min-height: 8em;
 
 
@@ -1641,14 +1830,24 @@ end of login or sign up
             justify-content: space-between;
 
             .stats-item {
-                border-radius: 8px;
-                min-width: 9em;
+                border-radius: 4px;
                 height: 8em;
                 text-align: center;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                margin-right: 1em;
+                margin-left: 1em;
+                flex: 1;
 
+                &:first-child{
+                    margin-right: 1em;
+                    margin-left: 0;
+                }
+                &:last-child{
+                    margin-right: 0;
+                    margin-left: 1em;
+                }
 
                 @include media-breakpoint-down(md) {
                     margin-bottom: 1em;
@@ -1680,7 +1879,7 @@ end of login or sign up
     }
 
     .jb-notifications {
-        border-radius: 8px;
+        border-radius: 4px;
         position: relative;
         margin-top: 1em;
 
@@ -1762,7 +1961,7 @@ end of login or sign up
         }
 
         .jb-project {
-            border-radius: 8px;
+            border-radius: 4px;
             border: 0.1em solid $light-ash;
             min-height: 9em;
 
@@ -1897,7 +2096,7 @@ end of login or sign up
         margin-bottom: 5px;
         min-height: 80px;
         padding: 1em;
-        border-radius: 8px;
+        border-radius: 4px;
         border: 1px solid $light-ash;
 
         &.disabled {
@@ -1971,7 +2170,7 @@ end of login or sign up
     position: relative;
 
     input {
-        padding-right: 40px;
+        // padding-right: 40px;
     }
 
     .the-icon {
@@ -2005,4 +2204,8 @@ end of login or sign up
         width: 100%;
     }
 
+}
+
+.has-text-danger, .has-text-success {
+    display: none !important;
 }

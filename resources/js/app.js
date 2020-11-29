@@ -9,8 +9,7 @@ import App from './App.vue';
 import Vue from 'vue';
 import router from "./router";
 import store from "./store";
-import {BootstrapVue,IconsPlugin} from 'bootstrap-vue';
-import All from 'vue-ionicons/dist/ionicons.js'
+import Buefy from 'buefy';
 require('./bootstrap');
 
 import { ValidationProvider, ValidationObserver, extend, localize} from 'vee-validate';
@@ -32,10 +31,8 @@ Vue.use(VueTimeago, {
     // }
 });
 
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
+Vue.use(Buefy)
 Vue.use(Meta);
-Vue.use(All);
 
 
 // Install VeeValidate rules and localization

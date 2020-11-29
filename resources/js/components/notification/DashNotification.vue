@@ -5,7 +5,7 @@
                 Notifications
             </p>
             <template>
-                <div class="btn bg-orange">Mark All As Read</div>
+                <b-button class="btn bg-orange" @click="markAllAsRead">Mark All As Read</b-button>
 
             </template>
 
@@ -19,7 +19,7 @@
                     <template v-if="notification.type===`App\\Notifications\\MessageSentNotification`">
                         <div class="jb-notification">
                             <div class="notification-icon">
-                                <b-icon-envelope/>
+                                <b-icon icon="mail"/>
                             </div>
                             <div class="notification-details">
                                 <span class="title m-0 t-bold">You have a new unread message </span> <br>
@@ -38,7 +38,7 @@
             </template>
 
             <template v-else>
-                <div  class="px-3 pt-1">
+                <div class="px-3 pt-1">
                     <p class="t-6">There are no new notifications</p>
 
                 </div>
@@ -72,6 +72,11 @@
                 axios.get('/notifications/?category=unread').then(({data}) => {
                     this.notifications = data.notifications
                     console.log(data)
+                })
+            },
+            markAllAsRead() {
+                axios.post('/notifications/mark_all_as_read').then(({data}) => {
+                    this.notifications = [];
                 })
             }
         }

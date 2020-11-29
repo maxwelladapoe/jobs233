@@ -24,7 +24,7 @@
         <div class="jb-section">
             <div class="container">
 
-                <div class="row">
+                <div class="columns">
                     <div class="col-md-3">
                         <p><span class="t-orange t-bold t-mont">Your current balance:</span> <span class="t-bold">{{user.wallet.balance}}</span>
                         </p>

@@ -3,8 +3,15 @@
 
         <div class="jb-section">
             <div class="container">
-                <h1 class="t-mont">Start Working Now</h1>
-                <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+
+                <template v-if="owner">
+                    <p class=" t-bold h4 t-mont">Your Projects</p>
+                    <p class="text-left t-meri t-normal ">Review your projects</p>
+                </template>
+                <template v-else>
+                    <p class="t-bold h4 t-mont">Start Working Now</p>
+                    <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                </template>
             </div>
         </div>
 
@@ -12,35 +19,35 @@
             <div class="container">
 
                 <div class="jb-project-search">
-                    <form @submit.prevent="searchSubmit">
-                        <div class="input-group mb-5">
-                            <input type="text" class="form-control" placeholder="Search by Skill, Title, Description"
-                                   aria-label="" aria-describedby="basic-addon2" v-model="search.term">
-                            <div class="input-group-append">
-                                <button class="btn bg-black" type="submit">
-                                    <span><md-search-icon/></span> Search
-                                </button>
-                            </div>
-                        </div>
+                    <form class=" mb-5">
+                        <b-field expanded>
+                            <b-input placeholder="Search..." type="search" expanded v-model="search.term"></b-input>
+                            <p class="control">
+                                <b-button @click.prevent="searchSubmit" class="button is-black">
+                                    <b-icon icon="magnify"/>
+                                    <span>Search</span></b-button>
+                            </p>
+                        </b-field>
+
                     </form>
 
                     <div class="d-lg-none">
-                        <div class="row my-3 ">
+                        <div class="columns my-3 ">
                             <div class="col-4">
-                                <b-form-select v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
-                                    <b-form-select-option value="all">All Categories</b-form-select-option>
-                                    <b-form-select-option v-for="category in categories" :key="category.id"
-                                                          :value="category.name">
+                                <b-select v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
+                                    <option value="all">All Categories</option>
+                                    <option v-for="category in categories" :key="category.id"
+                                            :value="category.name">
                                         {{category.name}}
-                                    </b-form-select-option>
-                                </b-form-select>
+                                    </option>
+                                </b-select>
                             </div>
                             <div class="col-4">
-                                <b-form-select v-model="selectedSortOption">
-                                    <b-form-select-option value="latest">Latest</b-form-select-option>
-                                    <b-form-select-option value="oldest">Oldest</b-form-select-option>
+                                <b-select v-model="selectedSortOption">
+                                    <option value="latest">Latest</option>
+                                    <option value="oldest">Oldest</option>
 
-                                </b-form-select>
+                                </b-select>
                             </div>
                         </div>
                     </div>
@@ -48,7 +55,7 @@
 
                 </div>
 
-                <div class="row">
+                <div class="columns">
                     <div class="col-sm-12 col-lg-8">
                         <div class="jb-projects-wrapper">
 
@@ -66,14 +73,14 @@
                                     <template slot="tags">
 
                                         Tags & Skills:
-                                        <h6>
+                                        <b-taglist>
                                             <template v-for="tag in project.tags.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                                <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
                                             </template>
                                             <template v-for="skill in project.skills.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                                <b-tag class="mr-1" type="is-success">{{skill}}</b-tag>
                                             </template>
-                                        </h6>
+                                        </b-taglist>
 
 
                                     </template>
@@ -95,15 +102,49 @@
                                     <template>
 
                                         <template
-                                            v-if="profileType ==='hire' || profileType ==='work&hire' || !authenticated">
+                                            v-if=" !authenticated">
                                             <template slot="button">
                                                 <div class="jb-project-bid-btn text-right">
+
+
                                                     <router-link :to="{name:'singleProject' , params:{id:project.id}}"
                                                                  class="btn bg-orange">View
                                                     </router-link>
+
+
                                                 </div>
                                             </template>
                                         </template>
+
+
+
+                                        <template
+                                            v-if="(profileType ==='hire' || profileType ==='work&hire' ) && authenticated">
+                                            <template slot="button">
+                                                <div class="jb-project-bid-btn text-right">
+
+
+                                                    <template v-if="(project.accepted_bid_id !== null && project.accepted_bid_id !== 0 && project.accepted_bid_id !=='') && project.user.id === user.id">
+                                                        <router-link :to="{name:'assignedProject' , params:{id:project.id}}"
+                                                                     class="btn bg-orange">View
+                                                        </router-link>
+                                                    </template>
+
+                                                    <template v-else>
+                                                        <router-link :to="{name:'singleProject' , params:{id:project.id}}"
+                                                                     class="btn bg-orange">View
+                                                        </router-link>
+                                                    </template>
+
+
+
+                                                </div>
+                                            </template>
+                                        </template>
+
+
+
+
 
                                         <template v-if="profileType ==='work' || profileType ==='work&hire'">
                                             <template slot="button">
@@ -148,7 +189,8 @@
                                 <div class="jb-project-filter-element ">
                                     <p class="t-mont t-bold">Categories</p>
                                     <ul class="jb-filter-item">
-                                        <li><a href="" class="t-orange t-bold">All Categories</a></li>
+                                        <li><a href="" @click.prevent="fetchWithSelectedCategory('all')"
+                                               class="t-orange">All Categories</a></li>
                                         <li v-for="category in categories">
                                             <a href="" class="t-orange"
                                                @click.prevent="fetchWithSelectedCategory(category.name)">{{category.name}}</a>
@@ -325,16 +367,16 @@
 
             api() {
 
-                let link = `/projects?category=${(this.selectedCategory).toLowerCase().trim()}&`
+                let link = `/projects?category=${(this.selectedCategory).toLowerCase().trim()}`
 
                 if (this.owner) {
-                    link += `owner=${(this.owner).toLowerCase().trim() + '&'}`
+                    link += '&' + `owner=${(this.owner).toLowerCase().trim()}`
                 }
                 if (this.assignedTo) {
-                    link += `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
+                    link += '&' + `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
                 }
                 if (this.page) {
-                    link += `page=${(this.currentPage + 1)}`
+                    link += '&' + `page=${(this.currentPage + 1)}`
                 }
 
 

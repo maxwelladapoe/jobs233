@@ -1,91 +1,84 @@
 <template>
-    <header>
-
-        <nav class="navbar navbar-expand-lg bg-black navbar-dark">
-            <div class="container pt-3  px-3 p-lg-0">
-
-                <a class="navbar-brand" href="/"><img src="/images/logowhite.png" alt="Jobs 233 logo"></a>
-                <button class="navbar-toggler " type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse bg-black " id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-
-                        <li class="nav-item">
-                            <router-link class="nav-link text-white" :to="{name:'HowItWorks'}">How it Works
-                            </router-link>
-                        </li>
+    <header class="bg-black pt-3">
+        <div class="container  pb-3">
+            <b-navbar spaced transparent>
 
 
-                        <template v-if="profileType ==='hire' || profileType ==='work&hire'">
-                            <li class="nav-item">
-                                <router-link to="#" class="nav-link btn bg-orange  px-4">Hire</router-link>
-                            </li>
-                        </template>
+                <template slot="brand">
+                    <router-link to="/"><img src="/images/logowhite.png" alt="Jobs 233 logo"></router-link>
+                </template>
+                <template slot="start">
+                    <b-navbar-item>
+                        <router-link :to="{name:'HowItWorks'}">How it Works</router-link>
+                    </b-navbar-item>
+                    <b-navbar-item>
+                        <router-link :to="{name:'Projects'}">Browse Projects</router-link>
+                    </b-navbar-item>
+                    <template v-if="profileType ==='hire' || profileType ==='work&hire'">
+                        <b-navbar-item>
+                            <router-link to="#" class="button is-outlined is-primary">Hire</router-link>
+                        </b-navbar-item>
+                    </template>
 
-                        <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                            <li class="nav-item">
-                                <router-link to="#" class="nav-link btn bg-orange  px-4">Work</router-link>
-                            </li>
-                        </template>
-                    </ul>
+                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                        <b-navbar-item >
+                            <router-link to="#" class=" button button is-outlined is-primary ">Work</router-link>
+                        </b-navbar-item>
+                    </template>
 
-                    <ul class="navbar-nav ml-auto">
+                </template>
+
+                <template slot="end">
 
 
-                        <li class="nav-item nav-item-special">
+                    <div class=" nav-item-special">
 
-                            <div>
+                        <div>
 
-                                <div class="jb-profile-btn-image">
-                                    <img class="rounded-circle" :src="user.profile.picture"/>
-                                </div>
-                                <div class="jb-profile-btn-name">
+                            <div class="jb-profile-btn-image">
+
+                                <img class="is-rounded" style="border-radius: 50%" :src="user.profile.picture"/>
+                            </div>
+                            <div class="jb-profile-btn-name">
                                 <span class="t-white t-meri">{{user.name}}
                                     <b-icon icon="caret-down-fill"/>
                                 </span>
-                                </div>
                             </div>
+                        </div>
 
-                            <div class="jb-hover-dropdown-wrapper">
+                        <div class="jb-hover-dropdown-wrapper">
 
-                                <div class="container-fluid  p-0">
-                                    <div class="row w-100">
-                                        <div class="col-6 col-md-6">
-                                            <div class="links text-left">
-                                                <router-link class="" :to="{name:'Messages'}"><i
-                                                    class="fas fa-envelope"></i> Messages
-                                                </router-link>
-                                                <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
-                                            </div>
+                            <div class="container-fluid  p-0">
+                                <div class="row w-100">
+                                    <div class="col-6 col-md-6">
+                                        <div class="links text-left">
+                                            <router-link class="" :to="{name:'Messages'}"><i
+                                                class="fas fa-envelope"></i> Messages
+                                            </router-link>
+                                            <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
                                         </div>
-                                        <div class="col-6 col-md-6">
-                                            <div class="links text-right">
-                                                <router-link to="/dashboard">Dashboard</router-link>
-                                                <router-link class="" :to="{name:'EditProfile'}"><i
-                                                    class="fas fa-user"></i>
-                                                    My Profile
-                                                </router-link>
-                                                <a class="" href="#">Accounts & Settings</a>
-                                                <a class="" href="" @click.prevent="logout">Logout</a>
-                                            </div>
+                                    </div>
+                                    <div class="col-6 col-md-6">
+                                        <div class="links text-right">
+                                            <router-link to="/dashboard">Dashboard</router-link>
+                                            <router-link class="" :to="{name:'EditProfile'}"><i
+                                                class="fas fa-user"></i>
+                                                My Profile
+                                            </router-link>
+                                            <a class="" href="#">Accounts & Settings</a>
+                                            <a class="" href="" @click.prevent="logout">Logout</a>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-                        </li>
 
-                    </ul>
+                        </div>
+                    </div>
 
-                </div>
+                </template>
 
-            </div>
-
-        </nav>
+            </b-navbar>
+        </div>
 
         <div class="jb-dash-nav bg-ash">
             <div class="container">
@@ -99,7 +92,8 @@
 
                     </template>
                     <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                        <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#" class="jb-dash-link t-white ">
+                        <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
+                                     class="jb-dash-link t-white ">
                             My Assigned Projects
                         </router-link>
                     </template>

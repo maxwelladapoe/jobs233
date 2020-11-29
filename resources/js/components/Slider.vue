@@ -1,20 +1,30 @@
 <template>
 
     <div class="jb-slider">
-        <div class="jb-slider-img" v-for="image in sliderImages">
 
-            <img :src="image" alt="slider1">
-            <div class="jb-overlay"></div>
-            <div class="jb-slider-text">
-                <div class="container">
-                    <h1 class="t-meri">Be your <br>Own Boss</h1>
-                    <p class="t-meri">Work as a freelancer using your existing skill set</p>
-                    <router-link :to="{name:'SignUp'}" class="btn bg-orange">Register to work</router-link>
-                </div>
 
-            </div>
+        <b-carousel :arrow="false" :animated="'fade'" :interval="10000">
+            <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
+                <section class="hero">
+                    <div class="hero-bg">
+                        <div class="overlay bg-black"></div>
+                        <img :src="carousel.image" alt="slider1" class="carousel-image">
 
-        </div>
+                    </div>
+                    <div class="hero-body">
+                        <div class="container">
+                            <h1 class="title t-white t-1" v-html="carousel.mainText"></h1>
+                            <p class=" subtitle t-meri t-white" v-html="carousel.subText"></p>
+                            <router-link :to="{name:'SignUp'}" class="button is-white is-outlined">Register to work</router-link>
+
+                        </div>
+
+                    </div>
+
+                </section>
+            </b-carousel-item>
+        </b-carousel>
+
     </div>
 </template>
 
@@ -22,7 +32,12 @@
     export default {
         data: function () {
             return {
-                sliderImages: ['/images/img1.webp']
+                carousels: [
+                    {
+                        mainText: 'Be your <br>Own Boss', subText: 'Work as a freelancer using your existing skill set',
+                        color: 'primary', image: '/images/img1.webp'
+                    },
+                ]
             }
         }
     }

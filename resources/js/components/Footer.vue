@@ -1,12 +1,12 @@
 <template>
   <footer class="jb-footer">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4">
+      <div class="columns">
+        <div class="column is-4">
           <p class="jb-footer-essay t-meri"> Hire the right people, get work done on time and work within your
             budget. Expert freelances are just a click away</p>
         </div>
-        <div class="col-md-3 offset-md-2">
+        <div class="column is-3  is-offset-2">
           <p class="jb-footer-header  t-bold ">LINKS</p>
           <ul class="footer-align">
             <li class="footer-item"><router-link to="/jobs" class="footer-link">Jobs</router-link></li>
@@ -16,7 +16,7 @@
             <li class="footer-item"><a class="footer-link" href="hire.html">Hire</a></li>
           </ul>
         </div>
-        <div class="col-md-3">
+        <div class="column is-3">
           <p class="jb-footer-header  t-bold ">ASSIST</p>
           <ul class="footer-align">
             <li class="footer-item"><a class="footer-link" href="help">Help</a></li>
@@ -29,8 +29,8 @@
     </div>
 
     <div class="container mt-3">
-      <div class="row">
-        <div class="col-md-6">
+      <div class="columns">
+        <div class="column is-6">
           <ul class="footer-align">
             <li class="footer-item"><a class="footer-link " href="learn.html">Learn more about Jobs233</a>
             </li>
@@ -46,7 +46,7 @@
 
         </div>
 
-        <div class="col-md-6">
+        <div class="column is-6 ">
           <p>+233(0)275762217</p>
           <p>help@jobs233.com</p>
           <p>info@jobs233.com</p>

@@ -10,9 +10,10 @@ export default [
         meta: {requiresAuth: true}
     },
     {
-        path: '/profile',
-        name: 'viewProfile',
+        path: '/profile/:username',
+        name: 'ViewProfile',
         component: ViewProfile,
+        props: true,
         meta: {requiresAuth: true}
     }
 ]
