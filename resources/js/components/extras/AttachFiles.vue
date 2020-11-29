@@ -2,8 +2,8 @@
 
     <div>
 
-        <label class=" t-mont t-bold">
-            <b-icon icon="paperclip" type="is-primary" size=""/>
+        <label class=" t-mont t-bold mb-3">
+            <b-icon icon="paperclip" type="is-primary" size="is-small"/>
             Attach
             Necessary Files(Optional)</label>
 
@@ -15,12 +15,12 @@
                 <input type="file" multiple
                        name="fields[assetsFieldHandle][]"
                        id="assetsFieldHandle"
-                       class="d-none "
+                       class="is-hidden"
                        @change="onFileInputChange" ref="file"
                        accept=".pdf,.jpg,.jpeg,.png"/>
 
                 <label for="assetsFieldHandle"
-                       class="text-center click-here">
+                       class="text-center click-here has-text-centered">
                     <div>
                         <p class="t-meri m-0">Drag or drop files here or
                             <span
@@ -60,7 +60,7 @@
 
                         </div>
                         <button type="button"
-                                class="rounded-circle btn btn-primary"
+                                class="rounded-circle button btn-primary"
                                 style="width: 30px; height: 30px; text-align: center; padding: 0;"
                                 @click="remove(uploadedFileList.indexOf(file))"
                                 title="Remove file">x

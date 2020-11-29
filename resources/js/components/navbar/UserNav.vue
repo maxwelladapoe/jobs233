@@ -5,7 +5,10 @@
 
 
                 <template slot="brand">
-                    <router-link to="/"><img src="/images/logowhite.png" alt="Jobs 233 logo"></router-link>
+                    <b-navbar-item tag="router-link" to="/">
+                        <img src="/images/logowhite.png" alt="Jobs 233 logo">
+
+                    </b-navbar-item>
                 </template>
                 <template slot="start">
                     <b-navbar-item>
@@ -33,7 +36,7 @@
 
                     <div class=" nav-item-special">
 
-                        <div>
+                        <div class="is-flex is-align-content-center is-justify-content-center">
 
                             <div class="jb-profile-btn-image">
 
@@ -41,7 +44,7 @@
                             </div>
                             <div class="jb-profile-btn-name">
                                 <span class="t-white t-meri">{{user.name}}
-                                    <b-icon icon="caret-down-fill"/>
+                                    <b-icon icon="menu-down"/>
                                 </span>
                             </div>
                         </div>
@@ -49,8 +52,8 @@
                         <div class="jb-hover-dropdown-wrapper">
 
                             <div class="container-fluid  p-0">
-                                <div class="row w-100">
-                                    <div class="col-6 col-md-6">
+                                <div class="columns">
+                                    <div class="column is-6">
                                         <div class="links text-left">
                                             <router-link class="" :to="{name:'Messages'}"><i
                                                 class="fas fa-envelope"></i> Messages
@@ -58,7 +61,7 @@
                                             <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
                                         </div>
                                     </div>
-                                    <div class="col-6 col-md-6">
+                                    <div class="column is-6">
                                         <div class="links text-right">
                                             <router-link to="/dashboard">Dashboard</router-link>
                                             <router-link class="" :to="{name:'EditProfile'}"><i
@@ -98,7 +101,7 @@
                         </router-link>
                     </template>
 
-                    <a href="#" class="jb-dash-link t-white ">Wallet</a>
+<!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->
                     <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
                 </div>
             </div>

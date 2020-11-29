@@ -5,11 +5,11 @@
             <div class="container">
 
                 <template v-if="owner">
-                    <p class=" t-bold h4 t-mont">Your Projects</p>
+                    <p class=" t-bold t-5 t-mont">Your Projects</p>
                     <p class="text-left t-meri t-normal ">Review your projects</p>
                 </template>
                 <template v-else>
-                    <p class="t-bold h4 t-mont">Start Working Now</p>
+                    <p class="t-bold t-5 t-mont">Start Working Now</p>
                     <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
                 </template>
             </div>
@@ -31,10 +31,10 @@
 
                     </form>
 
-                    <div class="d-lg-none">
+                    <div class="is-hidden-desktop">
                         <div class="columns my-3 ">
-                            <div class="col-4">
-                                <b-select v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
+                            <div class="column is-6">
+                                <b-select expanded v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
                                     <option value="all">All Categories</option>
                                     <option v-for="category in categories" :key="category.id"
                                             :value="category.name">
@@ -42,11 +42,11 @@
                                     </option>
                                 </b-select>
                             </div>
-                            <div class="col-4">
-                                <b-select v-model="selectedSortOption">
+                            <div class="column is-6">
+                                <b-select v-model="selectedSortOption" expanded>
                                     <option value="latest">Latest</option>
                                     <option value="oldest">Oldest</option>
-
+\
                                 </b-select>
                             </div>
                         </div>
@@ -55,8 +55,8 @@
 
                 </div>
 
-                <div class="columns">
-                    <div class="col-sm-12 col-lg-8">
+                <div class="columns is-multiline">
+                    <div class="column is-8">
                         <div class="jb-projects-wrapper">
 
                             <template v-if="allProjects.length>0 || allProjects">
@@ -72,7 +72,7 @@
                                     <template slot="description">{{truncate(project.description,200)}}</template>
                                     <template slot="tags">
 
-                                        Tags & Skills:
+                                        <p class="mb-1">Tags & Skills:</p>
                                         <b-taglist>
                                             <template v-for="tag in project.tags.split(',')">
                                                 <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
@@ -87,8 +87,8 @@
                                     <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
                                     <template slot="image">
 
-                                        <img :src="project.user.profile.picture" alt=""
-                                             class="rounded-circle">
+                                        <b-image :rounded='true' :src="project.user.profile.picture" alt=""
+                                             class="rounded-circle"/>
                                     </template>
 
                                     <template slot="posted_by">
@@ -108,7 +108,7 @@
 
 
                                                     <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                 class="btn bg-orange">View
+                                                                 class="button bg-orange">View
                                                     </router-link>
 
 
@@ -126,13 +126,13 @@
 
                                                     <template v-if="(project.accepted_bid_id !== null && project.accepted_bid_id !== 0 && project.accepted_bid_id !=='') && project.user.id === user.id">
                                                         <router-link :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                                     class="btn bg-orange">View
+                                                                     class="button bg-orange">View
                                                         </router-link>
                                                     </template>
 
                                                     <template v-else>
                                                         <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                     class="btn bg-orange">View
+                                                                     class="button bg-orange">View
                                                         </router-link>
                                                     </template>
 
@@ -150,7 +150,7 @@
                                             <template slot="button">
                                                 <div class="jb-project-bid-btn text-right">
                                                     <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                 class="btn bg-orange">Bid
+                                                                 class="button bg-orange">Bid
                                                     </router-link>
                                                 </div>
                                             </template>
@@ -179,9 +179,9 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="column is-4  is-hidden-touch">
                         <div class="jb-project-filter-wrapper  d-none d-lg-block">
-                            <div class="jb-project-filter p-3 text-right">
+                            <div class="jb-project-filter p-3 has-text-right">
                                 <div class="jb-arrow-left">
 
                                 </div>

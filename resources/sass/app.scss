@@ -9,6 +9,7 @@ $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
 
+
 // Lists and maps
 $custom-colors: null !default;
 $custom-shades: null !default;
@@ -315,11 +316,13 @@ header {
 .navbar-brand {
     .navbar-item {
 
+        img {
+            width: 9em;
+            max-height: unset;
+        }
     }
 
-    img {
-        width: 9em;
-    }
+
 
     @include media-breakpoint-down('lg') {
         width: 100%;
@@ -348,7 +351,7 @@ header {
 
 /*
 after login or sign up
- */
+*/
 
 .navbar {
     //min-height: 6em !important;
@@ -583,6 +586,7 @@ select.form-control {
     height: 10em;
     width: 100%;
 }
+
 .is-ok {
     height: 1.2rem !important;
     width: 1.2rem !important;
@@ -1840,11 +1844,12 @@ textarea {
                 margin-left: 1em;
                 flex: 1;
 
-                &:first-child{
+                &:first-child {
                     margin-right: 1em;
                     margin-left: 0;
                 }
-                &:last-child{
+
+                &:last-child {
                     margin-right: 0;
                     margin-left: 1em;
                 }

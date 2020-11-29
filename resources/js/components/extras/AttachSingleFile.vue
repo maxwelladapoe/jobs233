@@ -13,13 +13,13 @@
                         title="Remove file">x
                 </button>
             </div>
-            <div v-else class="dropzone " @dragover.prevent="dragover"
+            <div v-else class="dropzone has-text-centered" @dragover.prevent="dragover"
                  :class="dropAreaDragOver?'active':''"
                  @dragleave.prevent="dragleave" @drop.prevent="drop">
                 <input type="file"
                        name="attachedFile"
                        id="assetsFieldHandle"
-                       class="d-none "
+                       class="is-hidden "
                        @change="onFileInputChange" ref="file"
                        accept=".pdf,.jpg,.jpeg,.png"/>
 
@@ -27,7 +27,7 @@
                        class="text-center click-here">
                     <div>
                         <p class="t-meri m-0">
-                            <span class=" t-4"><ion-icon name="add-circle"></ion-icon></span>
+                            <span class=" t-4 t-orange"><b-icon icon="plus-circle"/></span>
                             <br>
                             Add File
                         </p>

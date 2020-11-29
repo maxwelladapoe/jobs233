@@ -2,8 +2,8 @@
 
     <div class="jb-project">
         <div class="jb-project-content">
-            <div class="row">
-                <div class="col-12 col-md-12">
+            <div class="columns is-multiline">
+                <div class=" column is-12">
                     <div class="jb-project-header">
                         <p class="t-mont t-bold jb-project-title">
                             <slot name="title"></slot>
@@ -31,7 +31,7 @@
                     <div class="jb-project-footer">
                         <div class="jb-project-posted-by">
 
-                            <div class="posted-by-wrap">
+                            <div class="posted-by-wrap is-vcentered">
                                 <div class="jb-project-posted-by-img">
                                     <slot name="image"></slot>
                                 </div>
@@ -39,8 +39,8 @@
                                     <slot name="posted_by"></slot>
 
                                     <div class="jb-project-posted-by-extra">
-                                        <span><b-icon icon="check-circle" size="is-ok"/> Verified</span>
-                                        <span><b-icon icon="cash-plus" size="is-normal" />  Deposited</span>
+                                        <span><b-icon icon="check-circle" size="is-small"/> Verified</span>
+                                        <span><b-icon icon="cash-plus" size="is-small" />  Deposited</span>
 
                                     </div>
                                 </div>

@@ -19,6 +19,7 @@ import VueTimeago from 'vue-timeago';
 import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
 
+
 Vue.use(VuePluralize);
 Vue.use(VueTimeago, {
     name: 'Timeago', // Component name, `Timeago` by default
@@ -33,6 +34,7 @@ Vue.use(VueTimeago, {
 
 Vue.use(Buefy)
 Vue.use(Meta);
+
 
 
 // Install VeeValidate rules and localization

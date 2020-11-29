@@ -5,7 +5,7 @@
                 Notifications
             </p>
             <template>
-                <b-button class="btn bg-orange" @click="markAllAsRead">Mark All As Read</b-button>
+                <b-button class="button bg-orange" @click="markAllAsRead">Mark All As Read</b-button>
 
             </template>
 

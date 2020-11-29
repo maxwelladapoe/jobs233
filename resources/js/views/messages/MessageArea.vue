@@ -5,9 +5,9 @@
 
         <div class="jb-main-section-wrapper">
             <div class="container jb-messaging-area">
-                <div class="row">
+                <div class="columns is-multiline">
 
-                    <div class="col-12 col-md-5 col-lg-3 " :class="showChatArea?'hide-on-mobile':'display-on-mobile'">
+                    <div class="column is-3 " :class="showChatArea?'hide-on-mobile':'display-on-mobile'">
 
                         <div class="jb-chat-list">
 
@@ -22,21 +22,30 @@
                                 <template v-for="contact in contacts">
                                     <li v-if="contact" class="jb-chat-user"
                                         @click="changeSelectedMessages(contact)">
-                                        <div class="user">
-                                            <div class="img-wrap">
-                                                <div class="online-status"
-                                                     :class="contact.is_online?'active':''"></div>
-                                                <img :src="contact.profile.picture" alt="" class="rounded-circle"
-                                                     width="40">
-                                            </div>
-                                            <div class="user-details">
-                                                <div class="name-time">
-                                                    <span>{{contact.name}}</span> <span
-                                                    class="text-right small ml-auto">10 mins</span></div>
-                                                <div class="last-message t-6">
-                                                    <!--                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}-->
+                                        <div class="user media">
+
+                                            <figure>
+                                                <div class="img-wrap">
+                                                    <div class="online-status"
+                                                         :class="contact.is_online?'active':''"></div>
+                                                    <b-image rounded :src="contact.profile.picture" alt=""
+                                                             style="width: 40px"
+                                                    />
+                                                </div>
+                                            </figure>
+
+                                            <div class="media-content">
+                                                <div class="user-details">
+                                                    <div class="name-time">
+                                                        <span>{{contact.name}}</span> <span
+                                                        class="text-right t-6 t-orange ml-auto">10 mins</span></div>
+                                                    <div class="last-message t-6">
+                                                        <!--                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}-->
+                                                    </div>
                                                 </div>
                                             </div>
+
+
                                         </div>
 
                                     </li>
@@ -51,7 +60,7 @@
 
                     </div>
 
-                    <div class="col-12 col-md-7 col-lg-9  "
+                    <div class="column is-9 "
                          :class="showChatArea?'display-on-mobile':'hide-on-mobile'">
 
                         <div class="jb-main-chat-area">
@@ -69,12 +78,22 @@
                                     <div class="message-sender-image-wrap">
 
                                         <template v-if="selectedContact">
-                                            <img v-if="selectedContact" :src="selectedContact.profile.picture"
-                                                 alt=""
-                                                 class="rounded-circle message-sender-image" width="50">
 
-                                            <span v-if="selectedContact"
-                                                  class="name ml-2">{{selectedContact.name}} </span>
+                                            <div class="media">
+                                                <figure>
+                                                    <b-image rounded v-if="selectedContact"
+                                                             :src="selectedContact.profile.picture"
+                                                             alt=""
+                                                             class="message-sender-image" style="width: 50px"/>
+                                                </figure>
+
+                                                <div class="media-content">
+                                                        <span v-if="selectedContact"
+                                                              class="name ml-2">{{selectedContact.name}} </span>
+
+                                                </div>
+                                            </div>
+
 
                                         </template>
 
@@ -98,7 +117,7 @@
                                                     {{message.message}}
 
                                                     <div class="message-footer">
-                                                        <span class="t-6">
+                                                        <span class="t-6 has-text-right">
                                                             <timeago
                                                                 :datetime="message.created_at" :auto-update="60"/>
                                                         </span>
@@ -106,8 +125,8 @@
                                                 </div>
 
                                                 <div v-if="user" class="message-sender-image-wrap">
-                                                    <img :src="user.profile.picture"
-                                                         class="rounded-circle message-sender-image" width="40">
+                                                    <b-image rounded :src="user.profile.picture"
+                                                         class="rounded-circle message-sender-image" style="width:40px"/>
                                                 </div>
                                             </div>
 
@@ -120,14 +139,14 @@
 
                                             <div class="left">
                                                 <div v-if="message.user" class="message-sender-image-wrap">
-                                                    <img :src="message.user.profile.picture"
-                                                         class="rounded-circle message-sender-image" width="40">
+                                                    <b-image rounded  :src="message.user.profile.picture"
+                                                         class="rounded-circle message-sender-image" style="width:40px"/>
                                                 </div>
                                                 <div class="message-description">
 
                                                     {{message.message}}
                                                     <div class="message-footer">
-                                                         <span class="t-6">
+                                                         <span class="t-6  has-text-right">
                                                         <timeago
                                                             :datetime="message.created_at" :auto-update="60"/>
                                                          </span>
@@ -144,7 +163,7 @@
                             <div class="jb-chat-input">
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="sendMessageForm">
-                                    <form >
+                                    <form>
                                         <ValidationProvider
                                             persist
                                             name="additional details"

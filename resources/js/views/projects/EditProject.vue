@@ -424,13 +424,13 @@
                                         <div v-if="!isLoading && !isSuccessful"
                                              class=" form-group mr-auto text-right t-white">
 
-                                            <button type="submit" class="btn bg-orange"
+                                            <button type="submit" class="button bg-orange"
                                                     v-if="step> 1 && step <= totalSteps"
                                                     @click.prevent="prev()">
                                                 Previous
                                             </button>
 
-                                            <button type="submit" class="btn bg-orange t-white">
+                                            <button type="submit" class="button bg-orange t-white">
                                             <span v-if="step ===totalSteps">
                                                 Create Project
                                             </span>

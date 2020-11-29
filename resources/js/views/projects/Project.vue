@@ -25,10 +25,7 @@
                             <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                             <h5>
                                 <template v-for="skill in project.skills.split(',')">
-
-
                                     <b-tag variant="success" class="mr-1">{{skill}}</b-tag>
-
                                 </template>
                             </h5>
 
@@ -233,17 +230,23 @@
                                 by
                             </p>
 
-                            <p class="t-meri mt-2">
+                            <div class=" media t-meri mt-2">
+                                <figure class="media-left">
+                                    <b-image :rounded="true" :src="project.user.profile.picture" style="width: 50px"/>
 
-                                <img :src="project.user.profile.picture" width="50" class="mr-2 rounded-circle"/>
-                                <span class="mr-auto" v-if="authenticated && (user.id === project.user.id)">You</span>
-                                <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                </figure>
 
-                            </p>
+                                <div class="media-content">
+                                    <span class="mr-auto" v-if="authenticated && (user.id === project.user.id)">You</span>
+                                    <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                    <p class="t-6 t-orange">Joined
+                                        <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
+                                    </p>
+                                </div>
 
-                            <p>Joined
-                                <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
-                            </p>
+                            </div>
+
+
 
 
                             <hr>
@@ -255,15 +258,15 @@
                                     now.</p>
                                 <p class="t-meri">This and other Jobs are available</p>
 
-                                <router-link to="" class="btn bg-orange">Sign Up to get Hired</router-link>
+                                <router-link to="" class="button bg-orange">Sign Up to get Hired</router-link>
                             </template>
 
                             <template
                                 v-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
                                 <p class="t-meri t-bold t-5">You have already placed a Bid</p>
                                 <p>You should receive an email of confirmation if your bid has been accepted</p>
-                                <router-link to="" class="btn bg-orange">Edit your Bid</router-link>
-                                <router-link to="" class="btn bg-orange">View other projects</router-link>
+                                <router-link to="" class="button bg-orange">Edit your Bid</router-link>
+                                <router-link to="" class="button bg-orange">View other projects</router-link>
 
                             </template>
 
@@ -276,7 +279,7 @@
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
 
-                                    <b-form @submit.prevent="handleSubmit(submitBid)">
+                                    <form @submit.prevent="handleSubmit(submitBid)">
 
 
                                         <b-field grouped>
@@ -380,12 +383,12 @@
 
 
                                         <b-form-group class="text-right">
-                                            <button type="submit" class="btn bg-orange t-mont">
+                                            <button type="submit" class="button bg-orange t-mont">
                                                 Bid
                                             </button>
                                         </b-form-group>
 
-                                    </b-form>
+                                    </form>
 
 
                                 </ValidationObserver>
@@ -394,10 +397,11 @@
 
                             <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                                <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
+                                <router-link to="" class="button bg-orange">Post a similar Job</router-link>
 
                                 <template v-if="authenticated && project.user.id === user.id">
-                                    <router-link :to="{name:'editProject'}" class="btn bg-orange ">Edit this job</router-link>
+                                    <router-link :to="{name:'editProject'}" class="button bg-orange ">Edit this job
+                                    </router-link>
                                 </template>
                             </template>
 
