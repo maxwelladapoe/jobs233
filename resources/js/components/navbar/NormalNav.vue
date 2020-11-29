@@ -5,7 +5,9 @@
 
             <b-navbar spaced transparent>
                 <template slot="brand">
-                    <router-link to="/"><img src="/images/logo2.png" alt="Jobs 233 logo"></router-link>
+                    <b-navbar-item tag="router-link" to="/">
+
+                        <img src="/images/logo2.png" alt="Jobs 233 logo"></b-navbar-item>
                 </template>
                 <template slot="start">
                     <b-navbar-item>
