@@ -21,8 +21,8 @@
                     </template>
 
                     <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                        <b-navbar-item class="button is-outlined is-primary">
-                            <router-link to="#" class=" button bg-orange ">Work</router-link>
+                        <b-navbar-item >
+                            <router-link to="#" class=" button button is-outlined is-primary ">Work</router-link>
                         </b-navbar-item>
                     </template>
 

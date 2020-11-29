@@ -6,8 +6,8 @@
             <div class="jb-section">
                 <div class="container">
 
-                    <div class="columns">
-                        <div class="col-12 col-md-12 col-lg-8 mb-5 pr-0 pr-lg-5">
+                    <div class="columns is-multiline">
+                        <div class="column is-8">
 
 
                             <p class="t-bold jb-project-title-big t-mont ">{{project.title}}</p>
@@ -27,7 +27,7 @@
                                 <template v-for="skill in project.skills.split(',')">
 
 
-                                    <b-badge variant="success" class="mr-1">{{skill}}</b-badge>
+                                    <b-tag variant="success" class="mr-1">{{skill}}</b-tag>
 
                                 </template>
                             </h5>
@@ -46,7 +46,7 @@
                                     <template v-for="tag in project.tags.split(',')">
 
 
-                                        <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                        <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
 
                                     </template>
                                 </h5>
@@ -221,7 +221,7 @@
 
                         </div>
 
-                        <div class="col-md-12 col-lg-4">
+                        <div class="column is-4">
                             <p class="t-mont jb-project-title-small t-bold t-orange">Budget</p>
                             <p class="t-meri t-4 t-bold">{{project.currency.symbol}} {{project.budget}}</p>
 
@@ -273,82 +273,80 @@
                                 <p class="t-meri t-bold t-5">Interested in this project? <br>Bid now</p>
 
                                 <p>I am willing to do this Job at</p>
+
                                 <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
 
                                     <b-form @submit.prevent="handleSubmit(submitBid)">
 
-                                        <b-form-group
-                                            id="budget"
-                                            label-class="t-mont t-bold"
-                                            label-for="budget"
-                                            :description="exchangeAmount"
-                                        >
 
-                                            <div class="form-row">
-                                                <div class="col-3">
-                                                    <validation-provider
-                                                        :rules="{ required: true, integer:false}"
-                                                        name="currency"
-                                                        v-slot="validationContext"
+                                        <b-field grouped>
+
+
+                                            <b-field
+                                                expanded
+                                            >
+
+
+                                                <ValidationProvider
+                                                    :rules="{ required: true, integer:false}"
+                                                    name="currency"
+                                                    v-slot="{ errors, valid }" slim
+                                                >
+
+                                                    <b-field
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                     >
+                                                        <b-select
+                                                            placeholder="  Select a
+                                                                            currency"
+                                                            name="currency"
+                                                            v-model="bid.currency">
 
-                                                        <b-form-select id="budget" type="text"
-                                                                       placeholder=""
-                                                                       name="currency"
-                                                                       :state="getValidationState(validationContext)"
-                                                                       v-model="bid.currency"
-                                                                       aria-describedby="currency-live-feedback">
+                                                            <option v-for="currency in currencies"
+                                                                    :key="currency.id"
+                                                                    :value="currency.id">
+                                                                {{currency.name}}
+                                                            </option>
 
-                                                            <!-- This slot appears above the categories from 'categories' prop -->
-                                                            <template v-slot:first>
-                                                                <b-form-select-option :value="null" disabled>Select a
-                                                                    currency
-                                                                </b-form-select-option>
-                                                            </template>
+                                                        </b-select>
+                                                    </b-field>
 
-
-                                                            <b-select-option v-for="currency in currencies"
-                                                                             :key="currency.id"
-                                                                             :value="currency.id">{{currency.name}}
-                                                            </b-select-option>
-
-                                                        </b-form-select>
-
-                                                        <b-form-invalid-feedback id="currency-live-feedback">
-                                                            {{validationContext.errors[0] }}
-                                                        </b-form-invalid-feedback>
+                                                </ValidationProvider>
 
 
-                                                    </validation-provider>
-                                                </div>
-
-                                                <div class="col-9">
-                                                    <validation-provider
-                                                        :rules="{ required: true, integer:true, min:1}"
-                                                        name="budget"
-                                                        v-slot="validationContext"
+                                                <ValidationProvider
+                                                    :rules="{ required: true,  min:1}"
+                                                    name="budget"
+                                                    v-slot="{ errors, valid }" slim
+                                                >
+                                                    <b-field
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                        expanded
                                                     >
-                                                        <b-form-input id="budget" type="text" min="1"
-                                                                      placeholder=""
-                                                                      name="budget"
-                                                                      :state="getValidationState(validationContext)"
+                                                        <b-input id="budget" type="text" min="1"
+                                                                 placeholder=""
+                                                                 name="budget"
+                                                                 expanded
+                                                                 v-model="bid.amount">
 
-                                                                      v-model="bid.amount"
-                                                                      aria-describedby="budget-live-feedback">
+                                                        </b-input>
 
-                                                        </b-form-input>
+                                                    </b-field>
 
-                                                        <b-form-invalid-feedback id="budget-live-feedback">
-                                                            {{validationContext.errors[0] }}
-                                                        </b-form-invalid-feedback>
 
-                                                    </validation-provider>
-                                                </div>
+                                                </ValidationProvider>
 
-                                            </div>
 
-                                        </b-form-group>
+                                            </b-field>
 
+
+                                        </b-field>
+
+                                        <b-field>
+
+                                        </b-field>
 
                                         <validation-provider
                                             persist
@@ -399,7 +397,7 @@
                                 <router-link to="" class="btn bg-orange">Post a similar Job</router-link>
 
                                 <template v-if="authenticated && project.user.id === user.id">
-                                    <router-link to="" class="btn bg-orange ">Edit this job</router-link>
+                                    <router-link :to="{name:'editProject'}" class="btn bg-orange ">Edit this job</router-link>
                                 </template>
                             </template>
 
@@ -508,6 +506,7 @@
                     };
                     axios.post(`projects/${this.project.id}/accept_bid`, data).then(({data}) => {
                         this.project = data.project;
+                        this.$router.push(`/projects/assigned/${this.project.id}`)
                     })
                 }
             },

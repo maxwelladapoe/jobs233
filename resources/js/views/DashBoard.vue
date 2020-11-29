@@ -4,9 +4,9 @@
 
         <div class="jb-main-section-wrapper">
             <div class="container jb-dashboard">
-                <div class="row">
+                <div class="columns is-multiline">
 
-                    <div class="col-12 col-md-5 col-lg-4 col-xl-4">
+                    <div class="column is-12 is-5-tablet  col-lg-4 col-xl-4">
 
                         <div class="jb-dash-right">
                             <div class=" jb-dash-profile bg-orange shadow">
@@ -73,7 +73,7 @@
                     </div>
 
 
-                    <div class="col-12 col-md-7 col-lg-8 col-xl-8 mt-5 mt-md-0">
+                    <div class="column is-12 is-7-tablet col-lg-8 col-xl-8 mt-5-mobile-only">
 
                         <div class="jb-dash-stats-wrapper">
                             <div class="container stats-container  p-0">
@@ -155,7 +155,10 @@
                     </div>
 
 
-                    <div class="col-12 col-lg-8 mt-5 mt-md-0">
+                </div>
+
+                <div class="columns">
+                    <div class=" column is-12 col-lg-8 mt-5 mt-md-0">
 
                         <!-- Is employer -->
                         <div v-if="profileType ==='hire' || profileType ==='work&hire'" class="jb-quick-projects">
@@ -184,10 +187,10 @@
                                         <h6>
                                             <span>
                                             <template v-for="tag in project.tags.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
                                             </template>
                                             <template v-for="skill in project.skills.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{skill}}</b-tag>
                                             </template>
                                         </span>
                                         </h6>
@@ -205,7 +208,9 @@
                             </div>
 
                             <div class="text-center" v-if="somePostedProjectsCount > somePostedProjects.length">
-                                <router-link :to="{name:'Projects',params:{owner:'me'}}" class="btn bg-orange ">View All</router-link>
+                                <router-link :to="{name:'Projects',params:{owner:'me'}}" class="btn bg-orange ">View
+                                    All
+                                </router-link>
                             </div>
 
 
@@ -237,14 +242,14 @@
                                     <template slot="description">{{truncate(project.description,200) }}</template>
                                     <template slot="tags">
                                         Tags & Skills:
-                                        <h6>
+                                        <b-taglist>
                                             <template v-for="tag in project.tags.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
                                             </template>
                                             <template v-for="skill in project.skills.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{skill}}</b-tag>
                                             </template>
-                                        </h6>
+                                        </b-taglist>
 
 
                                     </template>
@@ -291,14 +296,14 @@
                                     <template slot="description">{{truncate(project.description,200) }}</template>
                                     <template slot="tags">
                                         Tags & Skills:
-                                        <h6>
+                                        <b-taglist>
                                             <template v-for="tag in project.tags.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{tag}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
                                             </template>
                                             <template v-for="skill in project.skills.split(',')">
-                                                <b-badge class="mr-1" variant="success">{{skill}}</b-badge>
+                                                <b-tag class="mr-1" variant="success">{{skill}}</b-tag>
                                             </template>
-                                        </h6>
+                                        </b-taglist>
 
 
                                     </template>
@@ -323,9 +328,7 @@
                         <!-- End No assigned projects and is worker -->
 
                     </div>
-
-                    <div class="col-12 col-lg-4"></div>
-
+                    <div class=" column is-12 col-lg-4"></div>
                 </div>
 
             </div>

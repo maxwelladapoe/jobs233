@@ -1149,7 +1149,7 @@ end of login or sign up
     margin-bottom: 5em;
 
     .jb-section {
-        margin-bottom: 5em;
+        margin-bottom: 2em;
         min-height: 2em;
 
         .jb-section-img {
@@ -1822,7 +1822,6 @@ textarea {
     }
 
     .jb-dash-stats-wrapper {
-
         min-height: 8em;
 
 
@@ -1835,13 +1834,23 @@ textarea {
 
             .stats-item {
                 border-radius: 4px;
-                min-width: 9em;
                 height: 8em;
                 text-align: center;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                margin-right: 1em;
+                margin-left: 1em;
+                flex: 1;
 
+                &:first-child{
+                    margin-right: 1em;
+                    margin-left: 0;
+                }
+                &:last-child{
+                    margin-right: 0;
+                    margin-left: 1em;
+                }
 
                 @include media-breakpoint-down(md) {
                     margin-bottom: 1em;

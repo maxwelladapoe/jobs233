@@ -34,7 +34,7 @@
                                                     <span>{{contact.name}}</span> <span
                                                     class="text-right small ml-auto">10 mins</span></div>
                                                 <div class="last-message t-6">
-                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}
+                                                    <!--                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}-->
                                                 </div>
                                             </div>
                                         </div>
@@ -97,7 +97,7 @@
 
                                                     {{message.message}}
 
-                                                    <div class="footer">
+                                                    <div class="message-footer">
                                                         <span class="t-6">
                                                             <timeago
                                                                 :datetime="message.created_at" :auto-update="60"/>
@@ -126,7 +126,7 @@
                                                 <div class="message-description">
 
                                                     {{message.message}}
-                                                    <div class="footer">
+                                                    <div class="message-footer">
                                                          <span class="t-6">
                                                         <timeago
                                                             :datetime="message.created_at" :auto-update="60"/>
@@ -144,7 +144,7 @@
                             <div class="jb-chat-input">
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="sendMessageForm">
-                                    <form @submit.prevent="handleSubmit(sendMessage)">
+                                    <form >
                                         <ValidationProvider
                                             persist
                                             name="additional details"
@@ -153,14 +153,17 @@
 
                                             <b-field expanded>
 
-                                                <b-input rows="2"
+                                                <b-input rows="1"
                                                          type="textarea"
                                                          expanded
                                                          v-model="messageDetails.message"
                                                          placeholder="Type your message..."
                                                          icon="chat_bubble"></b-input>
+
                                                 <p class="control">
-                                                    <b-button size="is-large" type="is-success" icon-right="send">
+                                                    <b-button style="height: 3em" type="is-success" icon-right="send"
+                                                              @click.prevent="handleSubmit(sendMessage)"
+                                                    > Send
                                                     </b-button>
                                                 </p>
 

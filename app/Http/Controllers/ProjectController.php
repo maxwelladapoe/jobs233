@@ -6,6 +6,7 @@ use App\Models\Attachment;
 use App\Models\Bid;
 use App\Models\Project;
 use App\Models\ProjectCategory;
+use App\Models\ProjectStatusUpdate;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -121,6 +122,64 @@ class ProjectController extends Controller
 
     }
 
+    public function updateStatus(Request $request)
+    {
+
+
+        $this->validate($request, [
+            'project_id' => ['required'],
+            'status' => ['string', 'required'],
+            'message' => ['string', 'required']
+
+        ]);
+
+        $project = Project::find($request->project_id);
+
+        $allowedStatus = array("in-progress", "submitted-for-review");
+
+        if ($project) {
+
+            if (in_array($request->status, $allowedStatus)) {
+                $project->status = $request->status;
+                $project->save();
+
+                $statusUpdate = new ProjectStatusUpdate();
+                $statusUpdate->project_id = $project->id;
+                $statusUpdate->status = $request->status;
+                $statusUpdate->message = $request->message;
+
+                if ($statusUpdate->save()) {
+                    return response()->json(['success' => true, 'project' => $project], 200);
+
+                } else {
+                    Log::debug("there seems to be an issue with project status creation. you may have to check the database");
+                    return response()->json(['success' => false, 'message' => 'oops something went wrong with the status creation'], 500);
+                }
+
+
+            } else {
+                return response()->json(['success' => false, 'message' => 'The ststus does not seem valid'], 500);
+
+            }
+        } else {
+            return response()->json(['success' => false, 'message' => 'The project you are looking for does not exist'], 400);
+
+        }
+
+
+    }
+
+    public function statusUpdates(Project $project)
+    {
+        $statusUpdates = $project->statusUpdates()->latest();
+    }
+
+    public function getLatestStatusUpdate(Request $request)
+    {
+
+    }
+
+
     public function delete()
     {
 
@@ -168,9 +227,9 @@ class ProjectController extends Controller
 
         if ($request->has('count')) {
             $projects = $query->take($request['count']);
-        } elseif($request->has('paginate')) {
+        } elseif ($request->has('paginate')) {
             $projects = $query->paginate($request['paginate']);
-        }else{
+        } else {
             $projects = $query->paginate(10);
         }
 
@@ -181,13 +240,17 @@ class ProjectController extends Controller
     public function getAssignedProject(Project $project)
     {
 
-        if ($project->worker_id == Auth::user()->id) {
+
+        if ($project->worker_id == Auth::user()->id || $project->user_id == Auth::user()->id) {
 
             $acceptedBid = Bid::find($project->accepted_bid_id);
+            $statusUpdates = ProjectStatusUpdate::where('project_id', $project->id)->latest()->skip(1)->take(3)->get();
+            $latestStatusUpdate = ProjectStatusUpdate::where('project_id', $project->id)->latest()->first();
 
-            if ($acceptedBid->user_id == Auth::user()->id) {
-                return response()->json(['success' => true, 'project' => $project, 'accepted_bid' => $acceptedBid], 200);
-            }
+            return response()->json(['success' => true,
+                'project' => $project, 'accepted_bid' => $acceptedBid,
+                'status_updates' => $statusUpdates,
+                'latest_status_update' => $latestStatusUpdate], 200);
 
 
         } else {

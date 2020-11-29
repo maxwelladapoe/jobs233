@@ -40,7 +40,7 @@
 
                                     <div class="jb-project-posted-by-extra">
                                         <span><b-icon icon="check-circle" size="is-ok"/> Verified</span>
-                                        <span><b-icon icon="cash-plus" size="is-ok" />  Deposited</span>
+                                        <span><b-icon icon="cash-plus" size="is-normal" />  Deposited</span>
 
                                     </div>
                                 </div>

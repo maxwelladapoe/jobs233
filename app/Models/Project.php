@@ -43,6 +43,10 @@ class Project extends Model
     {
         return $this->hasMany(Attachment::class);
     }
+    public function statusUpdates()
+    {
+        return $this->hasMany(ProjectStatusUpdate::class);
+    }
 
     public function toSearchableArray()
     {

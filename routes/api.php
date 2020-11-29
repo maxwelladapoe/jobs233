@@ -51,6 +51,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/assigned/{project}', [App\Http\Controllers\ProjectController::class, 'getAssignedProject']);
         Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
         Route::patch('/update/{id}', [App\Http\Controllers\ProjectController::class, 'update']);
+        Route::post('/update-status', [App\Http\Controllers\ProjectController::class, 'updateStatus']);
+        Route::get('/status-updates/{project}', [App\Http\Controllers\ProjectController::class, 'statusUpdates']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
 
         //bid
