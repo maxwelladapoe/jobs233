@@ -30,7 +30,7 @@
                                         <div class="inner">
 
                                             <div class="loader"></div>
-                                            <p class="message t-mont t-bold t-white">{{loadingMessage}}</p>
+                                            <p class="t-2 t-mont t-bold t-white">{{loadingMessage}}</p>
                                         </div>
                                     </div>
 
