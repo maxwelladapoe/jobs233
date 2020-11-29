@@ -54,7 +54,7 @@
                     <div class="text-center contents">
 
                         <p class="t-bold  t-mont mr-md-3">Need a flexible job? Register as a freelancer</p>
-                        <a href="#" class="btn bg-black  ml-md-3">Register to Work</a>
+                        <a href="#" class="button bg-black has-text-white ml-3">Register to Work</a>
 
                     </div>
 
@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <br>
-                        <a href="#" class="btn bg-black">View More</a>
+                        <a href="#" class="button bg-black has-text-white">View More</a>
 
                     </div>
                 </div>
@@ -133,7 +133,7 @@
 
                     <div class="text-center contents">
                         <p class="t-bold t-mont mr-md-3">Convinced? Hire a freelancer</p>
-                        <a href="#" class="btn bg-black ml-md-3">Hire</a>
+                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>
                     </div>
 
                 </div>
