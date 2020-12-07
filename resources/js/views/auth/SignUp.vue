@@ -6,11 +6,24 @@
 
             <div class="jb-overlay"></div>
 
-            <div class="container ">
+            <div class="container jb-login-wrap">
+
+                <div class="section is-large">
+
+                <div class="columns is-vcentered is-multiline is-mobile">
 
 
-                <div class="columns jb-login-wrap">
-                    <div class="column is-12 is-4-desktop order-1 order-md-0">
+                    <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
+                        <h1 class=" t-white title">Work / Get hired</h1>
+                        <p class="t-meri t-white subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Aliquid
+                            architecto aspernatur
+                            assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis quo
+                            quod rem sed similique unde voluptatibus.</p>
+                    </div>
+
+
+                    <div class="column is-12-mobile is-5-desktop is-offset-1-desktop">
 
 
                         <div class="card p-0" footer-class="bg-white" header-class="bg-white">
@@ -29,7 +42,9 @@
                             </div>
 
                             <header class="card-header">
-                                <span class="t-bold">Sign Up</span>
+                                <p class="card-header-title">
+                                    <span class="t-bold">Sign Up</span>
+                                </p>
                             </header>
 
 
@@ -86,7 +101,7 @@
 
                                         <ValidationProvider
                                             name="username"
-                                            :rules="{ required: true, min: 5, max:15}"
+                                            :rules="{ required: true, min: 5, max:50}"
                                             v-slot="{ errors, valid }" slim
                                         >
 
@@ -199,7 +214,7 @@
 
 
                             <footer class="card-footer">
-                                <div class="jb-modal-footer">
+                                <div class="jb-modal-footer card-footer-item ">
                                     Already a member?
                                     <router-link class="t-orange" :to="{name:'Login'}">Login</router-link>
 
@@ -211,19 +226,10 @@
 
                     </div>
 
-
-                    <div class="column is-12 is-6-desktop is-offset-2-desktop d-none d-lg-block order-0 order-md-1">
-                        <h1 class=" t-white title">Work / Get hired</h1>
-                        <p class="t-meri t-white subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                            Aliquid
-                            architecto aspernatur
-                            assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis quo
-                            quod rem sed similique unde voluptatibus.</p>
-                    </div>
                 </div>
             </div>
 
-
+        </div>
         </div>
 
     </div>

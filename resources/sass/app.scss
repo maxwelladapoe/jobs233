@@ -323,7 +323,6 @@ header {
     }
 
 
-
     @include media-breakpoint-down('lg') {
         width: 100%;
     }
@@ -1192,7 +1191,7 @@ end of login or sign up
 
     .jb-video-bg {
         position: absolute;
-        height: 30em;
+        height: 20em;
         background: center top no-repeat;
         width: 100%;
 
@@ -1219,9 +1218,6 @@ end of login or sign up
             }
         }
 
-        .container, .row {
-            height: 100% !important;
-        }
 
         .jb-section-img {
             width: 100%;
@@ -1290,7 +1286,7 @@ end of login or sign up
 
     .jb-video-bg {
         position: absolute;
-        height: 30em;
+        height: 20em;
         background-position: center;
         background-size: cover;
         width: 100%;
@@ -1300,21 +1296,25 @@ end of login or sign up
 }
 
 .jb-with-video {
-    height: 30em;
+    height: 20em;
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
 
     .jb-video-details {
-        height: 100%;
+        width: 100%;
+        text-align: left;
         display: flex;
-        justify-content: space-between;
         align-content: center;
+        justify-content: flex-start;
         align-items: center;
-        position: relative;
     }
 
     .jb-section-text {
-        font-size: 2em;
-        width: 50%;
+        font-size: 1.5em;
+        margin-right:2em ;
     }
 }
 
@@ -1569,7 +1569,7 @@ textarea {
 
             .jb-modal-footer {
                 border-top: 0.08em solid $ash;
-                height: 2em;
+                height: 3em;
                 width: 100%;
                 bottom: 0;
                 padding-top: 1em;
@@ -2213,4 +2213,10 @@ textarea {
 
 .has-text-danger, .has-text-success {
     display: none !important;
+}
+
+.no-padding-margin-top-bottom {
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
 }

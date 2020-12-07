@@ -6,18 +6,19 @@
 
             <div class="jb-overlay"></div>
 
-            <div class="container jb-login-wrap">
+            <div class="container jb-login-wrap ">
 
+                <div class="section is-large">
 
-
-                    <div class="columns  is-vcentered" >
+                    <div class="columns  is-vcentered is-mobile is-multiline">
                         <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
 
                             <h1 class=" t-white title">Work / Get hired</h1>
                             <p class="t-meri t-white subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                                 Aliquid
                                 architecto aspernatur
-                                assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis quo
+                                assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis
+                                quo
                                 quod rem sed similique unde voluptatibus.</p>
                         </div>
                         <div class="column is-12-mobile is-5-desktop is-offset-1-desktop">
@@ -37,8 +38,11 @@
 
                                 </div>
 
+
                                 <header class="card-header">
-                                    Login
+                                    <p class="card-header-title">
+                                        Login
+                                    </p>
                                 </header>
 
                                 <div class="card-content">
@@ -140,20 +144,22 @@
                                     </validation-observer>
                                 </div>
 
-                                <footer class="card-footer">
-                                    <div class="jb-modal-footer">
+                                <footer class="card-footer has-text-left">
 
+                                    <p class="card-footer-item ">
                                         Not a member?
                                         <span><router-link class="t-orange"
                                                            :to="{name:'SignUp'}">SignUp</router-link></span>
-                                    </div>
+
+                                    </p>
+
                                 </footer>
                             </div>
                         </div>
 
 
                     </div>
-
+                </div>
             </div>
 
 

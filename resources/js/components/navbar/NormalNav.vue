@@ -1,12 +1,11 @@
 <template>
 
-    <header class="pt-3 pb-3"style="z-index: 9999; position: relative; background-color: #fff">
+    <header class="pt-3 pb-3" style="z-index: 9999; position: relative; background-color: #fff">
         <div class="container">
 
             <b-navbar spaced transparent>
                 <template slot="brand">
                     <b-navbar-item tag="router-link" to="/">
-
                         <img src="/images/logo2.png" alt="Jobs 233 logo"></b-navbar-item>
                 </template>
                 <template slot="start">

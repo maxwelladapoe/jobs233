@@ -4,19 +4,25 @@
         <div class="jb-section">
             <div class="container">
 
-                <template v-if="owner">
-                    <p class=" t-bold t-5 t-mont">Your Projects</p>
-                    <p class="text-left t-meri t-normal ">Review your projects</p>
-                </template>
-                <template v-else>
-                    <p class="t-bold t-5 t-mont">Start Working Now</p>
-                    <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
-                </template>
+                <div class="section is-small">
+                    <template v-if="owner">
+                        <p class=" t-bold t-5 t-mont">Your Projects</p>
+                        <p class="text-left t-meri t-normal ">Review your projects</p>
+                    </template>
+                    <template v-else>
+                        <p class="t-bold t-5 t-mont">Start Working Now</p>
+                        <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                    </template>
+                </div>
+
             </div>
         </div>
 
         <div class="jb-section">
             <div class="container">
+
+                <div class="section">
+
 
                 <div class="jb-project-search">
                     <form class=" mb-5">
@@ -60,7 +66,6 @@
                         <div class="jb-projects-wrapper">
 
                             <template v-if="allProjects.length>0 || allProjects">
-
 
                                 <project-component v-for="project in allProjects" :key="project.id">
                                     <template slot="title">{{project.title}}</template>
@@ -146,7 +151,7 @@
 
 
 
-                                        <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                                        <template v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
                                             <template slot="button">
                                                 <div class="jb-project-bid-btn text-right">
                                                     <router-link :to="{name:'singleProject' , params:{id:project.id}}"
@@ -210,6 +215,7 @@
                     </div>
                 </div>
 
+                </div>
             </div>
         </div>
 
