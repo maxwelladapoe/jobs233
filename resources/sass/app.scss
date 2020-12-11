@@ -362,108 +362,32 @@ after login or sign up
 }
 
 .nav-item-special {
-    width: 18em !important;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    justify-content: center;
 
-    @include media-breakpoint-down(sm) {
-        margin-top: 5px;
-        width: 100% !important;
-    }
-
-    .jb-hover-dropdown-wrapper {
-        position: absolute;
-        top: 3em;
-        z-index: 3333;
-        right: 0;
-        height: auto;
-        min-width: 28em;
-        background-color: $ash-light;
-        padding: 1em;
-        display: none;
-
-        @include media-breakpoint-down(sm) {
-            top: 6em;
-            min-width: 100%;
-            display: none;
-        }
-
-        &:before, &:after {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            right: 19px;
-            border: 8px solid transparent;
-            border-bottom-color: $ash-light;
-        }
-
-        &:after {
-            right: 20px;
-            border: 7px solid transparent;
-            border-bottom-color: $ash-light;
-        }
-
-        &:hover {
+    .links{
+        a{
             display: block;
-        }
-
-        .row.vdivide [class*='col-']:not(:last-child):after {
-            background: $orange;
-            width: 1px;
-            content: "";
-            display: block;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            min-height: 70px;
-        }
-
-        .links {
-
-            position: relative;
-            height: auto;
-            padding: 0;
-
-            a {
-                display: block;
-                color: black;
-                font-weight: 400;
-                text-decoration: none;
-                margin-bottom: 1em;
-
-                &:hover {
-                    color: $orange;
-                }
-            }
-
-        }
-
-    }
-
-    &:hover > .jb-hover-dropdown-wrapper {
-        display: block;
-    }
-
-    .jb-profile-btn-image {
-        display: inline-block;
-        height: 3em;
-
-        img {
-            width: 3em;
+            line-height: 2em;
         }
     }
 
-    .jb-profile-btn-name {
-        display: inline-block;
-        line-height: 3em;
-        margin-left: 0.8em;
+}
 
-        p {
-            font-size: 0.8em;
-        }
+.jb-profile-btn-image {
+    display: inline-block;
+    height: 3em;
+
+    img {
+        width: 3em;
+    }
+}
+
+.jb-profile-btn-name {
+    display: inline-block;
+    line-height: 3em;
+    margin-left: 0.8em;
+
+    p {
+        font-size: 0.8em;
     }
 }
 
@@ -1201,9 +1125,13 @@ end of login or sign up
 
 .jb-main-section-wrapper-alt {
     height: 55em;
+    @include media-breakpoint-down(sm){
+        height: 70em ;
+    }
 
     .jb-section {
         height: 100% !important;
+
 
 
         .jb-overlay {
@@ -1589,6 +1517,7 @@ textarea {
 .jb-l-wrap {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .jb-box-overlay {

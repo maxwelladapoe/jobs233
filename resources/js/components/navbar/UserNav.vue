@@ -7,7 +7,6 @@
                 <template slot="brand">
                     <b-navbar-item tag="router-link" to="/">
                         <img src="/images/logowhite.png" alt="Jobs 233 logo">
-
                     </b-navbar-item>
                 </template>
                 <template slot="start">
@@ -24,85 +23,115 @@
                     </template>
 
                     <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                        <b-navbar-item >
+                        <b-navbar-item>
                             <router-link to="#" class=" button button is-outlined is-primary ">Work</router-link>
                         </b-navbar-item>
                     </template>
 
                 </template>
 
-                <template slot="end">
+                <div slot="end" class="" style="position:relative;">
 
 
-                    <div class=" nav-item-special">
+                    <b-dropdown position="is-bottom-left" append-to-body aria-role="menu" trap-focus>
+                        <div class="button" style="background:transparent; border:none" type="button" slot="trigger">
+                            <template>
+                                <div class="jb-profile-btn-image">
+                                    <b-image :rounded="true" :src="user.profile.picture"/>
+                                </div>
 
-                        <div class="is-flex is-align-content-center is-justify-content-center">
-
-                            <div class="jb-profile-btn-image">
-
-                                <img class="is-rounded" style="border-radius: 50%" :src="user.profile.picture"/>
-                            </div>
-                            <div class="jb-profile-btn-name">
+                                <div class="jb-profile-btn-name">
                                 <span class="t-white t-meri">{{user.name}}
-                                    <b-icon icon="menu-down"/>
                                 </span>
                             </div>
+                            </template>
+
+                            <b-icon type="is-white" icon="menu-down"/>
+
+
+
                         </div>
 
-                        <div class="jb-hover-dropdown-wrapper">
 
-                            <div class="container-fluid  p-0">
-                                <div class="columns">
-                                    <div class="column is-6">
-                                        <div class="links text-left">
-                                            <router-link class="" :to="{name:'Messages'}"><i
-                                                class="fas fa-envelope"></i> Messages
-                                            </router-link>
-                                            <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
+                        <b-dropdown-item  aria-role="menu-item"
+                                          :focusable="false"
+                                          custom
+                                          paddingless>
+
+
+
+                            <div class="modal-card nav-item-special" style="width: 300px">
+                                <section class="modal-card-body">
+                                    <div class="columns">
+                                        <div class="column is-5">
+
+                                            <div class="links">
+                                                <router-link class="" :to="{name:'Messages'}"><i
+                                                    class="fas fa-envelope"></i> Messages
+                                                </router-link>
+                                                <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="column is-7 has-text-right">
+
+                                            <div class="links">
+                                                <router-link to="/dashboard">Dashboard</router-link>
+                                                <router-link class="" :to="{name:'EditProfile'}"><i
+                                                    class="fas fa-user"></i>
+                                                    My Profile
+                                                </router-link>
+
+                                                <a class="" href="#">Accounts & Settings</a>
+
+                                                <a class="" href="" @click.prevent="logout">Logout</a>
+                                            </div>
+
                                         </div>
                                     </div>
-                                    <div class="column is-6">
-                                        <div class="links text-right">
-                                            <router-link to="/dashboard">Dashboard</router-link>
-                                            <router-link class="" :to="{name:'EditProfile'}"><i
-                                                class="fas fa-user"></i>
-                                                My Profile
-                                            </router-link>
-                                            <a class="" href="#">Accounts & Settings</a>
-                                            <a class="" href="" @click.prevent="logout">Logout</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                </section>
+
                             </div>
 
-                        </div>
-                    </div>
 
-                </template>
+
+
+                        </b-dropdown-item>
+
+                    </b-dropdown>
+
+                </div>
 
             </b-navbar>
         </div>
 
         <div class="jb-dash-nav bg-ash">
-            <div class="container">
-                <div class="jb-dash-links">
-                    <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">My Dashboard</router-link>
 
-                    <template v-if="profileType ==='hire' || profileType ==='work&hire'">
-                        <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#" class="jb-dash-link t-white ">
-                            My Projects
-                        </router-link>
+            <div class="section no-padding-margin-top-bottom">
 
-                    </template>
-                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                        <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
-                                     class="jb-dash-link t-white ">
-                            My Assigned Projects
-                        </router-link>
-                    </template>
 
-<!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->
-                    <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
+                <div class="container">
+                    <div class="jb-dash-links">
+                        <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">Dashboard</router-link>
+
+                        <template v-if="profileType ==='hire' || profileType ==='work&hire'">
+                            <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#"
+                                         class="jb-dash-link t-white ">
+                                My Projects
+                            </router-link>
+
+                        </template>
+                        <template v-if="profileType ==='work' || profileType ==='work&hire'">
+                            <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
+                                         class="jb-dash-link t-white ">
+                                Assigned Projects
+                            </router-link>
+                        </template>
+
+                        <!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->
+                        <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="jb-main-section-wrapper-alt">
+    <div class="jb-main-section-wrapper-alt p-0">
 
         <div class="jb-section p-0 m-0">
             <img src="/images/slider/1.jpg" class="bg-image" alt="">
@@ -10,7 +10,7 @@
 
                 <div class="section is-large">
 
-                    <div class="columns  is-vcentered is-mobile is-multiline">
+                    <div class="columns is-vcentered is-mobile is-multiline">
                         <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
 
                             <h1 class=" t-white title">Work / Get hired</h1>
@@ -56,7 +56,7 @@
 
                                                 <ValidationProvider
                                                     name="Email / Username"
-                                                    :rules="{ required: true, min: 3,  }"
+                                                    :rules="{ required: true, min:3}"
                                                     v-slot="{ errors, valid }"
                                                 >
                                                     <b-field
@@ -156,8 +156,6 @@
                                 </footer>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
             </div>

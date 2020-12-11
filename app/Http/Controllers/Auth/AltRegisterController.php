@@ -27,7 +27,7 @@ class AltRegisterController extends Controller
         $this->validate($request, [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:10', 'min:5' , 'unique:users'],
+            'username' => ['required', 'string', 'max:35', 'min:5' , 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6',],
             'preference' => ['required', 'string']
