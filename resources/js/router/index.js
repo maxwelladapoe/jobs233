@@ -10,6 +10,8 @@ import payment from "./payment";
 import SignUp from "../views/auth/SignUp";
 import Messages from "../views/messages/MessageArea";
 import HowItWorks from "../views/others/HowItWorks";
+import Contact from "../views/others/Contact";
+import About from "../views/others/About";
 
 Vue.use(VueRouter);
 
@@ -31,6 +33,18 @@ const routes = [
         path: '/how-it-works',
         name: 'HowItWorks',
         component: HowItWorks,
+        meta: {requiresAuth: false}
+
+    }, {
+        path: '/contact',
+        name: 'Contact',
+        component: Contact,
+        meta: {requiresAuth: false}
+
+    }, {
+        path: '/about',
+        name: 'About',
+        component: About,
         meta: {requiresAuth: false}
 
     }, {
