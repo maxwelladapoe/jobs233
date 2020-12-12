@@ -1,11 +1,13 @@
 <template>
     <div class="jb-notifications bg-ash-light ">
+
+
         <div class="jb-notifications-header b-bottom">
-            <p class="t-mont t-bold">
+            <p class="t-mont t-bold ">
                 Notifications
             </p>
             <template>
-                <b-button class="button bg-orange" @click="markAllAsRead">Mark All As Read</b-button>
+                <b-button class="button bg-orange" @click="markAllAsRead">Mark all as read</b-button>
 
             </template>
 
@@ -71,7 +73,7 @@
             getUnreadNotifications() {
                 axios.get('/notifications/?category=unread').then(({data}) => {
                     this.notifications = data.notifications
-                    console.log(data)
+
                 })
             },
             markAllAsRead() {

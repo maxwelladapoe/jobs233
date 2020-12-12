@@ -1,7 +1,7 @@
 <template>
     <header class="bg-black pt-3">
         <div class="container  pb-3">
-            <b-navbar spaced transparent>
+            <b-navbar type="is-black" spaced class="user-nav" >
 
 
                 <template slot="brand">
@@ -10,15 +10,15 @@
                     </b-navbar-item>
                 </template>
                 <template slot="start">
-                    <b-navbar-item>
-                        <router-link :to="{name:'HowItWorks'}">How it Works</router-link>
+                    <b-navbar-item  tag="router-link" :to="{name:'HowItWorks'}">
+                        How it Works
                     </b-navbar-item>
-                    <b-navbar-item>
-                        <router-link :to="{name:'Projects'}">Browse Projects</router-link>
+                    <b-navbar-item tag="router-link" :to="{name:'Projects'}">Browse Projects
                     </b-navbar-item>
+
                     <template v-if="profileType ==='hire' || profileType ==='work&hire'">
-                        <b-navbar-item>
-                            <router-link to="#" class="button is-outlined is-primary">Hire</router-link>
+                        <b-navbar-item tag="div" to="#">
+                            <a href="#" class="button is-outlined is-primary">Hire</a>
                         </b-navbar-item>
                     </template>
 
@@ -30,80 +30,116 @@
 
                 </template>
 
-                <div slot="end" class="" style="position:relative;">
+                <template slot="end">
 
 
-                    <b-dropdown position="is-bottom-left" append-to-body aria-role="menu" trap-focus>
-                        <div class="button" style="background:transparent; border:none" type="button" slot="trigger">
-                            <template>
-                                <div class="jb-profile-btn-image">
-                                    <b-image :rounded="true" :src="user.profile.picture"/>
-                                </div>
+                    <b-navbar-dropdown hoverable collapsible right boxed>
 
-                                <div class="jb-profile-btn-name">
-                                <span class="t-white t-meri">{{user.name}}
+                        <template slot="label">
+                            <div class="nav-item-special-label">
+                                <template>
+                                    <div class="jb-profile-btn-image">
+                                        <b-image :rounded="true" :src="user.profile.picture"/>
+                                    </div>
+                                    <div class="jb-profile-btn-name">
+                                <span class="t-meri ml-2">{{user.name}}
                                 </span>
+                                    </div>
+                                </template>
+
                             </div>
-                            </template>
-
-                            <b-icon type="is-white" icon="menu-down"/>
+                        </template>
 
 
+                        <b-navbar-item class="no-padding">
 
-                        </div>
+                            <div class=" nav-item-special">
+                                <section class="">
+                                    <div class="columns is-multiline">
+                                        <div class="column is-12 is-5-desktop">
 
+                                            <b-navbar-item class=" has-text-left pl-0 pr-0"
+                                                           tag="router-link" :to="{name:'Messages'}">
+                                                <div style="width: 100%">
+                                                    <span class="mr-2"><b-icon icon="forum" size="is-small"/> </span>
+                                                    Messages
+                                                </div>
 
-                        <b-dropdown-item  aria-role="menu-item"
-                                          :focusable="false"
-                                          custom
-                                          paddingless>
+                                            </b-navbar-item>
 
+                                            <b-navbar-item tag="div"
+                                                           class=" has-text-left pl-0 pr-0">
+                                                <div style="width: 100%">
+                                                <span class="mr-2">
+                                                    <b-icon icon="bell" size="is-small"/>
+                                                </span>
+                                                    Notifications
 
-
-                            <div class="modal-card nav-item-special" style="width: 300px">
-                                <section class="modal-card-body">
-                                    <div class="columns">
-                                        <div class="column is-5">
-
-                                            <div class="links">
-                                                <router-link class="" :to="{name:'Messages'}"><i
-                                                    class="fas fa-envelope"></i> Messages
-                                                </router-link>
-                                                <a class="" href="#"><i class="fas fa-bell"></i> Notifications</a>
-                                            </div>
+                                                </div>
+                                            </b-navbar-item>
 
                                         </div>
 
-                                        <div class="column is-7 has-text-right">
+                                        <div class="column is-12 is-7-desktop">
 
-                                            <div class="links">
-                                                <router-link to="/dashboard">Dashboard</router-link>
-                                                <router-link class="" :to="{name:'EditProfile'}"><i
-                                                    class="fas fa-user"></i>
+
+                                            <b-navbar-item to="/dashboard"
+                                                           class=" has-text-left-touch has-text-right pl-0 pr-0"
+                                                           tag="router-link">
+                                                <div style="width: 100%">
+                                                           <span class="mr-2">
+                                                    <b-icon icon="view-dashboard" size="is-small"/>
+                                                </span>
+                                                    Dashboard
+                                                </div>
+
+                                            </b-navbar-item>
+
+
+                                            <b-navbar-item :to="{name:'EditProfile'}"
+                                                           class=" has-text-left-touch has-text-right pl-0 pr-0"
+                                                           tag="router-link">
+                                                <div style="width: 100%">
+                                                     <span class="mr-2">
+                                                    <b-icon icon="account" size="is-small"/>
+                                                </span>
                                                     My Profile
-                                                </router-link>
+                                                </div>
+                                            </b-navbar-item>
 
-                                                <a class="" href="#">Accounts & Settings</a>
-
-                                                <a class="" href="" @click.prevent="logout">Logout</a>
-                                            </div>
 
                                         </div>
+
+                                        <div class="column is-12 ">
+
+                                            <hr class=" mb-0">
+                                            <b-navbar-item href="#" @click.prevent="logout"
+                                                           class=" has-text-left-touch has-text-right pl-0 pr-0"
+                                                           tag="a">
+                                                <div style="width: 100%">
+                                                     <span class="mr-2">
+                                                    <b-icon icon="logout-variant" size="is-small"/>
+                                                </span>
+                                                    Logout
+                                                </div>
+                                            </b-navbar-item>
+
+                                        </div>
+
                                     </div>
                                 </section>
 
                             </div>
 
 
+                        </b-navbar-item>
 
+                    </b-navbar-dropdown>
 
-                        </b-dropdown-item>
-
-                    </b-dropdown>
-
-                </div>
+                </template>
 
             </b-navbar>
+
         </div>
 
         <div class="jb-dash-nav bg-ash">

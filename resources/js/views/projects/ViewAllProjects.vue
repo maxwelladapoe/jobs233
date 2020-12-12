@@ -2,218 +2,224 @@
     <div class="jb-main-section-wrapper">
 
         <div class="jb-section">
-            <div class="container">
+            <div class="section no-padding-margin-top-bottom">
+                <div class="container">
 
-                <div class="section is-small">
-                    <template v-if="owner">
-                        <p class=" t-bold t-5 t-mont">Your Projects</p>
-                        <p class="text-left t-meri t-normal ">Review your projects</p>
-                    </template>
-                    <template v-else>
-                        <p class="t-bold t-5 t-mont">Start Working Now</p>
-                        <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
-                    </template>
+                    <div class=" is-small">
+                        <template v-if="owner">
+                            <p class="t-bold t-mont title">My Projects</p>
+                            <p class="text-left t-meri t-normal subtitle ">Review your projects</p>
+                        </template>
+                        <template v-else>
+                            <p class="t-bold t-4 t-mont">Start Working Now</p>
+                            <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                        </template>
+                    </div>
+
                 </div>
-
             </div>
+
         </div>
 
         <div class="jb-section">
-            <div class="container">
+            <div class="section no-padding-margin-top-bottom">
+                <div class="container">
 
-                <div class="section">
 
+                    <div class="jb-project-search">
+                        <form class=" mb-5">
+                            <b-field expanded>
+                                <b-input placeholder="Search..." type="search" expanded v-model="search.term"></b-input>
+                                <p class="control">
+                                    <b-button @click.prevent="searchSubmit" class="button is-black">
+                                        <b-icon icon="magnify"/>
+                                        <span>Search</span></b-button>
+                                </p>
+                            </b-field>
 
-                <div class="jb-project-search">
-                    <form class=" mb-5">
-                        <b-field expanded>
-                            <b-input placeholder="Search..." type="search" expanded v-model="search.term"></b-input>
-                            <p class="control">
-                                <b-button @click.prevent="searchSubmit" class="button is-black">
-                                    <b-icon icon="magnify"/>
-                                    <span>Search</span></b-button>
-                            </p>
-                        </b-field>
+                        </form>
 
-                    </form>
-
-                    <div class="is-hidden-desktop">
-                        <div class="columns my-3 ">
-                            <div class="column is-6">
-                                <b-select expanded v-model="selectedCategory" @change="fetchWithSelectedCategoryDropDown()">
-                                    <option value="all">All Categories</option>
-                                    <option v-for="category in categories" :key="category.id"
-                                            :value="category.name">
-                                        {{category.name}}
-                                    </option>
-                                </b-select>
-                            </div>
-                            <div class="column is-6">
-                                <b-select v-model="selectedSortOption" expanded>
-                                    <option value="latest">Latest</option>
-                                    <option value="oldest">Oldest</option>
-\
-                                </b-select>
+                        <div class="is-hidden-desktop">
+                            <div class="columns my-3 ">
+                                <div class="column is-6">
+                                    <b-select expanded v-model="selectedCategory"
+                                              @change="fetchWithSelectedCategoryDropDown()">
+                                        <option value="all">All Categories</option>
+                                        <option v-for="category in categories" :key="category.id"
+                                                :value="category.name">
+                                            {{category.name}}
+                                        </option>
+                                    </b-select>
+                                </div>
+                                <div class="column is-6">
+                                    <b-select v-model="selectedSortOption" expanded>
+                                        <option value="latest">Latest</option>
+                                        <option value="oldest">Oldest</option>
+                                        \
+                                    </b-select>
+                                </div>
                             </div>
                         </div>
+
+
                     </div>
 
+                    <div class="columns is-multiline">
+                        <div class="column is-8">
+                            <div class="jb-projects-wrapper">
 
-                </div>
+                                <template v-if="allProjects.length>0 || allProjects">
 
-                <div class="columns is-multiline">
-                    <div class="column is-8">
-                        <div class="jb-projects-wrapper">
+                                    <project-component v-for="project in allProjects" :key="project.id">
+                                        <template slot="title">{{project.title}}</template>
+                                        <template slot="time">
 
-                            <template v-if="allProjects.length>0 || allProjects">
+                                            <timeago :datetime="project.created_at" :auto-update="60"/>
 
-                                <project-component v-for="project in allProjects" :key="project.id">
-                                    <template slot="title">{{project.title}}</template>
-                                    <template slot="time">
+                                        </template>
+                                        <template slot="description">{{truncate(project.description,200)}}</template>
+                                        <template slot="tags">
 
-                                        <timeago :datetime="project.created_at" :auto-update="60"/>
-
-                                    </template>
-                                    <template slot="description">{{truncate(project.description,200)}}</template>
-                                    <template slot="tags">
-
-                                        <p class="mb-1">Tags & Skills:</p>
-                                        <b-taglist>
-                                            <template v-for="tag in project.tags.split(',')">
-                                                <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
-                                            </template>
-                                            <template v-for="skill in project.skills.split(',')">
-                                                <b-tag class="mr-1" type="is-success">{{skill}}</b-tag>
-                                            </template>
-                                        </b-taglist>
+                                            <p class="mb-1">Tags & Skills:</p>
+                                            <b-taglist>
+                                                <template v-for="tag in project.tags.split(',')">
+                                                    <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
+                                                </template>
+                                                <template v-for="skill in project.skills.split(',')">
+                                                    <b-tag class="mr-1" type="is-success">{{skill}}</b-tag>
+                                                </template>
+                                            </b-taglist>
 
 
-                                    </template>
-                                    <template slot="budget"> {{project.currency.symbol}}{{project.budget}}</template>
-                                    <template slot="image">
+                                        </template>
+                                        <template slot="budget"> {{project.currency.symbol}}{{project.budget}}
+                                        </template>
+                                        <template slot="image">
 
-                                        <b-image :rounded='true' :src="project.user.profile.picture" alt=""
-                                             class="rounded-circle"/>
-                                    </template>
-
-                                    <template slot="posted_by">
-
-                                        <p class="t-meri m-0 p-0" v-if=" authenticated && project.user.id === user.id">
-                                            You</p>
-
-                                        <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
-                                    </template>
-
-                                    <template>
-
-                                        <template
-                                            v-if=" !authenticated">
-                                            <template slot="button">
-                                                <div class="jb-project-bid-btn text-right">
-
-
-                                                    <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                 class="button bg-orange">View
-                                                    </router-link>
-
-
-                                                </div>
-                                            </template>
+                                            <b-image :rounded='true' :src="project.user.profile.picture" alt=""
+                                                     class="rounded-circle"/>
                                         </template>
 
+                                        <template slot="posted_by">
+
+                                            <p class="t-meri m-0 p-0"
+                                               v-if=" authenticated && project.user.id === user.id">
+                                                You</p>
+
+                                            <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
+                                        </template>
+
+                                        <template>
+
+                                            <template
+                                                v-if=" !authenticated">
+                                                <template slot="button">
+                                                    <div class="jb-project-bid-btn text-right">
 
 
-                                        <template
-                                            v-if="(profileType ==='hire' || profileType ==='work&hire' ) && authenticated">
-                                            <template slot="button">
-                                                <div class="jb-project-bid-btn text-right">
-
-
-                                                    <template v-if="(project.accepted_bid_id !== null && project.accepted_bid_id !== 0 && project.accepted_bid_id !=='') && project.user.id === user.id">
-                                                        <router-link :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                                     class="button bg-orange">View
+                                                        <router-link
+                                                            :to="{name:'singleProject' , params:{id:project.id}}"
+                                                            class="button bg-orange">View
                                                         </router-link>
-                                                    </template>
 
-                                                    <template v-else>
-                                                        <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                     class="button bg-orange">View
+
+                                                    </div>
+                                                </template>
+                                            </template>
+
+
+                                            <template
+                                                v-if="(profileType ==='hire' || profileType ==='work&hire' ) && authenticated">
+                                                <template slot="button">
+                                                    <div class="jb-project-bid-btn text-right">
+
+
+                                                        <template
+                                                            v-if="(project.accepted_bid_id !== null && project.accepted_bid_id !== 0 && project.accepted_bid_id !=='') && project.user.id === user.id">
+                                                            <router-link
+                                                                :to="{name:'assignedProject' , params:{id:project.id}}"
+                                                                class="button bg-orange">View
+                                                            </router-link>
+                                                        </template>
+
+                                                        <template v-else>
+                                                            <router-link
+                                                                :to="{name:'singleProject' , params:{id:project.id}}"
+                                                                class="button bg-orange">View
+                                                            </router-link>
+                                                        </template>
+
+
+                                                    </div>
+                                                </template>
+                                            </template>
+
+
+                                            <template
+                                                v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
+                                                <template slot="button">
+                                                    <div class="jb-project-bid-btn text-right">
+                                                        <router-link
+                                                            :to="{name:'singleProject' , params:{id:project.id}}"
+                                                            class="button bg-orange">Bid
                                                         </router-link>
-                                                    </template>
-
-
-
-                                                </div>
+                                                    </div>
+                                                </template>
                                             </template>
                                         </template>
 
 
+                                    </project-component>
 
 
+                                    <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId">
+                                        <template slot="spinner">
+                                            <div class="jb-project-loading text-center">
+                                                <img src="/images/loading.gif" alt="">
+                                            </div>
 
-                                        <template v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
-                                            <template slot="button">
-                                                <div class="jb-project-bid-btn text-right">
-                                                    <router-link :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                 class="button bg-orange">Bid
-                                                    </router-link>
-                                                </div>
-                                            </template>
                                         </template>
-                                    </template>
 
+                                        <template slot="no-more">No more Projects</template>
+                                    </infinite-loading>
+                                </template>
 
-                                </project-component>
+                                <template v-else>
+                                    <p class="t-ash">there are no project items</p>
+                                </template>
 
-
-                                <infinite-loading @infinite="infiniteHandler" :identifier="infiniteId">
-                                    <template slot="spinner">
-                                        <div class="jb-project-loading text-center">
-                                            <img src="/images/loading.gif" alt="">
-                                        </div>
-
-                                    </template>
-
-                                    <template slot="no-more">No more Projects</template>
-                                </infinite-loading>
-                            </template>
-
-                            <template v-else>
-                                <p class="t-ash">there are no project items</p>
-                            </template>
-
-                        </div>
-                    </div>
-                    <div class="column is-4  is-hidden-touch">
-                        <div class="jb-project-filter-wrapper  d-none d-lg-block">
-                            <div class="jb-project-filter p-3 has-text-right">
-                                <div class="jb-arrow-left">
-
-                                </div>
-
-                                <div class="jb-project-filter-element ">
-                                    <p class="t-mont t-bold">Categories</p>
-                                    <ul class="jb-filter-item">
-                                        <li><a href="" @click.prevent="fetchWithSelectedCategory('all')"
-                                               class="t-orange">All Categories</a></li>
-                                        <li v-for="category in categories">
-                                            <a href="" class="t-orange"
-                                               @click.prevent="fetchWithSelectedCategory(category.name)">{{category.name}}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="jb-project-filter-element">
-                                    <p class="t-mont t-bold">Sort By</p>
-                                    <ul class="jb-filter-item">
-                                        <li><a href="" class="t-orange">Latest</a></li>
-                                        <li><a href="" class="t-orange">Oldest</a></li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
+                        <div class="column is-4  is-hidden-touch">
+                            <div class="jb-project-filter-wrapper  d-none d-lg-block">
+                                <div class="jb-project-filter p-3 has-text-right">
+                                    <div class="jb-arrow-left">
 
+                                    </div>
+
+                                    <div class="jb-project-filter-element ">
+                                        <p class="t-mont t-bold">Categories</p>
+                                        <ul class="jb-filter-item">
+                                            <li><a href="" @click.prevent="fetchWithSelectedCategory('all')"
+                                                   class="t-orange">All Categories</a></li>
+                                            <li v-for="category in categories">
+                                                <a href="" class="t-orange"
+                                                   @click.prevent="fetchWithSelectedCategory(category.name)">{{category.name}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="jb-project-filter-element">
+                                        <p class="t-mont t-bold">Sort By</p>
+                                        <ul class="jb-filter-item">
+                                            <li><a href="" class="t-orange">Latest</a></li>
+                                            <li><a href="" class="t-orange">Oldest</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
-                </div>
 
                 </div>
             </div>
