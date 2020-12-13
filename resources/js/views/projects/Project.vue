@@ -409,7 +409,7 @@
 
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                                    <router-link to="" class="button bg-orange">Post a similar Job</router-link>
+                                    <router-link to="#" class="button bg-orange">Post a similar Job</router-link>
 
                                     <template v-if="authenticated && project.user.id === user.id">
                                         <router-link :to="{name:'editProject'}" class="button bg-orange ">Edit this job
@@ -462,7 +462,6 @@
                 project: {
                     category: {
                         name: '',
-
                     },
                     currency: {
                         symbol: '',

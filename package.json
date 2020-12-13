@@ -26,6 +26,7 @@
     "dependencies": {
         "buefy": "^0.9.4",
         "bulma": "^0.9.1",
+        "ini": "^2.0.0",
         "laravel-echo": "^1.9.0",
         "pusher-js": "^7.0.2",
         "vee-validate": "^3.4.5",

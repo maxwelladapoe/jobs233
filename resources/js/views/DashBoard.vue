@@ -305,6 +305,14 @@
 
 
                                         </template>
+
+
+                                        <template slot="image">
+
+                                            <b-image :rounded='true' :src="project.user.profile.picture" alt=""
+                                                     class="rounded-circle"/>
+                                        </template>
+
                                         <template slot="budget"> {{project.currency.symbol}}{{project.budget}}
                                         </template>
                                         <template slot="button">
@@ -362,6 +370,12 @@
 
                                         </template>
                                         <template slot="budget"> {{project.currency.symbol}}{{project.budget}}
+                                        </template>
+
+                                        <template slot="image">
+
+                                            <b-image :rounded='true' :src="project.user.profile.picture" alt=""
+                                                     class="rounded-circle"/>
                                         </template>
                                         <template slot="button">
                                             <div class="jb-project-bid-button text-right">

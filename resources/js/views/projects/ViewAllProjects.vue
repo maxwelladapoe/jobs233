@@ -135,7 +135,11 @@
 
 
                                                         <template
-                                                            v-if="(project.accepted_bid_id !== null && project.accepted_bid_id !== 0 && project.accepted_bid_id !=='') && project.user.id === user.id">
+                                                            v-if="(project.accepted_bid_id !== null
+                                                             && project.accepted_bid_id !== 0 &&
+                                                              project.accepted_bid_id !=='') &&
+                                                              (project.user.id === user.id || project.worker_id
+                                                              ===user.id)">
                                                             <router-link
                                                                 :to="{name:'assignedProject' , params:{id:project.id}}"
                                                                 class="button bg-orange">View
@@ -157,13 +161,31 @@
 
                                             <template
                                                 v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
+
+
                                                 <template slot="button">
-                                                    <div class="jb-project-bid-btn text-right">
+
+
+                                                    <template
+                                                        v-if="(project.accepted_bid_id !== null
+                                                             && project.accepted_bid_id !== 0 &&
+                                                              project.accepted_bid_id !=='') &&
+                                                              ( project.worker_id===user.id)">
                                                         <router-link
-                                                            :to="{name:'singleProject' , params:{id:project.id}}"
-                                                            class="button bg-orange">Bid
+                                                            :to="{name:'assignedProject' , params:{id:project.id}}"
+                                                            class="button bg-orange">View
                                                         </router-link>
-                                                    </div>
+                                                    </template>
+
+                                                    <template v-else>
+                                                        <div class="jb-project-bid-btn text-right">
+                                                            <router-link
+                                                                :to="{name:'singleProject' , params:{id:project.id}}"
+                                                                class="button bg-orange">Bid
+                                                            </router-link>
+                                                        </div>
+                                                    </template>
+
                                                 </template>
                                             </template>
                                         </template>

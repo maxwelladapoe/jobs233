@@ -362,23 +362,23 @@ after login or sign up
 }
 
 .nav-item-special {
-    width: 300px!important;
+    width: 300px !important;
     padding: 1.2em;
     background-color: #fff !important;
-    @include media-breakpoint-down(md){
+    @include media-breakpoint-down(md) {
         width: 100% !important;
         padding: 0 1.2em;
     }
 
 }
 
-.nav-item-special-label{
+.nav-item-special-label {
     display: flex;
     align-content: center;
 }
 
-.user-nav{
-    .navbar-menu{
+.user-nav {
+    .navbar-menu {
         background-color: transparent !important;
         color: $primary;
     }
@@ -459,13 +459,13 @@ after login or sign up
         display: inline-block;
         border: none;
 
-        &.active{
+        &.active {
             color: #fff;
             background-color: $success;
             border: 0.1em solid #fff;
         }
 
-        &.not-active{
+        &.not-active {
             color: #000;
             background-color: white;
         }
@@ -1104,7 +1104,7 @@ end of login or sign up
     margin-top: 5em;
     margin-bottom: 5em;
 
-    @include media-breakpoint-down(sm){
+    @include media-breakpoint-down(sm) {
         min-height: 20em !important;
     }
 
@@ -1158,13 +1158,12 @@ end of login or sign up
 
 .jb-main-section-wrapper-alt {
     height: 55em;
-    @include media-breakpoint-down(sm){
-        height: 70em ;
+    @include media-breakpoint-down(sm) {
+        height: 70em;
     }
 
     .jb-section {
         height: 100% !important;
-
 
 
         .jb-overlay {
@@ -1275,7 +1274,7 @@ end of login or sign up
 
     .jb-section-text {
         font-size: 1.5em;
-        margin-right:2em ;
+        margin-right: 2em;
     }
 }
 
@@ -2068,8 +2067,8 @@ textarea {
             display: flex;
             align-items: center;
 
-            img{
-                width: 30px!important;
+            img {
+                width: 30px !important;
             }
         }
 
@@ -2167,15 +2166,30 @@ textarea {
     padding-bottom: 0 !important;
 }
 
-.no-decoration{
+.no-decoration {
     text-decoration: none !important;
 }
 
-.no-padding{
+.no-padding {
     padding: 0 !important;
 }
 
-.text-success{
+.text-success {
     color: $success !important;
 }
 
+
+.jb-slider-video-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slider-video {
+    position: absolute;
+    right: 0;
+    bottom: -10em;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -2;
+}

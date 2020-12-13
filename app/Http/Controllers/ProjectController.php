@@ -125,6 +125,7 @@ class ProjectController extends Controller
     public function updateStatus(Request $request)
     {
 
+        //this function is responsible for handling status updates
 
         $this->validate($request, [
             'project_id' => ['required'],
@@ -135,32 +136,84 @@ class ProjectController extends Controller
 
         $project = Project::find($request->project_id);
 
-        $allowedStatus = array("in-progress", "submitted-for-review");
 
         if ($project) {
 
-            if (in_array($request->status, $allowedStatus)) {
-                $project->status = $request->status;
-                $project->save();
 
-                $statusUpdate = new ProjectStatusUpdate();
-                $statusUpdate->project_id = $project->id;
-                $statusUpdate->status = $request->status;
-                $statusUpdate->message = $request->message;
+            if ($project->worker_id == Auth::user()->id || $project->user_id == Auth::user()->id) {
 
-                if ($statusUpdate->save()) {
-                    return response()->json(['success' => true, 'project' => $project], 200);
-
-                } else {
-                    Log::debug("there seems to be an issue with project status creation. you may have to check the database");
-                    return response()->json(['success' => false, 'message' => 'oops something went wrong with the status creation'], 500);
+                if ($project->worker_id == Auth::user()->id) {
+                    $allowedStatus = array("in-progress", "submitted-for-review");
+                } elseif ($project->user_id == Auth::user()->id) {
+                    $allowedStatus = array("completed", "further-changes-required");
                 }
 
+                if (in_array($request->status, $allowedStatus)) {
+                    $project->status = $request->status;
+                    $project->save();
 
+                    //attachments
+
+                    $statusUpdate = new ProjectStatusUpdate();
+                    $statusUpdate->project_id = $project->id;
+                    $statusUpdate->status = $request->status;
+                    $statusUpdate->message = $request->message;
+
+                    if ($statusUpdate->save()) {
+
+
+                        if ($request->has('attachments')) {
+                            $files = $request['attachments'];
+
+                            foreach ($files as $file) {
+
+
+                                $filenameWithExt = $file->getClientOriginalName();
+                                //Get just filename
+                                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                                // Get just ext
+                                $extension = $file->getClientOriginalExtension();
+                                // Filename to store
+                                $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+
+                                $path = $file->storeAs('public/attachments', $fileNameToStore);
+
+                                if ($path) {
+                                    $attachment = new Attachment();
+                                    $attachment->user_id = Auth::user()->id;
+                                    $attachment->project_id = $project->id;
+                                    $attachment->belongs_to_status_update = true;
+                                    $attachment->status_update_id = $statusUpdate->id;
+                                    $attachment->name = $filenameWithExt;
+                                    $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+                                    $attachment->size = $file->getSize();
+                                    $attachment->format = $file->getMimeType();
+                                    $attachment->save();
+                                }
+
+                            }
+
+                        }
+
+
+                        return response()->json(['success' => true, 'project' => $project], 200);
+
+                    } else {
+                        Log::debug("there seems to be an issue with project status creation. you may have to check the database");
+                        return response()->json(['success' => false, 'message' => 'oops something went wrong with the status creation'], 500);
+                    }
+
+
+                } else {
+                    return response()->json(['success' => false, 'message' => 'The status does not seem valid'], 500);
+
+                }
             } else {
-                return response()->json(['success' => false, 'message' => 'The ststus does not seem valid'], 500);
+                return response()->json(['success' => false, 'message' => 'this project has not been assigned to this user or has not been assigned'], 401);
 
             }
+
+
         } else {
             return response()->json(['success' => false, 'message' => 'The project you are looking for does not exist'], 400);
 

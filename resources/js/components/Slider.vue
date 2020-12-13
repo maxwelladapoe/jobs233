@@ -3,12 +3,20 @@
     <div class="jb-slider">
 
 
-        <b-carousel :arrow="false" :animated="'fade'" :interval="10000">
+        <b-carousel :arrow="false" :animated="'fade'" :interval="10000" :pause-info="false" :indicator="false">
             <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
                 <section class="hero">
                     <div class="hero-bg">
                         <div class="overlay bg-black"></div>
-                        <img :src="carousel.image" alt="slider1" class="carousel-image">
+
+
+                        <div class="jb-slider-video-wrap is-hidden-touch">
+                            <video autoplay muted loop class="slider-video" >
+                                <source src="/videos/slider.mp4" type="video/mp4">
+                            </video>
+
+                        </div>
+                        <img :src="carousel.image" alt="slider1" class="carousel-image is-hidden-desktop">
 
                     </div>
                     <div class="hero-body">
