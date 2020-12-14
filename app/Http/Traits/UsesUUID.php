@@ -4,7 +4,7 @@ namespace App\Http\Traits;
 
 use Illuminate\Support\Str;
 
-trait UsesUuid
+trait UsesUUID
 {
   protected static function bootUsesUuid() {
     static::creating(function ($model) {

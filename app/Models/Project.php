@@ -9,7 +9,7 @@ use Laravel\Scout\Searchable;
 class Project extends Model
 {
     use HasFactory, Searchable;
-    use \App\Http\Traits\UsesUuid;
+    use \App\Http\Traits\UsesUUID;
 
 
     protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
