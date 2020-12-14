@@ -11,6 +11,7 @@ use App\Models\Skill;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -37,7 +38,7 @@ class ProjectController extends Controller
             'additional_details' => ['nullable', 'string'],
             'skills' => ['nullable'],
             'tags' => ['nullable'],
-            'deadline' => ['date'],
+            'deadline' => ['string'],
 
         ]);
 
@@ -57,7 +58,8 @@ class ProjectController extends Controller
             $project->secondary_category_id = $request['subcategory'];
             $project->skills = $request['skills'];
             $project->tags = $request['tags'];
-            $project->deadline = $request['deadline'];
+
+            $project->deadline = '2020-10-23' ;
 
 
             if ($project->save()) {
