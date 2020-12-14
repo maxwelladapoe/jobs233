@@ -410,8 +410,8 @@
 
                                         <p class="t-mont t-bold t-orange"> Skills</p>
                                             <b-taglist class="mb-3">
-                                            <template v-for="skill in project.skills">
-                                                <b-tag class="mr-1" type="is-success">{{skill.name}}</b-tag>
+                                            <template v-for="(skill,index) in project.skills">
+                                                <b-tag class="mr-1" type="is-success" v-bind:key="index">{{skill.name}}</b-tag>
                                             </template>
                                             </b-taglist>
 
@@ -422,8 +422,8 @@
 
 
                                         <b-taglist>
-                                            <template v-for="tag in project.tags">
-                                                <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
+                                            <template v-for="(tag,index) in project.tags">
+                                                <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}</b-tag>
                                             </template>
                                         </b-taglist>
 

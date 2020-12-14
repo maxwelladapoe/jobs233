@@ -107,7 +107,7 @@
 
                     <div
                       class="column is-6-mobile is-3-desktop has-text-centered"
-                      v-if=""
+                     
                     >
                       <div class="shadow stats-item">
                         <div>
@@ -138,7 +138,7 @@
                     </div>
                     <div
                       class="column is-6-mobile is-3-desktop has-text-centered"
-                      v-if=""
+                    
                     >
                       <div class="shadow stats-item">
                         <div>
@@ -225,8 +225,8 @@
                       <h6>
                         <span>
                           <template v-if="project.tags != null">
-                            <template v-for="tag in project.tags.split(',')">
-                              <b-tag class="mr-1" type="is-success">{{
+                            <template v-for="(tag, index ) in project.tags.split(',')">
+                              <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                                 tag
                               }}</b-tag>
                             </template>
@@ -234,9 +234,9 @@
 
                           <template v-if="project.skills != null">
                             <template
-                              v-for="skill in project.skills.split(',')"
+                              v-for="(skill,index) in project.skills.split(',')"
                             >
-                              <b-tag class="mr-1" type="is-success">{{
+                              <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                                 skill
                               }}</b-tag>
                             </template>
@@ -343,18 +343,17 @@
                       <b-taglist>
                         <template v-if="project.tags != null">
                           <template
-                            v-if="project.tags"
-                            v-for="tag in project.tags.split(',')"
+                            v-for="(tag,index) in project.tags.split(',')"
                           >
-                            <b-tag class="mr-1" type="is-success">{{
+                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                               tag
                             }}</b-tag>
                           </template>
                         </template>
 
                         <template v-if="project.skills">
-                          <template v-for="skill in project.skills.split(',')">
-                            <b-tag class="mr-1" type="is-success">{{
+                          <template v-for="(skill,index)  in project.skills.split(',')">
+                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                               skill
                             }}</b-tag>
                           </template>
@@ -442,16 +441,16 @@
                       <p class="mb-1">Tags & Skills:</p>
                       <b-taglist>
                         <template v-if="project.tags != null">
-                          <template v-for="tag in project.tags.split(',')">
-                            <b-tag class="mr-1" type="is-success">{{
+                          <template v-for="(tag,index)  in project.tags.split(',')">
+                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                               tag
                             }}</b-tag>
                           </template>
                         </template>
 
                         <template v-if="project.skills != null">
-                          <template v-for="skill in project.skills.split(',')">
-                            <b-tag class="mr-1" type="is-success">{{
+                          <template v-for="(skill,index)  in project.skills.split(',')">
+                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
                               skill
                             }}</b-tag>
                           </template>

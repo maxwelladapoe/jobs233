@@ -38,12 +38,12 @@
                                                     persist slim
                                                     name="skills"
                                                     :rules="{ required: true, min: 3, max:150}"
-                                                    v-slot="validationContext"
+                                                     v-slot="{ errors, valid }"
                                                 >
 
                                                     <b-field expanded
                                                         id="skills">
-                                                        <b-field class="mb-2">
+                                                        <b-field class="mb-2"    :message="errors"  :type="{ 'is-danger': errors[0], 'is-success': valid }">
                                                             <b-input
                                                                 v-model="additionalSkill"
                                                                 placeholder="Add Skill" expanded

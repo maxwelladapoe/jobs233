@@ -84,14 +84,14 @@
                                             <b-taglist>
 
 <template v-if="project.tags !=null">
-                                                <template v-for="tag in project.tags.split(',')">
-                                                    <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
+                                                <template v-for="(tag,index) in project.tags.split(',')">
+                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}</b-tag>
                                                 </template>
 </template>
 
 <template v-if="project.skills !=null">
-                                                <template v-for="skill in project.skills.split(',')">
-                                                    <b-tag class="mr-1" type="is-success">{{skill}}</b-tag>
+                                                <template v-for="(skill,index) in project.skills.split(',')">
+                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{skill}}</b-tag>
                                                 </template>
 
 </template>

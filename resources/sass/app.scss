@@ -132,17 +132,6 @@ small {
     width: 100%;
 }
 
-input, select, textarea {
-    // border-radius: 10px !important;
-}
-
-.input-group {
-    input {
-        //border-radius: 10px 0 0 10px !important;
-    }
-}
-
-
 .button {
     //border-radius: 10px;
     // padding: 10px 15px !important;
@@ -328,11 +317,6 @@ header {
     }
 
 }
-
-.navbar {
-
-}
-
 .nav-item {
     margin-left: 1em;
     margin-right: 1em;
@@ -598,9 +582,7 @@ select.form-control {
     display: flex;
     align-items: baseline;
 
-    .title {
-
-    }
+  
 
     .underline {
         max-width: 150px;
@@ -753,11 +735,6 @@ select.form-control {
                 }
 
             }
-
-            .jb-project-bid-btn {
-
-
-            }
         }
     }
 
@@ -855,10 +832,6 @@ select.form-control {
     .dropzone {
         height: 12em !important;
 
-        &.square {
-
-
-        }
     }
 }
 
@@ -1024,10 +997,6 @@ end of login or sign up
     }
 }
 
-.b-form-btn-label-control {
-
-
-}
 
 .button:focus {
     outline: none;
@@ -1497,8 +1466,7 @@ textarea {
                         padding: 0;
                         margin: 0;
 
-                        .loader {
-                        }
+                    
                     }
                 }
 
@@ -1580,9 +1548,6 @@ textarea {
             display: block;
             padding: 0;
             margin: 0;
-
-            .loader {
-            }
         }
     }
 
@@ -1803,11 +1768,6 @@ textarea {
 
         }
 
-
-        .jb-dash-border-right {
-
-        }
-
         .jb-dash-stats-number {
             font-size: 2em;
             margin: 0;
@@ -1882,9 +1842,6 @@ textarea {
                 }
             }
 
-            :last-child.jb-notification {
-                //border-bottom: 0;
-            }
 
         }
 
@@ -1956,9 +1913,6 @@ textarea {
         padding-left: 0;
     }
 
-    .footer-item {
-
-    }
 
     .footer-link {
         color: #FF6700;
@@ -2119,9 +2073,7 @@ textarea {
 .input-with-icon {
     position: relative;
 
-    input {
-        // padding-right: 40px;
-    }
+  
 
     .the-icon {
         position: absolute;
@@ -2193,4 +2145,11 @@ textarea {
     min-width: 100%;
     min-height: 100%;
     z-index: -2;
+}
+
+
+.loading-wrap{
+    display: flex;
+    justify-content: flex-start;
+    width: 150px;
 }

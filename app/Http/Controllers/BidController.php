@@ -24,9 +24,11 @@ class BidController extends Controller
         ]);
 
 
-        $existingBid = Bid::where('user_id', Auth::user()->id)->where('project_id', $request['project_id'])->get();
+        $existingBid = Bid::where('user_id', Auth::user()->id)->where('project_id', $request['project_id'])->first();
 
-        if (count($existingBid) == 0) {
+       
+      
+        if (!$existingBid) {
             $bid = new Bid();
             $bid->project_id = $request['project_id'];
             $bid->user_id = Auth::user()->id;
@@ -43,7 +45,9 @@ class BidController extends Controller
             }
 
         } else {
-            if ($existingBid->is_accepted === '0') {
+         
+           
+            if ($existingBid->is_accepted === 0) {
                 $existingBid->project_id = $request['project_id'];
                 $existingBid->user_id = Auth::user()->id;
                 $existingBid->currency_id = $request['currency'];
@@ -54,7 +58,8 @@ class BidController extends Controller
                     return response()->json(['success' => true, 'message' => 'Your bid has been updated successfully', 'bid' => $existingBid], 201);
 
                 } else {
-
+                    Log::debug("there seems to be an issue with updating the bid you may have to check the database");
+                    return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
 
                 }
 
