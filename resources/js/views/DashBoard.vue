@@ -226,7 +226,7 @@
                         <span>
                           <template v-if="project.tags != null">
                             <template v-for="tag in project.tags.split(',')">
-                              <b-tag class="mr-1" variant="success">{{
+                              <b-tag class="mr-1" type="is-success">{{
                                 tag
                               }}</b-tag>
                             </template>
@@ -236,7 +236,7 @@
                             <template
                               v-for="skill in project.skills.split(',')"
                             >
-                              <b-tag class="mr-1" variant="success">{{
+                              <b-tag class="mr-1" type="is-success">{{
                                 skill
                               }}</b-tag>
                             </template>
@@ -346,7 +346,7 @@
                             v-if="project.tags"
                             v-for="tag in project.tags.split(',')"
                           >
-                            <b-tag class="mr-1" variant="success">{{
+                            <b-tag class="mr-1" type="is-success">{{
                               tag
                             }}</b-tag>
                           </template>
@@ -354,7 +354,7 @@
 
                         <template v-if="project.skills">
                           <template v-for="skill in project.skills.split(',')">
-                            <b-tag class="mr-1" variant="success">{{
+                            <b-tag class="mr-1" type="is-success">{{
                               skill
                             }}</b-tag>
                           </template>
@@ -443,7 +443,7 @@
                       <b-taglist>
                         <template v-if="project.tags != null">
                           <template v-for="tag in project.tags.split(',')">
-                            <b-tag class="mr-1" variant="success">{{
+                            <b-tag class="mr-1" type="is-success">{{
                               tag
                             }}</b-tag>
                           </template>
@@ -451,7 +451,7 @@
 
                         <template v-if="project.skills != null">
                           <template v-for="skill in project.skills.split(',')">
-                            <b-tag class="mr-1" variant="success">{{
+                            <b-tag class="mr-1" type="is-success">{{
                               skill
                             }}</b-tag>
                           </template>

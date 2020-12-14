@@ -26,7 +26,7 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                                 <h5>
                                     <template v-for="skill in project.skills.split(',')">
-                                        <b-tag variant="success" class="mr-1">{{skill}}</b-tag>
+                                        <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
                                     </template>
                                 </h5>
 
@@ -44,7 +44,7 @@
                                         <template v-for="tag in project.tags.split(',')">
 
 
-                                            <b-tag class="mr-1" variant="success">{{tag}}</b-tag>
+                                            <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
 
                                         </template>
                                     </h5>
@@ -243,9 +243,8 @@
 
                                 <div class=" media t-meri mt-2">
                                     <figure class="media-left">
-                                        <b-image :rounded="true" :src="project.user.profile.picture"
-                                                 style="width: 50px"/>
-
+                                       
+                                                 <img :src="project.user.profile.picture" alt="" style="width: 50px; border-radius:50px">
                                     </figure>
 
                                     <div class="media-content">
