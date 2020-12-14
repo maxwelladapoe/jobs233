@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="columns is-multiline">
-                        <div class="column is-8">
+                        <div class="column is-12 is-8-desktop">
                             <div class="jb-projects-wrapper">
 
                                 <template v-if="allProjects.length>0 || allProjects">
@@ -82,12 +82,19 @@
 
                                             <p class="mb-1">Tags & Skills:</p>
                                             <b-taglist>
+
+<template v-if="project.tags !=null">
                                                 <template v-for="tag in project.tags.split(',')">
                                                     <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
                                                 </template>
+</template>
+
+<template v-if="project.skills !=null">
                                                 <template v-for="skill in project.skills.split(',')">
                                                     <b-tag class="mr-1" type="is-success">{{skill}}</b-tag>
                                                 </template>
+
+</template>
                                             </b-taglist>
 
 

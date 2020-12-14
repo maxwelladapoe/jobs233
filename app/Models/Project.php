@@ -9,6 +9,8 @@ use Laravel\Scout\Searchable;
 class Project extends Model
 {
     use HasFactory, Searchable;
+    use \App\Http\Traits\UsesUuid;
+
 
     protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
     protected $withCount = ['bids'];

@@ -3,14 +3,18 @@
     <div class="jb-main-section-wrapper" v-if="authenticated">
 
         <div class="jb-section">
-            <div class="container">
+            <div class="section no-padding-margin-top-bottom">
+                  <div class="container">
                 <h1 class="t-mont title">Create a project</h1>
                 <p class="text-left t-meri t-normal subtitle">Don't waste any more time. Post your project for free <br>
                     and start getting responses in minutes</p>
             </div>
+            </div>
+          
         </div>
 
         <div class="jb-section-small-special bg-ash-light">
+            <div class="section no-padding-margin-top-bottom">
             <div class="container">
 
 
@@ -54,10 +58,13 @@
 
 
             </div>
-
+</div>
         </div>
 
         <div class="jb-section">
+            <div class="section no-padding-margin-top-bottom">
+
+           
             <div class="container">
 
 
@@ -486,7 +493,7 @@
                 </div>
 
 
-            </div>
+            </div> </div>
         </div>
 
 
@@ -534,7 +541,7 @@
                     additional_details: '',
                     skills: [],
                     tags: [],
-                    deadline: null,
+                    deadline: new Date(),
                 },
                 currencies: [],
 
@@ -546,7 +553,7 @@
                     modules: {
                         toolbar: '#toolbar'
                     }
-                }
+                },
             }
         },
         methods: {
@@ -600,6 +607,20 @@
                 this.$refs.submitProject.reset();
                 //reset the errors
             },
+
+            formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+},
             submitProject() {
 
                 let formData = new FormData();
@@ -627,6 +648,8 @@
 
                         formData.append(key, skillArray.toString())
 
+                    }else if(key ==='deadline'){
+                        formData.append(key, this.formatDate(new Date(this.project[key])))
                     }
                     else{
                         formData.append(key, this.project[key]);

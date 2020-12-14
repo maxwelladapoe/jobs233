@@ -10,7 +10,7 @@
 
                         <div class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
 
-                            <form class="" @submit.prevent="changeProfilePicture">
+                            <form class="has-txt-center">
                                 <div class="jb-profile-picture">
                                     <img class="is-rounded" style="border-radius: 50%"
                                          :src="imagePreview"
@@ -26,7 +26,7 @@
 
                                     </div>
                                 </div>
-                                <b-button class="mt-3 button" type="submit" v-if="showUploadButton">Upload</b-button>
+                                <b-button class="mt-3 button" type="is-success" v-if="showUploadButton"  @click.prevent="changeProfilePicture">Upload</b-button>
                             </form>
 
                             <div class=" mt-5">
