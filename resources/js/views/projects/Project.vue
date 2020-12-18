@@ -122,7 +122,7 @@
                                                 <template v-if="(index+1)<=initialBidsToShow">
 
                                                     <div class="jb-bid"
-                                                         :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''">
+                                                         :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''" v-bind:key="index">
 
                                                         <div class="top">
                                                             <div class="profile-details-wrap">
@@ -374,6 +374,8 @@
                                                     label="Additional Details"
                                                     label-class="t-mont t-bold"
                                                     label-for="additional_details"
+                                                        :message="errors"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                 >
                                                     <b-input type="textarea"
                                                         rows="3"
