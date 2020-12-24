@@ -24,14 +24,25 @@
 
 
                             <div class="card p-0" footer-class="bg-white" header-class="bg-white">
-                                <div class="jb-box-overlay" :class="{'show':isLoading}">
+                                <div class="jb-box-overlay" :class="{'show':isLoading,
+                                'show has-background-success':isSuccessful}">
 
                                     <div class="loading-contents-wrap">
 
                                         <div class="inner">
 
-                                            <div class="loader"></div>
-                                            <p class="t-2 t-mont t-bold t-white">{{loadingMessage}}</p>
+                                            <template v-if="isLoading">
+                                                <div class="loader"></div>
+                                                <p class="t-2 t-mont t-bold t-white">{{loadingMessage}}</p>
+                                            </template>
+
+                                            <template v-if="isSuccessful">
+                                                <b-icon class="t-white" icon="check-circle" v-if="isSuccessful"/>
+                                                <p class="t-5 t-mont t-bold t-white" v-if="isSuccessful">
+                                                    {{successMessage}}</p>
+
+                                            </template>
+
                                         </div>
                                     </div>
 
@@ -249,6 +260,8 @@
                 ipv: false,
                 isLoading: false,
                 loadingMessage: 'Signing you up ...',
+                isSuccessful: false,
+                successMessage:'',
                 signupCredentials: {
                     firstName: '',
                     lastName: '',
@@ -277,11 +290,19 @@
 
                 await this.signUp(this.signupCredentials).then(({data}) => {
                     console.log(data);
-                    this.loadingMessage = data.message;
+                    //this.loadingMessage = data.message;
                     this.isLoading = false;
-                    this.hideSignUpModal();
-                    this.showLogInModal();
+                    this.isLoading = false;
+                    this.isSuccessful=true;
+                    this.successMessage = data.message
+                    //.hideSignUpModal();
+                    //this.showLogInModal();
                     this.resetSignUpCredentials();
+
+                    setTimeout(()=>{
+                        this.$router.push( '/login');
+                    }, 10000)
+
 
                 }).catch(errors => {
                     console.log("there was an error", errors)
