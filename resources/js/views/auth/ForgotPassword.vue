@@ -157,6 +157,11 @@
                     this.resetCredentials.email='';
                     this.$refs.resetForm.reset();
 
+                    setTimeout(()=>{
+                        this.$router.push( '/login');
+
+                    }, 10000)
+
                 }).catch(errors => {
                     console.log("there was an error", errors)
                     this.$refs.resetForm.setErrors({...errors.response.data.errors})
