@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
         Route::put('{user}/is_online', [App\Http\Controllers\UserOnlineController::class, 'setOnlineStatus']);
         Route::put('{user}/is_offline', [App\Http\Controllers\UserOnlineController::class, 'setOfflineStatus']);
     });
+
     Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
     Route::get('/notifications', [App\Http\Controllers\ProfileController::class, 'getNotifications']);
     Route::post('/notifications/mark_all_as_read', [App\Http\Controllers\ProfileController::class, 'markAllAsRead']);
@@ -99,6 +100,11 @@ Route::prefix('v1')->group(function () {
 
     //getting he profile
     Route::get('{username}', [App\Http\Controllers\ProfileController::class, 'readProfileForPublic']);
+
+
+
+    //forgot password
+    Route::post('password-reset',[App\Http\Controllers\Auth\ForgotPasswordController::class,'sendResetLinkEmail']);
 
 });
 

@@ -12,6 +12,7 @@ import Messages from "../views/messages/MessageArea";
 import HowItWorks from "../views/others/HowItWorks";
 import Contact from "../views/others/Contact";
 import About from "../views/others/About";
+import ForgotPassword from "../views/auth/ForgotPassword";
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,12 @@ const routes = [
         path: '/signup',
         name: 'SignUp',
         component: SignUp,
+        meta: {requiresAuth: false}
+
+    }, {
+        path: '/forgot-password',
+        name: 'ForgotPassword',
+        component: ForgotPassword,
         meta: {requiresAuth: false}
 
     }, {

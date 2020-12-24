@@ -119,6 +119,11 @@
                                     </span>
                                                     </b-switch>
 
+
+                                                    <div class="" style="margin-left: auto"> <router-link
+                                                        :to="{name:'ForgotPassword'}" >Forgot
+                                                        Password?</router-link></div>
+
                                                 </b-field>
 
 
@@ -126,7 +131,8 @@
 
                                                     <div class="columns">
                                                         <div class="column is-12 is-6-tablet">
-                                                            <button class="button bg-orange" type="submit">
+                                                            <button class="button bg-orange t-white"
+                                                                    type="submit">
                                                                 Login
                                                             </button>
                                                         </div>
@@ -149,7 +155,7 @@
                                     <p class="card-footer-item ">
                                         Not a member?
                                         <span><router-link class="t-orange"
-                                                           :to="{name:'SignUp'}">SignUp</router-link></span>
+                                                           :to="{name:'SignUp'}"> SignUp</router-link></span>
 
                                     </p>
 
