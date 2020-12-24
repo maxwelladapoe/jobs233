@@ -159,7 +159,6 @@
 
                     setTimeout(()=>{
                         this.$router.push( '/login');
-
                     }, 10000)
 
                 }).catch(errors => {
