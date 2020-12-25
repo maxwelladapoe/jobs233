@@ -85,7 +85,7 @@ export default {
                 commit('SET_AUTHENTICATED', true);
                 commit('SET_USER', response.data);
                 axios.put(`/auth/${state.user.id}/is_online`);
-                commit('SET_PREFERENCE', response.data.profile.preference);
+                commit('SET_PREFERENCE', response.data.profile.preference.toLowerCase());
             }).catch(() => {
                 commit('SET_AUTHENTICATED', false);
                 commit('SET_USER', null);

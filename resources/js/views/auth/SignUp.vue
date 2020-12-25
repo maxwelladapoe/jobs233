@@ -179,14 +179,14 @@
                                             <b-field class="text-center mt-3 expanded">
 
                                                 <b-radio-button  expanded v-model="signupCredentials.preference"
-                                                                native-value="Work"
+                                                                native-value="work"
                                                                 type="is-primary">
                                                     <b-icon icon="account-hard-hat"></b-icon>
                                                     <span>Work</span>
                                                 </b-radio-button>
 
                                                 <b-radio-button expanded v-model="signupCredentials.preference"
-                                                                native-value="Hire"
+                                                                native-value="hire"
                                                                 type="is-primary">
                                                     <b-icon icon="handshake"></b-icon>
                                                     <span>Hire</span>
@@ -268,7 +268,7 @@
                     username: '',
                     email: '',
                     password: '',
-                    preference: null
+                    preference: 'hire'
                 },
             }
         },

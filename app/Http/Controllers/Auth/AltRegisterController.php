@@ -27,34 +27,46 @@ class AltRegisterController extends Controller
         $this->validate($request, [
             'firstName' => ['required', 'string', 'max:255'],
             'lastName' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:35', 'min:5' , 'unique:users'],
+            'username' => ['required', 'string', 'max:35', 'min:5', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6',],
             'preference' => ['required', 'string']
         ]);
 
-        $user = User::create([
-            'name' => ucfirst(strtolower(trim($request['firstName']))) . " " . ucfirst(strtolower(trim($request['lastName']))),
-            'username' => strtolower(trim($request['username'])),
-            'email' => strtolower(trim($request['email'])),
-            'password' => Hash::make(trim($request['password'])),
-        ]);
+        $preference = strtolower($request['preference']);
+        $preferenceArray = ['work', 'hire'];
+        if (in_array($preference, $preferenceArray)) {
 
-        if ($user) {
-            $profile = Profile::create([
-                'user_id' => $user->id,
-                'preference' => $request['preference'],
+
+            $user = User::create([
+                'name' => ucfirst(strtolower(trim($request['firstName']))) . " " . ucfirst(strtolower(trim($request['lastName']))),
+                'username' => strtolower(trim($request['username'])),
+                'email' => strtolower(trim($request['email'])),
+                'password' => Hash::make(trim($request['password'])),
             ]);
 
-            if ($profile) {
-                event(new Registered($user));
+            if ($user) {
+                $profile = Profile::create([
+                    'user_id' => $user->id,
+                    'preference' => strtolower($request['preference']),
+                ]);
 
-                return response()->json(['success' => true, 'message' => 'The user was created successfully'], 200);
+                if ($profile) {
+                    event(new Registered($user));
+
+                    return response()->json(['success' => true, 'message' => 'The user was created successfully'], 200);
+                }
+            } else {
+                Log::debug("there seems to be an issue with user creation. you may have to check the database");
+                return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
             }
+
         } else {
-            Log::debug("there seems to be an issue with user creation. you may have to check the database");
-            return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
+            return response()->json(['success' => false, 'message' => 'the preference selected does not exist'], 500);
+
         }
+
+
     }
 
     protected function validator(array $data)
