@@ -582,7 +582,7 @@ select.form-control {
     display: flex;
     align-items: baseline;
 
-  
+
 
     .underline {
         max-width: 150px;
@@ -1466,7 +1466,7 @@ textarea {
                         padding: 0;
                         margin: 0;
 
-                    
+
                     }
                 }
 
@@ -2073,7 +2073,7 @@ textarea {
 .input-with-icon {
     position: relative;
 
-  
+
 
     .the-icon {
         position: absolute;
@@ -2089,6 +2089,13 @@ textarea {
     align-items: center;
 }
 
+.jb-add-portfolio-item-modal{
+    width:50em;
+
+    @include media-breakpoint-down(md){
+        width: auto;
+    }
+}
 .jb-add-portfolio-item-form {
     display: flex;
     align-items: flex-start;

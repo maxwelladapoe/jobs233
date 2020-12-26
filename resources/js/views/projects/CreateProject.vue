@@ -10,7 +10,7 @@
                     and start getting responses in minutes</p>
             </div>
             </div>
-          
+
         </div>
 
         <div class="jb-section-small-special bg-ash-light">
@@ -64,7 +64,7 @@
         <div class="jb-section">
             <div class="section no-padding-margin-top-bottom">
 
-           
+
             <div class="container">
 
 
@@ -614,65 +614,71 @@
         day = '' + d.getDate(),
         year = d.getFullYear();
 
-    if (month.length < 2) 
+    if (month.length < 2)
         month = '0' + month;
-    if (day.length < 2) 
+    if (day.length < 2)
         day = '0' + day;
 
     return [year, month, day].join('-');
 },
             submitProject() {
 
-                let formData = new FormData();
 
-
-                for (let i = 0; i < this.uploadedFileList.length; i++) {
-                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
-                }
-
-                for (let key in this.project) {
-
-                    //some filtering is going on here to reduce the request size
-                    if(key ==='category'){
-                        formData.append(key, this.project[key].id)
-                    }
-                    else if(key ==='subcategory'){
-                        formData.append(key, this.project[key].id)
-                    } else if(key ==='skills'){
-
-                        let skillArray = []
-                        for( let i=0; i< this.project[key].length ;i++ ){
-                            skillArray.push(this.project[key][i].name)
-                        }
-
-
-                        formData.append(key, skillArray.toString())
-
-                    }else if(key ==='deadline'){
-                        formData.append(key, this.formatDate(new Date(this.project[key])))
-                    }
-                    else{
-                        formData.append(key, this.project[key]);
-
-                    }
-                }
-
-                // data.append(...this.project);
-                const config = {
-
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-
-                    onUploadProgress: (progressEvent) => {
-                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                        console.log(percentCompleted)
-                    }
-                };
 
                 if (this.step < this.totalSteps) {
                     this.step++
                 } else {
+
+
+                    let formData = new FormData();
+
+
+                    for (let i = 0; i < this.uploadedFileList.length; i++) {
+                        formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+                    }
+
+                    for (let key in this.project) {
+
+                        //some filtering is going on here to reduce the request size
+                        if(key ==='category'){
+                            formData.append(key, this.project[key].id)
+                        }
+                        else if(key ==='subcategory'){
+                            formData.append(key, this.project[key].id)
+                        } else if(key ==='skills'){
+
+                            let skillArray = []
+                            for( let i=0; i< this.project[key].length ;i++ ){
+                                skillArray.push(this.project[key][i].name)
+                            }
+
+
+                            formData.append(key, skillArray.toString())
+
+                        }else if(key ==='deadline'){
+                            formData.append(key, this.formatDate(new Date(this.project[key])))
+                        }
+                        else{
+                            formData.append(key, this.project[key]);
+
+                        }
+                    }
+
+                    // data.append(...this.project);
+                    const config = {
+
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+
+                        onUploadProgress: (progressEvent) => {
+                            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                            console.log(percentCompleted)
+                        }
+                    };
+
+
+
                     this.isLoading = true;
                     axios.post('projects', formData, config)
 

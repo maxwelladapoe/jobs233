@@ -8,7 +8,8 @@
 
                     <div class="columns is is-multiline is-mobile">
 
-                        <div class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
+                        <div
+                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
 
                             <form class="has-txt-center">
                                 <div class="jb-profile-picture">
@@ -26,53 +27,56 @@
 
                                     </div>
                                 </div>
-                                <b-button class="mt-3 button" type="is-success" v-if="showUploadButton"  @click.prevent="changeProfilePicture">Upload</b-button>
+                                <b-button class="mt-3 button" type="is-success" v-if="showUploadButton"
+                                          @click.prevent="changeProfilePicture">Upload
+                                </b-button>
                             </form>
 
                             <div class=" mt-5">
                                 <p>Skills</p>
                                 <div class="">
-                                        <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
-                                            <form @submit.prevent="handleSubmit(editProfile)">
-                                                <ValidationProvider
-                                                    persist slim
-                                                    name="skills"
-                                                    :rules="{ required: true, min: 3, max:150}"
-                                                     v-slot="{ errors, valid }"
-                                                >
+                                    <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
+                                        <form @submit.prevent="handleSubmit(editProfile)">
+                                            <ValidationProvider
+                                                persist slim
+                                                name="skills"
+                                                :rules="{ required: true, min: 3, max:150}"
+                                                v-slot="{ errors, valid }"
+                                            >
 
-                                                    <b-field expanded
-                                                        id="skills">
-                                                        <b-field class="mb-2"    :message="errors"  :type="{ 'is-danger': errors[0], 'is-success': valid }">
-                                                            <b-input
-                                                                v-model="additionalSkill"
-                                                                placeholder="Add Skill" expanded
-                                                            ></b-input>
+                                                <b-field expanded
+                                                         id="skills">
+                                                    <b-field class="mb-2" :message="errors"
+                                                             :type="{ 'is-danger': errors[0], 'is-success': valid }">
+                                                        <b-input
+                                                            v-model="additionalSkill"
+                                                            placeholder="Add Skill" expanded
+                                                        ></b-input>
 
-                                                            <b-button  @click="addSkill()" variant="primary">Add
-                                                            </b-button>
-
-                                                        </b-field>
-
-
-                                                        <div class="d-inline-block" style="font-size: 1.5rem;">
-                                                            <b-tag
-                                                                v-for="skill in skills"
-                                                                @remove="removeTag(skill)"
-                                                                :key="skill"
-                                                                :title="skill"
-                                                                :variant="tagVariant"
-                                                                class="mr-1"
-                                                            >{{ skill }}
-                                                            </b-tag>
-                                                        </div>
+                                                        <b-button @click="addSkill()" variant="primary">Add
+                                                        </b-button>
 
                                                     </b-field>
 
-                                                </ValidationProvider>
 
-                                            </form>
-                                        </ValidationObserver>
+                                                    <div class="d-inline-block" style="font-size: 1.5rem;">
+                                                        <b-tag
+                                                            v-for="skill in skills"
+                                                            @remove="removeTag(skill)"
+                                                            :key="skill"
+                                                            :title="skill"
+                                                            :variant="tagVariant"
+                                                            class="mr-1"
+                                                        >{{ skill }}
+                                                        </b-tag>
+                                                    </div>
+
+                                                </b-field>
+
+                                            </ValidationProvider>
+
+                                        </form>
+                                    </ValidationObserver>
                                 </div>
                             </div>
 
@@ -80,7 +84,8 @@
                         </div>
 
 
-                        <div class="column is-12-mobile is-6-tablet is-offset-3-tablet is-8-desktop  is-offset-1-desktop ">
+                        <div
+                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-8-desktop  is-offset-1-desktop ">
                             <p class="mb-5">Profile</p>
 
 
@@ -441,69 +446,32 @@
             <div class="section">
 
 
-            <div class="container">
-                <div class="columns">
+                <div class="container">
+                    <div class="columns is-mobile is-multiline">
+                        <div
+                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 "></div>
 
-                    <div class="column is-12 ">
-                        <div class="jb-title-with-icon mb-5 mt-5">
-                            <div><p>Your Portfolio</p></div>
-                            <div @click="showPortfolioForm = !showPortfolioForm" class="cursor-pointer t-6 t-orange">
-                                <span><b-icon icon="plus-circle" size="is-small"/></span>
-                                <span>Add Item</span>
+                        <div
+                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-8-desktop  is-offset-1-desktop">
+                            <div class="jb-title-with-icon mb-5 mt-5">
+                                <div><p>Your Portfolio</p></div>
+                                <div @click="showPortfolioModal"
+                                     class="cursor-pointer t-6 t-orange">
+                                    <span><b-icon icon="plus-circle" size="is-small"/></span>
+                                    <span>Add Item</span>
+                                </div>
                             </div>
+
+
+                            <p v-if="!showPortfolioForm && portfolioItems.length<1">There are no items in your
+                                portfolio</p>
+
+
                         </div>
-
-
-                        <p v-if="!showPortfolioForm && portfolioItems.length<1">There are no items in your
-                            portfolio</p>
-
-                        <template v-if="showPortfolioForm">
-                            <ValidationObserver v-slot="{handleSubmit}" ref="submitPortfolioForm">
-                                <form @submit.prevent="handleSubmit(submitPortfolio)">
-                                    <div class="jb-add-portfolio-item-form">
-                                        <div class="form-img">
-                                            <attach-single-file v-model="portfolio.file"></attach-single-file>
-                                        </div>
-
-                                        <div class="form-details mt-3">
-
-                                            <b-field label="Title" label-class="t-bold t-mont">
-                                                <b-input type="text"></b-input>
-                                            </b-field>
-
-                                            <b-field label="Description" label-class="t-bold t-mont">
-                                                <b-input type="textarea" no-resize rows="4"></b-input>
-                                            </b-field>
-                                            <b-field label="Skills & Tools" label-class="t-bold t-mont">
-                                                <b-taginput
-                                                    ellipsis
-                                                    icon="label"
-                                                    placeholder="Skills / Tools used"
-
-                                                    v-model="portfolio.skillsAndTools"
-                                                        remove-on-delete>
-                                                </b-taginput>
-
-                                            </b-field>
-
-
-                                            <b-field class="text-right">
-                                                <b-button type="submit">Save</b-button>
-                                            </b-field>
-                                        </div>
-
-                                    </div>
-
-
-                                </form>
-                            </ValidationObserver>
-                        </template>
 
                     </div>
 
                 </div>
-
-            </div>
 
             </div>
         </div>
@@ -514,8 +482,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import AttachSingleFile from "../../components/extras/AttachSingleFile";
-
+import AddPortfolioItem from "../../components/AddPortfolioItem";
     export default {
         name: "EditProfile",
         metaInfo: {
@@ -542,11 +509,7 @@
                 showPortfolioItem: false,
 
 
-                portfolio: {
-                    file: new File([], "", undefined),
-                    skillsAndTools: []
 
-                },
                 portfolioItems: [],
                 allSkills: [],
                 additionalSkill: '',
@@ -558,6 +521,16 @@
             ...mapActions({
                 refresh: 'auth/refresh'
             }),
+
+            showPortfolioModal(){
+                this.$buefy.modal.open({
+                    parent: this,
+                    component: AddPortfolioItem,
+                    hasModalCard: true,
+                    customClass: 'custom-class custom-class-2',
+                    trapFocus: true
+                })
+            },
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
@@ -571,22 +544,6 @@
             },
             changePassword() {
 
-            },
-
-            addPortfolioItem() {
-
-            },
-
-            addSkill() {
-
-            },
-            removeTag() {
-
-            },
-            submitPortfolio() {
-                axios.post(`${user.id}/portfolio`).then(({data}) => {
-
-                })
             },
 
             handleImageUpload() {
@@ -652,9 +609,10 @@
                 profileType: 'auth/profileType',
             })
         },
-        components: {
-            AttachSingleFile
+        components:{
+            AddPortfolioItem
         }
+
     }
 </script>
 

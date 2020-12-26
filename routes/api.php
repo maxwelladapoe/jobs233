@@ -85,8 +85,10 @@ Route::prefix('v1')->group(function () {
 
 
     Route::prefix('{user}')->group(function () {
-        Route::post('/portfolio', [App\Http\Controllers\PortfolioController::class, 'create']);
+        Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'create']);
     });
+
+    Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
 
 
     //payment paystack
