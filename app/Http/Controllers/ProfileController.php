@@ -43,7 +43,7 @@ class ProfileController extends Controller
 
     public function readProfileForPublic(Request $request)
     {
-        $user = User::where('username', $request['username'])->get();
+        $user = User::where('username', $request['username'])->with('portfolio')->get();
 
         if ($user) {
             return response()->json(['success' => true, 'user' => $user], 200);

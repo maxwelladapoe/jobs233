@@ -5,157 +5,143 @@
 
         <div class="jb-section" v-if="viewUser">
 
-
+            <div class="section no-padding-margin-top-bottom">
                 <div class="container ">
 
-                    <div class="jb-profile-cover"></div>
+                    <div class="jb-profile-cover">
 
-                    <div class="jb-profile-row">
-
-
-                        <div class="columns ">
-                            <div class="col-12 col-lg-3 pr-lg-5">
-                                <div class="jb-profile-picture">
-                                    <b-img fluid rounded
-                                           :src="viewUser.profile.picture"></b-img>
-                                </div>
-
-                                <div class="mt-3">
-                                    <p>
-                                        <span class="t-mont t-bold t-5">{{viewUser.name}}</span>
-                                        <br>
-                                        <span class="t-mont t-6">{{viewUser.username}}</span>
-                                    </p>
-
-                                    <div class="t-6 jb-title-with-underline">
-                                        <div class="title">Skills</div>
-                                        <div class="underline"></div>
-                                    </div>
+                        <img class="bg-cover" :src="viewUser.profile.cover_image"/>
 
 
-                                </div>
+                        <div class="profile">
+                            <div class="profile-picture">
+                                <img class="image" :src="viewUser.profile.picture"/>
+                            </div>
+
+                            <div class="profile-details">
+                                <p class="has-text-white has-text-shadow">
+                                    <span class="t-mont t-bold t-5">{{viewUser.name}}</span>
+                                    <br>
+                                    <span class="t-mont t-6">{{viewUser.username}}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns is-multiline">
+
+                        <div class="column is-12 is-3-desktop">
+                            <div class="mt-3">
+
+                                <template v-if="viewUser.skills.length > 0">
+                                    <div class=" t-bold">Skills</div>
+                                    <b-taglist>
+                                        <b-tag v-for="skill in viewUser.skills" v-bind:key="skill.id">{{skill
+                                            .name}}
+                                        </b-tag>
+                                    </b-taglist>
+                                </template>
 
 
                             </div>
-                            <div class="col-lg-9">
+                        </div>
+                        <div class="column is-12 is-9-desktop">
 
-                                <div class="jb-profile-details">
-                                    <div class="t-6 jb-title-with-underline">
-                                        <div class="title">Bio</div>
-                                        <div class="underline"></div>
-                                    </div>
+                            <div class="jb-profile-details">
 
+                                <div>
+                                    <div class=" t-bold">Bio</div>
                                     <div class="jb-profile-bio">
+
                                         <p class="t-normal t-meri">{{viewUser.profile.bio}}</p>
                                     </div>
+                                </div>
 
 
-                                    <div>
-                                        <div class="t-6 jb-title-with-underline mt-5">
-                                            <div class="title">Portfolio</div>
-                                            <div class="underline"></div>
+                                <div>
+                                    <div class=" t-bold">Portfolio</div>
+
+                                    <div class="jb-profile-portfolio">
+
+                                        <div class="columns">
+
+
+                                            <div v-for="portfolioItem in viewUser.portfolio"
+                                                 v-bind:key="portfolioItem.id"
+                                                 class="column is-4">
+                                                <div class="card">
+                                                    <div class="card-image">
+                                                        <figure class="image is-4">
+                                                            <img :src="portfolioItem.cover_image"
+                                                                 alt="Placeholder image">
+                                                        </figure>
+                                                    </div>
+                                                    <div class="card-content">
+<!--                                                        <div class="media">-->
+<!--                                                            <div class="media-left">-->
+<!--                                                                <figure class="image is-48x48">-->
+<!--                                                                    <img-->
+<!--                                                                        src="https://bulma.io/images/placeholders/96x96.png"-->
+<!--                                                                        alt="Placeholder image">-->
+<!--                                                                </figure>-->
+<!--                                                            </div>-->
+<!--                                                            <div class="media-content">-->
+<!--                                                                <p class="title is-4">John Smith</p>-->
+<!--                                                                <p class="subtitle is-6">@johnsmith</p>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+
+
+                                                        <div class="content">
+                                                            <p >
+                                                                <span class="t-bold">
+                                                                    {{portfolioItem.name}}
+                                                                </span>
+
+                                                                <br>
+                                                                <span>
+                                                                     {{portfolioItem.description}}
+                                                                </span>
+                                                               </p>
+
+
+                                                            <span class="t-6 t-bold">Skills & Tools</span>
+
+                                                            <b-taglist>
+                                                                <template v-for="skill in
+                                                                portfolioItem.skills_and_tools.split(',')">
+
+                                                                    <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
+
+                                                                </template>
+                                                            </b-taglist>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
 
-                                        <div class="jb-profile-portfolio">
-
-
-                                            <b-card-group columns>
-                                                <b-card
-                                                    title="Card title that wraps to a new line"
-                                                    img-src="https://placekitten.com/g/400/450"
-                                                    img-alt="Image"
-                                                    img-top
-                                                >
-                                                    <b-card-text>
-                                                        This is a wider card with supporting text below as a natural
-                                                        lead-in
-                                                        to
-                                                        additional content.
-                                                        This content is a little bit longer.
-                                                    </b-card-text>
-                                                </b-card>
-
-                                                <b-card header="Quote">
-                                                    <blockquote class="blockquote mb-0">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Integer
-                                                            posuere
-                                                            erat a ante.</p>
-                                                        <footer class="blockquote-footer">
-                                                            Someone famous in <cite title="Source Title">Source
-                                                            Title</cite>
-                                                        </footer>
-                                                    </blockquote>
-                                                </b-card>
-
-                                                <b-card title="Title" img-src="https://placekitten.com/500/350"
-                                                        img-alt="Image"
-                                                        img-top>
-                                                    <b-card-text>
-                                                        This card has supporting text below as a natural lead-in to
-                                                        additional
-                                                        content.
-                                                    </b-card-text>
-                                                    <b-card-text class="small text-muted">Last updated 3 mins ago
-                                                    </b-card-text>
-                                                </b-card>
-
-                                                <b-card bg-variant="primary" text-variant="white">
-                                                    <blockquote class="card-blockquote">
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                                            Integer
-                                                            posuere
-                                                            erat a ante.</p>
-                                                        <footer>
-                                                            <small>Someone famous in <cite title="Source Title">Source
-                                                                Title</cite></small>
-                                                        </footer>
-                                                    </blockquote>
-                                                </b-card>
-
-                                                <b-card>
-                                                    <b-card-title>Title</b-card-title>
-                                                    <b-card-text>
-                                                        This card has supporting text below as a natural lead-in to
-                                                        additional
-                                                        content.
-                                                    </b-card-text>
-                                                    <b-card-text class="small text-muted">Last updated 3 mins ago
-                                                    </b-card-text>
-                                                </b-card>
-
-                                                <b-card img-src="https://picsum.photos/400/400/?image=41"
-                                                        img-alt="Image"
-                                                        overlay></b-card>
-
-                                                <b-card img-src="https://picsum.photos/400/200/?image=41"
-                                                        img-alt="Image"
-                                                        img-top>
-                                                    <b-card-text>
-                                                        This is a wider card with supporting text below as a natural
-                                                        lead-in
-                                                        to
-                                                        additional content.
-                                                        This card has even longer content than the first.
-                                                    </b-card-text>
-                                                    <template #footer>
-                                                        <small class="text-muted">Footer Text</small>
-                                                    </template>
-                                                </b-card>
-                                            </b-card-group>
-                                        </div>
 
                                     </div>
+
                                 </div>
                             </div>
-                            <div class="col-lg-3"></div>
-
-
                         </div>
+
+
+
+                        <div class="column is-3-desktop"></div>
 
                     </div>
 
+
                 </div>
+
+
+            </div>
 
 
         </div>
@@ -188,8 +174,8 @@
         mounted() {
             axios.get(`${this.username}`).then(({data}) => {
                 this.viewUser = data.user[0];
-                console.log(this.viewUser)
             })
+
         }
     }
 </script>

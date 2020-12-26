@@ -88,7 +88,6 @@ Route::prefix('v1')->group(function () {
         Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'create']);
     });
 
-    Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
 
 
     //payment paystack
@@ -100,13 +99,22 @@ Route::prefix('v1')->group(function () {
     //skills
     Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
 
-    //getting he profile
-    Route::get('{username}', [App\Http\Controllers\ProfileController::class, 'readProfileForPublic']);
+    Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'getAll']);
+
+
+    Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
+
+    Route::delete('/portfolio/delete/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'delete']);
 
 
 
     //forgot password
     Route::post('password-reset',[App\Http\Controllers\Auth\ForgotPasswordController::class,'sendResetLinkEmail']);
+
+
+
+    //getting he profile
+    Route::get('{username}', [App\Http\Controllers\ProfileController::class, 'readProfileForPublic']);
 
 });
 

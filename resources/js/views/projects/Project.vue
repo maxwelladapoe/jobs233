@@ -243,14 +243,18 @@
 
                                 <div class=" media t-meri mt-2">
                                     <figure class="media-left">
-                                       
+
                                                  <img :src="project.user.profile.picture" alt="" style="width: 50px; border-radius:50px">
                                     </figure>
 
                                     <div class="media-content">
-                                        <span class="mr-auto"
-                                              v-if="authenticated && (user.id === project.user.id)">You</span>
-                                        <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                        <router-link :to="{name:'ViewProfile', params:{'username':
+                                        project.user.username}
+                                        }">
+                                             <span class="mr-auto"
+                                                   v-if="authenticated && (user.id === project.user.id)">You</span>
+                                            <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                        </router-link>
                                         <p class="t-6 t-orange">Joined
                                             <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
                                         </p>
@@ -397,23 +401,23 @@
                                                     Bid
                                                 </button>
                                                 </template>
-                                                
+
 
                                                 <template v-if="showBidSubmittedSuccessfully">
                                                 <div type="is-primary" class="button is-success t-mont" >
-                                                   <b-icon class="is-white" icon="check-circle"/> 
+                                                   <b-icon class="is-white" icon="check-circle"/>
                                                 </div>
                                                 </template>
 
                                                 <template v-if="bidSubmissionLoading">
-                                               
+
                                             <div
                                                 class="loading-wrap"
                                             >
                                                 Posting... <span></span>
                                                 <div class="loader"></div>
                                             </div>
-                                       
+
                                                 </template>
 
 
@@ -424,7 +428,7 @@
 
 
                                     </ValidationObserver>
-                                    
+
                                 </template>
 
 
@@ -546,9 +550,9 @@
                     }, 10000)
 
                 }).catch((e)=>{
-                    
+
                     this.bidSubmissionLoading=false;
-                
+
                 })
             },
             acceptBid(bid_id) {

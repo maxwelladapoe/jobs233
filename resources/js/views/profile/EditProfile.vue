@@ -463,8 +463,85 @@
                             </div>
 
 
-                            <p v-if="!showPortfolioForm && portfolioItems.length<1">There are no items in your
+                            <p v-if="portfolioItems.length<1">There are no items in your
                                 portfolio</p>
+
+                            <template v-else>
+
+                                <div class="columns">
+
+
+                                    <div v-for="portfolioItem in portfolioItems"
+                                         v-bind:key="portfolioItem.id"
+                                         class="column is-4">
+                                        <div class="card">
+                                            <div class="card-image jb-card-image">
+
+                                                <div class="buttons">
+                                                    <div class="button is-danger" type="is-danger"
+                                                         @click="deleteItem(portfolioItem)">
+                                                        <b-icon
+                                                            icon="delete-variant" size="is-small"/>
+                                                    </div>
+
+                                                    <div class="button is-success" type="is-primary">
+                                                        <b-icon icon="pencil" size="is-small"/>
+                                                    </div>
+
+                                                </div>
+                                                <figure class="image is-4">
+                                                    <img :src="portfolioItem.cover_image"
+                                                         alt="Placeholder image">
+                                                </figure>
+                                            </div>
+                                            <div class="card-content">
+                                                <!--                                                        <div class="media">-->
+                                                <!--                                                            <div class="media-left">-->
+                                                <!--                                                                <figure class="image is-48x48">-->
+                                                <!--                                                                    <img-->
+                                                <!--                                                                        src="https://bulma.io/images/placeholders/96x96.png"-->
+                                                <!--                                                                        alt="Placeholder image">-->
+                                                <!--                                                                </figure>-->
+                                                <!--                                                            </div>-->
+                                                <!--                                                            <div class="media-content">-->
+                                                <!--                                                                <p class="title is-4">John Smith</p>-->
+                                                <!--                                                                <p class="subtitle is-6">@johnsmith</p>-->
+                                                <!--                                                            </div>-->
+                                                <!--                                                        </div>-->
+
+
+                                                <div class="content">
+                                                    <p>
+                                                                <span class="t-bold">
+                                                                    {{portfolioItem.name}}
+                                                                </span>
+
+                                                        <br>
+                                                        <span>
+                                                                     {{portfolioItem.description}}
+                                                                </span>
+                                                    </p>
+
+
+                                                    <span class="t-6 t-bold">Skills & Tools</span>
+
+                                                    <b-taglist>
+                                                        <template v-for="skill in
+                                                                portfolioItem.skills_and_tools.split(',')">
+
+                                                            <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
+
+                                                        </template>
+                                                    </b-taglist>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </template>
 
 
                         </div>
@@ -482,7 +559,8 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-import AddPortfolioItem from "../../components/AddPortfolioItem";
+    import AddPortfolioItem from "../../components/AddPortfolioItem";
+
     export default {
         name: "EditProfile",
         metaInfo: {
@@ -509,7 +587,6 @@ import AddPortfolioItem from "../../components/AddPortfolioItem";
                 showPortfolioItem: false,
 
 
-
                 portfolioItems: [],
                 allSkills: [],
                 additionalSkill: '',
@@ -522,7 +599,8 @@ import AddPortfolioItem from "../../components/AddPortfolioItem";
                 refresh: 'auth/refresh'
             }),
 
-            showPortfolioModal(){
+
+            showPortfolioModal() {
                 this.$buefy.modal.open({
                     parent: this,
                     component: AddPortfolioItem,
@@ -591,6 +669,36 @@ import AddPortfolioItem from "../../components/AddPortfolioItem";
             },
 
 
+            deleteItem(portfolioItem) {
+
+                this.$buefy.dialog.confirm({
+                    title: `Delete `,
+                    message:
+                        `Are you sure you want to ${portfolioItem.name} your from your portfolio? This action cannot be undone.`,
+                    confirmText: 'Delete',
+                    type: 'is-danger',
+                    hasIcon: true,
+                    onConfirm: () => {
+
+
+                        axios.delete(`/portfolio/delete/${portfolioItem.id}`).then(({data}) => {
+
+                            let arrayItems = [...this.portfolioItems]
+                            _.remove(arrayItems, (n) => {
+                                return n.id === portfolioItem.id
+                            })
+
+                            this.portfolioItems = [...arrayItems];
+
+                            this.$buefy.toast.open(`You deleted ${portfolioItem.name} successfully`)
+//remove the item from the array
+
+                        })
+
+                    }
+                })
+            }
+
         },
         mounted() {
             this.profileDetails = {...this.user.profile};
@@ -599,6 +707,9 @@ import AddPortfolioItem from "../../components/AddPortfolioItem";
 
             axios.get('skills').then(({data}) => {
                 this.allSkills = data.skills;
+            })
+            axios.get('portfolio').then(({data}) => {
+                this.portfolioItems = data.portfolio;
             })
             delete this.userDetails.profile;
         },
@@ -609,7 +720,7 @@ import AddPortfolioItem from "../../components/AddPortfolioItem";
                 profileType: 'auth/profileType',
             })
         },
-        components:{
+        components: {
             AddPortfolioItem
         }
 

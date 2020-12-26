@@ -66,6 +66,10 @@ class User extends Authenticatable implements Customer
     {
         return $this->hasMany(Project::class, 'worker_id');
     }
+    public function portfolio()
+    {
+        return $this->hasMany(PortfolioItem::class, 'user_id');
+    }
 
 
     public function chatContacts()

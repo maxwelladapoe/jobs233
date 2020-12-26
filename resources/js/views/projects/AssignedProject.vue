@@ -208,10 +208,15 @@
 
                                 <p class="t-meri mt-2">
 
+                                    <router-link :to="{name:'ViewProfile', params:{'username': project.user.username}}">
+
+
                                     <img :src="project.user.profile.picture" width="50" class="mr-2 rounded-circle"/>
                                     <span class="mr-auto"
                                           v-if="authenticated && (user.id === project.user.id)">You</span>
                                     <span class="mr-auto" v-else>{{project.user.name}}</span>
+
+                                    </router-link>
 
 
                                 </p>
@@ -230,7 +235,7 @@
                             <div class="column is-12 is-8-desktop">
                                 <div v-if="acceptedBid.user_id === user.id">
 
-                                    <p class="h4 t-mont t-bold"> Status Update</p>
+                                    <p class="t-4 t-mont t-bold t-orange">Update Status</p>
                                     <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
 
                                         <form>
@@ -249,9 +254,11 @@
                                                 >
                                                     <b-select expanded placeholder="Select Project Status"
                                                               v-model="statusUpdate.status">
+
                                                         <option value="assigned" disabled>
                                                             Assigned
                                                         </option>
+
                                                         <option value="in-progress">
                                                             In progress
                                                         </option>

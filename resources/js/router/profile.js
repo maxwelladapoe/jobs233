@@ -13,7 +13,6 @@ export default [
         path: '/profile/:username',
         name: 'ViewProfile',
         component: ViewProfile,
-        props: true,
-        meta: {requiresAuth: true}
+        props: true
     }
 ]
