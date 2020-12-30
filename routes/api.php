@@ -92,7 +92,10 @@ Route::prefix('v1')->group(function () {
 
     //payment paystack
 
-    Route::post('/pay', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGateway']);
+    Route::get('/payment_options', [App\Http\Controllers\PaymentsController::class, 'getPaymentOptions']);
+
+
+    Route::post('/pay/{project}', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGatewayForDeposit']);
     Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController::class, 'handleGatewayCallback']);
 
 

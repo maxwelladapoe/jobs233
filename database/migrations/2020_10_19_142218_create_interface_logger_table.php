@@ -19,7 +19,7 @@ class CreateInterfaceLoggerTable extends Migration
             $table->string('authorization_code');
             $table->string('reference');
             $table->string('currency');
-            $table->string('amount');
+            $table->double('amount');
             $table->string('platform');
             $table->string('ip');
             $table->string('channel');

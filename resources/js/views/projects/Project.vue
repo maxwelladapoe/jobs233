@@ -233,6 +233,18 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Budget</p>
                                 <p class="t-meri t-4 t-bold">{{project.currency.symbol}} {{project.budget}}</p>
 
+                                <hr>
+
+
+                                <template v-if="authenticated && project.user.id === user.id">
+                                    <router-link :to="{name:'MakeDeposit' ,params:{'project_id':project.id}}"
+                                                 class="button is-primary" >Make a
+                                        deposit
+                                        <b-icon icon="cash-plus" class="ml-2" size="is-small"/>
+                                    </router-link>
+                                </template>
+
+
 
                                 <hr>
 
@@ -290,7 +302,7 @@
 
                                     <p class="t-meri t-bold t-5">Interested in this project? <br>Bid now</p>
 
-                                    <p>I am willing to do this Job at</p>
+                                    <p class="my-3">I am willing to do this Job at</p>
 
                                     <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
 
@@ -434,12 +446,21 @@
 
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                                    <router-link to="#" class="button is-primary">Post a similar Job</router-link>
+                                    <div class="buttons">
+<!--                                        <router-link to="#" class="button is-primary">Post a similar Job</router-link>-->
 
-                                    <template v-if="authenticated && project.user.id === user.id">
-                                        <router-link :to="{name:'editProject'}" class="button is-primary ">Edit this job
-                                        </router-link>
-                                    </template>
+                                        <template v-if="authenticated && project.user.id === user.id">
+                                            <router-link :to="{name:'editProject'}" class="button is-primary ">Edit this job
+                                            </router-link>
+                                        </template>
+
+                                    </div>
+
+
+
+
+
+
                                 </template>
 
                             </div>

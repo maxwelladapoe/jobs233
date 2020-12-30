@@ -644,6 +644,7 @@
 
 
             },
+
             changeProfilePicture() {
 
                 let data = new FormData();
@@ -667,7 +668,6 @@
                     console.log(data)
                 })
             },
-
 
             deleteItem(portfolioItem) {
 
@@ -698,7 +698,6 @@
                     }
                 })
             }
-
         },
         mounted() {
             this.profileDetails = {...this.user.profile};
@@ -708,9 +707,11 @@
             axios.get('skills').then(({data}) => {
                 this.allSkills = data.skills;
             })
+
             axios.get('portfolio').then(({data}) => {
                 this.portfolioItems = data.portfolio;
             })
+
             delete this.userDetails.profile;
         },
         computed: {

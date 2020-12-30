@@ -116,7 +116,81 @@
 
 
                         </b-tab-item>
-                        <b-tab-item label="Get Hired"></b-tab-item>
+                        <b-tab-item label="Get Hired">
+
+                            <div class="columns is-multiline is-mobile mt-5">
+                                <div class="column is-12 has-text-centered">
+                                    <p class="t-2 t-meri t-bold">Got some skills?</p>
+                                    <p class="mt-3">You can find a wide range of projects that match your skills.
+                                        <br>Just complete your profile and let us know your skills so we can easily
+                                        direct employers to you</p>
+                                    <div>
+                                        <b-button class="button mt-3">Browse projects</b-button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="columns is-multiline is-mobile mt-5">
+                                <div class="column is-12-touch is-6-desktop has-text-centered is-offset-3-desktop">
+                                    <p class="mt-3">
+
+                                        Collaborate with your clients anywhere, anytime, anyplace and get notified on
+                                        the latest projects that meet your skills.
+                                    </p>
+                                </div>
+                            </div>
+
+
+                            <div class="columns is-multiline is-mobile mt-5">
+
+                                <div class="column is-4-desktop">
+                                    <div class="columns">
+                                        <div class="column is-2">
+                                            <b-image src="/images/commerse/profile.svg"/>
+                                        </div>
+                                        <div class="column is-10">
+                                            <p class="t-bold t-4">Create your profile</p>
+                                            <p>Sign up and provide your skills, upload a profile picture and upload
+                                                your portfolio</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="column is-4-desktop">
+
+                                    <div class="columns">
+                                        <div class="column is-2">
+                                            <b-image src="/images/commerse/bid.svg"/>
+                                        </div>
+                                        <div class="column is-10">
+                                            <p class="t-bold t-4">Browse projects & Bid</p>
+                                            <p>Browse through the available jobs according to your skills or
+                                                preferred category. Bids on jobs you can complete within the
+                                                deadlines provided. Tell them why you're the best person for this job.
+                                            </p></div>
+                                    </div>
+
+
+                                </div>
+                                <div class="column is-4-desktop">
+                                    <div class="columns">
+                                        <div class="column is-2">
+                                            <b-image src="/images/commerse/wallet.svg"/>
+                                        </div>
+                                        <div class="column is-10">
+                                            <p class="t-bold t-4">Complete & get payed</p>
+                                            <p>Once your bid is approved, get hired, complete the project and get
+                                                payed the agreed amount.</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </b-tab-item>
                         <b-tab-item label="FAQS"></b-tab-item>
                     </b-tabs>
 

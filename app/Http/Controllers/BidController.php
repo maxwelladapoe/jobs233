@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bid;
 use App\Models\Project;
+use App\Models\ProjectPayment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -26,14 +27,14 @@ class BidController extends Controller
 
         $existingBid = Bid::where('user_id', Auth::user()->id)->where('project_id', $request['project_id'])->first();
 
-       
-      
+
+
         if (!$existingBid) {
             $bid = new Bid();
             $bid->project_id = $request['project_id'];
             $bid->user_id = Auth::user()->id;
             $bid->currency_id = $request['currency'];
-            $bid->amount = number_format($request['amount'], 2);
+            $bid->amount = doubleval($request['amount']);
             $bid->additional_details = $request['additional_details'];
 
 
@@ -45,13 +46,13 @@ class BidController extends Controller
             }
 
         } else {
-         
-           
+
+
             if ($existingBid->is_accepted === 0) {
                 $existingBid->project_id = $request['project_id'];
                 $existingBid->user_id = Auth::user()->id;
                 $existingBid->currency_id = $request['currency'];
-                $existingBid->amount = number_format($request['amount'], 2);
+                $existingBid->amount = doubleval($request['amount']);
                 $existingBid->additional_details = $request['additional_details'];
 
                 if ($existingBid->save()) {
@@ -95,6 +96,36 @@ class BidController extends Controller
                 $project->bidding_closed = true;
                 $project->worker_id = $bid->user_id;
                 $project->status = 'assigned';
+
+
+                //recalculate Balance
+
+                //check if a deposit has been made
+                //if there are no deposits
+                $projectPayment = ProjectPayment::where('project_id', $project->id);
+
+                if (count($projectPayment) > 0){
+                    //reduce the minn payable amount to 1
+
+                    $oldAmountPaid = (doubleval($project->budget) - doubleval
+                        ($project->balance)) ;
+                    $newBalance = doubleval($bid->amount) - $oldAmountPaid ;
+
+
+                }else{
+                    //the minimum payable amount is half of the final agreed offer
+
+                    $newBalance = doubleval($bid->amount);
+
+                }
+
+
+                $project->balance = $newBalance;
+
+
+
+
+
 
                 if ($project->save() && $bid->save()) {
                     //notify the user of the accepted bid
@@ -143,7 +174,7 @@ class BidController extends Controller
         if ($existingBid->is_accepted === '0') {
             $existingBid->user_id = Auth::user()->id;
             $existingBid->currency_id = $request['currency'];
-            $existingBid->amount = number_format($request['amount'], 2);
+            $existingBid->amount = doubleval($request['amount']);
             $existingBid->additional_details = $request['additional_details'];
 
             if ($existingBid->save()) {

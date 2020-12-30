@@ -27,7 +27,7 @@ class CreateProjectsTable extends Migration
             $table->string('skills')->nullable();
             $table->string('complexity')->nullable();
             $table->string('currency_id');
-            $table->string('budget');
+            $table->double('budget');
             $table->string('tags')->nullable();
             $table->date('deadline')->nullable();
             $table->string('status')->default('created');

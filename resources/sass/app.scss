@@ -2232,3 +2232,14 @@ textarea {
         }
     }
 }
+
+.jb-success-box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    height: 10em;
+    width: 100%;
+    background-color: $primary;
+
+}

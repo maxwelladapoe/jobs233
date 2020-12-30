@@ -23,17 +23,28 @@
                         <p class="t-mont t-bold t-white">{{ user.name }}</p>
                       </div>
                       <div class="jb-dash-profile-credit">
+
+
                         <p class="small-title t-black t-mont">Your Balance</p>
+
+
                         <p class="t-mont t-bold t-white">
                           ₵ {{ user.wallet.balance }}
-                          <span>
-                            <router-link
-                              :to="{ name: 'AddFunds' }"
-                              class="t-normal"
-                              >Add Funds</router-link
-                            ></span
-                          >
+
+                            <template v-if="user.wallet.balance > 0">
+                                 <span>
+                                    <router-link  v-if="profileType === 'work' || profileType === 'work&hire' "
+                                                  :to="{ name: 'WithdrawFunds' }"
+                                                  class="t-normal">
+                                        Withdraw
+                                    </router-link>
+                                 </span>
+
+                            </template>
                         </p>
+
+
+
                       </div>
                     </div>
 
@@ -107,7 +118,7 @@
 
                     <div
                       class="column is-6-mobile is-3-desktop has-text-centered"
-                     
+
                     >
                       <div class="shadow stats-item">
                         <div>
@@ -138,7 +149,7 @@
                     </div>
                     <div
                       class="column is-6-mobile is-3-desktop has-text-centered"
-                    
+
                     >
                       <div class="shadow stats-item">
                         <div>
@@ -196,94 +207,8 @@
                 <div class="jb-projects-wrapper mb-5 my-2">
                   <project-component
                     v-for="project in somePostedProjects"
-                    :key="project.id"
-                  >
-                    <template slot="title">
-                      <router-link
-                        :to="{
-                          name: 'singleProject',
-                          params: { id: project.id },
-                        }"
-                        class="t-black"
-                      >
-                        {{ project.title }}
-                      </router-link>
-                    </template>
-
-                    <template slot="time">
-                      <timeago
-                        :datetime="project.created_at"
-                        :auto-update="60"
-                      />
-                    </template>
-                    <template slot="description">{{
-                      truncate(project.description, 200)
-                    }}</template>
-                    <template slot="tags">
-                      <p class="mb-1">Tags & Skills:</p>
-
-                      <h6>
-                        <span>
-                          <template v-if="project.tags != null">
-                            <template v-for="(tag, index ) in project.tags.split(',')">
-                              <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                                tag
-                              }}</b-tag>
-                            </template>
-                          </template>
-
-                          <template v-if="project.skills != null">
-                            <template
-                              v-for="(skill,index) in project.skills.split(',')"
-                            >
-                              <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                                skill
-                              }}</b-tag>
-                            </template>
-                          </template>
-                        </span>
-                      </h6>
-                    </template>
-
-                    <template slot="image">
-                      <b-image
-                        :rounded="true"
-                        :src="project.user.profile.picture"
-                        alt=""
-                        class="rounded-circle"
-                      />
-                    </template>
-
-                    <template slot="posted_by">
-                      <p
-                        class="t-meri m-0 p-0"
-                        v-if="authenticated && project.user.id === user.id"
-                      >
-                        You
-                      </p>
-
-                      <p class="t-meri m-0 p-0" v-else>
-                        {{ project.user.name }}
-                      </p>
-                    </template>
-
-                    <template slot="budget">
-                      {{ project.currency.symbol }}{{ project.budget }}
-                    </template>
-                    <template slot="button">
-                      <div class="jb-project-bid-button text-right">
-                        <router-link
-                          :to="{
-                            name: 'singleProject',
-                            params: { id: project.id },
-                          }"
-                          class="button bg-orange t-mont"
-                        >
-                          View
-                        </router-link>
-                      </div>
-                    </template>
-                  </project-component>
+                    :key="project.id" :project="project" :authenticated="authenticated" :user="user"
+                  />
                 </div>
 
                 <div
@@ -316,76 +241,8 @@
                 <div class="jb-projects-wrapper my-2">
                   <project-component
                     v-for="project in assignedProjects"
-                    :key="project.id"
-                  >
-                    <template slot="title">
-                      <router-link
-                        :to="{
-                          name: 'assignedProject',
-                          params: { id: project.id },
-                        }"
-                        class="t-black"
-                      >
-                        {{ project.title }}
-                      </router-link>
-                    </template>
-                    <template slot="time">
-                      <timeago
-                        :datetime="project.created_at"
-                        :auto-update="60"
-                      />
-                    </template>
-                    <template slot="description">{{
-                      truncate(project.description, 200)
-                    }}</template>
-                    <template slot="tags">
-                      <p class="mb-1">Tags & Skills:</p>
-                      <b-taglist>
-                        <template v-if="project.tags != null">
-                          <template
-                            v-for="(tag,index) in project.tags.split(',')"
-                          >
-                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                              tag
-                            }}</b-tag>
-                          </template>
-                        </template>
-
-                        <template v-if="project.skills">
-                          <template v-for="(skill,index)  in project.skills.split(',')">
-                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                              skill
-                            }}</b-tag>
-                          </template>
-                        </template>
-                      </b-taglist>
-                    </template>
-
-                    <template slot="image">
-                      <b-image
-                        :rounded="true"
-                        :src="project.user.profile.picture"
-                        alt=""
-                        class="rounded-circle"
-                      />
-                    </template>
-
-                    <template slot="budget">
-                      {{ project.currency.symbol }}{{ project.budget }}
-                    </template>
-                    <template slot="button">
-                      <div class="jb-project-bid-button text-right">
-                        <router-link
-                          :to="{
-                            name: 'assignedProject',
-                            params: { id: project.id },
-                          }"
-                          class="button bg-orange"
-                          >View
-                        </router-link>
-                      </div>
-                    </template>
-                  </project-component>
+                    :key="project.id" :project="project" :authenticated="authenticated"  :user="user"
+                  />
                 </div>
 
                 <div class="has-text-centered" v-if="someProjects.length > 0">
@@ -415,62 +272,9 @@
                 <div class="jb-projects-wrapper my-2">
                   <project-component
                     v-for="project in someProjects"
-                    :key="project.id"
+                    :key="project.id" :project="project" :authenticated="authenticated"  :user="user"
                   >
-                    <template slot="title">
-                      <router-link
-                        :to="{
-                          name: 'singleProject',
-                          params: { id: project.id },
-                        }"
-                        class="t-black"
-                      >
-                        {{ project.title }}
-                      </router-link>
-                    </template>
-                    <template slot="time">
-                      <timeago
-                        :datetime="project.created_at"
-                        :auto-update="60"
-                      />
-                    </template>
-                    <template slot="description">{{
-                      truncate(project.description, 200)
-                    }}</template>
-                    <template slot="tags">
-                      <p class="mb-1">Tags & Skills:</p>
-                      <b-taglist>
-                        <template v-if="project.tags != null">
-                          <template v-for="(tag,index)  in project.tags.split(',')">
-                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                              tag
-                            }}</b-tag>
-                          </template>
-                        </template>
-
-                        <template v-if="project.skills != null">
-                          <template v-for="(skill,index)  in project.skills.split(',')">
-                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{
-                              skill
-                            }}</b-tag>
-                          </template>
-                        </template>
-                      </b-taglist>
-                    </template>
-                    <template slot="budget">
-                      {{ project.currency.symbol }}{{ project.budget }}
-                    </template>
-
-                    <template slot="image">
-                      <b-image
-                        :rounded="true"
-                        :src="project.user.profile.picture"
-                        alt=""
-                        class="rounded-circle"
-                      />
-                    </template>
                     <template slot="button">
-                      <div class="jb-project-bid-button text-right">
                         <router-link
                           :to="{
                             name: 'singleProject',
@@ -479,7 +283,6 @@
                           class="button bg-orange"
                           >Bid
                         </router-link>
-                      </div>
                     </template>
                   </project-component>
                 </div>

@@ -157,12 +157,25 @@
                                 My Projects
                             </router-link>
 
+                            <router-link :to="{name:'Account'}"
+                                         class="jb-dash-link t-white ">
+                                Account
+                            </router-link>
+
                         </template>
                         <template v-if="profileType ==='work' || profileType ==='work&hire'">
                             <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
                                          class="jb-dash-link t-white ">
                                 Assigned Projects
                             </router-link>
+                            <router-link :to="{name:'Wallet'}"
+                                         class="jb-dash-link t-white ">
+                                Wallet
+                            </router-link>
+
+
+
+
                         </template>
 
                         <!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->

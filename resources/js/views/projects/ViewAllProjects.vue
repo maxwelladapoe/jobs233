@@ -7,11 +7,11 @@
 
                     <div class=" is-small">
                         <template v-if="owner">
-                            <p class="t-bold t-mont title">My Projects</p>
+                            <p class="t-bold t-mont title">My projects</p>
                             <p class="text-left t-meri t-normal subtitle ">Review your projects</p>
                         </template>
                         <template v-else>
-                            <p class="t-bold t-4 t-mont">Start Working Now</p>
+                            <p class="t-bold t-4 t-mont">Start working now</p>
                             <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
                         </template>
                     </div>
@@ -70,53 +70,9 @@
 
                                 <template v-if="allProjects.length>0 || allProjects">
 
-                                    <project-component v-for="project in allProjects" :key="project.id">
-                                        <template slot="title">{{project.title}}</template>
-                                        <template slot="time">
-
-                                            <timeago :datetime="project.created_at" :auto-update="60"/>
-
-                                        </template>
-                                        <template slot="description">{{truncate(project.description,200)}}</template>
-                                        <template slot="tags">
-
-                                            <p class="mb-1">Tags & Skills:</p>
-                                            <b-taglist>
-
-<template v-if="project.tags !=null">
-                                                <template v-for="(tag,index) in project.tags.split(',')">
-                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}</b-tag>
-                                                </template>
-</template>
-
-<template v-if="project.skills !=null">
-                                                <template v-for="(skill,index) in project.skills.split(',')">
-                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{skill}}</b-tag>
-                                                </template>
-
-</template>
-                                            </b-taglist>
+                                    <project-component v-for="project in allProjects" :key="project.id" :project="project" :authenticated="authenticated"  :user="user">
 
 
-                                        </template>
-                                        <template slot="budget"> {{project.currency.symbol}}{{project.budget}}
-                                        </template>
-                                        <template slot="image">
-
-                                            <b-image :rounded='true' :src="project.user.profile.picture" alt=""
-                                                     class="rounded-circle"/>
-                                        </template>
-
-                                        <template slot="posted_by">
-
-                                            <p class="t-meri m-0 p-0"
-                                               v-if=" authenticated && project.user.id === user.id">
-                                                You</p>
-
-                                            <p class="t-meri m-0 p-0" v-else>{{project.user.name}}</p>
-                                        </template>
-
-                                        <template>
 
                                             <template
                                                 v-if=" !authenticated">
@@ -195,7 +151,6 @@
 
                                                 </template>
                                             </template>
-                                        </template>
 
 
                                     </project-component>

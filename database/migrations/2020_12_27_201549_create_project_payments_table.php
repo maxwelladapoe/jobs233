@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBidsTable extends Migration
+class CreateProjectPaymentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateBidsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bids', function (Blueprint $table) {
+        Schema::create('project_payments', function (Blueprint $table) {
             $table->id();
             $table->char('project_id');
             $table->bigInteger('user_id');
-            $table->bigInteger('currency_id');
+            $table->string('payment_id')->nullable();
             $table->double('amount');
-            $table->text('additional_details')->nullable();
-            $table->boolean('is_accepted')->default(false);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateBidsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bids');
+        Schema::dropIfExists('project_payments');
     }
 }

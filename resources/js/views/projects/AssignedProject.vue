@@ -445,7 +445,9 @@
 
 
 
-                                <template v-if="statusUpdate.status === 'submitted-for-review'">
+                                <template v-if="statusUpdate.status === 'submitted-for-review' && project.user_id ===
+                                 user.id
+                                ">
                                     <hr>
                                     <p>If this project is completed</p>
                                     <b-button class="mt-2 is-success">Mark as completed</b-button>

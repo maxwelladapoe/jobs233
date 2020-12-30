@@ -8,6 +8,7 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\ProjectStatusUpdate;
 use App\Models\Skill;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -37,7 +38,7 @@ class ProjectController extends Controller
             'additional_details' => ['nullable', 'string'],
             'skills' => ['required'],
             'tags' => ['nullable'],
-            'deadline' => ['date','required'],
+            'deadline' => ['date', 'required'],
 
         ]);
 
@@ -52,7 +53,8 @@ class ProjectController extends Controller
             $project->additional_details = $request['additional_details'];
             $project->user_id = Auth::user()->id;
             $project->category_id = $request['category'];
-            $project->budget = number_format($request['budget'], 2);
+            $project->budget = doubleval($request['budget']);
+            $project->balance = doubleval($request['budget']);
             $project->currency_id = $request['currency'];
             $project->secondary_category_id = $request['subcategory'];
             $project->skills = $request['skills'];
@@ -225,6 +227,49 @@ class ProjectController extends Controller
     public function statusUpdates(Project $project)
     {
         $statusUpdates = $project->statusUpdates()->latest();
+    }
+
+
+    public function payWorker(Project $project)
+    {
+        if (Auth::user() && Auth::user()->id === $project->user_id) {
+            //if the project is marked as completed
+            if ($project->status === 'completed') {
+                // proceed to release funds to the creative
+
+                if ($project->balance <= 0 || $project->balance <= 0.00) {
+
+                    $employer = User::find($project->user_id);
+                    $worker = User::find($project->worker_id);
+                    //the accepted bid offer
+                    $acceptedBid = Bid::find($project->accepted_bid_id);
+
+                    $finalAgreedOffer = doubleval(str_replace(',', '', $acceptedBid->amount));
+
+                    $employer->withdraw($finalAgreedOffer);
+
+                    //calculate the charge
+                    $charges = $finalAgreedOffer * 0.1;
+                    //admin user id
+                    //add charge to admin user wallet
+
+                    $amountPayableToWorker = $finalAgreedOffer - $charges;
+
+                    $worker->deposit($amountPayableToWorker);
+                    //double check if the last status update is completed *optional
+
+
+                    return response()->json(['success' => true, 'worker' => $worker, 'message' => 'You have successfully paid for your project'], 200);
+
+                } else {
+                    return response()->json(['success' => false, 'message' => 'you need to complete payment / deposit for the project before you can release funds'], 401);
+                }
+
+            } else {
+                return response()->json(['success' => false, 'message' => 'project is not completed'], 401);
+
+            }
+        }
     }
 
     public function getLatestStatusUpdate(Request $request)
