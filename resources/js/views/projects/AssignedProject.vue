@@ -191,8 +191,19 @@
                                     </template>
                                 </template>
                                 <!-- Placed bids -->
-                                <hr>
 
+                                <template v-if="authenticated && project.user.id === user.id">
+                                    <router-link :to="{name:'MakeDeposit' ,params:{'project_id':project.id}}"
+                                                 class="button is-primary mt-5">Make a
+                                        deposit
+                                        <b-icon icon="cash-plus" class="ml-2" size="is-small"/>
+                                    </router-link>
+
+
+
+                                </template>
+
+                                <hr>
 
                                 <p class="t-meri"><span>Deadline</span>
                                     <span class="t-6 badge pill badge-danger">
@@ -201,25 +212,35 @@
 
                                 <hr>
 
+
+
+
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
                                     <timeago :datetime="project.created_at" :auto-update="60"/>
                                     by
                                 </p>
 
-                                <p class="t-meri mt-2">
+                                <div class=" media t-meri mt-2">
+                                    <figure class="media-left">
 
-                                    <router-link :to="{name:'ViewProfile', params:{'username': project.user.username}}">
+                                        <img :src="project.user.profile.picture" alt=""
+                                             style="width: 50px; border-radius:50px">
+                                    </figure>
 
+                                    <div class="media-content">
+                                        <router-link :to="{name:'ViewProfile', params:{'username':
+                                        project.user.username}
+                                        }">
+                                             <span class="mr-auto"
+                                                   v-if="authenticated && (user.id === project.user.id)">You</span>
+                                            <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                        </router-link>
+                                        <p class="t-6 t-orange">Joined
+                                            <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
+                                        </p>
+                                    </div>
 
-                                    <img :src="project.user.profile.picture" width="50" class="mr-2 rounded-circle"/>
-                                    <span class="mr-auto"
-                                          v-if="authenticated && (user.id === project.user.id)">You</span>
-                                    <span class="mr-auto" v-else>{{project.user.name}}</span>
-
-                                    </router-link>
-
-
-                                </p>
+                                </div>
 
 
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">

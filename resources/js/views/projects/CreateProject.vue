@@ -200,7 +200,7 @@
                                         </b-field>
 
 
-                                        <b-field grouped>
+
 
 
                                             <b-field
@@ -208,7 +208,7 @@
                                                 label="Budget"
                                                 label-class="t-mont t-bold"
                                                 label-for="budget"
-                                                expanded
+                                                expanded grouped
                                             >
 
 
@@ -267,7 +267,7 @@
                                             </b-field>
 
 
-                                        </b-field>
+
 
                                     </ValidationObserver>
 
@@ -403,6 +403,7 @@
                                         <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> > {{project.subcategory.name}}  </p>
 
                                         <p class="t-mont t-bold t-orange"> Budget</p>
+
                                         <p class="mb-3">{{project.currency}} {{project.budget}}</p>
 
                                         <p class="t-mont t-bold t-orange"> Additional Information</p>
@@ -683,7 +684,7 @@
                     axios.post('projects', formData, config)
 
                         .then(({data}) => {
-                            if (data.status === 'true') {
+                            if (data.success === 'true') {
                                 this.project = data.project;
                                 //this.resetProject();
                                 this.isLoading = false;

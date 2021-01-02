@@ -288,7 +288,7 @@
                 this.isLoading = true;
                 this.loadingMessage = 'Signing you up...';
 
-                await this.signUp(this.signupCredentials).then(({data}) => {
+                await this.signUp(this.signupCredentials).then((data) => {
                     console.log(data);
                     //this.loadingMessage = data.message;
                     this.isLoading = false;
@@ -306,7 +306,7 @@
 
                 }).catch(errors => {
                     console.log("there was an error", errors)
-                    this.$refs.signupForm.setErrors({...errors.response.data.errors})
+                    this.$refs.signupForm.setErrors({...errors.response.errors})
                     this.isLoading = false;
                 })
             }

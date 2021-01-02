@@ -71,7 +71,7 @@
                     v-if="profileType === 'work' || profileType === 'work&hire'"
                   >
                     <b-button class="button is-black t-white" expanded
-                      >View All Ongoing Projects
+                      >View All Projects
                     </b-button>
                   </router-link>
                 </div>
@@ -123,9 +123,9 @@
                       <div class="shadow stats-item">
                         <div>
                           <p class="jb-dash-stats-number t-bold t-mont">
-                            {{ user.projects_count }}
+                            {{ assignedProjectsCount}}
                           </p>
-                          <p class="jb-stats-brief">Projects assigned</p>
+                          <p class="jb-stats-brief">Assigned {{ 'Project' | pluralize(assignedProjectsCount) }}</p>
                         </div>
                       </div>
                     </div>
@@ -134,21 +134,21 @@
                   <template
                     v-if="profileType === 'hire' || profileType === 'work&hire'"
                   >
+<!--                    <div-->
+<!--                      class="column is-6-mobile is-3-desktop has-text-centered"-->
+<!--                    >-->
+<!--                      <div class="shadow stats-item stats-item">-->
+<!--                        <div>-->
+<!--                          <p class="jb-dash-stats-number t-bold t-mont">-->
+<!--                            <span class="t-normal">₵</span>-->
+<!--                            50-->
+<!--                          </p>-->
+<!--                          <p class="jb-stats-brief">Spent</p>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
                     <div
-                      class="column is-6-mobile is-3-desktop has-text-centered"
-                    >
-                      <div class="shadow stats-item stats-item">
-                        <div>
-                          <p class="jb-dash-stats-number t-bold t-mont">
-                            <span class="t-normal">₵</span>
-                            50
-                          </p>
-                          <p class="jb-stats-brief">Spent</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="column is-6-mobile is-3-desktop has-text-centered"
+                      class="column is-6-mobile is-6-desktop has-text-centered"
 
                     >
                       <div class="shadow stats-item">
@@ -156,26 +156,14 @@
                           <p class="jb-dash-stats-number t-bold t-mont">
                             {{ user.projects_count }}
                           </p>
-                          <p class="jb-stats-brief">Projects posted</p>
+                          <p class="jb-stats-brief">Posted {{ 'Project' | pluralize(user.projects_count) }}</p>
                         </div>
                       </div>
                     </div>
                   </template>
 
                   <div
-                    class="column is-6-mobile is-3-desktop has-text-centered"
-                  >
-                    <div class="shadow stats-item">
-                      <div>
-                        <p class="jb-dash-stats-number t-bold t-mont">0</p>
-                        <p class="jb-stats-brief">
-                          Completed {{ "project" | pluralize(0) }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    class="column is-6-mobile is-3-desktop has-text-centered"
+                    class="column is-6-mobile is-6-desktop has-text-centered"
                   >
                     <div class="shadow stats-item">
                       <div>
@@ -242,7 +230,34 @@
                   <project-component
                     v-for="project in assignedProjects"
                     :key="project.id" :project="project" :authenticated="authenticated"  :user="user"
-                  />
+                  >
+                      <template slot="button">
+                          <div class="jb-project-bid-btn text-right">
+
+
+                              <template
+                                  v-if="(project.accepted_bid_id !== null
+                                                             && project.accepted_bid_id !== 0 &&
+                                                              project.accepted_bid_id !=='') &&
+                                                              (project.user.id === user.id || project.worker_id
+                                                              ===user.id)">
+                                  <router-link
+                                      :to="{name:'assignedProject' , params:{id:project.id}}"
+                                      class="button bg-orange">View
+                                  </router-link>
+                              </template>
+
+                              <template v-else>
+                                  <router-link
+                                      :to="{name:'singleProject' , params:{id:project.id}}"
+                                      class="button bg-orange">View
+                                  </router-link>
+                              </template>
+
+
+                          </div>
+                      </template>
+                  </project-component>
                 </div>
 
                 <div class="has-text-centered" v-if="someProjects.length > 0">
@@ -320,6 +335,7 @@ export default {
     return {
       someProjects: [],
       assignedProjects: [],
+        assignedProjectsCount :0,
       somePostedProjects: [],
       somePostedProjectsCount: 0,
     };
@@ -355,6 +371,7 @@ export default {
             .get("/projects/assigned")
             .then(({ data }) => {
               this.assignedProjects = data.projects.data;
+              this.assignedProjectsCount =  data.projects.total;
             })
             .catch((error) => {
               console.log(error);

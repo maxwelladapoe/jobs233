@@ -18,6 +18,8 @@ import en from "vee-validate/dist/locale/en.json";
 import VueTimeago from 'vue-timeago';
 import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
+import pluralize from 'pluralize'
+
 
 
 Vue.use(VuePluralize);
@@ -34,7 +36,9 @@ Vue.use(VueTimeago, {
 
 Vue.use(Buefy)
 Vue.use(Meta);
-
+Vue.filter('pluralize', function (value, number) {
+    return pluralize(value, number)
+})
 
 
 // Install VeeValidate rules and localization

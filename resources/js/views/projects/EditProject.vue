@@ -7,39 +7,42 @@
 
             <div class="section no-padding-margin-top-bottom">
 
-            <div class="container">
+                <div class="container">
 
 
-                <div class="columns">
-                    <div class="col-md-8">
-                        <div class="jb-step-wrapper ">
+                    <div class="columns">
+                        <div class="col-md-8">
+                            <div class="jb-step-wrapper ">
 
-                            <div class="jb-step">
-                                <p>
-                                    <span class="jb-step-circle" :class="step===1 ? 'active' : 'not-active' ">1</span> Description
-                                    <b-icon icon="chevron-right"/>
-                                </p>
+                                <div class="jb-step">
+                                    <p>
+                                        <span class="jb-step-circle"
+                                              :class="step===1 ? 'active' : 'not-active' ">1</span> Description
+                                        <b-icon icon="chevron-right"/>
+                                    </p>
+                                </div>
+                                <div class="jb-step">
+                                    <p>
+                                        <span class="jb-step-circle"
+                                              :class="step===2 ? 'active' : 'not-active' ">2</span> Extra Requirements
+                                        <b-icon icon="chevron-right"/>
+                                    </p>
+                                </div>
+                                <div class="jb-step">
+                                    <p>
+                                        <span class="jb-step-circle"
+                                              :class="step===3 ? 'active' : 'not-active' ">3</span> Publish
+                                        <b-icon icon="chevron-right"/>
+                                    </p>
+                                </div>
+
                             </div>
-                            <div class="jb-step">
-                                <p>
-                                    <span class="jb-step-circle" :class="step===2 ? 'active' : 'not-active' ">2</span> Extra Requirements
-                                    <b-icon icon="chevron-right"/>
-                                </p>
-                            </div>
-                            <div class="jb-step">
-                                <p>
-                                    <span class="jb-step-circle" :class="step===3 ? 'active' : 'not-active' ">3</span> Publish
-                                    <b-icon icon="chevron-right"/>
-                                </p>
-                            </div>
-
                         </div>
                     </div>
+
+
                 </div>
-
-
             </div>
-        </div>
         </div>
 
         <div class="jb-section">
@@ -179,74 +182,70 @@
                                             </b-field>
 
 
-                                            <b-field grouped>
+                                            <b-field
+
+                                                label="Budget"
+                                                label-class="t-mont t-bold"
+                                                label-for="budget"
+                                                expanded
+                                                grouped
+                                            >
 
 
-                                                <b-field
-
-                                                    label="Budget"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="budget"
-                                                    expanded
+                                                <ValidationProvider
+                                                    :rules="{ required: true, integer:false}"
+                                                    name="currency"
+                                                    v-slot="{ errors, valid }" slim
                                                 >
 
-
-                                                    <ValidationProvider
-                                                        :rules="{ required: true, integer:false}"
-                                                        name="currency"
-                                                        v-slot="{ errors, valid }" slim
+                                                    <b-field
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                     >
-
-                                                        <b-field
-                                                            :message="errors"
-                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                        >
-                                                            <b-select
-                                                                placeholder="  Select a
+                                                        <b-select
+                                                            placeholder="  Select a
                                                                             currency"
-                                                                name="currency"
-                                                                v-model="project.currency_id">
+                                                            name="currency"
+                                                            v-model="project.currency_id">
 
-                                                                <option v-for="currency in currencies"
-                                                                        :key="currency.id"
-                                                                        :value="currency.id">
-                                                                    {{currency.name}}
-                                                                </option>
+                                                            <option v-for="currency in currencies"
+                                                                    :key="currency.id"
+                                                                    :value="currency.id">
+                                                                {{currency.name}}
+                                                            </option>
 
-                                                            </b-select>
-                                                        </b-field>
+                                                        </b-select>
+                                                    </b-field>
 
-                                                    </ValidationProvider>
+                                                </ValidationProvider>
 
 
-                                                    <ValidationProvider
-                                                        :rules="{ required: true,  min:1}"
-                                                        name="budget"
-                                                        v-slot="{ errors, valid }" slim
+                                                <ValidationProvider
+                                                    :rules="{ required: true,  min:1}"
+                                                    name="budget"
+                                                    v-slot="{ errors, valid }" slim
+                                                >
+                                                    <b-field
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                        expanded
                                                     >
-                                                        <b-field
-                                                            :message="errors"
-                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                            expanded
-                                                        >
-                                                            <b-input id="budget" type="text" min="1"
-                                                                     placeholder=""
-                                                                     name="budget"
-                                                                     expanded
-                                                                     v-model="project.budget">
+                                                        <b-input id="budget" type="text" min="1"
+                                                                 placeholder=""
+                                                                 name="budget"
+                                                                 expanded
+                                                                 v-model="project.budget">
 
-                                                            </b-input>
+                                                        </b-input>
 
-                                                        </b-field>
+                                                    </b-field>
 
 
-                                                    </ValidationProvider>
-
-
-                                                </b-field>
+                                                </ValidationProvider>
 
 
                                             </b-field>
+
 
                                         </ValidationObserver>
 

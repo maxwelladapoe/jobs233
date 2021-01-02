@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProjectCreatedSuccessfully;
 use App\Models\Attachment;
 use App\Models\Bid;
 use App\Models\Project;
@@ -12,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -95,6 +97,8 @@ class ProjectController extends Controller
                     }
 
                 }
+
+                Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
 
                 return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);
             } else {
@@ -303,8 +307,9 @@ class ProjectController extends Controller
         }
         if ($request->has('assigned_to')) {
             $query->where('worker_id', Auth::user()->id);
+        }else{
+            $query->where('accepted_bid_id',null);
         }
-
 
         //checking if a category key has been added
         if ($request->has('category')) {

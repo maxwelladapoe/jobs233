@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BidAcceptedMailToEmployer;
+use App\Mail\BidAcceptedMailToWorker;
+use App\Mail\BidPlacedSuccessfullyMailToWorker;
+use App\Mail\BidPlacedSuccessfullyMailToEmployer;
 use App\Models\Bid;
 use App\Models\Project;
 use App\Models\ProjectPayment;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class BidController extends Controller
 {
@@ -39,6 +45,17 @@ class BidController extends Controller
 
 
             if ($bid->save()) {
+
+
+                $project = $bid->project;
+                $projectCreator = $project->user;
+
+
+                //send email to the employer and the worker
+                Mail::to($bid->user->email)->queue(new BidPlacedSuccessfullyMailToWorker($bid));
+
+                Mail::to($projectCreator->email)->queue(new BidPlacedSuccessfullyMailToEmployer($bid));
+
                 return response()->json(['success' => true, 'message' => 'Your bid has been placed successfully', 'bid' => $bid], 201);
             } else {
                 Log::debug("there seems to be an issue with project creation. you may have to check the database");
@@ -79,7 +96,7 @@ class BidController extends Controller
     {
         $this->validate($request, [
             'bid_id' => ['required', 'integer'],
-            'project_id' => ['required', 'integer'],
+            'project_id' => ['required'],
         ]);
 
         //check if the bid id exists
@@ -104,7 +121,7 @@ class BidController extends Controller
                 //if there are no deposits
                 $projectPayment = ProjectPayment::where('project_id', $project->id);
 
-                if (count($projectPayment) > 0){
+                if ($projectPayment->count() > 0){
                     //reduce the minn payable amount to 1
 
                     $oldAmountPaid = (doubleval($project->budget) - doubleval
@@ -129,6 +146,11 @@ class BidController extends Controller
 
                 if ($project->save() && $bid->save()) {
                     //notify the user of the accepted bid
+
+                    Mail::to($bid->user->email)->queue(new BidAcceptedMailToWorker($bid));
+
+
+                    Mail::to(Auth::user()->email)->queue(new BidAcceptedMailToEmployer($bid));
 
                     return response()->json(['success' => true,
                         'message' => 'You have accepted the bid with id: ' . $bid->id . ' successfully',

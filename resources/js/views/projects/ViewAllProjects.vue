@@ -11,8 +11,16 @@
                             <p class="text-left t-meri t-normal subtitle ">Review your projects</p>
                         </template>
                         <template v-else>
-                            <p class="t-bold t-4 t-mont">Start working now</p>
-                            <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                            <template v-if="assignedTo">
+                                <p class="t-bold t-4 t-mont">Your assigned projects</p>
+                                <p class="text-left t-meri t-normal ">Go through your assigned projects</p>
+                            </template>
+
+                            <template v-else>
+
+                                <p class="t-bold t-4 t-mont">Start working now</p>
+                                <p class="text-left t-meri t-normal ">Place your bid on any project to start work</p>
+                            </template>
                         </template>
                     </div>
 

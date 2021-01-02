@@ -3,7 +3,21 @@
     <div class="h-100">
 
         <div class="jb-main-section-wrapper">
-            <template v-if="contacts.length >0">
+
+
+            <template v-if="contacts.length ===0">
+                <div class="section no-padding-margin-top-bottom">
+                    <div class="container">
+                        <p class="t-meri t-bold t-3 t-orange has-text-centered" v-if="noContacts">You do not have any
+                            contacts at the
+                            moment </p>
+                    </div>
+                </div>
+            </template>
+
+
+
+            <template v-else>
                 <div class="section no-padding-margin-top-bottom">
 
 
@@ -205,16 +219,6 @@
                 </div>
 
             </template>
-
-            <template v-else>
-                <div class="section no-padding-margin-top-bottom">
-                    <div class="container">
-                        <p class="t-meri t-bold t-3 t-orange has-text-centered" v-if="noContacts">You do not have any
-                            contacts at the
-                            moment </p>
-                    </div>
-                </div>
-            </template>
         </div>
     </div>
 
@@ -263,9 +267,16 @@
             axios.get('messages/contacts').then(({data}) => {
                 this.contacts = data.contacts;
 
-                this.changeSelectedMessages(this.contacts[0]);
+                if (this.contacts.length ===0){
+                    this.noContacts = true;
+                }else{
 
-                this.scrollChatBoxDown();
+                    this.changeSelectedMessages(this.contacts[0]);
+
+                    this.scrollChatBoxDown();
+                }
+
+
             })
         },
         methods: {
@@ -319,7 +330,10 @@
         },
 
         updated() {
-            this.scrollChatBoxDown();
+            if (this.contacts.length > 0  && this.messages.length > 0){
+                this.scrollChatBoxDown();
+            }
+
         },
 
 

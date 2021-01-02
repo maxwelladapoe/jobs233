@@ -44,7 +44,7 @@
                                         <template v-for="(tag,index) in project.tags.split(',')">
 
 
-                                            <b-tag class="mr-1" type="is-success" v-bind:key="index" >{{tag}}</b-tag>
+                                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}</b-tag>
 
                                         </template>
                                     </h5>
@@ -122,7 +122,8 @@
                                                 <template v-if="(index+1)<=initialBidsToShow">
 
                                                     <div class="jb-bid"
-                                                         :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''" v-bind:key="index">
+                                                         :class="!bid.is_accepted && project.accepted_bid_id != null ? 'disabled':''"
+                                                         v-bind:key="index">
 
                                                         <div class="top">
                                                             <div class="profile-details-wrap">
@@ -130,12 +131,16 @@
                                                                     :to="{name:'ViewProfile',params:{username:bid.user.username}}">
 
 
-                                                                    <div><p>
+                                                                    <div>
+                                                                        <p>
 
-                                                                        <b-image class="" rounded :src="bid.user.profile.picture" alt=""
-                                                                             />
-                                                                        <span class="t-meri">{{bid.user.name}}</span>
-                                                                    </p>
+                                                                            <b-image class="" rounded
+                                                                                     :src="bid.user.profile.picture"
+                                                                                     alt=""
+                                                                            />
+                                                                            <span
+                                                                                class="t-meri">{{bid.user.name}}</span>
+                                                                        </p>
                                                                     </div>
                                                                 </router-link>
                                                                 <div>
@@ -169,9 +174,11 @@
                                                                 <template v-if="bid.additional_details">
 
 
-                                                                    <b-collapse :open="false" :aria-id="'content-'+bid.id+'-ally'"
+                                                                    <b-collapse :open="false"
+                                                                                :aria-id="'content-'+bid.id+'-ally'"
                                                                                 class="mt-1">
-                                                                        <p :aria-controls="'content-'+bid.id+'-ally'" slot="trigger"
+                                                                        <p :aria-controls="'content-'+bid.id+'-ally'"
+                                                                           slot="trigger"
                                                                            class="t-orange t-6 text-right m-0"
                                                                            style="border: none; cursor: pointer">More
                                                                             info</p>
@@ -238,15 +245,17 @@
 
                                 <template v-if="authenticated && project.user.id === user.id">
                                     <router-link :to="{name:'MakeDeposit' ,params:{'project_id':project.id}}"
-                                                 class="button is-primary" >Make a
+                                                 class="button is-primary">Make a
                                         deposit
                                         <b-icon icon="cash-plus" class="ml-2" size="is-small"/>
                                     </router-link>
+
+
+                                    <hr>
                                 </template>
 
 
 
-                                <hr>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
                                     <timeago :datetime="project.created_at" :auto-update="60"/>
@@ -256,7 +265,8 @@
                                 <div class=" media t-meri mt-2">
                                     <figure class="media-left">
 
-                                                 <img :src="project.user.profile.picture" alt="" style="width: 50px; border-radius:50px">
+                                        <img :src="project.user.profile.picture" alt=""
+                                             style="width: 50px; border-radius:50px">
                                     </figure>
 
                                     <div class="media-content">
@@ -300,21 +310,24 @@
                                 <template
                                     v-else-if=" ( !bidSubmitted || !hasAlreadyPlacedBid) && (profileType ==='work' || profileType ==='work&hire') ">
 
-                                    <p class="t-meri t-bold t-5">Interested in this project? <br>Bid now</p>
 
-                                    <p class="my-3">I am willing to do this Job at</p>
+                                    <template v-if="showBidSubmittedSuccessfully">
+                                        <p class="t-meri t-bold t-5">Your bid was placed successfully</p>
 
-                                    <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
+                                    </template>
 
-                                        <form >
+                                    <template v-else>
+                                        <p class="t-meri t-bold t-5">Interested in this project? <br>Bid now</p>
+
+                                        <p class="my-3">I am willing to do this Job at</p>
+
+                                        <ValidationObserver v-slot="{handleSubmit}" ref="submitBidForm">
 
 
-                                            <b-field grouped>
+                                            <form>
 
 
-                                                <b-field
-                                                    expanded
-                                                >
+                                                <b-field grouped>
 
 
                                                     <ValidationProvider
@@ -372,74 +385,70 @@
 
                                                 </b-field>
 
-
-                                            </b-field>
-
-                                            <b-field>
-
-                                            </b-field>
-
-                                            <ValidationProvider
-                                                persist
-                                                name="additional details"
-                                                 :rules="{ required: true, min: 3, max:2000}"
-                                            v-slot="{ errors, valid }" slim
-                                            >
-                                                <b-field
-                                                    id="additional_details"
-                                                    label="Additional Details"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="additional_details"
-                                                        :message="errors"
-                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                <ValidationProvider
+                                                    persist
+                                                    name="additional details"
+                                                    :rules="{ required: false, min: 3, max:2000}"
+                                                    v-slot="{ errors, valid }" slim
                                                 >
-                                                    <b-input type="textarea"
-                                                        rows="3"
-                                                        no-resize
-                                                        id="textarea-default"
-                                                        placeholder="Any additional details"
-                                                        v-model="bid.additional_details"
-                                                    ></b-input>
+                                                    <b-field
+                                                        id="additional_details"
+                                                        label="Additional Details"
+                                                        label-class="t-mont t-bold"
+                                                        label-for="additional_details"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+                                                        <b-input type="textarea"
+                                                                 rows="3"
+                                                                 no-resize
+                                                                 id="textarea-default"
+                                                                 placeholder="Any additional details"
+                                                                 v-model="bid.additional_details"
+                                                        ></b-input>
+
+
+                                                    </b-field>
+                                                </ValidationProvider>
+
+
+                                                <b-field class="text-right">
+
+                                                    <template
+                                                        v-if="!showBidSubmittedSuccessfully && !bidSubmissionLoading">
+                                                        <button type="is-primary" class="button bg-orange t-mont"
+                                                                @click.prevent="handleSubmit(submitBid)">
+                                                            Bid
+                                                        </button>
+                                                    </template>
+
+
+                                                    <template v-if="showBidSubmittedSuccessfully">
+                                                        <div type="is-primary" class="button is-success t-mont">
+                                                            <b-icon class="is-white" icon="check-circle"/>
+                                                        </div>
+                                                    </template>
+
+                                                    <template v-if="bidSubmissionLoading">
+
+                                                        <div
+                                                            class="loading-wrap"
+                                                        >
+                                                            Posting... <span></span>
+                                                            <div class="loader"></div>
+                                                        </div>
+
+                                                    </template>
 
 
                                                 </b-field>
-                                            </ValidationProvider>
+
+                                            </form>
 
 
-                                            <b-field class="text-right">
+                                        </ValidationObserver>
+                                    </template>
 
-                                                <template v-if="!showBidSubmittedSuccessfully && !bidSubmissionLoading">
-                                                    <button type="is-primary" class="button bg-orange t-mont" @click.prevent="handleSubmit(submitBid)">
-                                                    Bid
-                                                </button>
-                                                </template>
-
-
-                                                <template v-if="showBidSubmittedSuccessfully">
-                                                <div type="is-primary" class="button is-success t-mont" >
-                                                   <b-icon class="is-white" icon="check-circle"/>
-                                                </div>
-                                                </template>
-
-                                                <template v-if="bidSubmissionLoading">
-
-                                            <div
-                                                class="loading-wrap"
-                                            >
-                                                Posting... <span></span>
-                                                <div class="loader"></div>
-                                            </div>
-
-                                                </template>
-
-
-
-                                            </b-field>
-
-                                        </form>
-
-
-                                    </ValidationObserver>
 
                                 </template>
 
@@ -447,18 +456,15 @@
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
                                     <div class="buttons">
-<!--                                        <router-link to="#" class="button is-primary">Post a similar Job</router-link>-->
+                                        <!--                                        <router-link to="#" class="button is-primary">Post a similar Job</router-link>-->
 
                                         <template v-if="authenticated && project.user.id === user.id">
-                                            <router-link :to="{name:'editProject'}" class="button is-primary ">Edit this job
+                                            <router-link :to="{name:'editProject'}" class="button is-primary ">Edit this
+                                                job
                                             </router-link>
                                         </template>
 
                                     </div>
-
-
-
-
 
 
                                 </template>
@@ -505,9 +511,10 @@
             return {
                 initialBidsToShow: 10,
                 showBidsViewMore: 0,
-                bidSubmitted:false,
-                showBidSubmittedSuccessfully:false,
-                bidSubmissionLoading:false,
+                bidSubmitted: false,
+                showBidSubmittedSuccessfully: false,
+                bidSubmissionLoading: false,
+                bidSubmittedSuccessfully: true,
                 project: {
                     category: {
                         name: '',
@@ -559,20 +566,21 @@
             },
 
             submitBid() {
-                this.bidSubmissionLoading =true;
+                this.bidSubmissionLoading = true;
                 axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
 
-                    this.bidSubmissionLoading=false
+                    this.bidSubmissionLoading = false
                     this.showBidSubmittedSuccessfully = true;
+                    this.bidSubmittedSuccessfully = true;
                     this.bids.push(data.bid);
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         this.showBidSubmittedSuccessfully = false;
                         this.bidSubmitted = true
                     }, 10000)
 
-                }).catch((e)=>{
+                }).catch((e) => {
 
-                    this.bidSubmissionLoading=false;
+                    this.bidSubmissionLoading = false;
 
                 })
             },
