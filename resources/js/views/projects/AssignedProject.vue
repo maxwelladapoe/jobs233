@@ -192,13 +192,13 @@
                                 </template>
                                 <!-- Placed bids -->
 
-                                <template v-if="authenticated && project.user.id === user.id">
+                                <template v-if="authenticated && project.user.id === user.id &&
+                                project.payment_concluded ===0">
                                     <router-link :to="{name:'MakeDeposit' ,params:{'project_id':project.id}}"
                                                  class="button is-primary mt-5">Make a
                                         deposit
                                         <b-icon icon="cash-plus" class="ml-2" size="is-small"/>
                                     </router-link>
-
 
 
                                 </template>
@@ -211,8 +211,6 @@
                                 </p>
 
                                 <hr>
-
-
 
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
@@ -465,13 +463,15 @@
                                 </template>
 
 
-
-                                <template v-if="statusUpdate.status === 'submitted-for-review' && project.user_id ===
-                                 user.id
+                                <template v-if="(statusUpdate.status === 'submitted-for-review' ||
+                                statusUpdate.status === 'completed') &&
+                                project.user_id===user.id && project.worker_payed ===0
                                 ">
                                     <hr>
                                     <p>If this project is completed</p>
-                                    <b-button class="mt-2 is-success">Mark as completed</b-button>
+                                    <b-button class="mt-2 is-success" @click="markProjectAsCompleted">Mark as
+                                        completed
+                                    </b-button>
                                 </template>
 
                             </div>
@@ -615,6 +615,25 @@
                     .then(({data}) => {
                         this.project = data.project;
                     })
+            },
+            markProjectAsCompleted() {
+
+
+                if (this.project.user_id === this.user.id) {
+
+
+                    if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
+                        axios.post('projects/mark_as_completed', {project_id: this.project.id}).then(({data}) => {
+                            this.project = data.project;
+                        }).catch((e) => {
+                            console.log(e);
+                        })
+                    }
+
+
+                }
+
+
             }
         },
         computed: {

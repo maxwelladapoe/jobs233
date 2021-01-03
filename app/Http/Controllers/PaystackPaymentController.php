@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DepositMadeSuccessfully;
+use App\Mail\TestMail;
 use App\Models\Bid;
+use App\Models\Currency;
 use App\Models\InterfaceLogger;
 use App\Models\Project;
 use App\Models\ProjectPayment;
@@ -11,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Unicodeveloper\Paystack\Facades\Paystack;
 use Unicodeveloper\Paystack\TransRef;
@@ -125,7 +129,6 @@ class PaystackPaymentController extends Controller
 
         try {
 
-
             $paymentDetails = Paystack::getPaymentData();
 
 
@@ -135,7 +138,6 @@ class PaystackPaymentController extends Controller
             $transactionAmount = doubleval($paymentDetailsData['amount']) / 100;
             $authorizationData = $paymentDetailsData['authorization'];
             $metaData = $paymentDetailsData['metadata'];
-
 
             $interfaceLogger = InterfaceLogger::where('reference', $paymentDetailsData['reference'])->get();
 
@@ -153,22 +155,49 @@ class PaystackPaymentController extends Controller
                 $interfaceLogger->status = $paymentDetailsData["status"];
                 $interfaceLogger->response = json_encode($paymentDetails);
                 $interfaceLogger->save();
-                $user->deposit($transactionAmount);
 
+
+
+                //SAVING THE DETAILS INTO THE TABLES WITH THE GHS as the base currency
                 $projectPayment = new ProjectPayment;
                 $projectPayment->project_id = $metaData["project_id"];
                 $projectPayment->user_id = Auth::user()->id;
                 $projectPayment->payment_id = $paymentDetailsData["id"];
+
+
+
+                $project = Project::find($metaData["project_id"]);
+                $currencyDetails =Currency::where('name',$paymentDetailsData["currency"])->first();
+
+                //recalculating the transaction amount using the base currency exchange rate
+
+                $originalTransactionAmount = $transactionAmount;
+                $transactionAmount = $transactionAmount * $currencyDetails->exchange_rate_in_ghs;
+
                 $projectPayment->amount = $transactionAmount;
+
+                $projectPayment->currency_id = 1;
+                $projectPayment->balance_after =  doubleval($project->balance) - $transactionAmount;
+                $projectPayment->type =  'Deposit';
+                $projectPayment->description =  'Deposit of '.$currencyDetails->name.' '.$originalTransactionAmount.' for project: '
+                    .$project->id;
 
                 if($projectPayment->save()){
 
-                    $project = Project::find($metaData["project_id"]);
+                    $user->deposit($transactionAmount);
+
                     if ($project){
                         $project->deposit_made = true;
                         $project->balance = doubleval($project->balance) - $transactionAmount;
+
+
+                        if ($project->balance == 0 ){
+                            $project->payment_concluded = true;
+                        }
+
                         $project->save();
 
+                        Mail::to($projectPayment->user->email)->queue(new DepositMadeSuccessfully($projectPayment));
                         return response()->json(['success' => true,
                             'message' => 'deposit made successfully',
                             "paymentDetails" =>[

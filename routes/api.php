@@ -46,6 +46,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [App\Http\Controllers\ProjectController::class, 'getProjects']);
         Route::get('/assigned', [App\Http\Controllers\ProjectController::class, 'getAssignedProjects']);
         Route::post('/search', [App\Http\Controllers\ProjectController::class, 'search']);
+        Route::post('/mark_as_completed', [App\Http\Controllers\ProjectController::class, 'markProjectAsCompleted']);
         Route::get('/categories-skills', [App\Http\Controllers\ProjectController::class, 'getCategoriesAndSkills']);
         Route::get('/categories', [App\Http\Controllers\ProjectController::class, 'getCategories']);
         Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
@@ -98,6 +99,10 @@ Route::prefix('v1')->group(function () {
     Route::post('/pay/{project}', [App\Http\Controllers\PaystackPaymentController::class, 'redirectToGatewayForDeposit']);
     Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController::class, 'handleGatewayCallback']);
 
+    //deposits
+    Route::get('/deposits', [App\Http\Controllers\PaymentsController::class, 'getAllDeposits']);
+
+
 
     //skills
     Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
@@ -108,6 +113,8 @@ Route::prefix('v1')->group(function () {
     Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
 
     Route::delete('/portfolio/delete/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'delete']);
+
+
 
 
 

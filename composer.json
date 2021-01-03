@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.3",
         "bavix/laravel-wallet": "^6.0",
+        "bavix/laravel-wallet-swap": "^3.0",
         "beyondcode/laravel-websockets": "^1.8",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
@@ -20,6 +21,7 @@
         "laravel/telescope": "^4.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
+        "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~3.0",
         "teamtnt/laravel-scout-tntsearch-driver": "^10.0",
         "unicodeveloper/laravel-paystack": "^1.0"

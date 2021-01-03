@@ -19,8 +19,15 @@
                             />
                             </span>
                         </p>
-                        <div class="jb-project-price t-mont t-bold ">
-                            {{ project.currency.symbol }}{{ project.budget }}
+                        <div class="jb-project-price t-mont t-bold " v-if="project.accepted_bid_id">
+                            <b-tag type="is-success" size="is-small">Accepted Offer: {{ project.currency.symbol }}{{
+                                project.accepted_bid[0].amount }}
+                            </b-tag>
+                        </div>
+                        <div class="jb-project-price t-mont t-bold " v-else>
+                            <b-tag type="is-success" size="is-small">Budget: {{ project.currency.symbol }}{{
+                                project.budget }}
+                            </b-tag>
                         </div>
                     </div>
 

@@ -12,7 +12,7 @@ class Project extends Model
     use \App\Http\Traits\UsesUUID;
 
 
-    protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments'];
+    protected $with = ['user', 'currency', 'category', 'subcategory', 'attachments', 'acceptedBid'];
     protected $withCount = ['bids'];
 
 
@@ -39,6 +39,11 @@ class Project extends Model
     public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function acceptedBid()
+    {
+        return $this->hasMany(Bid::class)->where('is_accepted',true);
     }
 
     public function attachments()

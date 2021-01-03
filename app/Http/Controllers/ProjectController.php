@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Mail\ProjectCreatedSuccessfully;
 use App\Models\Attachment;
 use App\Models\Bid;
+use App\Models\Currency;
 use App\Models\Project;
 use App\Models\ProjectCategory;
+use App\Models\ProjectPayment;
 use App\Models\ProjectStatusUpdate;
 use App\Models\Skill;
 use App\Models\User;
@@ -234,6 +236,67 @@ class ProjectController extends Controller
     }
 
 
+    public function markProjectAsCompleted(Request $request)
+    {
+
+        //this function is responsible for handling status updates
+
+        $this->validate($request, [
+            'project_id' => ['required'],
+        ]);
+
+        $project = Project::find($request->project_id);
+
+
+        if ($project) {
+
+
+            if ($project->user_id == Auth::user()->id) {
+
+                if ($project->payment_concluded == true || $project->balance == 0) {
+
+                    if ($project->worker_payed == true) {
+                        return response()->json(['success' => false, 'message' => 'worker has already been payed'], 401);
+
+                    }
+                    else {
+                        $statusUpdate = new ProjectStatusUpdate();
+                        $statusUpdate->project_id = $project->id;
+                        $statusUpdate->status = "completed";
+                        $statusUpdate->message = "Project Completed";
+                        if ($statusUpdate->save()) {
+
+
+                            $this->payWorker($project);
+
+                            $project->status = "completed";
+                            $project->worker_payed = true;
+                            $project->save();
+
+                            return response()->json(['success' => true, 'project' => $project], 200);
+                        } else {
+                            Log::debug("there seems to be an issue with project status creation. you may have to check the database");
+                            return response()->json(['success' => false, 'message' => 'oops something went wrong with the status creation'], 500);
+                        }
+                    }
+                }
+                else {
+                    return response()->json(['success' => false, 'message' => 'please conclude payments for this project'], 401);
+                }
+
+            } else {
+                return response()->json(['success' => false, 'message' => 'unauthorised'], 401);
+            }
+
+
+        } else {
+            return response()->json(['success' => false, 'message' => 'The project you are looking for does not exist'], 400);
+
+        }
+
+
+    }
+
     public function payWorker(Project $project)
     {
         if (Auth::user() && Auth::user()->id === $project->user_id) {
@@ -241,14 +304,14 @@ class ProjectController extends Controller
             if ($project->status === 'completed') {
                 // proceed to release funds to the creative
 
-                if ($project->balance <= 0 || $project->balance <= 0.00) {
+                if (doubleval($project->balance) <= 0 || doubleval($project->balance) <= 0.00) {
 
                     $employer = User::find($project->user_id);
                     $worker = User::find($project->worker_id);
                     //the accepted bid offer
                     $acceptedBid = Bid::find($project->accepted_bid_id);
 
-                    $finalAgreedOffer = doubleval(str_replace(',', '', $acceptedBid->amount));
+                    $finalAgreedOffer = doubleval( $acceptedBid->amount);
 
                     $employer->withdraw($finalAgreedOffer);
 
@@ -263,7 +326,25 @@ class ProjectController extends Controller
                     //double check if the last status update is completed *optional
 
 
-                    return response()->json(['success' => true, 'worker' => $worker, 'message' => 'You have successfully paid for your project'], 200);
+                    $projectPayment = new ProjectPayment;
+                    $projectPayment->project_id = $project->id;
+                    $projectPayment->user_id = $worker->id;
+                    $projectPayment->payment_id = "123456789";
+                    $projectPayment->amount = $amountPayableToWorker;
+
+
+                    $currencyDetails = Currency::where('name', 'GHS')->first();
+
+                    $projectPayment->currency_id = $currencyDetails->id;
+                    $projectPayment->balance_after = doubleval($worker->wallet->balance) + $amountPayableToWorker;
+                    $projectPayment->type = 'Payment';
+                    $projectPayment->description = 'Payment of' . $currencyDetails->name . ' ' . $amountPayableToWorker . ' for'
+                        . $project->id;
+
+
+                    if ($projectPayment->save()) {
+                        return response()->json(['success' => true, 'worker' => $worker, 'message' => 'You have successfully paid for your project'], 200);
+                    }
 
                 } else {
                     return response()->json(['success' => false, 'message' => 'you need to complete payment / deposit for the project before you can release funds'], 401);
@@ -310,8 +391,8 @@ class ProjectController extends Controller
             $query->where('worker_id', Auth::user()->id);
         }
 
-        if (!$request->has('owner') || $request->has('assigned_to')){
-          //$query->where('accepted_bid_id','<>', null);
+        if (!$request->has('owner') || $request->has('assigned_to')) {
+            //$query->where('accepted_bid_id','<>', null);
 
         }
 

@@ -7,21 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class DepositMadeSuccessfully extends Mailable
+class PaymentMade extends Mailable
 {
     use Queueable, SerializesModels;
-
-    protected $projectPayment;
 
     /**
      * Create a new message instance.
      *
-     * @param $projectPayment
+     * @return void
      */
-    public function __construct($projectPayment)
+    public function __construct()
     {
         //
-        $this->projectPayment = $projectPayment;
     }
 
     /**
@@ -31,6 +28,6 @@ class DepositMadeSuccessfully extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.depositMadeSuccessfully')->with('projectPayment', $this->projectPayment);
+        return $this->markdown('emails.paymentMade');
     }
 }

@@ -40,7 +40,7 @@ class User extends Authenticatable implements Customer
         'remember_token',
     ];
     protected $with = ['profile', 'wallet', 'skills'];
-    protected $withCount = ['projects'];
+    protected $withCount = ['projects','assigned_projects', 'completedProjects','completed_assigned_projects'];
 
     /**
      * The attributes that should be cast to native types.
@@ -54,6 +54,7 @@ class User extends Authenticatable implements Customer
 
     public function profile()
     {
+
         return $this->hasOne(Profile::class);
     }
 
@@ -61,11 +62,26 @@ class User extends Authenticatable implements Customer
     {
         return $this->hasMany(Project::class);
     }
+    public function completedProjects()
+    {
+        return $this->hasMany(Project::class)->where('status','completed');
+    }
+    public function project_payments()
+    {
+        return $this->hasMany(ProjectPayment::class);
+    }
 
     public function assigned_projects()
     {
         return $this->hasMany(Project::class, 'worker_id');
     }
+
+    public function completed_assigned_projects()
+    {
+        return $this->hasMany(Project::class, 'worker_id')->where('status','completed');
+    }
+
+
     public function portfolio()
     {
         return $this->hasMany(PortfolioItem::class, 'user_id');

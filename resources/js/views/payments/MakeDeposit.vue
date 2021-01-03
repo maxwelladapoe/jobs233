@@ -40,168 +40,179 @@
 
                             <div class="columns is-multiline mt-6 ">
 
-                                <div class="column is-12 is-4-tablet is-3-desktop">
-                                    <p><span class="t-orange t-bold t-mont">Your budget:</span> <span
-                                        class="t-bold">{{project.currency.symbol}} {{project.budget}}</span>
-                                    </p>
-
-                                    <p><span class="t-orange t-bold t-mont">Your balance:</span> <span
-                                        class="t-bold">{{project.currency.symbol}} {{project.balance}}</span>
-                                    </p>
-
-                                    <b-field label=" Select a payment Method" class="mt-5">
-
-                                        <b-select placeholder="Select a payment method" expanded
-                                                  v-model="selectedPaymentOption">
-
-                                            <option v-for="paymentOption in paymentOptions"
-                                                    :value="paymentOption">{{paymentOption.name}}
-                                            </option>
-                                        </b-select>
-                                    </b-field>
-
-                                </div>
 
 
-                                <div class="column is-12 is-8-tablet is-8-desktop is-offset-1-desktop">
+                                    <div class="column is-12 is-4-tablet is-3-desktop">
+                                        <p><span class="t-orange t-bold t-mont">Your budget:</span> <span
+                                            class="t-bold">{{project.currency.symbol}} {{project.budget}}</span>
+                                        </p>
 
-                                    <template v-if="!hasReference">
+                                        <p><span class="t-orange t-bold t-mont">Your balance:</span> <span
+                                            class="t-bold">{{project.currency.symbol}} {{project.balance}}</span>
+                                        </p>
+
+                                        <b-field label=" Select a payment Method" class="mt-5">
+
+                                            <b-select placeholder="Select a payment method" expanded
+                                                      v-model="selectedPaymentOption">
+
+                                                <option v-for="paymentOption in paymentOptions"
+                                                        :value="paymentOption">{{paymentOption.name}}
+                                                </option>
+                                            </b-select>
+                                        </b-field>
+
+                                    </div>
+                                    <template v-if="project.balance > 0">
 
 
-                                        <template v-if="selectedPaymentOption">
+                                    <div class="column is-12 is-8-tablet is-8-desktop is-offset-1-desktop">
 
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <figure class="media-left">
-                                                        <p class="image is-64x64">
-                                                            <img :src="selectedPaymentOption.logo">
-                                                        </p>
-                                                    </figure>
-                                                </div>
+                                        <template v-if="!hasReference">
 
-                                                <div class="media-content">
-                                                    <div class="content">
-                                                        <p class="">
+
+                                            <template v-if="selectedPaymentOption">
+
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <figure class="media-left">
+                                                            <p class="image is-64x64">
+                                                                <img :src="selectedPaymentOption.logo">
+                                                            </p>
+                                                        </figure>
+                                                    </div>
+
+                                                    <div class="media-content">
+                                                        <div class="content">
+                                                            <p class="">
 
                                                         <span class="t-bold t-mont t-5">
                                                             {{selectedPaymentOption.name}}
                                                         </span>
-                                                            <br>
-                                                            <span class="t-meri">
+                                                                <br>
+                                                                <span class="t-meri">
                                                            {{selectedPaymentOption.description}}
                                                        </span>
-                                                        </p>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                        </template>
+                                            </template>
 
 
-                                        <ValidationObserver v-slot="{handleSubmit}" ref="submitDepositForm">
+                                            <ValidationObserver v-slot="{handleSubmit}" ref="submitDepositForm">
 
-                                            <form class="mt-5">
+                                                <form class="mt-5">
 
-                                                <b-field expanded>
-                                                    <b-field
-                                                        id="amount"
-                                                        label="Top-up Amount"
-                                                        label-class="t-mont t-bold"
-                                                        label-for="amount"
-                                                        grouped
-                                                    >
-
-                                                        <ValidationProvider
-                                                            :rules="{ required: true, integer:false}"
-                                                            name="currency"
-                                                            v-slot="{ errors, valid }" slim
+                                                    <b-field expanded>
+                                                        <b-field
+                                                            id="amount"
+                                                            label="Top-up Amount"
+                                                            label-class="t-mont t-bold"
+                                                            label-for="amount"
+                                                            grouped
                                                         >
 
-                                                            <b-select id="currency"
-                                                                      placeholder="Select a
+                                                            <ValidationProvider
+                                                                :rules="{ required: true, integer:false}"
+                                                                name="currency"
+                                                                v-slot="{ errors, valid }" slim
+                                                            >
+
+                                                                <b-select id="currency"
+                                                                          placeholder="Select a
                                                                 currency"
-                                                                      name="currency"
-                                                                      v-model="paymentTopup.currency"
-                                                                      aria-describedby="currency-live-feedback">
+                                                                          name="currency"
+                                                                          v-model="paymentTopup.currency"
+                                                                          aria-describedby="currency-live-feedback">
 
-                                                                <option v-for="currency in currencies"
-                                                                        :key="currency.name"
-                                                                        :value="currency.name">
-                                                                    {{currency.name}}
-                                                                </option>
+                                                                    <option v-for="currency in currencies"
+                                                                            :key="currency.name"
+                                                                            :value="currency.name">
+                                                                        {{currency.name}}
+                                                                    </option>
 
-                                                            </b-select>
-
-
-
-                                                        </ValidationProvider>
-
-                                                        <ValidationProvider
-                                                            :rules="{ required: true,  min:1}"
-                                                            name="budget"
-                                                            v-slot="{ errors, valid }" slim
-                                                        >
-                                                            <b-input id="amount-input" type="number" step="0.10"
-                                                                     :min="minPayableAmount"
-                                                                     expanded
-                                                                     placeholder=""
-                                                                     name="amount"
-                                                                     v-model="paymentTopup.inputAmount"
-                                                                     aria-describedby="amount-live-feedback">
-
-                                                            </b-input>
-
-                                                        </ValidationProvider>
+                                                                </b-select>
 
 
-                                                        <p class="control">
-                                                            <b-button @click="submitPaymentTopUp" class="is-success"
-                                                                      icon-right="cash-plus">Deposit
-                                                            </b-button>
-                                                        </p>
+                                                            </ValidationProvider>
+
+                                                            <ValidationProvider
+                                                                :rules="{ required: true ,min:minPayableAmount,
+                                                            max:maxPayableAmount}"
+                                                                name="budget"
+                                                                v-slot="{ errors, valid }" slim
+                                                            >
+                                                                <b-input id="amount-input" type="number" step="0.10"
+                                                                         :min="minPayableAmount"
+                                                                         :max="maxPayableAmount"
+                                                                         expanded
+                                                                         placeholder=""
+                                                                         name="amount"
+                                                                         v-model="paymentTopup.inputAmount"
+                                                                         aria-describedby="amount-live-feedback">
+
+                                                                </b-input>
+
+                                                            </ValidationProvider>
+
+
+                                                            <p class="control">
+                                                                <b-button @click="submitPaymentTopUp" class="is-success"
+                                                                          icon-right="cash-plus">Deposit
+                                                                </b-button>
+                                                            </p>
+
+
+                                                        </b-field>
 
 
                                                     </b-field>
 
 
-                                                </b-field>
+                                                </form>
+                                            </ValidationObserver>
 
+                                        </template>
 
-                                            </form>
-                                        </ValidationObserver>
+                                        <template v-if="hasReference">
+                                            <div
+                                                class="text-center bg-orange d-flex align-items-center justify-content-center"
+                                                style="height: 300px; width: 100%">
+                                                <div v-if="confirmingPayment  && !paymentSuccess ">
+                                                    <p class="t-white">Confirming your payment status</p>
+                                                    <div class="loader mt-2"></div>
+                                                </div>
+                                                <div v-if="paymentSuccess && !confirmingPayment">
+                                                    <p class="t-white">Your payment was successful</p>
+                                                    <success-animated-icon class=""/>
+                                                </div>
+                                                <div v-if="!paymentSuccess && !confirmingPayment ">
 
-                                    </template>
+                                                    <p class="t-white">Your payment failed</p>
+                                                    <p>{{failedMessage}}</p>
 
-                                    <template v-if="hasReference">
-                                        <div
-                                            class="text-center bg-orange d-flex align-items-center justify-content-center"
-                                            style="height: 300px; width: 100%">
-                                            <div v-if="confirmingPayment  && !paymentSuccess ">
-                                                <p class="t-white">Confirming your payment status</p>
-                                                <div class="loader mt-2"></div>
+                                                </div>
+
+                                                <div>
+
+                                                </div>
+
                                             </div>
-                                            <div v-if="paymentSuccess && !confirmingPayment">
-                                                <p class="t-white">Your payment was successful</p>
-                                                <success-animated-icon class=""/>
-                                            </div>
-                                            <div v-if="!paymentSuccess && !confirmingPayment ">
 
-                                                <p class="t-white">Your payment failed</p>
-                                                <p>{{failedMessage}}</p>
-
-                                            </div>
-
-                                            <div>
-
-                                            </div>
-
-                                        </div>
-
-                                    </template>
+                                        </template>
 
 
-                                </div>
-
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="column is-12 is-8-desktop is-8-tablet">
+                                        <p class="text-success"><b-icon icon="check-circle"/> You have completed
+                                            payment for this
+                                            project</p>
+                                    </div>
+                                </template>
                             </div>
 
 
@@ -251,7 +262,8 @@
                 projectNotFound: false,
                 paymentOptions: {},
                 selectedPaymentOption: '',
-                minPayableAmount: 0,
+                minPayableAmount: 1,
+                maxPayableAmount: 1,
 
                 paymentTopup: {
                     email: '',
@@ -261,7 +273,7 @@
                     reference: '',
                     first_name: '',
                     last_name: '',
-                    inputAmount:0,
+                    inputAmount: 1,
                     metadata: {}
                 }
             }
@@ -277,31 +289,47 @@
 
                 console.log(this.paymentTopup);
 
-                this.paymentTopup.amount = Number(this.paymentTopup.inputAmount*100).toFixed(2)
+                this.paymentTopup.amount = Number(this.paymentTopup.inputAmount * 100).toFixed(2)
 
-                axios.post(`/pay/${this.project.id}`, this.paymentTopup).then(({data}) => {
+                axios.get('user/pp/get-transaction-reference').then(({data}) => {
+                    this.paymentTopup.reference = data;
+                    this.paymentTopup.orderId = md5('topup_order/' + 0 + '/' + new Date());
 
-                    if (data.success === true) {
-                        window.location = data.redirect_route.url;
-                    }
-                })
+
+                    axios.post(`/pay/${this.project.id}`, this.paymentTopup).then(({data}) => {
+
+                        if (data.success === true) {
+                            window.location = data.redirect_route.url;
+                        }
+                    })
+                });
 
 
 
             }
         },
 
-        beforeMount() {
-
+        mounted() {
             axios.get(`projects/${this.project_id}`).then(({data}) => {
+
                 this.project = data.project;
-                this.minPayableAmount = parseFloat(this.project.budget.replace(',', '')) * 0.5;
+
+                if (this.project.deposit_made === 1) {
+                    this.minPayableAmount = 1;
+
+                } else {
+                    this.minPayableAmount = parseFloat(this.project.budget) * 0.5;
+
+                }
+
+                this.paymentTopup.inputAmount = this.minPayableAmount;
+
+                this.maxPayableAmount = parseFloat(this.project.balance);
+
+
             }).catch(() => {
                 this.projectNotFound = true;
             });
-        },
-        mounted() {
-
             axios.get('currencies').then(({data}) => {
                 this.currencies = data.currencies;
             })
@@ -329,10 +357,7 @@
             } else {
                 this.hasReference = false;
                 this.confirmingPayment = false;
-                axios.get('user/pp/get-transaction-reference').then(({data}) => {
-                    this.paymentTopup.reference = data;
-                    this.paymentTopup.orderId = md5('topup_order/' + 0 + '/' + new Date());
-                });
+
                 let name = this.user.name.split(' ');
                 this.paymentTopup.first_name = name[0];
                 this.paymentTopup.last_name = [...name][0];
@@ -346,8 +371,6 @@
                 }
                 this.paymentTopup.email = this.user.email;
                 this.paymentTopup.orderId = md5('topup_order/' + 0 + '/' + new Date());
-
-
             }
 
         },

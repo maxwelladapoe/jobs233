@@ -123,17 +123,28 @@
                       <div class="shadow stats-item">
                         <div>
                           <p class="jb-dash-stats-number t-bold t-mont">
-                            {{ assignedProjectsCount}}
+                            {{ user.assigned_projects_count}}
                           </p>
-                          <p class="jb-stats-brief">Assigned {{ 'Project' | pluralize(assignedProjectsCount) }}</p>
+                          <p class="jb-stats-brief">Assigned {{ 'Project' | pluralize(user.assigned_projects_count) }}</p>
                         </div>
                       </div>
                     </div>
+
+                      <div
+                          class="column is-6-mobile is-6-desktop has-text-centered"
+                      >
+                          <div class="shadow stats-item">
+                              <div>
+                                  <p class="jb-dash-stats-number t-bold t-mont">{{user.completed_assigned_projects_count}}</p>
+                                  <p class="jb-stats-brief">
+                                      Completed {{ "project" | pluralize(user.completed_assigned_projects_count) }}
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
                   </template>
 
-                  <template
-                    v-if="profileType === 'hire' || profileType === 'work&hire'"
-                  >
+                  <template v-if="profileType === 'hire' || profileType === 'work&hire'">
 <!--                    <div-->
 <!--                      class="column is-6-mobile is-3-desktop has-text-centered"-->
 <!--                    >-->
@@ -156,24 +167,26 @@
                           <p class="jb-dash-stats-number t-bold t-mont">
                             {{ user.projects_count }}
                           </p>
-                          <p class="jb-stats-brief">Posted {{ 'Project' | pluralize(user.projects_count) }}</p>
+                          <p class="jb-stats-brief">Posted {{ 'project' | pluralize(user.projects_count) }}</p>
                         </div>
                       </div>
                     </div>
+
+                      <div
+                          class="column is-6-mobile is-6-desktop has-text-centered"
+                      >
+                          <div class="shadow stats-item">
+                              <div>
+                                  <p class="jb-dash-stats-number t-bold t-mont">{{user.completed_projects_count}}</p>
+                                  <p class="jb-stats-brief">
+                                      Completed {{ "project" | pluralize(user.completed_projects_count) }}
+                                  </p>
+                              </div>
+                          </div>
+                      </div>
                   </template>
 
-                  <div
-                    class="column is-6-mobile is-6-desktop has-text-centered"
-                  >
-                    <div class="shadow stats-item">
-                      <div>
-                        <p class="jb-dash-stats-number t-bold t-mont">0</p>
-                        <p class="jb-stats-brief">
-                          Completed {{ "project" | pluralize(0) }}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+
                 </div>
               </div>
 
@@ -196,7 +209,36 @@
                   <project-component
                     v-for="project in somePostedProjects"
                     :key="project.id" :project="project" :authenticated="authenticated" :user="user"
-                  />
+                  >
+
+                      <template slot="button">
+                          <div class="jb-project-bid-btn text-right">
+
+
+                              <template
+                                  v-if="(project.accepted_bid_id !== null
+                                                             && project.accepted_bid_id !== 0 &&
+                                                              project.accepted_bid_id !=='') &&
+                                                              (project.user.id === user.id || project.worker_id
+                                                              ===user.id)">
+                                  <router-link
+                                      :to="{name:'assignedProject' , params:{id:project.id}}"
+                                      class="button bg-orange">View
+                                  </router-link>
+                              </template>
+
+                              <template v-else>
+                                  <router-link
+                                      :to="{name:'singleProject' , params:{id:project.id}}"
+                                      class="button bg-orange">View
+                                  </router-link>
+                              </template>
+
+
+                          </div>
+                      </template>
+
+                  </project-component>
                 </div>
 
                 <div
