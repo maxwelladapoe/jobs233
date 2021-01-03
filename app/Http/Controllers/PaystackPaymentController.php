@@ -72,7 +72,7 @@ class PaystackPaymentController extends Controller
             //if there are no deposits
             $projectPayment = ProjectPayment::where('project_id', $project->id);
 
-            if (count($projectPayment) > 0){
+            if ($projectPayment->count() > 0){
                 //reduce the minn payable amount to 1
                 $minPayableAmount =1;
                 $maxPayableAmount =doubleval($project->balance);
@@ -139,8 +139,7 @@ class PaystackPaymentController extends Controller
 
             $interfaceLogger = InterfaceLogger::where('reference', $paymentDetailsData['reference'])->get();
 
-
-            if (count($interfaceLogger) < 1) {
+            if ($interfaceLogger->count() < 1) {
                 $interfaceLogger = new InterfaceLogger();
                 $interfaceLogger->user_id = $user->id;
                 $interfaceLogger->authorization_code = $authorizationData["authorization_code"];
@@ -169,20 +168,22 @@ class PaystackPaymentController extends Controller
                         $project->deposit_made = true;
                         $project->balance = doubleval($project->balance) - $transactionAmount;
                         $project->save();
+
+                        return response()->json(['success' => true,
+                            'message' => 'deposit made successfully',
+                            "paymentDetails" =>[
+                                "projectId"=>$metaData["project_id"],
+                                "paymentId"=>$paymentDetailsData["id"],
+                                "currency" => $paymentDetailsData["currency"],
+                                "amount" => $paymentDetailsData["amount"]
+                            ]
+                        ], 200);
                     }
                 }
 
 
 
-                return response()->json(['success' => true,
-                    'message' => 'deposit made successfully',
-                    "paymentDetails" =>[
-                        "projectId"=>$metaData["project_id"],
-                        "paymentId"=>$paymentDetailsData["id"],
-                        "currency" => $paymentDetailsData["currency"],
-                        "amount" => $paymentDetailsData["amount"]
-                    ]
-                ], 200);
+
 
             } else {
 

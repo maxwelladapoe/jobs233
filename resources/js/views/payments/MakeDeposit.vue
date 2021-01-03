@@ -13,8 +13,10 @@
                     <div class="columns is-multiline">
                         <div class="column is-12 is-8-desktop">
                             <h1 class="t-mont title t-bold">Make a Deposit </h1>
-                            <p class="subtitle ">Project: <span class="">{{ project_id}} > {{project
-                            .title}}</span></p>
+                            <p class="subtitle t-bold">Project: <span class="">{{ project_id}} </span> <br> <span
+                                class="">
+                                {{project.title}}</span></p>
+                            <p></p>
 
                             <p class="text-left t-meri ">You can speed up the bidding process by ensuring ahead of time
                                 that you have adequate funds in your account to cover all planned purchases. This adds a
@@ -38,13 +40,13 @@
 
                             <div class="columns is-multiline mt-6 ">
 
-                                <div class="column is-3-tablet is-3-desktop">
+                                <div class="column is-12 is-4-tablet is-3-desktop">
                                     <p><span class="t-orange t-bold t-mont">Your budget:</span> <span
-                                        class="t-bold">{{project.budget}}</span>
+                                        class="t-bold">{{project.currency.symbol}} {{project.budget}}</span>
                                     </p>
 
                                     <p><span class="t-orange t-bold t-mont">Your balance:</span> <span
-                                        class="t-bold">{{project.budget}}</span>
+                                        class="t-bold">{{project.currency.symbol}} {{project.balance}}</span>
                                     </p>
 
                                     <b-field label=" Select a payment Method" class="mt-5">

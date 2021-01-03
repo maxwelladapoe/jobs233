@@ -305,10 +305,14 @@ class ProjectController extends Controller
         if ($request->has('owner')) {
             $query->where('user_id', Auth::user()->id);
         }
+
         if ($request->has('assigned_to')) {
             $query->where('worker_id', Auth::user()->id);
-        }else{
-            $query->where('accepted_bid_id',null);
+        }
+
+        if (!$request->has('owner') || $request->has('assigned_to')){
+          //$query->where('accepted_bid_id','<>', null);
+
         }
 
         //checking if a category key has been added
