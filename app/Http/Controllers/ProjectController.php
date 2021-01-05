@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class ProjectController extends Controller
 {
@@ -167,13 +169,14 @@ class ProjectController extends Controller
                     $statusUpdate->status = $request->status;
                     $statusUpdate->message = $request->message;
 
-                    if ($statusUpdate->save()) {
-
+                   if ($statusUpdate->save()) {
 
                         if ($request->has('attachments')) {
                             $files = $request['attachments'];
 
-                            foreach ($files as $file) {
+                            for ($i =0; $i<=sizeof($files);$i++) {
+
+                                $file = $files[$i];
 
 
                                 $filenameWithExt = $file->getClientOriginalName();
@@ -184,7 +187,29 @@ class ProjectController extends Controller
                                 // Filename to store
                                 $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
 
-                                $path = $file->storeAs('public/attachments', $fileNameToStore);
+
+                                if (Auth::user()->id === $project->worker_id ){
+                                    //watermark all images or files
+
+                                    $imageMimeArray = ['image/*','image/jpeg','image/jpg','image/png','image/gif'];
+                                    //if the file is an image
+
+                                    $pdfArray =['application/pdf'];
+                                    if (in_array($file->getMimeType(), $imageMimeArray)){
+
+                                        $this->watermarkPhoto($file ,'public/attachments/watermarked',
+                                            $fileNameToStore);
+
+                                    }else if(in_array($file->getMimeType(),$pdfArray)){
+
+                                        //work on the code for pdf
+                                    }
+
+
+                                }else{
+                                    $path = $file->storeAs('public/attachments', md5($fileNameToStore).'.' . $extension);
+                                }
+
 
                                 if ($path) {
                                     $attachment = new Attachment();
@@ -487,5 +512,45 @@ class ProjectController extends Controller
 
     }
 
+
+    private function watermarkPhoto($imgF, $filePath2Save ,$fileNameToStore){
+
+        $originalExtension =$imgF->getClientOriginalExtension();
+
+        $watermark_path=Storage::disk('private')->get('watermark/pattern.png');
+
+
+
+        $watermarkImg=Image::make($watermark_path);
+
+        $img = Image::make($imgF);
+
+        $wmarkWidth=$watermarkImg->width();
+        $wmarkHeight=$watermarkImg->height();
+
+        $imgWidth=$img->width();
+        $imgHeight=$img->height();
+
+        $x=0;
+        $y=0;
+        while($y<=$imgHeight){
+            $img->insert($watermark_path,'top-left',$x,$y);
+            $x+=$wmarkWidth;
+            if($x>=$imgWidth){
+                $x=0;
+                $y+=$wmarkHeight;
+            }
+        }
+
+        Storage::put($filePath2Save."/".$fileNameToStore, $img->encode($originalExtension));
+
+
+        //$img->save($filePath2Save);
+
+        $watermarkImg->destroy();
+        $img->destroy();
+
+        return $filePath2Save;
+    }
 
 }

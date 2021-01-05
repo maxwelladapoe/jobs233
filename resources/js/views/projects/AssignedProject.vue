@@ -329,6 +329,7 @@
                                     </ValidationObserver>
 
                                 </div>
+
                                 <div v-if="project.user_id === user.id">
                                     <p class="t-3 t-mont t-bold"> Review Update</p>
 
