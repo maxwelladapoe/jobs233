@@ -329,51 +329,67 @@ class ProjectController extends Controller
             if ($project->status === 'completed') {
                 // proceed to release funds to the creative
 
-                if (doubleval($project->balance) <= 0 || doubleval($project->balance) <= 0.00) {
+                $employer = User::find($project->user_id);
+                $worker = User::find($project->worker_id);
 
-                    $employer = User::find($project->user_id);
-                    $worker = User::find($project->worker_id);
-                    //the accepted bid offer
-                    $acceptedBid = Bid::find($project->accepted_bid_id);
+                $acceptedBid = Bid::find($project->accepted_bid_id);
 
-                    $finalAgreedOffer = doubleval( $acceptedBid->amount);
-
-                    $employer->withdraw($finalAgreedOffer);
-
-                    //calculate the charge
-                    $charges = $finalAgreedOffer * 0.1;
-                    //admin user id
-                    //add charge to admin user wallet
-
-                    $amountPayableToWorker = $finalAgreedOffer - $charges;
-
-                    $worker->deposit($amountPayableToWorker);
-                    //double check if the last status update is completed *optional
+                $finalAgreedOffer = doubleval( $acceptedBid->amount);
 
 
-                    $projectPayment = new ProjectPayment;
-                    $projectPayment->project_id = $project->id;
-                    $projectPayment->user_id = $worker->id;
-                    $projectPayment->payment_id = "123456789";
-                    $projectPayment->amount = $amountPayableToWorker;
+                if($employer->wallet->balance >= $finalAgreedOffer){
+                    if (doubleval($project->balance) <= 0 || doubleval($project->balance) <= 0.00) {
 
 
-                    $currencyDetails = Currency::where('name', 'GHS')->first();
 
-                    $projectPayment->currency_id = $currencyDetails->id;
-                    $projectPayment->balance_after = doubleval($worker->wallet->balance) + $amountPayableToWorker;
-                    $projectPayment->type = 'Payment';
-                    $projectPayment->description = 'Payment of' . $currencyDetails->name . ' ' . $amountPayableToWorker . ' for'
-                        . $project->id;
+                        $employer->withdraw($finalAgreedOffer);
+
+                        //calculate the charge
+                        $charges = $finalAgreedOffer * 0.1;
+                        //admin user id
+                        //add charge to admin user wallet
+
+                        $amountPayableToWorker = $finalAgreedOffer - $charges;
+
+                        $worker->deposit($amountPayableToWorker);
+                        //double check if the last status update is completed *optional
 
 
-                    if ($projectPayment->save()) {
-                        return response()->json(['success' => true, 'worker' => $worker, 'message' => 'You have successfully paid for your project'], 200);
+                        $projectPayment = new ProjectPayment;
+                        $projectPayment->project_id = $project->id;
+                        $projectPayment->user_id = $worker->id;
+                        $projectPayment->payment_id = "123456789";
+                        $projectPayment->amount = $amountPayableToWorker;
+
+
+                        $currencyDetails = Currency::where('name', 'GHS')->first();
+
+                        $projectPayment->currency_id = $currencyDetails->id;
+                        $projectPayment->balance_after = doubleval($worker->wallet->balance) + $amountPayableToWorker;
+                        $projectPayment->type = 'Payment';
+                        $projectPayment->description = 'Payment of' . $currencyDetails->name . ' ' . $amountPayableToWorker . ' for'
+                            . $project->id;
+
+
+                        if ($projectPayment->save()) {
+                            return response()->json(['success' => true, 'worker' => $worker, 'message' => 'You have successfully paid for your project'], 200);
+                        }
+
+                    } else {
+                        return response()->json(['success' => false, 'message' => 'you need to complete payment / deposit for the project before you can release funds'], 401);
                     }
+                }else{
+                    return response()->json(['success' => false, 'message' => 'you do not have enough balance to perform this transation'], 401);
 
-                } else {
-                    return response()->json(['success' => false, 'message' => 'you need to complete payment / deposit for the project before you can release funds'], 401);
                 }
+
+                    //the accepted bid offer
+
+
+
+
+
+
 
             } else {
                 return response()->json(['success' => false, 'message' => 'project is not completed'], 401);
