@@ -1168,9 +1168,9 @@ end of login or sign up
 }
 
 .jb-main-section-wrapper-alt {
-    height: 55em;
+    min-height: 55em;
     @include media-breakpoint-down(sm) {
-        height: 70em;
+        min-height: 70em;
     }
 
     .jb-section {
@@ -2242,4 +2242,15 @@ textarea {
     width: 100%;
     background-color: $primary;
 
+}
+
+
+.jb-close-button{
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 1em !important;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
 }

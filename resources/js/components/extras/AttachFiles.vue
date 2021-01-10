@@ -33,40 +33,44 @@
 
 
             <div>
-                <ul class="mt-4 list-unstyled"
-                    v-if="uploadedFileList.length">
-                    <li class="text-sm p-1 d-flex justify-content-between"
-                        v-for="file in uploadedFileList">
+                <div class="mt-4 columns is-mobile is-multiline"
+                     v-if="uploadedFileList.length">
+                    <div class="column is-12-mobile is-6-tablet is-4-desktop"
+                         v-for="file in uploadedFileList">
+                        <div class="card is-relative">
 
-                        <div>
-                            <p>
-                                <template
-                                    v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
-                                    <img
-                                        src="/images/file_type_icons/doc.svg"
-                                        alt="" width="35">
-                                </template>
-                                <template v-else>
-                                    <img
-                                        :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
-                                        alt="" width="35">
-                                </template>
+                            <div class="card-content">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-32x32">
+                                            <template
+                                                v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
+                                                <img
+                                                    src="/images/file_type_icons/doc.svg"
+                                                    alt="" width="35">
+                                            </template>
+                                            <template v-else>
+                                                <img
+                                                    :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
+                                                    alt="" width="35">
+                                            </template>
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <p class="t-bold t-6">{{ file.name }}</p>
+                                        <p class=" t-6">{{ formatBytes(file.size)}}</p>
+                                    </div>
+                                </div>
+                            </div>
 
-
-                                <span>
-                                                                            {{ file.name }}
-                                                                        </span>
-                            </p>
-
+                            <button class="jb-close-button delete" type="button" rounded size="is-small"
+                                 @click="remove(uploadedFileList.indexOf(file))"
+                                 title="Remove file">
+                                <b-icon icon="close" size="is-small"/>
+                            </button>
                         </div>
-                        <button type="button"
-                                class="rounded-circle button btn-primary"
-                                style="width: 30px; height: 30px; text-align: center; padding: 0;"
-                                @click="remove(uploadedFileList.indexOf(file))"
-                                title="Remove file">x
-                        </button>
-                    </li>
-                </ul>
+                    </div>
+                </div>
             </div>
 
 
@@ -118,6 +122,13 @@
             remove(i) {
                 this.uploadedFileList.splice(i, 1);
             },
+
+            formatBytes(a, b = 2) {
+                if (0 === a) return "0 Bytes";
+                const c = 0 > b ? 0 : b, d = Math.floor(Math.log(a) / Math.log(1024));
+                return parseFloat((a / Math.pow(1024, d)).toFixed(c)) + " " + ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"][d]
+            },
+
 
             resetProject() {
                 this.project = {

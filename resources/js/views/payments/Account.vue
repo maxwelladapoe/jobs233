@@ -9,7 +9,7 @@
 
                     <div class="columns is-multiline is-mobile">
                         <div
-                            class="column is-12 is-12-mobile is-3-desktop has-text-centered mb-5 "
+                            class="column is-12-mobile is-3-desktop has-text-centered mb-5 "
                         >
                             <div class="shadow card has-background-black has-text-white">
                                 <div class="card-content">
@@ -34,8 +34,6 @@
                                      :per-page="perPage"
                                      @page-change="onPageChange"
                                      :loading="loading"
-
-
                             >
                                 <b-table-column field="id" label="ID" width="40" numeric v-slot="props">
                                     {{props.row.id}}
@@ -98,7 +96,7 @@
         data() {
             return {
                 deposits: [],
-                perPage: 30,
+                perPage: 10,
                 paginationEnabled: false,
                 currentPage: 1,
                 total: 0,

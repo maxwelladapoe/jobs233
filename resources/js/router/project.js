@@ -3,6 +3,7 @@ import EditProject from "../views/projects/EditProject";
 import ViewAllProjects from "../views/projects/ViewAllProjects";
 import Project from "../views/projects/Project";
 import AssignedProject from "../views/projects/AssignedProject";
+import ViewAssignedProjects from "../views/projects/ViewAssignedProjects";
 
 
 export default [
@@ -28,6 +29,12 @@ export default [
         path: '/projects/edit/:id',
         name: 'editProject',
         component: EditProject,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/projects/assigned/',
+        name: 'ViewAssignedProjects',
+        component: ViewAssignedProjects,
         meta: {requiresAuth: true}
     },
     {

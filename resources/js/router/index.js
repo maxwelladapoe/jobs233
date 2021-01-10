@@ -10,6 +10,7 @@ import payment from "./payment";
 import SignUp from "../views/auth/SignUp";
 import Messages from "../views/messages/MessageArea";
 import HowItWorks from "../views/others/HowItWorks";
+import Categories from "../views/others/Categories";
 import Contact from "../views/others/Contact";
 import About from "../views/others/About";
 import ForgotPassword from "../views/auth/ForgotPassword";
@@ -34,6 +35,12 @@ const routes = [
         path: '/how-it-works',
         name: 'HowItWorks',
         component: HowItWorks,
+        meta: {requiresAuth: false}
+
+    },  {
+        path: '/categories',
+        name: 'Categories',
+        component: Categories,
         meta: {requiresAuth: false}
 
     }, {

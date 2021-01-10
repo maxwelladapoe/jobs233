@@ -30,7 +30,7 @@ class PaymentsController extends Controller
 
 
     public function getAllDeposits(){
-        $deposits = ProjectPayment::where('user_id', Auth::user()->id)->latest()->paginate(30);
+        $deposits = ProjectPayment::where('user_id', Auth::user()->id)->latest()->paginate(10);
         return response()->json(['success' => true, 'deposits' => $deposits], 200);
     }
 }

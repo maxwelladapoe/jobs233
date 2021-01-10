@@ -59,8 +59,30 @@
 
                     <div class="text-center contents">
 
-                        <p class="t-bold  t-mont mr-3 mb-3 ">Need a flexible job? Register as a freelancer</p>
-                        <a href="#" class="button bg-black has-text-white ml-3">Register to Work</a>
+                        <template v-if="user && profileType ==='work'">
+
+                            <p class="t-bold  t-mont mr-3 mb-3 ">Need a flexible job? Register as a freelancer</p>
+
+                            <router-link :to="{name:'Projects'}" class="button bg-black has-text-white ml-3">Start
+                                working
+                            </router-link>
+
+                        </template>
+                        <template v-else-if="user && (profileType ==='hire'|| profileType ==='work&hire') ">
+
+                            <p class="t-bold  t-mont mr-3 mb-3 ">Need something completed?</p>
+                            <router-link :to="{name:'createProject'}"
+                                         class="button bg-black has-text-white ml-3">Post it
+                            </router-link>
+
+                        </template>
+                        <template v-else>
+                            <p class="t-bold  t-mont mr-3 mb-3 ">Need a flexible job? Register as a freelancer</p>
+                            <router-link :to="{name:'SignUp'}" class="button bg-black has-text-white ml-3">Register to
+                                Work
+                            </router-link>
+                        </template>
+
 
                     </div>
 
@@ -128,7 +150,9 @@
                                 </div>
                             </div>
                             <br>
-                            <a href="#" class="button bg-black has-text-white">View More</a>
+                            <router-link :to="{name:'Categories'}" class="button bg-black has-text-white">View
+                                More
+                            </router-link>
 
                         </div>
                     </div>
@@ -143,64 +167,67 @@
 
                     <div class="text-center contents">
                         <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>
+
                         <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>
+
+
                     </div>
 
                 </div>
 
             </div>
 
-            <div class="jb-section jb-quote-background">
+<!--            <div class="jb-section jb-quote-background">-->
 
-                <div class="section no-padding-margin-top-bottom">
-
-
-                    <div class="container">
-                        <div class="columns">
-                            <div class="column is-12 jb-quote-wrapper">
-
-                                <div class="jb-bg-overlay">
-
-                                </div>
+<!--                <div class="section no-padding-margin-top-bottom">-->
 
 
-                                <transition name="fade" mode="out-in">
-                                    <jb-quote v-on:mouseout.native="startRotation" v-on:mouseover.native="stopRotation"
-                                              :key="currentQuoteNumber">
+<!--                    <div class="container">-->
+<!--                        <div class="columns">-->
+<!--                            <div class="column is-12 jb-quote-wrapper">-->
+
+<!--                                <div class="jb-bg-overlay">-->
+
+<!--                                </div>-->
 
 
-                                        <h4 class="t-bold  t-mont jb-quote-title" slot="title">
-                                            {{quotes[currentQuoteNumber].title}}</h4>
-                                        <p class="t-normal t-meri col-md-10 p-0" slot="contents">
-                                            {{quotes[currentQuoteNumber].text}}
-                                        </p>
-                                        <p class="jb-quote-name t-meri" slot="author" style="white-space: pre-line">
-                                            {{quotes[currentQuoteNumber].author}}
-                                            {{quotes[currentQuoteNumber].authorPosition}}</p>
+<!--                                <transition name="fade" mode="out-in">-->
+<!--                                    <jb-quote v-on:mouseout.native="startRotation" v-on:mouseover.native="stopRotation"-->
+<!--                                              :key="currentQuoteNumber">-->
 
 
-                                    </jb-quote>
-                                </transition>
+<!--                                        <h4 class="t-bold  t-mont jb-quote-title" slot="title">-->
+<!--                                            {{quotes[currentQuoteNumber].title}}</h4>-->
+<!--                                        <p class="t-normal t-meri col-md-10 p-0" slot="contents">-->
+<!--                                            {{quotes[currentQuoteNumber].text}}-->
+<!--                                        </p>-->
+<!--                                        <p class="jb-quote-name t-meri" slot="author" style="white-space: pre-line">-->
+<!--                                            {{quotes[currentQuoteNumber].author}}-->
+<!--                                            {{quotes[currentQuoteNumber].authorPosition}}</p>-->
 
 
-                                <div class="jb-quote-btn-wrapper">
-                                    <div class="jb-quote-btn left" @click.prevent="showPreviousQuote"><i
-                                        class="fa fa-chevron-left"></i>
-                                    </div>
-                                    <div class="jb-quote-btn right" @click.prevent="showNextQuote"><i
-                                        class="fa fa-chevron-right"></i>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
+<!--                                    </jb-quote>-->
+<!--                                </transition>-->
 
 
-                    </div>
-                </div>
+<!--                                <div class="jb-quote-btn-wrapper">-->
+<!--                                    <div class="jb-quote-btn left" @click.prevent="showPreviousQuote"><i-->
+<!--                                        class="fa fa-chevron-left"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="jb-quote-btn right" @click.prevent="showNextQuote"><i-->
+<!--                                        class="fa fa-chevron-right"></i>-->
+<!--                                    </div>-->
+<!--                                </div>-->
 
-            </div>
+<!--                            </div>-->
+
+<!--                        </div>-->
+
+
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </div>-->
 
 
         </div>
@@ -213,6 +240,7 @@
     import Slider from '../components/Slider';
     import Modal from '../components/Modal';
     import Quote from '../components/Quote';
+    import {mapGetters} from "vuex";
 
     export default {
         metaInfo: {
@@ -291,6 +319,13 @@
             jbSlider: Slider,
             jbModal: Modal,
             jbQuote: Quote,
+        },
+        computed: {
+            ...mapGetters({
+                authenticated: 'auth/authenticated',
+                user: 'auth/user',
+                profileType: 'auth/profileType',
+            }),
         }
 
     }

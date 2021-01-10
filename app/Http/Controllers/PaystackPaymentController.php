@@ -24,6 +24,13 @@ class PaystackPaymentController extends Controller
 {
 
 
+    public function __construct()
+    {
+        $this->middleware('auth')->except('handleGatewayCallback');
+
+    }
+
+
     public function redirectToGateway()
     {
         try {

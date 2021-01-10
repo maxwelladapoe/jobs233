@@ -25,10 +25,65 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('read', 'getProjects', 'readProject', 'getCategories', 'getCategoriesAndSkills', 'getSkills');
+        $this->middleware('auth')->except('index','read', 'getProjects', 'readProject', 'getCategories', 'getCategoriesAndSkills', 'getSkills');
 
     }
 
+    public function index(Request $request)
+    {
+
+        //check if there is an assigned to
+
+
+        if ($request->has('status')) {
+            $query = Project::where('status', $request['status']);
+        } else {
+            $query = Project::latest();
+        }
+
+
+        //check if there is a created by
+
+        if ($request->has('owner')) {
+            $query->where('user_id', Auth::user()->id);
+        }
+
+        if ($request->has('assigned_to')) {
+            $query->where('worker_id', Auth::user()->id);
+        }
+
+        if (!$request->has('owner') || !$request->has('assigned_to')) {
+            $query->where('status','new');
+        }
+
+        //checking if a category key has been added
+        if ($request->has('category')) {
+            if ($request['category'] != 'all') {
+                $categoryIds = ProjectCategory::whereIn('name', explode(',', $request['category']))->pluck('id');
+                $query->whereIn('category_id', $categoryIds);
+            }
+        }
+
+
+        //check if a sort key has been added
+        if ($request->has('sort')) {
+            $query->orderby('created_at', $request['sort']);
+        } else {
+            $query->orderby('created_at', 'desc');
+        }
+
+
+        if ($request->has('count')) {
+            $projects = $query->take($request['count']);
+        } elseif ($request->has('paginate')) {
+            $projects = $query->paginate($request['paginate']);
+        } else {
+            $projects = $query->paginate(10);
+        }
+
+        return response()->json(['success' => true, 'projects' => $projects], 200);
+
+    }
 
     public function create(Request $request)
     {
@@ -66,6 +121,7 @@ class ProjectController extends Controller
             $project->skills = $request['skills'];
             $project->tags = $request['tags'];
             $project->deadline = $request['deadline'];
+            $project->status ='new';
 
 
             if ($project->save()) {
@@ -200,10 +256,11 @@ class ProjectController extends Controller
                                         $this->watermarkPhoto($file ,'public/attachments/watermarked',
                                             $fileNameToStore);
 
-                                    }else if(in_array($file->getMimeType(),$pdfArray)){
-
-                                        //work on the code for pdf
                                     }
+//                                    else if(in_array($file->getMimeType(),$pdfArray)){
+//
+//                                        //work on the code for pdf
+//                                    }
 
 
                                 }else{
@@ -278,13 +335,15 @@ class ProjectController extends Controller
 
             if ($project->user_id == Auth::user()->id) {
 
-                if ($project->payment_concluded == true || $project->balance == 0) {
+                if ($project->payment_concluded == true && $project->balance == 0) {
 
                     if ($project->worker_payed == true) {
                         return response()->json(['success' => false, 'message' => 'worker has already been payed'], 401);
 
                     }
                     else {
+
+                        if(Auth::user()->wallet->balance > $project->balace)
                         $statusUpdate = new ProjectStatusUpdate();
                         $statusUpdate->project_id = $project->id;
                         $statusUpdate->status = "completed";
@@ -303,6 +362,9 @@ class ProjectController extends Controller
                             Log::debug("there seems to be an issue with project status creation. you may have to check the database");
                             return response()->json(['success' => false, 'message' => 'oops something went wrong with the status creation'], 500);
                         }
+
+
+
                     }
                 }
                 else {
@@ -398,73 +460,11 @@ class ProjectController extends Controller
         }
     }
 
-    public function getLatestStatusUpdate(Request $request)
-    {
-
-    }
-
-
     public function delete()
     {
 
     }
 
-    public function getProjects(Request $request)
-    {
-
-        //check if there is an assigned to
-
-
-        if ($request->has('status')) {
-            $query = Project::where('status', $request['status']);
-        } else {
-            $query = Project::latest();
-        }
-
-
-        //check if there is a created by
-
-        if ($request->has('owner')) {
-            $query->where('user_id', Auth::user()->id);
-        }
-
-        if ($request->has('assigned_to')) {
-            $query->where('worker_id', Auth::user()->id);
-        }
-
-        if (!$request->has('owner') || $request->has('assigned_to')) {
-            //$query->where('accepted_bid_id','<>', null);
-
-        }
-
-        //checking if a category key has been added
-        if ($request->has('category')) {
-            if ($request['category'] != 'all') {
-                $categoryIds = ProjectCategory::whereIn('name', explode(',', $request['category']))->pluck('id');
-                $query->whereIn('category_id', $categoryIds);
-            }
-        }
-
-
-        //check if a sort key has been added
-        if ($request->has('sort')) {
-            $query->orderby('created_at', $request['sort']);
-        } else {
-            $query->orderby('created_at', 'desc');
-        }
-
-
-        if ($request->has('count')) {
-            $projects = $query->take($request['count']);
-        } elseif ($request->has('paginate')) {
-            $projects = $query->paginate($request['paginate']);
-        } else {
-            $projects = $query->paginate(10);
-        }
-
-        return response()->json(['success' => true, 'projects' => $projects], 200);
-
-    }
 
     public function getAssignedProject(Project $project)
     {
@@ -527,7 +527,6 @@ class ProjectController extends Controller
 
 
     }
-
 
     private function watermarkPhoto($imgF, $filePath2Save ,$fileNameToStore){
 

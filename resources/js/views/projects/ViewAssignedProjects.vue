@@ -259,7 +259,7 @@
 
             getAllPosts() {
 
-                axios.get('/projects').then(response => {
+                axios.get('/projects/assigned').then(response => {
 
                     this.allProjects = response.data.data;
                     this.lastPage = parseInt(response.data.meta.last_page);
@@ -389,7 +389,7 @@
 
             }
         },
-     
+
 
     }
 
