@@ -28,6 +28,11 @@ Route::prefix('v1')->group(function () {
 
     });
 
+
+    Route::get('email/verify/{id}', [App\Http\Controllers\Auth\AltVerificationController::class, 'verify'])->name('verification.verify');
+    Route::get('email/resend', [App\Http\Controllers\Auth\AltVerificationController::class, 'resend'])->name('verification.resend');
+
+
     Route::prefix('auth')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
         Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
@@ -90,7 +95,6 @@ Route::prefix('v1')->group(function () {
     });
 
 
-
     //payment paystack
 
     Route::get('/payment_options', [App\Http\Controllers\PaymentsController::class, 'getPaymentOptions']);
@@ -101,7 +105,6 @@ Route::prefix('v1')->group(function () {
 
     //deposits
     Route::get('/deposits', [App\Http\Controllers\PaymentsController::class, 'getAllDeposits']);
-
 
 
     //skills
@@ -115,12 +118,8 @@ Route::prefix('v1')->group(function () {
     Route::delete('/portfolio/delete/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'delete']);
 
 
-
-
-
     //forgot password
-    Route::post('password-reset',[App\Http\Controllers\Auth\ForgotPasswordController::class,'sendResetLinkEmail']);
-
+    Route::post('password-reset', [App\Http\Controllers\Auth\ForgotPasswordController::class, 'sendResetLinkEmail']);
 
 
     //getting he profile

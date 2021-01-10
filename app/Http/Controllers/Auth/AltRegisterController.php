@@ -45,7 +45,9 @@ class AltRegisterController extends Controller
                 'password' => Hash::make(trim($request['password'])),
             ]);
 
+            $user->sendEmailVerificationNotification();
             if ($user) {
+
                 $profile = Profile::create([
                     'user_id' => $user->id,
                     'preference' => strtolower($request['preference']),
@@ -54,7 +56,9 @@ class AltRegisterController extends Controller
                 if ($profile) {
                     event(new Registered($user));
 
-                    return response()->json(['success' => true, 'message' => 'The user was created successfully'], 200);
+                    return response()->json(['success' => true, 'message' => 'Your profile was created successfully',
+                        'additionalMessage' => 'An Email verification link sent on your email id'
+                    ], 200);
                 }
             } else {
                 Log::debug("there seems to be an issue with user creation. you may have to check the database");

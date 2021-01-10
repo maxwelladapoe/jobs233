@@ -39,7 +39,11 @@
                                             <template v-if="isSuccessful">
                                                 <b-icon class="t-white" icon="check-circle" v-if="isSuccessful"/>
                                                 <p class="t-5 t-mont t-bold t-white" v-if="isSuccessful">
-                                                    {{successMessage}}</p>
+                                                    {{successMessage}}
+                                                    <br>
+                                                    <span class="t-5 t-bold">{{additionalMessage}}</span>
+
+                                                </p>
 
                                             </template>
 
@@ -262,6 +266,7 @@
                 loadingMessage: 'Signing you up ...',
                 isSuccessful: false,
                 successMessage:'',
+                additionalMessage:'',
                 signupCredentials: {
                     firstName: '',
                     lastName: '',
@@ -288,13 +293,14 @@
                 this.isLoading = true;
                 this.loadingMessage = 'Signing you up...';
 
-                await this.signUp(this.signupCredentials).then((data) => {
-                    console.log(data);
+                await this.signUp(this.signupCredentials).then(({data}) => {
+
                     //this.loadingMessage = data.message;
                     this.isLoading = false;
                     this.isLoading = false;
                     this.isSuccessful=true;
-                    this.successMessage = data.message
+                    this.successMessage = data.message;
+                    this.additionalMessage = data.additionalMessage;
                     //.hideSignUpModal();
                     //this.showLogInModal();
                     this.resetSignUpCredentials();

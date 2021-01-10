@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 //Auth::routes();
 
+//Route::get('email/verify', [App\Http\Controllers\Auth\VerificationController::class ,'show'])->name('verification.notice');
+//Route::get('email/verify/{id}', [App\Http\Controllers\Auth\VerificationController::class,'verify'])->name('verification.verify');
+////Route::get('email/resend', [App\Http\Controllers\Auth\VerificationController::class,'resend'])->name('verification
+////.resend');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('password/reset/{token}', [ App\Http\Controllers\Auth\ResetPasswordController::class, 'showResetForm'])->name

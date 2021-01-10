@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 
 
-class User extends Authenticatable implements Customer, MustVerifyEmail
+class User extends Authenticatable implements Customer,MustVerifyEmail
 {
     use HasFactory, Notifiable, Searchable, CanPayFloat;
 
@@ -40,7 +40,7 @@ class User extends Authenticatable implements Customer, MustVerifyEmail
         'remember_token',
     ];
     protected $with = ['profile', 'wallet', 'skills'];
-    protected $withCount = ['projects', 'assigned_projects', 'completedProjects', 'completed_assigned_projects'];
+    protected $withCount = ['projects','assigned_projects', 'completedProjects','completed_assigned_projects'];
 
     /**
      * The attributes that should be cast to native types.
@@ -62,12 +62,10 @@ class User extends Authenticatable implements Customer, MustVerifyEmail
     {
         return $this->hasMany(Project::class);
     }
-
     public function completedProjects()
     {
-        return $this->hasMany(Project::class)->where('status', 'completed');
+        return $this->hasMany(Project::class)->where('status','completed');
     }
-
     public function project_payments()
     {
         return $this->hasMany(ProjectPayment::class);
@@ -80,7 +78,7 @@ class User extends Authenticatable implements Customer, MustVerifyEmail
 
     public function completed_assigned_projects()
     {
-        return $this->hasMany(Project::class, 'worker_id')->where('status', 'completed');
+        return $this->hasMany(Project::class, 'worker_id')->where('status','completed');
     }
 
 
