@@ -18,10 +18,10 @@ import en from "vee-validate/dist/locale/en.json";
 import VueTimeago from 'vue-timeago';
 import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
-import pluralize from 'pluralize'
+import pluralize from 'pluralize';
+import Vidle from 'v-idle'
 
-
-
+Vue.use(Vidle);
 Vue.use(VuePluralize);
 Vue.use(VueTimeago, {
     name: 'Timeago', // Component name, `Timeago` by default

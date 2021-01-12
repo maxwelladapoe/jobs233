@@ -32,14 +32,18 @@
 
                         <div class="column is-12 is-3-desktop">
                             <div class="mt-3">
-
+                                <div class=" t-bold">Skills</div>
                                 <template v-if="viewUser.skills.length > 0">
-                                    <div class=" t-bold">Skills</div>
+
                                     <b-taglist>
                                         <b-tag v-for="skill in viewUser.skills" v-bind:key="skill.id">{{skill
                                             .name}}
                                         </b-tag>
                                     </b-taglist>
+                                </template>
+
+                                <template v-else>
+                                    <p class="t-6">No information on skills provided</p>
                                 </template>
 
 
@@ -53,7 +57,14 @@
                                     <div class=" t-bold">Bio</div>
                                     <div class="jb-profile-bio">
 
-                                        <p class="t-normal t-meri">{{viewUser.profile.bio}}</p>
+                                        <template v-if="viewUser.profile.bio ===''">
+                                            <p class="t-normal t-meri">{{viewUser.profile.bio}}</p>
+
+                                        </template>
+
+                                        <template v-else>
+                                            <p class="t-6">No bio information provided</p>
+                                        </template>
                                     </div>
                                 </div>
 

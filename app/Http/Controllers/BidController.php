@@ -7,6 +7,7 @@ use App\Mail\BidAcceptedMailToWorker;
 use App\Mail\BidPlacedSuccessfullyMailToWorker;
 use App\Mail\BidPlacedSuccessfullyMailToEmployer;
 use App\Models\Bid;
+use App\Models\ChatContact;
 use App\Models\Project;
 use App\Models\ProjectPayment;
 use App\Models\User;
@@ -19,6 +20,11 @@ class BidController extends Controller
 {
     //
 
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
 
     public function create(Request $request)
     {
@@ -113,6 +119,20 @@ class BidController extends Controller
                 $project->bidding_closed = true;
                 $project->worker_id = $bid->user_id;
                 $project->status = 'assigned';
+
+                $contactEmployer = new ChatContact();
+                $contactWorker  = new ChatContact();
+
+                $contactEmployer->user_id = Auth::user()->id;
+                $contactEmployer->related_user_id = $bid->user_id;
+                $contactEmployer->chat_enabled =true;
+                $contactEmployer->save();
+
+                $contactWorker->user_id = $bid->user_id ;
+                $contactWorker->related_user_id = Auth::user()->id;
+                $contactWorker->chat_enabled =true;
+
+                $contactWorker->save();
 
 
                 //recalculate Balance

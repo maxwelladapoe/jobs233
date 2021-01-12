@@ -32,7 +32,7 @@
                                 </b-button>
                             </form>
 
-                            <div class=" mt-5">
+                            <div class=" mt-5" v-if="profileType === 'work' || profileType === 'work&hire'">
                                 <p>Skills</p>
                                 <div class="">
                                     <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
@@ -446,7 +446,7 @@
             <div class="section">
 
 
-                <div class="container">
+                <div class="container" v-if="profileType === 'work' || profileType === 'work&hire'">
                     <div class="columns is-mobile is-multiline">
                         <div
                             class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 "></div>
