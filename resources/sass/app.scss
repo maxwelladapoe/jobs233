@@ -1168,26 +1168,27 @@ end of login or sign up
 }
 
 .jb-main-section-wrapper-alt {
-    min-height: 55em;
-    @include media-breakpoint-down(sm) {
-        min-height: 70em;
-    }
 
+    min-height: 55em;
+
+    @include media-breakpoint-down(sm) {
+        min-height: 75em;
+    }
+    .jb-overlay2 {
+        background-color: rgba(0, 0, 0, 0.8);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include media-breakpoint-down(sm) {
+            height: 100%;
+        }
+    }
     .jb-section {
         height: 100% !important;
 
 
-        .jb-overlay {
-            background-color: rgba(0, 0, 0, 0.8);
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            @include media-breakpoint-down(sm) {
-                height: 100%;
-            }
-        }
 
 
         .jb-section-img {
