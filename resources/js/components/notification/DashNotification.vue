@@ -7,7 +7,7 @@
                 Notifications
             </p>
             <template>
-                <b-button class="button bg-orange" @click="markAllAsRead">Mark all as read</b-button>
+                <b-button class="button" type="is-primary" @click="markAllAsRead">Mark all as read</b-button>
 
             </template>
 

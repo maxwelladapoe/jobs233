@@ -36,44 +36,44 @@
                                 <p>Skills</p>
                                 <div class="">
                                     <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
-                                        <form @submit.prevent="handleSubmit(editProfile)">
+                                        <form>
                                             <ValidationProvider
-                                                persist slim
+                                                persist
                                                 name="skills"
                                                 :rules="{ required: true, min: 3, max:150}"
-                                                v-slot="{ errors, valid }"
+                                                v-slot="{ errors, valid }" slim
                                             >
 
                                                 <b-field expanded
                                                          id="skills">
                                                     <b-field class="mb-2" :message="errors"
+
                                                              :type="{ 'is-danger': errors[0], 'is-success': valid }">
                                                         <b-input
                                                             v-model="additionalSkill"
                                                             placeholder="Add Skill" expanded
                                                         ></b-input>
 
-                                                        <b-button @click="addSkill()" variant="primary">Add
+                                                        <b-button @click="addSkill" variant="primary">Add
                                                         </b-button>
 
                                                     </b-field>
 
 
-                                                    <div class="d-inline-block" style="font-size: 1.5rem;">
-                                                        <b-tag
-                                                            v-for="skill in skills"
-                                                            @remove="removeTag(skill)"
-                                                            :key="skill"
-                                                            :title="skill"
-                                                            :variant="tagVariant"
-                                                            class="mr-1"
-                                                        >{{ skill }}
-                                                        </b-tag>
-                                                    </div>
-
                                                 </b-field>
 
                                             </ValidationProvider>
+                                            <div class="d-inline-block" style="font-size: 1.5rem;">
+                                                <b-tag
+                                                    v-for="skill in skills"
+                                                    @remove="removeTag(skill)"
+                                                    :key="skill"
+                                                    :title="skill"
+                                                    :variant="tagVariant"
+                                                    class="mr-1"
+                                                >{{ skill }}
+                                                </b-tag>
+                                            </div>
 
                                         </form>
                                     </ValidationObserver>
@@ -93,27 +93,28 @@
 
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="editProfile">
-                                    <form @submit.prevent="handleSubmit(editProfile)">
-
-
+                                    <form>
                                         <ValidationProvider
                                             slim
                                             persist
                                             name="full name"
                                             :rules="{ required: true, min: 3, max:150}"
-                                            v-slot="validationContext"
+                                            v-slot="{ errors, valid }"
                                         >
 
                                             <b-field
-                                                id="title"
+                                                id="title1"
                                                 label="Full Name"
                                                 label-class="t-mont t-bold"
-                                                label-for="fullname">
+                                                label-for="fullname"
+                                                :message="errors"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                            >
                                                 <b-input id="title" type="text"
                                                          rows="6"
                                                          placeholder=""
                                                          v-model="userDetails.name"
-                                                         :state="getValidationState(validationContext)"
                                                          aria-describedby="fullname-live-feedback">
 
                                                 </b-input>
@@ -123,7 +124,6 @@
 
                                         </ValidationProvider>
 
-
                                         <b-field class="mb-5" grouped group-multiline>
 
 
@@ -131,7 +131,7 @@
                                                 persist
                                                 name="email"
                                                 :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="validationContext" slim
+                                                v-slot="{ errors, valid }" slim
                                             >
                                                 <b-field
                                                     id="email"
@@ -139,9 +139,11 @@
                                                     label-class="t-mont t-bold"
                                                     label-for="email"
                                                     expanded
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                                 >
                                                     <b-input
-                                                        :state="getValidationState(validationContext)"
                                                         id="textarea-default" disabled
                                                         v-model="user.email"
                                                         expanded
@@ -153,17 +155,19 @@
                                             <ValidationProvider
                                                 persist slim
                                                 name="phone number"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="validationContext"
+                                                :rules="{  min: 8, max:15}"
+                                                v-slot="{ errors, valid }"
                                             >
                                                 <b-field
                                                     id="phone_number"
                                                     label="Phone Number"
                                                     label-class="t-mont t-bold"
                                                     label-for="phone_number" expanded
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                                 >
                                                     <b-input
-                                                        :state="getValidationState(validationContext)"
                                                         id="phone-default" expanded
                                                         v-model="profileDetails.phone_number"
                                                     ></b-input>
@@ -173,7 +177,6 @@
 
                                         </b-field>
 
-
                                         <b-field class="mb-5" grouped group-multiline>
 
 
@@ -181,22 +184,22 @@
                                                 persist slim
                                                 name="gender"
                                                 :rules="{ required: true, min:1}"
-                                                v-slot="validationContext"
+                                                v-slot="{ errors, valid }"
                                             >
                                                 <b-field
                                                     id="gender"
                                                     label="Gender"
                                                     label-class="t-mont t-bold"
                                                     label-for="gender"
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                                 >
                                                     <b-select
-                                                        :state="getValidationState(validationContext)"
                                                         id="gender-default"
                                                         v-model="profileDetails.gender" placeholder="Select
                                                                 Gender"
                                                     >
-
-
                                                         <option value="M">Male
                                                         </option>
                                                         <option value="F">Female
@@ -211,19 +214,21 @@
                                             <ValidationProvider
                                                 persist slim
                                                 name="bio"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="validationContext"
+                                                :rules="{  min: 3, max:2000}"
+                                                v-slot="{ errors, valid }"
                                             >
                                                 <b-field
                                                     id="bio"
                                                     label="Bio"
                                                     label-class="t-mont t-bold"
                                                     label-for="bio" expanded
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                                 >
                                                     <b-input type="textarea"
                                                              rows="5"
                                                              no-resize
-                                                             :state="getValidationState(validationContext)"
                                                              id="bio-default"
                                                              placeholder="Tell us about yourself"
                                                              v-model="profileDetails.bio" expanded
@@ -240,17 +245,19 @@
                                             <ValidationProvider
                                                 persist slim
                                                 name="country"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="validationContext"
+                                                :rules="{  min: 3, max:2000}"
+                                                v-slot="{ errors, valid }"
                                             >
                                                 <b-field
                                                     id="country"
                                                     label="Country"
                                                     label-class="t-mont t-bold"
                                                     label-for="country" expanded
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                                 >
                                                     <b-input
-                                                        :state="getValidationState(validationContext)"
                                                         id="country-default" expanded
                                                         v-model="profileDetails.country"
                                                     ></b-input>
@@ -259,17 +266,18 @@
                                             <ValidationProvider
                                                 persist slim
                                                 name="city"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="validationContext"
+                                                :rules="{  min: 3, max:265}"
+                                                v-slot="{ errors, valid }"
                                             >
                                                 <b-field
                                                     id="city"
                                                     label="City"
                                                     label-class="t-mont t-bold"
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                     label-for="city" expanded
                                                 >
                                                     <b-input
-                                                        :state="getValidationState(validationContext)"
                                                         id="city-default" expanded
                                                         v-model="profileDetails.city"
                                                     ></b-input>
@@ -277,29 +285,29 @@
                                             </ValidationProvider>
                                         </b-field>
 
-
                                         <ValidationProvider
                                             persist
                                             name="address"
-                                            :rules="{ required: true, min: 3, max:2000}"
-                                            v-slot="validationContext"
+                                            :rules="{ min: 3, max:1000}"
+                                            v-slot="{ errors, valid }"
                                         >
                                             <b-field
                                                 id="address"
                                                 label="Address"
                                                 label-class="t-mont t-bold"
                                                 label-for="address"
+                                                :message="errors"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
                                             >
                                                 <b-input type="textarea"
                                                          no-resize
                                                          rows="2"
-                                                         :state="getValidationState(validationContext)"
                                                          id="address-default"
                                                          v-model="profileDetails.address"
                                                 ></b-input>
                                             </b-field>
                                         </ValidationProvider>
-
 
                                         <b-field>
 
@@ -314,12 +322,10 @@
                                                     <div class="loader"></div>
                                                 </div>
 
-                                                <button type="submit" :class="profileUpdateLoading?'d-none':''"
-                                                        class="button bg-orange">
-
+                                                <b-button type="is-primary" :class="profileUpdateLoading?'d-none':''"
+                                                          @click.prevent="handleSubmit(editProfile)">
                                                     Update Profile
-
-                                                </button>
+                                                </b-button>
 
                                             </div>
                                         </b-field>
@@ -336,7 +342,7 @@
                                 <!--                                                    <ValidationProvider-->
                                 <!--                                                        name="current password"-->
                                 <!--                                                        :rules="{ required: true, min: 6}"-->
-                                <!--                                                        v-slot="validationContext"-->
+                                <!--                                                         v-slot="{ errors, valid }"-->
                                 <!--                                                    >-->
                                 <!--                                                        <b-field-->
                                 <!--                                                            id="current_password"-->
@@ -363,7 +369,7 @@
                                 <!--                                                        persist-->
                                 <!--                                                        name="country"-->
                                 <!--                                                        :rules="{ required: true, min: 6}"-->
-                                <!--                                                        v-slot="validationContext"-->
+                                <!--                                                         v-slot="{ errors, valid }"-->
                                 <!--                                                    >-->
                                 <!--                                                        <b-field-->
                                 <!--                                                            id="new_password"-->
@@ -389,7 +395,7 @@
                                 <!--                                                        persist-->
                                 <!--                                                        name="confirm_new_password"-->
                                 <!--                                                        :rules="{ required: true, min: 6}"-->
-                                <!--                                                        v-slot="validationContext"-->
+                                <!--                                                         v-slot="{ errors, valid }"-->
                                 <!--                                                    >-->
                                 <!--                                                        <b-field-->
                                 <!--                                                            id="confirm_new_password"-->
@@ -608,9 +614,6 @@
                     customClass: 'custom-class custom-class-2',
                     trapFocus: true
                 })
-            },
-            getValidationState({dirty, validated, valid = null}) {
-                return dirty || validated ? valid : null;
             },
 
             editProfile() {

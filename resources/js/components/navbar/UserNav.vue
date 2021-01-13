@@ -149,28 +149,32 @@
 
                 <div class="container">
                     <div class="jb-dash-links">
-                        <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">Dashboard</router-link>
+                        <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
+                            <span class="mr-2"> <b-icon icon="view-dashboard" size="is-small"/> </span> Dashboard
+                        </router-link>
 
                         <template v-if="profileType ==='hire' || profileType ==='work&hire'">
-                            <router-link :to="{name:'Projects',query:{owner:'me'}}" href="#"
+
+                            <router-link :to="{name:'Projects',query:{owner:'me'}}"
                                          class="jb-dash-link t-white ">
-                                My Projects
+                                <span class="mr-2"> <b-icon icon="briefcase-variant-outline" size="is-small"/> </span> My Projects
                             </router-link>
 
                             <router-link :to="{name:'Account'}"
                                          class="jb-dash-link t-white ">
-                                Account
+                                <span class="mr-2"> <b-icon icon="cash-multiple" size="is-small"/> </span> Account
                             </router-link>
 
                         </template>
                         <template v-if="profileType ==='work' || profileType ==='work&hire'">
                             <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
                                          class="jb-dash-link t-white ">
-                                Assigned Projects
+                                <span class="mr-2"> <b-icon icon="briefcase-variant-outline" size="is-small"/> </span> Assigned
+                                Projects
                             </router-link>
                             <router-link :to="{name:'Wallet'}"
                                          class="jb-dash-link t-white ">
-                                Wallet
+                                <span class="mr-2"> <b-icon icon="cash-multiple" size="is-small"/> </span> Wallet
                             </router-link>
 
 
@@ -179,7 +183,9 @@
                         </template>
 
                         <!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->
-                        <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">Messages</router-link>
+                        <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
+                            <span class="mr-2"> <b-icon icon="chat" size="is-small"/> </span> Messages
+                        </router-link>
                     </div>
                 </div>
             </div>

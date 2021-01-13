@@ -2,7 +2,7 @@
     <div class="jb-main-section-wrapper-alt p-0  ">
 
         <section class="hero is-fullheight-with-navbar ">
-            <img src="/images/slider/1.jpg" class="bg-image" alt="">
+            <img src="/images/slider/2.jpg" class="bg-image" alt="">
             <div class="jb-overlay2"></div>
 
             <div class="hero-body">
@@ -26,7 +26,7 @@
 
                                         <div class="loading-contents-wrap">
 
-                                            <div class="inner">
+                                            <div class="inner p-2">
 
                                                 <template v-if="isLoading">
                                                     <div class="loader"></div>
@@ -38,9 +38,19 @@
                                                     <p class="t-5 t-mont t-bold t-white" v-if="isSuccessful">
                                                         <span>{{successMessage}}</span>
                                                         <br>
-                                                        <span class="t-6">{{additionalMessage}}</span>
+                                                        <span >{{additionalMessage}}</span>
 
                                                     </p>
+
+
+                                                    <router-link :to="{name:'Login'}">
+                                                        <button class="button bg-orange t-white">
+                                                           Click here to login
+                                                        </button>
+
+
+                                                    </router-link>
+
 
                                                 </template>
 

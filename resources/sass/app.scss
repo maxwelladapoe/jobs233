@@ -1175,7 +1175,7 @@ end of login or sign up
         min-height: 75em;
     }
     .jb-overlay2 {
-        background-color: rgba(0, 0, 0, 0.8);
+        background-color: rgba(0, 0, 0, 0.7);
         width: 100%;
         height: 100%;
         position: absolute;
@@ -1896,7 +1896,7 @@ textarea {
 
         .jb-quick-projects-header {
             margin-top: 1em;
-            padding: 1em;
+            padding: 1em 0;
 
             p {
                 line-height: 1em;
@@ -2254,4 +2254,8 @@ textarea {
     right: 10px;
     top: 10px;
     cursor: pointer;
+}
+
+.box{
+    box-shadow: 0 0 2px #c4c7cc !important;
 }
