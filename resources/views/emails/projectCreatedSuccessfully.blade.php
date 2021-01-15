@@ -4,6 +4,7 @@
 Your Project was created successfully.
 
 Title: {{$project->title}}
+
 Id: {{$project->id}}
 
 

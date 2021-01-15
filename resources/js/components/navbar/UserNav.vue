@@ -16,17 +16,6 @@
                     <b-navbar-item tag="router-link" :to="{name:'Projects'}">Browse Projects
                     </b-navbar-item>
 
-                    <template v-if="profileType ==='hire' || profileType ==='work&hire'">
-                        <b-navbar-item tag="div" to="#">
-                            <a href="#" class="button is-outlined is-primary">Hire</a>
-                        </b-navbar-item>
-                    </template>
-
-                    <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                        <b-navbar-item>
-                            <router-link to="#" class=" button button is-outlined is-primary ">Work</router-link>
-                        </b-navbar-item>
-                    </template>
 
                 </template>
 
@@ -150,19 +139,21 @@
                 <div class="container">
                     <div class="jb-dash-links">
                         <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
-                            <span class="mr-2"> <b-icon icon="view-dashboard" size="is-small"/> </span> Dashboard
+                            <span class=" jb-nav-link-icon"> <b-icon icon="view-dashboard" size="is-small"/> </span>
+                            <span class="jb-nav-link-text">Dashboard</span>
                         </router-link>
-
                         <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
                             <router-link :to="{name:'Projects',query:{owner:'me'}}"
                                          class="jb-dash-link t-white ">
-                                <span class="mr-2"> <b-icon icon="briefcase-variant-outline" size="is-small"/> </span> My Projects
+                                <span class=" jb-nav-link-icon"> <b-icon icon="briefcase-variant-outline" size="is-small"/>
+                                </span> <span class="jb-nav-link-text">My Projects</span>
                             </router-link>
 
                             <router-link :to="{name:'Account'}"
                                          class="jb-dash-link t-white ">
-                                <span class="mr-2"> <b-icon icon="cash-multiple" size="is-small"/> </span> Account
+                                <span class=" jb-nav-link-icon"> <b-icon icon="cash-multiple" size="is-small"/>
+                                </span>  <span class="jb-nav-link-text">Account</span>
                             </router-link>
 
                         </template>
@@ -181,10 +172,9 @@
 
 
                         </template>
-
-                        <!--                    <a href="#" class="jb-dash-link t-white ">Wallet</a>-->
                         <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
-                            <span class="mr-2"> <b-icon icon="chat" size="is-small"/> </span> Messages
+                            <span class=" jb-nav-link-icon"> <b-icon icon="chat" size="is-small"/> </span>
+                            <span class="jb-nav-link-text"> Messages</span>
                         </router-link>
                     </div>
                 </div>

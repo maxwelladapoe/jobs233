@@ -22,7 +22,7 @@ Route::prefix('v1')->group(function () {
             return $request->user();
         });
 
-        Route::get('/projects', [App\Http\Controllers\ProfileController::class, 'projects']);
+        Route::get('/projects', [App\Http\Controllers\ProfileController::class, 'getUserProjects']);
 
         Route::get('/pp/get-transaction-reference', [App\Http\Controllers\PaystackPaymentController::class, 'getTransferRef']);
 

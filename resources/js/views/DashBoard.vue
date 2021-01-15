@@ -4,7 +4,7 @@
             <div class="section no-padding-margin-top-bottom">
                 <div class="container jb-dashboard">
                     <div class="columns is-multiline">
-                        <div class="column is-4">
+                        <div class="column is-12 is-4-desktop">
                             <div class="jb-dash-right">
                                 <div class="jb-dash-profile box">
                                     <div class="wrapper media">
@@ -51,9 +51,10 @@
                                             ₵ {{ user.wallet.balance }}
                                             <template v-if="user.wallet.balance > 0">
                                                  <span>
-                                                    <router-link v-if="profileType === 'work' || profileType === 'work&hire' "
-                                                                 :to="{ name: 'WithdrawFunds' }"
-                                                                 class="t-normal">
+                                                    <router-link
+                                                        v-if="profileType === 'work' || profileType === 'work&hire' "
+                                                        :to="{ name: 'WithdrawFunds' }"
+                                                        class="t-normal">
                                                         Withdraw
                                                     </router-link>
                                                  </span>
@@ -65,7 +66,7 @@
                                     </div>
 
 
-                                    <template v-if="profilePercentageCompleted < 100" >
+                                    <template v-if="profilePercentageCompleted < 100">
 
                                         <hr>
                                         Tell us more about yourself
@@ -77,7 +78,8 @@
 
                                         <router-link :to="{ name: 'EditProfile' }">
                                             <b-button class="t-mont text-right" type="is-primary" outlined>Finish your
-                                                profile</b-button>
+                                                profile
+                                            </b-button>
                                         </router-link>
 
                                     </template>
@@ -88,7 +90,7 @@
                                     <router-link
                                         to="/project/create"
                                         v-if="profileType === 'hire' || profileType === 'work&hire'">
-                                        <b-button  class="button t-white"  type="is-black"
+                                        <b-button class="button t-white" type="is-black"
                                         > Post a project
                                         </b-button>
                                     </router-link>
@@ -96,7 +98,7 @@
                                     <router-link
                                         to="/projects"
                                         v-if="profileType === 'work' || profileType === 'work&hire'">
-                                        <b-button  class="button t-white"  type="is-black"
+                                        <b-button class="button t-white" type="is-black"
                                         >View All Projects
                                         </b-button>
                                     </router-link>
@@ -122,14 +124,14 @@
                             </div>
                         </div>
 
-                        <div class="column is-8">
+                        <div class="column is-12 is-8-desktop">
                             <div class="jb-dash-stats-wrapper">
                                 <div class="columns is-multiline is-mobile stats-container">
                                     <template
                                         v-if="profileType === 'work' || profileType === 'work&hire'"
                                     >
                                         <div
-                                            class="column is-6-mobile is-3-desktop has-text-centered"
+                                            class="column is-12-mobile is-3-desktop has-text-centered"
                                         >
                                             <div class="box stats-item">
                                                 <div>
@@ -143,7 +145,7 @@
                                         </div>
 
                                         <div
-                                            class="column is-6-mobile is-3-desktop has-text-centered"
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
 
                                         >
                                             <div class="box stats-item">
@@ -158,7 +160,7 @@
                                         </div>
 
                                         <div
-                                            class="column is-6-mobile is-6-desktop has-text-centered"
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
                                         >
                                             <div class="box stats-item">
                                                 <div>
@@ -188,7 +190,7 @@
                                         <!--                      </div>-->
                                         <!--                    </div>-->
                                         <div
-                                            class="column is-6-mobile is-6-desktop has-text-centered"
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
 
                                         >
                                             <div class="box stats-item">
@@ -203,7 +205,21 @@
                                         </div>
 
                                         <div
-                                            class="column is-6-mobile is-6-desktop has-text-centered"
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
+                                        >
+                                            <div class="box stats-item">
+                                                <div>
+                                                    <p class="jb-dash-stats-number t-bold t-mont">
+                                                        {{user.completed_projects_count}}</p>
+                                                    <p class="jb-stats-brief">
+                                                        Assigned {{ "project" |
+                                                        pluralize(user.completed_projects_count) }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
                                         >
                                             <div class="box stats-item">
                                                 <div>
@@ -223,25 +239,25 @@
                             </div>
 
                             <dash-notification/>
-                        </div>
-                    </div>
 
-                    <div class="columns">
-                        <div class="column is-12 mt-5 mt-md-0">
+
+
                             <!-- Is employer -->
                             <div
                                 v-if="profileType === 'hire' || profileType === 'work&hire'"
-                                class="jb-quick-projects"
+                                class="jb-quick-projects mt-5"
                             >
                                 <div class="jb-quick-projects-header">
                                     <p class="t-mont t-bold">Recent projects</p>
                                 </div>
 
                                 <div class="jb-projects-wrapper mb-5 my-2">
-                                    <template v-if="someProjects.length >0 ">
+
+                                    <template v-if="somePostedProjects && somePostedProjects.length >0 ">
                                         <project-component
                                             v-for="project in somePostedProjects"
-                                            :key="project.id" :project="project" :authenticated="authenticated" :user="user"
+                                            :key="project.id" :project="project" :authenticated="authenticated"
+                                            :user="user"
                                         >
 
                                             <template slot="button">
@@ -255,15 +271,15 @@
                                                               (project.user.id === user.id || project.worker_id
                                                               ===user.id)">
                                                         <router-link
-                                                            :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                            class="button bg-orange">View
+                                                            :to="{name:'assignedProject' , params:{id:project.id}}">
+                                                            <b-button type="is-primary" outlined> View</b-button>
                                                         </router-link>
                                                     </template>
 
                                                     <template v-else>
                                                         <router-link
-                                                            :to="{name:'singleProject' , params:{id:project.id}}"
-                                                            class="button bg-orange">View
+                                                            :to="{name:'singleProject' , params:{id:project.id}}">
+                                                            <b-button type="is-primary" outlined> View</b-button>
                                                         </router-link>
                                                     </template>
 
@@ -280,14 +296,23 @@
                                         <router-link
                                             to="/project/create"
                                             v-if="profileType === 'hire' || profileType === 'work&hire'">
-                                            <b-button  class="button t-white mt-2"  type="is-primary" size="is-small"
-                                                       outlined>
-                                                Post your first
-                                                project
+                                            <b-button class="button t-white mt-2" type="is-primary" size="is-small"
+                                                      outlined>
+                                                Post a project
+                                            </b-button>
+                                        </router-link>
+
+                                        <router-link
+                                            to="/projects"
+                                            v-if="profileType === 'work' || profileType === 'work&hire'">
+                                            <b-button class="button t-white mt-2" type="is-primary" size="is-small"
+                                                      outlined>
+                                                Browse available projects
                                             </b-button>
                                         </router-link>
 
                                     </template>
+
                                 </div>
 
                                 <div
@@ -306,13 +331,8 @@
                             <!-- End is employer -->
 
                             <!--Assigned projects and is worker -->
-                            <div
-                                v-if="
-                  assignedProjects.length > 0 &&
-                  (profileType === 'work' || profileType === 'work&hire')
-                "
-                                class="jb-quick-projects"
-                            >
+                            <div v-if=" assignedProjects.length > 0 && (profileType === 'work' || profileType ===
+                            'work&hire')" class="jb-quick-projects">
                                 <div class="jb-quick-projects-header">
                                     <p class="t-mont t-bold">Assigned Projects</p>
                                 </div>
@@ -352,24 +372,16 @@
                                 </div>
 
                                 <div class="has-text-centered" v-if="someProjects.length > 0">
-                                    <router-link
-                                        :to="{ name: 'Projects' }"
-                                        class="button bg-orange"
-                                    >View All
-                                    </router-link
-                                    >
+                                    <router-link :to="{ name: 'Projects' }">
+                                        <b-button type="is-primary" outlined> View All</b-button>
+                                    </router-link>
                                 </div>
                             </div>
                             <!-- End Assigned projects and is worker -->
 
                             <!--No assigned projects and is worker -->
-                            <div
-                                v-if="
-                  assignedProjects.length < 1 &&
-                  (profileType === 'work' || profileType === 'work&hire')
-                "
-                                class="jb-quick-projects"
-                            >
+                            <div v-if="assignedProjects.length < 1 && (profileType === 'work' || profileType ===
+                            'work&hire')" class="jb-quick-projects">
                                 <div class="jb-quick-projects-header">
                                     <p class="t-mont t-bold">
                                         Latest projects that match your skills
@@ -404,8 +416,9 @@
                             </div>
                             <!-- End No assigned projects and is worker -->
                         </div>
-                        <div class="column is-12 col-lg-4"></div>
                     </div>
+
+
                 </div>
             </div>
         </div>

@@ -15,13 +15,16 @@
                     <div class="container">
                         <div class="columns is-mobile  is-multiline">
                             <div class="column is-12-mobile is-6-desktop">
-                                <h1 class="title t-bold t-orange t-mont">Get more done <br>hire a freelancer</h1>
+                                <h1 class="title t-bold t-orange t-mont">Get more done, <br>hire a freelancer</h1>
                                 <p class="t-meri t-normal">Speed up your workflow by hiring an experienced freelancer in
-                                    any
-                                    field.
-                                    Just post your projects and get bids from freelancers. With ranking and reps it
-                                    makes selecting the best freelancers easier.
+                                    any field.
+                                    Just post your projects and get bids from freelancers.
+
                                 </p>
+<!--                                <p>-->
+<!--                                    With ranking and reps it-->
+<!--                                    makes selecting the best freelancers easier.-->
+<!--                                </p>-->
                                 <p class="t-meri t-normal">
                                     We have freelancers who are experts in graphic design, web design, mobile app
                                     development,

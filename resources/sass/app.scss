@@ -653,7 +653,7 @@ select.form-control {
         }
 
         .jb-project-content {
-            min-height: 8em;
+            min-height: 7em;
             padding: 1em;
 
             .jb-project-header {
@@ -688,7 +688,7 @@ select.form-control {
 
 
             .jb-project-description {
-                height: 4.5em;
+                height: 3.5em;
                 font-size: 0.8em;
                 margin: 0 0 10px;
 
@@ -1635,15 +1635,42 @@ textarea {
 
     .jb-dash-links {
         top: 1em;
-        line-height: 3em;
+
 
         .jb-dash-link {
             margin-right: 0.8em;
             font-weight: 300;
             text-decoration: none;
-
+            width:auto;
+            line-height: 3em;
+            text-align: unset;
             &:hover {
                 color: black;
+            }
+            &.router-link-active{
+                color: black;
+                font-weight: 600;
+            }
+
+            .jb-nav-link-icon{
+                display: unset;
+            }
+
+            @include media-breakpoint-down(sm){
+                width: 60px !important;
+                display: inline-block;
+                background-color: green;
+                line-height: 1em;
+                text-align: center;
+
+                .jb-nav-link-icon{
+                    display: block;
+                }
+                .jb-nav-link-text{
+                    font-size: 0.5em;
+                    display: block;
+                    background-color: red;
+                }
             }
         }
     }
@@ -1653,7 +1680,7 @@ textarea {
 
 
     .b-bottom {
-        border-bottom: 0.05em solid #fff;
+        border-bottom: 0.05em solid #d8dbe0;
     }
 
     .jb-dash-right {
@@ -1832,61 +1859,6 @@ textarea {
         position: relative;
         margin-top: 1em;
 
-        .jb-notifications-header {
-            padding: 1em;
-            display: flex;
-            justify-content: space-between;
-
-            p {
-                line-height: 2.2em;
-                font-size: 1em;
-                margin: 0;
-            }
-        }
-
-        .js-notifications-wrapper {
-
-            overflow-y: scroll;
-            max-height: 13em;
-            min-height: 13em;
-
-
-            .jb-notification {
-                display: flex;
-                padding: 0.5em 1em;
-                align-items: center;
-                border-bottom: 0.05em solid #fff;
-
-                .notification-icon {
-                    margin-right: 1em;
-
-                }
-
-                .notification-details {
-
-                    .title {
-                        font-size: 1em;
-                        line-height: 1em;
-                        margin: 0;
-                    }
-                }
-
-
-                .from {
-                    font-size: 0.8em;
-                    line-height: 1.5em;
-                    margin-bottom: 0;
-                }
-
-                .time {
-                    font-size: 0.7em;
-                    line-height: 1em;
-                    margin-bottom: 0;
-                }
-            }
-
-
-        }
 
     }
 
@@ -2189,15 +2161,16 @@ textarea {
     position: relative;
     width: 100%;
     height: 100%;
+overflow: hidden;
 }
 
 .slider-video {
     position: absolute;
-    right: 0;
+    object-fit: cover;
+    width: 100vw;
+    min-height: 100% !important;
     top: 0;
-    bottom: -10em;
-    min-width: 100%;
-    min-height: 100%;
+    left: 0;
     z-index: -2;
 }
 
@@ -2256,6 +2229,6 @@ textarea {
     cursor: pointer;
 }
 
-.box{
-    box-shadow: 0 0 2px #c4c7cc !important;
+.box,.my-card{
+    box-shadow: 0 0 3px #babdc2 !important;
 }

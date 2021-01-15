@@ -25,7 +25,7 @@ class ProjectController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index','read', 'getProjects', 'readProject', 'getCategories', 'getCategoriesAndSkills', 'getSkills');
+        $this->middleware('auth')->except('index', 'read', 'getProjects', 'readProject', 'getCategories', 'getCategoriesAndSkills', 'getSkills');
 
     }
 
@@ -53,7 +53,7 @@ class ProjectController extends Controller
         }
 
         if (!$request->has('owner') || !$request->has('assigned_to')) {
-            $query->where('status','new');
+            $query->where('status', 'new');
         }
 
         //checking if a category key has been added
@@ -121,7 +121,7 @@ class ProjectController extends Controller
             $project->skills = $request['skills'];
             $project->tags = $request['tags'];
             $project->deadline = $request['deadline'];
-            $project->status ='new';
+            $project->status = 'new';
 
 
             if ($project->save()) {
@@ -183,8 +183,92 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'project' => $project], 200);
     }
 
-    public function update()
+    public function update(Request $request)
     {
+
+        $this->validate($request, [
+            'title' => ['string', 'required', 'min:3', 'max:150'],
+            'description' => ['string', 'required', 'min:3', 'max:2000'],
+            'category' => ['integer', 'required'],
+            'subcategory' => ['integer', 'required'],
+            'budget' => ['required', 'string'],
+            'currency' => ['required', 'integer', 'min:1'],
+            'additional_details' => ['nullable', 'string'],
+            'skills' => ['required'],
+            'tags' => ['nullable'],
+            'deadline' => ['date', 'required'],
+
+        ]);
+
+        $project = Project::where('user_id', Auth::user()->id)->where('id', $request['id'])->firstOrFail();
+
+
+        if ($project->count() == 1) {
+
+            $project->title = $request['title'];
+            $project->description = $request['description'];
+            $project->additional_details = $request['additional_details'];
+            $project->user_id = Auth::user()->id;
+            $project->category_id = $request['category'];
+            $project->budget = doubleval($request['budget']);
+            $project->balance = doubleval($request['budget']);
+            $project->currency_id = $request['currency'];
+            $project->secondary_category_id = $request['subcategory'];
+            $project->skills = $request['skills'];
+            $project->tags = $request['tags'];
+            $project->deadline = $request['deadline'];
+            $project->status = 'new';
+
+
+            if ($project->save()) {
+
+
+                if ($request->has('attachments')) {
+                    $files = $request['attachments'];
+
+                    foreach ($files as $file) {
+
+
+                        $filenameWithExt = $file->getClientOriginalName();
+                        //Get just filename
+                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                        // Get just ext
+                        $extension = $file->getClientOriginalExtension();
+                        // Filename to store
+                        $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+
+                        $path = $file->storeAs('public/attachments', $fileNameToStore);
+
+                        if ($path) {
+                            $attachment = new Attachment();
+                            $attachment->user_id = Auth::user()->id;
+                            $attachment->project_id = $project->id;
+                            $attachment->name = $filenameWithExt;
+                            $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+                            $attachment->size = $file->getSize();
+                            $attachment->format = $file->getMimeType();
+                            $attachment->save();
+                        }
+
+                    }
+
+                }
+
+                Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
+
+                return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);
+            } else {
+                Log::debug("there seems to be an issue with project creation. you may have to check the database");
+                return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
+            }
+
+
+        } else {
+
+
+            return response()->json(['success' => false, 'message' => 'this project already exists'], 500);
+
+        }
 
     }
 
@@ -225,12 +309,12 @@ class ProjectController extends Controller
                     $statusUpdate->status = $request->status;
                     $statusUpdate->message = $request->message;
 
-                   if ($statusUpdate->save()) {
+                    if ($statusUpdate->save()) {
 
                         if ($request->has('attachments')) {
                             $files = $request['attachments'];
 
-                            for ($i =0; $i<=sizeof($files);$i++) {
+                            for ($i = 0; $i <= sizeof($files); $i++) {
 
                                 $file = $files[$i];
 
@@ -244,16 +328,16 @@ class ProjectController extends Controller
                                 $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
 
 
-                                if (Auth::user()->id === $project->worker_id ){
+                                if (Auth::user()->id === $project->worker_id) {
                                     //watermark all images or files
 
-                                    $imageMimeArray = ['image/*','image/jpeg','image/jpg','image/png','image/gif'];
+                                    $imageMimeArray = ['image/*', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
                                     //if the file is an image
 
-                                    $pdfArray =['application/pdf'];
-                                    if (in_array($file->getMimeType(), $imageMimeArray)){
+                                    $pdfArray = ['application/pdf'];
+                                    if (in_array($file->getMimeType(), $imageMimeArray)) {
 
-                                        $this->watermarkPhoto($file ,'public/attachments/watermarked',
+                                        $this->watermarkPhoto($file, 'public/attachments/watermarked',
                                             $fileNameToStore);
 
                                     }
@@ -263,8 +347,8 @@ class ProjectController extends Controller
 //                                    }
 
 
-                                }else{
-                                    $path = $file->storeAs('public/attachments', md5($fileNameToStore).'.' . $extension);
+                                } else {
+                                    $path = $file->storeAs('public/attachments', md5($fileNameToStore) . '.' . $extension);
                                 }
 
 
@@ -340,11 +424,10 @@ class ProjectController extends Controller
                     if ($project->worker_payed == true) {
                         return response()->json(['success' => false, 'message' => 'worker has already been payed'], 401);
 
-                    }
-                    else {
+                    } else {
 
-                        if(Auth::user()->wallet->balance > $project->balace)
-                        $statusUpdate = new ProjectStatusUpdate();
+                        if (Auth::user()->wallet->balance > $project->balace)
+                            $statusUpdate = new ProjectStatusUpdate();
                         $statusUpdate->project_id = $project->id;
                         $statusUpdate->status = "completed";
                         $statusUpdate->message = "Project Completed";
@@ -364,10 +447,8 @@ class ProjectController extends Controller
                         }
 
 
-
                     }
-                }
-                else {
+                } else {
                     return response()->json(['success' => false, 'message' => 'please conclude payments for this project'], 401);
                 }
 
@@ -396,12 +477,11 @@ class ProjectController extends Controller
 
                 $acceptedBid = Bid::find($project->accepted_bid_id);
 
-                $finalAgreedOffer = doubleval( $acceptedBid->amount);
+                $finalAgreedOffer = doubleval($acceptedBid->amount);
 
 
-                if($employer->wallet->balance >= $finalAgreedOffer){
+                if ($employer->wallet->balance >= $finalAgreedOffer) {
                     if (doubleval($project->balance) <= 0 || doubleval($project->balance) <= 0.00) {
-
 
 
                         $employer->withdraw($finalAgreedOffer);
@@ -440,17 +520,12 @@ class ProjectController extends Controller
                     } else {
                         return response()->json(['success' => false, 'message' => 'you need to complete payment / deposit for the project before you can release funds'], 401);
                     }
-                }else{
+                } else {
                     return response()->json(['success' => false, 'message' => 'you do not have enough balance to perform this transation'], 401);
 
                 }
 
-                    //the accepted bid offer
-
-
-
-
-
+                //the accepted bid offer
 
 
             } else {
@@ -460,8 +535,27 @@ class ProjectController extends Controller
         }
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
+
+        $project = Project::findOrFail($request['id']);
+
+        if ($project->user_id == Auth::user()->id) {
+
+            if ($project->status == 'new' && $project->accepted_bid == null && $project->worker_id == null) {
+                //then you can delete
+                //$project->delete();
+                $attachments = $project->attachments();
+
+                dd($attachments);
+                foreach ($attachments as $attachment){
+                    //delete each record
+                }
+            }
+
+        } else {
+            return response()->json(['success' => false, 'message' => 'this project does not belong to you'], 401);
+        }
 
     }
 
@@ -528,36 +622,36 @@ class ProjectController extends Controller
 
     }
 
-    private function watermarkPhoto($imgF, $filePath2Save ,$fileNameToStore){
+    private function watermarkPhoto($imgF, $filePath2Save, $fileNameToStore)
+    {
 
-        $originalExtension =$imgF->getClientOriginalExtension();
+        $originalExtension = $imgF->getClientOriginalExtension();
 
-        $watermark_path=Storage::disk('private')->get('watermark/pattern.png');
+        $watermark_path = Storage::disk('private')->get('watermark/pattern.png');
 
 
-
-        $watermarkImg=Image::make($watermark_path);
+        $watermarkImg = Image::make($watermark_path);
 
         $img = Image::make($imgF);
 
-        $wmarkWidth=$watermarkImg->width();
-        $wmarkHeight=$watermarkImg->height();
+        $wmarkWidth = $watermarkImg->width();
+        $wmarkHeight = $watermarkImg->height();
 
-        $imgWidth=$img->width();
-        $imgHeight=$img->height();
+        $imgWidth = $img->width();
+        $imgHeight = $img->height();
 
-        $x=0;
-        $y=0;
-        while($y<=$imgHeight){
-            $img->insert($watermark_path,'top-left',$x,$y);
-            $x+=$wmarkWidth;
-            if($x>=$imgWidth){
-                $x=0;
-                $y+=$wmarkHeight;
+        $x = 0;
+        $y = 0;
+        while ($y <= $imgHeight) {
+            $img->insert($watermark_path, 'top-left', $x, $y);
+            $x += $wmarkWidth;
+            if ($x >= $imgWidth) {
+                $x = 0;
+                $y += $wmarkHeight;
             }
         }
 
-        Storage::put($filePath2Save."/".$fileNameToStore, $img->encode($originalExtension));
+        Storage::put($filePath2Save . "/" . $fileNameToStore, $img->encode($originalExtension));
 
 
         //$img->save($filePath2Save);

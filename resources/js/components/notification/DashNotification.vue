@@ -1,51 +1,55 @@
 <template>
-    <div class="jb-notifications bg-ash-light ">
+    <div class="mt-5">
 
 
-        <div class="jb-notifications-header b-bottom">
-            <p class="t-mont t-bold ">
-                Notifications
-            </p>
-            <template>
-                <b-button class="button" type="is-primary" @click="markAllAsRead">Mark all as read</b-button>
+        <div class="card my-card">
+            <header class="card-header">
+                <p class="card-header-title">
+                    <b-icon icon="bell" type="is-small"/> Notifications
+                </p>
+                <div class="card-header-icon">
 
-            </template>
+                    <b-button class="button" size="is-small" type="is-primary" @click="markAllAsRead">Mark all as
+                        read</b-button>
+                </div>
 
-        </div>
+            </header>
+            <div class="card-content">
 
-        <div class="js-notifications-wrapper">
+                <template v-if="notifications.length>0">
+                    <template v-for="notification in notifications">
 
-            <template v-if="notifications.length>0">
-                <template v-for="notification in notifications">
-
-                    <template v-if="notification.type===`App\\Notifications\\MessageSentNotification`">
-                        <div class="jb-notification">
-                            <div class="notification-icon">
-                                <b-icon icon="mail"/>
-                            </div>
-                            <div class="notification-details">
-                                <span class="title m-0 t-bold">You have a new unread message </span> <br>
-                                <span class=" t-mont">From <span class="t-bold">{{notification.data.sender}}</span>
+                        <template v-if="notification.type===`App\\Notifications\\MessageSentNotification`">
+                            <div class="jb-notification">
+                                <div class="notification-icon">
+                                    <b-icon icon="mail"/>
+                                </div>
+                                <div class="notification-details">
+                                    <span class="title m-0 t-bold">You have a new unread message </span> <br>
+                                    <span class=" t-mont">From <span class="t-bold">{{notification.data.sender}}</span>
                                 <span
                                     class="time t-orange">sent <timeago
                                     :datetime="notification.data.message.created_at" :auto-update="60"/></span>
                             </span>
 
+                                </div>
+
                             </div>
+                        </template>
 
-                        </div>
                     </template>
-
                 </template>
-            </template>
 
-            <template v-else>
-                <div class="px-3 pt-1">
-                    <p class="t-6">There are no new notifications</p>
+                <template v-else>
+                    <div class="px-3 pt-1">
+                        <p class="t-6">There are no new notifications</p>
 
-                </div>
-            </template>
+                    </div>
+                </template>
+            </div>
         </div>
+
+
     </div>
 </template>
 

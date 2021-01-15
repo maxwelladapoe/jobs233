@@ -113,13 +113,8 @@
                             <div class="jb-project-bid-button text-right">
                                 <slot name="button">
                                     <router-link
-                                        :to="{
-                            name: 'singleProject',
-                            params: { id: project.id },
-                          }"
-                                        class="button bg-orange t-mont"
-                                    >
-                                        View
+                                        :to="{name: 'singleProject',params: { id: project.id }}">
+                                        <b-button type="is-primary" outlined> View</b-button>
                                     </router-link>
                                 </slot>
 

@@ -10,7 +10,7 @@
                         <div class="overlay bg-black"></div>
 
 
-                        <div class="jb-slider-video-wrap is-hidden-touch">
+                        <div class="jb-slider-video-wrap is-hidden-mobile">
                             <video autoplay muted loop class="slider-video" >
                                 <source src="/videos/slider.mp4" type="video/mp4">
                             </video>

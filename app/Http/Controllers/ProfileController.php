@@ -90,16 +90,11 @@ class ProfileController extends Controller
     }
 
 
-    public function projects(Request $request)
+    public function getUserProjects(Request $request)
     {
-        $user = Auth::user();
-        $query = Project::where('user_id', $user->id);
 
-        if ($request->has('paginate')) {
-            $projects = $query->latest()->paginate($request->paginate);
-        } else {
-            $projects = $query->latest()->paginate(10);
-        }
+        $projects = Project::where('user_id', Auth::user()->id)->latest()
+            ->paginate($request->has('paginate')?intval($request->paginate) : 0);
 
 
         return response()->json(['success' => true, 'projects' => $projects], 200);

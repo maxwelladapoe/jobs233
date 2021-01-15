@@ -275,8 +275,6 @@
                                                         @typing="getFilteredSkills"
                                                         placeholder="Add preferred skills"
                                                         v-model="project.skills"
-
-                                                        @input="titleCharacterCount()"
                                                         aria-describedby="title-live-feedback">
                                                         <template slot-scope="props">
                                                             {{props.option.name}}
@@ -288,7 +286,6 @@
 
                                                 </b-field>
 
-                                                <pre style="max-height: 400px"><b>Skills:</b>{{ project.skills }}</pre>
 
                                             </ValidationProvider>
                                             <ValidationProvider
@@ -377,7 +374,8 @@
                                             <p>{{project.description}}</p>
 
                                             <p class="t-mont t-bold t-orange"> Category</p>
-                                            <p>{{project.category}}</p>
+                                            <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> >
+                                                {{project.subcategory.name}} </p>
 
                                             <p class="t-mont t-bold t-orange"> Budget</p>
                                             <p>{{project.budget}}</p>
@@ -388,7 +386,7 @@
                                             <p class="t-mont t-bold t-orange"> skills</p>
                                             <h6>
                                                 <b-taglist>
-                                                    <template v-for="skill in project.skills.split(',')">
+                                                    <template v-for="skill in project.skills">
 
                                                         <b-tag type="is-success">{{skill}}</b-tag>
 
@@ -401,7 +399,7 @@
 
                                             <h6>
                                                 <b-taglist>
-                                                    <template v-for="tag in project.tags.split(',')">
+                                                    <template v-for="tag in project.tags">
                                                         <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
                                                     </template>
                                                 </b-taglist>
@@ -484,6 +482,8 @@
 
     import {mapGetters} from "vuex";
     import AttachFiles from "../../components/extras/AttachFiles";
+    import { SnackbarProgrammatic as Snackbar } from 'buefy'
+
 
     export default {
 
@@ -566,6 +566,7 @@
             },
 
 
+
             resetProject() {
                 this.project = {
                     title: '',
@@ -574,8 +575,6 @@
                     budget: '',
                     currency: null,
                     subcategory: null,
-                    category_id: null,
-                    secondary_category_id: null,
                     additional_details: '',
                     skills: '',
                     tags: [],
@@ -585,53 +584,99 @@
                 this.$refs.submitProject.reset();
                 //reset the errors
             },
+
+
+            formatDate(date) {
+                var d = new Date(date),
+                    month = '' + (d.getMonth() + 1),
+                    day = '' + d.getDate(),
+                    year = d.getFullYear();
+
+                if (month.length < 2)
+                    month = '0' + month;
+                if (day.length < 2)
+                    day = '0' + day;
+
+                return [year, month, day].join('-');
+            },
             submitProject() {
 
-                let formData = new FormData();
-
-
-                for (let i = 0; i < this.uploadedFileList.length; i++) {
-                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
-                }
-
-                for (let key in this.project) {
-                    formData.append(key, this.project[key]);
-                }
-
-                // data.append(...this.project);
-                const config = {
-
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-
-                    onUploadProgress: (progressEvent) => {
-                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                        console.log(percentCompleted)
-                    }
-                };
 
                 if (this.step < this.totalSteps) {
                     this.step++
                 } else {
-                    this.isLoading = true;
-                    axios.post('projects', formData, config)
 
-                        .then(({data}) => {
-                            if (data.status === 'true') {
-                                this.project = data.project;
-                                //this.resetProject();
-                                this.isLoading = false;
-                                this.isSuccessful = true;
-                            } else {
-                                return
+
+                    let formData = new FormData();
+
+
+                    for (let i = 0; i < this.uploadedFileList.length; i++) {
+                        formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+                    }
+
+                    for (let key in this.project) {
+
+                        //some filtering is going on here to reduce the request size
+                        if (key === 'category') {
+                            formData.append(key, this.project[key].id)
+                        } else if (key === 'subcategory') {
+                            formData.append(key, this.project[key].id)
+                        } else if (key === 'skills') {
+
+                            let skillArray = []
+                            for (let i = 0; i < this.project[key].length; i++) {
+                                skillArray.push(this.project[key][i].name)
                             }
 
-                        })
-                        .catch((errorRes) => {
-                            //show error
-                            this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
-                        });
+
+                            formData.append(key, skillArray.toString())
+
+                        } else if (key === 'deadline') {
+                            formData.append(key, this.formatDate(new Date(this.project[key])))
+                        } else {
+                            formData.append(key, this.project[key]);
+
+                        }
+                    }
+
+                    // data.append(...this.project);
+                    const config = {
+
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+
+                        onUploadProgress: (progressEvent) => {
+                            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                            console.log(percentCompleted)
+                        }
+                    };
+
+
+                    this.isLoading = true;
+
+                    if (this.createdProject === null){
+                        axios.post('projects', formData, config)
+
+                            .then(({data}) => {
+                                if (data.success === true) {
+                                    this.createdProject = data.project;
+                                    //this.resetProject();
+                                    Snackbar.open(data.message)
+
+                                    this.isLoading = false;
+                                    this.isSuccessful = true;
+                                } else {
+                                    return
+                                }
+
+                            })
+                            .catch((errorRes) => {
+                                //show error
+                                this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
+                            });
+                    }
+
                 }
 
             }
@@ -641,7 +686,6 @@
             axios.get('projects/categories-skills').then(({data}) => {
                 this.categories = data.categories;
                 this.skillsList = data.skills;
-
             });
 
             axios.get('currencies').then(({data}) => {
@@ -651,9 +695,9 @@
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
 
-                console.log("the project", this.project);
-                //this.bid.project_id= this.project.id;
-                //this.bid.currency = this.project.currency.id;
+                this.project.skills = (this.project.skills).split(',');
+                this.project.tags = (this.project.tags).split(',');
+                this.project.deadline = new Date(this.project.deadline);
             }).catch(() => {
                 this.projectNotFound = true;
             });
@@ -662,15 +706,12 @@
         },
         computed: {
 
+
             subCategories() {
                 let subCat = null;
 
-                if (this.project.category_id != null) {
-                    let selectedCategory = this.categories.find(
-                        (category) => {
-                            return category.id === this.project.category_id
-                        }
-                    );
+                if (this.project.category != null) {
+                    let selectedCategory = this.project.category;
                     subCat = selectedCategory.subcategories;
                 }
 
