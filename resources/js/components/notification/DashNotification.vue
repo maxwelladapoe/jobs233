@@ -5,12 +5,14 @@
         <div class="card my-card">
             <header class="card-header">
                 <p class="card-header-title">
-                    <b-icon icon="bell" type="is-small"/> Notifications
+                    <b-icon icon="bell" type="is-small"/>
+                    Notifications
                 </p>
                 <div class="card-header-icon">
 
                     <b-button class="button" size="is-small" type="is-primary" @click="markAllAsRead">Mark all as
-                        read</b-button>
+                        read
+                    </b-button>
                 </div>
 
             </header>
@@ -20,17 +22,19 @@
                     <template v-for="notification in notifications">
 
                         <template v-if="notification.type===`App\\Notifications\\MessageSentNotification`">
-                            <div class="jb-notification">
-                                <div class="notification-icon">
-                                    <b-icon icon="mail"/>
+                            <div class="media">
+                                <div class="media-left">
+                                    <b-icon icon="chat"/>
                                 </div>
-                                <div class="notification-details">
-                                    <span class="title m-0 t-bold">You have a new unread message </span> <br>
-                                    <span class=" t-mont">From <span class="t-bold">{{notification.data.sender}}</span>
-                                <span
-                                    class="time t-orange">sent <timeago
-                                    :datetime="notification.data.message.created_at" :auto-update="60"/></span>
-                            </span>
+                                <div class="media-content">
+                                    <p class="m-0 t-bold">You have a new unread message </p>
+                                    <p class="t-mont t-6">From:
+                                        {{notification.data.sender}}
+
+                                        <span
+                                            class="time t-orange t-6">sent <timeago
+                                            :datetime="notification.created_at" :auto-update="60"/></span>
+                                    </p>
 
                                 </div>
 

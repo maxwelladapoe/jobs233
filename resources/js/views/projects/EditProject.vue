@@ -56,7 +56,7 @@
                             <div class="jb-project-form p-3">
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="submitProject">
-                                    <form @submit.prevent="handleSubmit(submitProject)">
+                                    <form @submit.prevent="handleSubmit(updateProject)">
 
 
                                         <ValidationObserver :key="1" v-if="step ===1">
@@ -206,11 +206,11 @@
                                                             placeholder="  Select a
                                                                             currency"
                                                             name="currency"
-                                                            v-model="project.currency_id">
+                                                            v-model="selectedCurrency">
 
                                                             <option v-for="currency in currencies"
                                                                     :key="currency.id"
-                                                                    :value="currency.id">
+                                                                    :value="currency">
                                                                 {{currency.name}}
                                                             </option>
 
@@ -328,7 +328,7 @@
                                                 >
                                                     <b-input id="projectExtra"
                                                              v-model="project.additional_details"
-                                                             rows="5"
+                                                             rows="2"
                                                              type="textarea">
                                                     </b-input>
                                                 </b-field>
@@ -360,8 +360,6 @@
                                                 </b-field>
                                             </ValidationProvider>
 
-                                            <attach-files v-model="uploadedFileList" class="mb-3"></attach-files>
-
 
                                         </ValidationObserver>
 
@@ -378,9 +376,10 @@
                                                 {{project.subcategory.name}} </p>
 
                                             <p class="t-mont t-bold t-orange"> Budget</p>
-                                            <p>{{project.budget}}</p>
+                                            <p>{{selectedCurrency.symbol}} {{project.budget}}</p>
 
-                                            <p class="t-mont t-bold t-orange"> Additional Information</p>
+                                            <p class="t-mont t-bold t-orange" v-if="project.additional_details"> Extra
+                                                Requirements</p>
                                             <p>{{project.additional_details}}</p>
 
                                             <p class="t-mont t-bold t-orange"> skills</p>
@@ -432,11 +431,8 @@
                                             </div>
 
                                             <div v-if="isSuccessful && project.id" class="text-right">
-                                                <span class="text-success"><b-icon icon="check-circle"/> Your Project was Posted Successfully</span>
-
-                                                <b-button @click="resetProject()" variant="orange" class="ml-2">Post
-                                                    Another Project
-                                                </b-button>
+                                                <span class="text-success"><b-icon icon="check-circle"/> Your Project
+                                                    was updated successfully</span>
 
                                                 <b-button @click="viewPostedProject"
                                                           class="ml-2" variant="success">View Project
@@ -449,7 +445,7 @@
                                                 <div
                                                     class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
                                                 >
-                                                    <p class="mr-2 p-0 m-0">Posting... </p>
+                                                    <p class="mr-2 p-0 m-0">Updating... </p>
                                                     <div class="loader"></div>
                                                 </div>
                                             </div>
@@ -464,7 +460,65 @@
                         </div>
                         <div class="column is-12 is-4-desktop">
 
+                            <!--show and upload attachments here -->
 
+                            <template v-if="project.attachments && project.attachments.length >0">
+                                <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
+
+
+                                <div class="columns mt-2 is-multiline is-mobile">
+                                    <template v-for="(attachment,index) in project.attachments">
+
+
+                                        <div class="column is-12-mobile is-6-desktop" :key="index">
+                                            <div class="box is-relative">
+                                                <div>
+
+                                                    <div>
+                                                        <template
+                                                            v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">
+                                                            <img
+                                                                src="/images/file_type_icons/doc.svg"
+                                                                alt="" width="35">
+                                                        </template>
+                                                        <template v-else>
+                                                            <img
+                                                                :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"
+                                                                alt="" width="35">
+                                                        </template>
+
+                                                    </div>
+
+                                                    <div>
+                                                        <p class="t-6">{{ attachment.name }}</p>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <button class="jb-close-button delete" type="button" rounded
+                                                        size="is-small"
+                                                        @click="deleteAttachment(attachment)"
+                                                        title="Remove file">
+                                                    <b-icon icon="close" size="is-small"/>
+                                                </button>
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </template>
+                                </div>
+
+
+                            </template>
+
+
+                            <attach-files v-model="uploadedFileList" class="mb-3"></attach-files>
+
+
+                            <b-button @click="uploadAttachments">Upload</b-button>
                         </div>
                     </div>
 
@@ -482,7 +536,7 @@
 
     import {mapGetters} from "vuex";
     import AttachFiles from "../../components/extras/AttachFiles";
-    import { SnackbarProgrammatic as Snackbar } from 'buefy'
+    import {SnackbarProgrammatic as Snackbar} from 'buefy'
 
 
     export default {
@@ -496,6 +550,7 @@
             return {
                 categories: [],
                 skillsList: [],
+                selectedCurrency:{},
                 skillsListFiltered: [],
                 uploadedFileList: [],
                 isLoading: false,
@@ -504,27 +559,11 @@
                 dropAreaDragOver: false,
                 dropAreaDragLeave: false,
                 projectNotFound: false,
-
-                project: {
-                    title: '',
-                    description: '',
-                    category: null,
-                    budget: '',
-                    currency: null,
-                    subcategory: null,
-                    additional_details: '',
-                    category_id: null,
-                    secondary_category_id: null,
-                    skills: [],
-                    tags: [],
-                    deadline: null,
-                },
+                project: {},
                 currencies: [],
-
                 titleLength: 0,
                 step: 1,
                 totalSteps: 3,
-
                 editorOption: {
                     modules: {
                         toolbar: '#toolbar'
@@ -549,43 +588,9 @@
                 }
             },
 
-            getValidationState({dirty, validated, valid = null}) {
-                return dirty || validated ? valid : null;
-            },
-
-            titleCharacterCount() {
-                const length = this.project.title.length;
-                this.titleLength = length;
-                if (length === 150) {
-
-                }
-            },
-
             prev() {
                 this.step--;
             },
-
-
-
-            resetProject() {
-                this.project = {
-                    title: '',
-                    description: '',
-                    category: null,
-                    budget: '',
-                    currency: null,
-                    subcategory: null,
-                    additional_details: '',
-                    skills: '',
-                    tags: [],
-                    deadline: new Date(),
-                }
-                this.step = 1;
-                this.$refs.submitProject.reset();
-                //reset the errors
-            },
-
-
             formatDate(date) {
                 var d = new Date(date),
                     month = '' + (d.getMonth() + 1),
@@ -599,64 +604,56 @@
 
                 return [year, month, day].join('-');
             },
-            submitProject() {
+            updateProject() {
+                if (!this.project.worker_id || !this.project.accepted_bid_id) {
 
 
-                if (this.step < this.totalSteps) {
-                    this.step++
-                } else {
+                    if (this.step < this.totalSteps) {
+                        this.step++
+                    } else {
 
 
-                    let formData = new FormData();
+                        let formData = new FormData();
 
+                        for (let key in this.project) {
 
-                    for (let i = 0; i < this.uploadedFileList.length; i++) {
-                        formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
-                    }
+                            //some filtering is going on here to reduce the request size
+                            if (key === 'category' || key === 'subcategory') {
+                                formData.append(key, this.project[key].id)
+                            } else if (key === 'skills') {
 
-                    for (let key in this.project) {
+                                formData.append(key, this.project.skills.toString());
 
-                        //some filtering is going on here to reduce the request size
-                        if (key === 'category') {
-                            formData.append(key, this.project[key].id)
-                        } else if (key === 'subcategory') {
-                            formData.append(key, this.project[key].id)
-                        } else if (key === 'skills') {
+                            } else if (key === 'deadline') {
+                                formData.append(key, this.formatDate(new Date(this.project[key])))
+                            } else if (key === 'currency') {
+                                formData.append(key, this.selectedCurrency.id)
+                            } else if (key === 'user' || key === 'attachments') {
+                                // formData.append(key, this.formatDate(new Date(this.project[key])))
+                            } else {
+                                formData.append(key, this.project[key]);
 
-                            let skillArray = []
-                            for (let i = 0; i < this.project[key].length; i++) {
-                                skillArray.push(this.project[key][i].name)
                             }
-
-
-                            formData.append(key, skillArray.toString())
-
-                        } else if (key === 'deadline') {
-                            formData.append(key, this.formatDate(new Date(this.project[key])))
-                        } else {
-                            formData.append(key, this.project[key]);
-
                         }
-                    }
 
-                    // data.append(...this.project);
-                    const config = {
+                        // data.append(...this.project);
+                        let config = {
 
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        },
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            },
 
-                        onUploadProgress: (progressEvent) => {
-                            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                            console.log(percentCompleted)
-                        }
-                    };
+                            onUploadProgress: (progressEvent) => {
+                                let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                                console.log(percentCompleted)
+                            }
+                        };
 
 
-                    this.isLoading = true;
+                        this.isLoading = true;
 
-                    if (this.createdProject === null){
-                        axios.post('projects', formData, config)
+
+                        axios.post(`projects/update/${this.project.id}`, formData, config)
 
                             .then(({data}) => {
                                 if (data.success === true) {
@@ -675,10 +672,72 @@
                                 //show error
                                 this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
                             });
+
+
                     }
+                }
+            },
+
+            uploadAttachments() {
+                console.log("attachments here");
+
+                if (!this.project.worker_id || !this.project.accepted_bid_id) {
+                    let formData = new FormData();
+                    let config = {
+
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        },
+
+                        onUploadProgress: (progressEvent) => {
+                            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                            console.log(percentCompleted)
+                        }
+                    };
+
+                    for (let i = 0; i < this.uploadedFileList.length; i++) {
+                        formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+                    }
+
+
+                    axios.post(`projects/add-attachments/${this.project.id}`, formData, config)
+
+                        .then(({data}) => {
+                            if (data.success === true) {
+                                this.createdProject = data.project;
+                                //this.resetProject();
+                                Snackbar.open(data.message)
+
+                                this.isLoading = false;
+                                this.isSuccessful = true;
+                            } else {
+                                return
+                            }
+
+                        })
+                        .catch((errorRes) => {
+                            //show error
+                            this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
+                        });
+
 
                 }
 
+            },
+
+
+            deleteAttachment(attachment) {
+                //TODO: delete attachments
+
+                axios.delete(`/attachments/delete/${attachment.id}`).then(({data}) => {
+                    let index = this.project.attachments.indexOf(attachment);
+                    this.project.attachments.splice(index, 1);
+                    console.log(this.project.attachments);
+                    Snackbar.open(data.message);
+
+                }).catch((e) => {
+
+                })
             }
 
         },
@@ -695,6 +754,7 @@
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
 
+                this.selectedCurrency = this.project.currency;
                 this.project.skills = (this.project.skills).split(',');
                 this.project.tags = (this.project.tags).split(',');
                 this.project.deadline = new Date(this.project.deadline);
@@ -711,8 +771,20 @@
                 let subCat = null;
 
                 if (this.project.category != null) {
-                    let selectedCategory = this.project.category;
+                    let selectedCategory;
+                    if (this.project.category.subcategories) {
+                        selectedCategory = this.project.category;
+                    } else {
+                        selectedCategory = this.categories.find((category) => {
+                            if (category.id === this.project.category_id) {
+                                return true;
+                            }
+                        });
+
+                    }
                     subCat = selectedCategory.subcategories;
+
+
                 }
 
                 return subCat;

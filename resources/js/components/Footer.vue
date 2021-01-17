@@ -56,8 +56,7 @@
 
                     <div class="column is-6 ">
                         <p>+233(0)275762217</p>
-                        <p>help@jobs233.com</p>
-                        <p>info@jobs233.com</p>
+                        <p><a href="mailto:support@jobs233.com" >support@jobs233.com</a></p>
 
                         <div class="jb-social">
                             <router-link class="social-link" to="#">

@@ -348,7 +348,7 @@
                                                 >
                                                     <b-input id="projectExtra"
                                                              v-model="project.additional_details"
-                                                             rows="5"
+                                                             rows="2"
                                                              type="textarea">
                                                     </b-input>
                                                 </b-field>
@@ -403,7 +403,8 @@
 
                                             <p class="mb-3">{{project.currency}} {{project.budget}}</p>
 
-                                            <p class="t-mont t-bold t-orange"> Additional Information</p>
+                                            <p class="t-mont t-bold t-orange" v-if="project.additional_details"> Extra
+                                                Requirements</p>
                                             <p class="mb-3">{{project.additional_details}}</p>
 
                                             <p class="t-mont t-bold t-orange"> Skills</p>
@@ -640,17 +641,14 @@
                     for (let key in this.project) {
 
                         //some filtering is going on here to reduce the request size
-                        if (key === 'category') {
+                        if (key === 'category' || key === 'subcategory') {
                             formData.append(key, this.project[key].id)
-                        } else if (key === 'subcategory') {
-                            formData.append(key, this.project[key].id)
-                        } else if (key === 'skills') {
+                        }  else if (key === 'skills') {
 
                             let skillArray = []
                             for (let i = 0; i < this.project[key].length; i++) {
                                 skillArray.push(this.project[key][i].name)
                             }
-
 
                             formData.append(key, skillArray.toString())
 

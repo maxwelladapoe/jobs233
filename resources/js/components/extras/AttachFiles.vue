@@ -35,13 +35,13 @@
             <div>
                 <div class="mt-4 columns is-mobile is-multiline"
                      v-if="uploadedFileList.length">
-                    <div class="column is-12-mobile is-6-tablet is-4-desktop"
+                    <div class="column is-12-mobile is-6-desktop"
                          v-for="file in uploadedFileList">
-                        <div class="card is-relative">
+                        <div class="box is-relative">
 
-                            <div class="card-content">
-                                <div class="media">
-                                    <div class="media-left">
+                            <div >
+
+                                    <div class="">
                                         <figure class="image is-32x32">
                                             <template
                                                 v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
@@ -56,11 +56,11 @@
                                             </template>
                                         </figure>
                                     </div>
-                                    <div class="media-content">
+                                    <div class="">
                                         <p class="t-bold t-6">{{ file.name }}</p>
                                         <p class=" t-6">{{ formatBytes(file.size)}}</p>
                                     </div>
-                                </div>
+
                             </div>
 
                             <button class="jb-close-button delete" type="button" rounded size="is-small"

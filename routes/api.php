@@ -58,7 +58,7 @@ Route::prefix('v1')->group(function () {
         Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
         Route::get('/assigned/{project}', [App\Http\Controllers\ProjectController::class, 'getAssignedProject']);
         Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
-        Route::patch('/update/{id}', [App\Http\Controllers\ProjectController::class, 'update']);
+        Route::post('/update/{project}', [App\Http\Controllers\ProjectController::class, 'update']);
         Route::post('/update-status', [App\Http\Controllers\ProjectController::class, 'updateStatus']);
         Route::get('/status-updates/{project}', [App\Http\Controllers\ProjectController::class, 'statusUpdates']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
@@ -73,10 +73,21 @@ Route::prefix('v1')->group(function () {
                 Route::post('/', [App\Http\Controllers\BidController::class, 'create']);
                 Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
             });
+
+            //attachments
+
+
+
         });
 
 
+
     });
+
+    Route::prefix('attachments')->group(function () {
+        Route::delete('/delete/{attachment}',[App\Http\Controllers\AttachmentController::class,'delete']);
+    });
+
 
 
     Route::prefix('profile')->group(function () {

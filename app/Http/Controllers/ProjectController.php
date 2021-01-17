@@ -183,91 +183,96 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'project' => $project], 200);
     }
 
-    public function update(Request $request)
+    public function update(Project $project, Request $request)
     {
 
-        $this->validate($request, [
-            'title' => ['string', 'required', 'min:3', 'max:150'],
-            'description' => ['string', 'required', 'min:3', 'max:2000'],
-            'category' => ['integer', 'required'],
-            'subcategory' => ['integer', 'required'],
-            'budget' => ['required', 'string'],
-            'currency' => ['required', 'integer', 'min:1'],
-            'additional_details' => ['nullable', 'string'],
-            'skills' => ['required'],
-            'tags' => ['nullable'],
-            'deadline' => ['date', 'required'],
+        if ($project->user->id === Auth::user()->id) {
 
-        ]);
+            $this->validate($request, [
+                'title' => ['string', 'required', 'min:3', 'max:150'],
+                'description' => ['string', 'required', 'min:3', 'max:2000'],
+                'category' => ['integer', 'required'],
+                'subcategory' => ['integer', 'required'],
+                'budget' => ['required', 'string'],
+                'currency' => ['required', 'integer', 'min:1'],
+                'additional_details' => ['nullable', 'string'],
+                'skills' => ['required'],
+                'tags' => ['nullable'],
+                'deadline' => ['date', 'required'],
 
-        $project = Project::where('user_id', Auth::user()->id)->where('id', $request['id'])->firstOrFail();
-
-
-        if ($project->count() == 1) {
-
-            $project->title = $request['title'];
-            $project->description = $request['description'];
-            $project->additional_details = $request['additional_details'];
-            $project->user_id = Auth::user()->id;
-            $project->category_id = $request['category'];
-            $project->budget = doubleval($request['budget']);
-            $project->balance = doubleval($request['budget']);
-            $project->currency_id = $request['currency'];
-            $project->secondary_category_id = $request['subcategory'];
-            $project->skills = $request['skills'];
-            $project->tags = $request['tags'];
-            $project->deadline = $request['deadline'];
-            $project->status = 'new';
+            ]);
 
 
-            if ($project->save()) {
+            if (!$project->worker_id || !$project->accepted_bid_id) {
+
+                $project->title = $request['title'];
+                $project->description = $request['description'];
+                $project->additional_details = $request['additional_details'];
+                $project->user_id = Auth::user()->id;
+                $project->category_id = $request['category'];
+                $project->budget = doubleval($request['budget']);
+                $project->balance = doubleval($request['budget']);
+                $project->currency_id = $request['currency_id'];
+                $project->secondary_category_id = $request['subcategory'];
+                $project->skills = $request['skills'];
+                $project->tags = $request['tags'];
+                $project->deadline = $request['deadline'];
+                // $project->status = 'new';
 
 
-                if ($request->has('attachments')) {
-                    $files = $request['attachments'];
+                if ($project->save()) {
 
-                    foreach ($files as $file) {
+//
+//                    if ($request->has('attachments')) {
+//                        $files = $request['attachments'];
+//
+//                        foreach ($files as $file) {
+//
+//
+//                            $filenameWithExt = $file->getClientOriginalName();
+//                            //Get just filename
+//                            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+//                            // Get just ext
+//                            $extension = $file->getClientOriginalExtension();
+//                            // Filename to store
+//                            $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+//
+//                            $path = $file->storeAs('public/attachments', $fileNameToStore);
+//
+//                            if ($path) {
+//                                $attachment = new Attachment();
+//                                $attachment->user_id = Auth::user()->id;
+//                                $attachment->project_id = $project->id;
+//                                $attachment->name = $filenameWithExt;
+//                                $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+//                                $attachment->size = $file->getSize();
+//                                $attachment->format = $file->getMimeType();
+//                                $attachment->save();
+//                            }
+//
+//                        }
+//
+//                    }
 
+                    Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
 
-                        $filenameWithExt = $file->getClientOriginalName();
-                        //Get just filename
-                        $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-                        // Get just ext
-                        $extension = $file->getClientOriginalExtension();
-                        // Filename to store
-                        $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
-
-                        $path = $file->storeAs('public/attachments', $fileNameToStore);
-
-                        if ($path) {
-                            $attachment = new Attachment();
-                            $attachment->user_id = Auth::user()->id;
-                            $attachment->project_id = $project->id;
-                            $attachment->name = $filenameWithExt;
-                            $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
-                            $attachment->size = $file->getSize();
-                            $attachment->format = $file->getMimeType();
-                            $attachment->save();
-                        }
-
-                    }
-
+                    return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been updated successfully'], 200);
+                } else {
+                    Log::debug("there seems to be an issue with project update. you may have to check the database");
+                    return response()->json(['success' => false, 'message' => 'the project update failed'], 500);
                 }
 
-                Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
 
-                return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);
             } else {
-                Log::debug("there seems to be an issue with project creation. you may have to check the database");
-                return response()->json(['success' => false, 'message' => 'oops something went wrong'], 500);
+
+
+                return response()->json(['success' => false, 'message' => 'this project is already assigned'], 500);
+
             }
 
-
-        } else {
-
-
-            return response()->json(['success' => false, 'message' => 'this project already exists'], 500);
-
+        }
+        else {
+            return response()->json(['success' => false, 'message' => 'unauthorised'], 401);
         }
 
     }
@@ -548,7 +553,7 @@ class ProjectController extends Controller
                 $attachments = $project->attachments();
 
                 dd($attachments);
-                foreach ($attachments as $attachment){
+                foreach ($attachments as $attachment) {
                     //delete each record
                 }
             }

@@ -51,46 +51,46 @@
                                 </template>
 
 
-                                <template v-if="project.attachments && project.attachments.length >0">
-                                    <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
+<!--                                <template v-if="project.attachments && project.attachments.length >0">-->
+<!--                                    <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>-->
 
 
-                                    <div class="columns mt-2">
-                                        <template v-for="(attachment,index) in project.attachments">
+<!--                                    <div class="columns mt-2">-->
+<!--                                        <template v-for="(attachment,index) in project.attachments">-->
 
 
-                                            <div class="col-4 col-lg-3" v-bind:key="index">
-                                                <div class="d-flex justify-content-between">
+<!--                                            <div class="col-4 col-lg-3" v-bind:key="index">-->
+<!--                                                <div class="d-flex justify-content-between">-->
 
-                                                    <div>
-                                                        <template
-                                                            v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">
-                                                            <img
-                                                                src="/images/file_type_icons/doc.svg"
-                                                                alt="" width="35">
-                                                        </template>
-                                                        <template v-else>
-                                                            <img
-                                                                :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"
-                                                                alt="" width="35">
-                                                        </template>
+<!--                                                    <div>-->
+<!--                                                        <template-->
+<!--                                                            v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">-->
+<!--                                                            <img-->
+<!--                                                                src="/images/file_type_icons/doc.svg"-->
+<!--                                                                alt="" width="35">-->
+<!--                                                        </template>-->
+<!--                                                        <template v-else>-->
+<!--                                                            <img-->
+<!--                                                                :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"-->
+<!--                                                                alt="" width="35">-->
+<!--                                                        </template>-->
 
-                                                    </div>
+<!--                                                    </div>-->
 
-                                                    <div class="ml-2">
-                                                        <p class="t-6">{{ attachment.name }}</p>
-                                                    </div>
-
-
-                                                </div>
-
-                                            </div>
-
-                                        </template>
-                                    </div>
+<!--                                                    <div class="ml-2">-->
+<!--                                                        <p class="t-6">{{ attachment.name }}</p>-->
+<!--                                                    </div>-->
 
 
-                                </template>
+<!--                                                </div>-->
+
+<!--                                            </div>-->
+
+<!--                                        </template>-->
+<!--                                    </div>-->
+
+
+<!--                                </template>-->
 
 
                                 <hr>
@@ -458,9 +458,10 @@
                                     <div class="buttons">
                                         <!--                                        <router-link to="#" class="button is-primary">Post a similar Job</router-link>-->
 
-                                        <template v-if="authenticated && project.user.id === user.id">
+                                        <template v-if="authenticated && project.user.id === user.id &&
+                                        !project.worker_id">
                                             <router-link :to="{name:'editProject'}" class="button is-primary ">Edit this
-                                                job
+                                                project
                                             </router-link>
                                         </template>
 
