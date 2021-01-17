@@ -74,6 +74,7 @@
 
 
                                                 <b-field grouped group-multiline>
+
                                                     <ValidationProvider
                                                         name="First Name"
                                                         :rules="{ required: true, min: 2, alpha_dash: true  }"

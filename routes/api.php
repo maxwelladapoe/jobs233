@@ -34,11 +34,12 @@ Route::prefix('v1')->group(function () {
 
 
     Route::prefix('auth')->group(function () {
-        Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
-        Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
-        Route::post('register', [App\Http\Controllers\Auth\AltRegisterController::class, 'register']);
-        Route::put('{user}/is_online', [App\Http\Controllers\UserOnlineController::class, 'setOnlineStatus']);
-        Route::put('{user}/is_offline', [App\Http\Controllers\UserOnlineController::class, 'setOfflineStatus']);
+        Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+        Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+        Route::post('register', [App\Http\Controllers\Auth\AltRegisterController::class, 'register'])->name('register');
+        Route::put('{user}/is_online', [App\Http\Controllers\UserOnlineController::class, 'setOnlineStatus'])->name('onlineStatus');
+        Route::put('{user}/is_offline', [App\Http\Controllers\UserOnlineController::class, 'setOfflineStatus'])->name
+        ('offlineStatus');
     });
 
     Route::get('/currencies', [App\Http\Controllers\CurrencyController::class, 'read']);
