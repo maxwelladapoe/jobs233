@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hello {{\Illuminate\Support\Facades\Auth::user()->name}},
+# Hello {{$project->user->name}},
 
 Your Project was created successfully.
 
