@@ -54,7 +54,7 @@
                                                     <router-link
                                                         v-if="profileType === 'work' || profileType === 'work&hire' "
                                                         :to="{ name: 'WithdrawFunds' }"
-                                                        class="t-normal">
+                                                        class="t-normal t-6" >
                                                         Withdraw
                                                     </router-link>
                                                  </span>
@@ -131,7 +131,7 @@
                                         v-if="profileType === 'work' || profileType === 'work&hire'"
                                     >
                                         <div
-                                            class="column is-12-mobile is-3-desktop has-text-centered"
+                                            class="column is-12-mobile is-4-desktop has-text-centered"
                                         >
                                             <div class="box stats-item">
                                                 <div>

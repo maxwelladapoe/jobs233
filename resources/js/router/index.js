@@ -105,6 +105,18 @@ router.beforeEach((to, from, next) => {
             return
         }
         next('/login')
+    } else if (to.matched.some(record => record.meta.requiresHire)) {
+        if (store.state.auth.preference ==='hire'||store.state.auth.preference === 'work&hire') {
+            next();
+            return
+        }
+        next('/dashboard')
+    }else if (to.matched.some(record => record.meta.requiresWork)) {
+        if (store.state.auth.preference ==='work'||store.state.auth.preference === 'work&hire') {
+            next();
+            return
+        }
+        next('/dashboard')
     } else {
         next()
     }

@@ -13,7 +13,7 @@
 
                         <div class="columns is-vcentered is-multiline is-mobile">
                             <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
-                                <h1 class=" t-white title">Get Started</h1>
+                                <h1 class=" t-white title t-2">Get Started</h1>
                                 <p class="t-meri t-white subtitle">Join our community of creatives. <br>
                                     You can get your projects completed or get hired. <br> There are no restrictions</p>
                             </div>
@@ -30,7 +30,7 @@
 
                                                 <template v-if="isLoading">
                                                     <div class="loader"></div>
-                                                    <p class="t-2 t-mont t-bold t-white">{{loadingMessage}}</p>
+                                                    <p class="t-3 t-mont t-bold t-white">{{loadingMessage}}</p>
                                                 </template>
 
                                                 <template v-if="isSuccessful">

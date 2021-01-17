@@ -10,7 +10,7 @@ export default [
         path: '/payments/make-deposit/:project_id',
         name: 'MakeDeposit',
         component: MakeDeposit,
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true, requiresHire:true},
         props: true
     },
     {
@@ -23,14 +23,14 @@ export default [
         path: '/account',
         name: 'Account',
         component: Account,
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true, requiresHire: true},
         props: true
     },
     {
         path: '/wallet',
         name: 'Wallet',
         component: Wallet,
-        meta: {requiresAuth: true},
+        meta: {requiresAuth: true,requiresWork:true},
         props: true
     },
     {

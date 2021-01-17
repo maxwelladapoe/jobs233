@@ -138,44 +138,45 @@
 
                 <div class="container">
                     <div class="jb-dash-links">
-                        <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
+
+                        <div><router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
                             <span class=" jb-nav-link-icon"> <b-icon icon="view-dashboard" size="is-small"/> </span>
                             <span class="jb-nav-link-text">Dashboard</span>
-                        </router-link>
+                        </router-link> </div>
                         <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                            <router-link :to="{name:'Projects',query:{owner:'me'}}"
+                            <div>  <router-link :to="{name:'Projects',query:{owner:'me'}}"
                                          class="jb-dash-link t-white ">
                                 <span class=" jb-nav-link-icon"> <b-icon icon="briefcase-variant-outline" size="is-small"/>
                                 </span> <span class="jb-nav-link-text">My Projects</span>
-                            </router-link>
+                            </router-link></div>
 
-                            <router-link :to="{name:'Account'}"
+                            <div> <router-link :to="{name:'Account'}"
                                          class="jb-dash-link t-white ">
                                 <span class=" jb-nav-link-icon"> <b-icon icon="cash-multiple" size="is-small"/>
                                 </span>  <span class="jb-nav-link-text">Account</span>
-                            </router-link>
+                            </router-link></div>
 
                         </template>
                         <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                            <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
+                            <div>  <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
                                          class="jb-dash-link t-white ">
                                 <span class="mr-2"> <b-icon icon="briefcase-variant-outline" size="is-small"/> </span> Assigned
                                 Projects
-                            </router-link>
-                            <router-link :to="{name:'Wallet'}"
+                            </router-link></div>
+                            <div>  <router-link :to="{name:'Wallet'}"
                                          class="jb-dash-link t-white ">
                                 <span class="mr-2"> <b-icon icon="cash-multiple" size="is-small"/> </span> Wallet
-                            </router-link>
+                            </router-link></div>
 
 
 
 
                         </template>
-                        <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
+                        <div><router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
                             <span class=" jb-nav-link-icon"> <b-icon icon="chat" size="is-small"/> </span>
                             <span class="jb-nav-link-text"> Messages</span>
-                        </router-link>
+                        </router-link> </div>
                     </div>
                 </div>
             </div>

@@ -9,19 +9,13 @@
 
                     <div class="columns is-multiline">
                         <div class="column ">
-                            <h1 class="title t-black t-1 t-bold">How Jobs 233 works</h1>
-                            <p class="subtitle t-white">Getting something done is easy.
-                                <br> In just a few steps you can get
-                                started with you projects</p>
+                            <h1 class="title t-black t-1 t-bold">Browse through our categories.</h1>
+                            <p class="subtitle t-white">Get work done in different categories
+                            </p>
                             <b-button type="is-black">Get Started</b-button>
                         </div>
                         <div class="column">
-                            <div class="jb-player-wrapper">
-                                <div class="jb-player-overlay"></div>
 
-                                <img src="/images/play.png" class="jb-play-icon"/>
-                                <img src="/images/img2.webp" class="jb-section-img">
-                            </div>
                         </div>
                     </div>
 

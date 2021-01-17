@@ -16,7 +16,7 @@
                             <div
                                 class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
 
-                                <h1 class=" t-white title">Welcome Back</h1>
+                                <h1 class=" t-white title t-2">Welcome Back</h1>
                                 <p class="t-meri t-white subtitle">Follow up on your projects, work, <br> collaborate
                                     and
                                 get things done</p>
@@ -31,7 +31,7 @@
                                             <div class="inner">
 
                                                 <div class="loader"></div>
-                                                <p class="t-2 t-mont t-bold t-white">{{loadingMessage}}</p>
+                                                <p class="t-3 t-mont t-bold t-white">{{loadingMessage}}</p>
                                             </div>
                                         </div>
 

@@ -11,7 +11,7 @@ export default [
         path: '/project/create',
         name: 'createProject',
         component: CreateProject,
-        meta: {requiresAuth: true}
+        meta: {requiresAuth: true, requiresHire: true},
     },
     {
         path: '/projects',

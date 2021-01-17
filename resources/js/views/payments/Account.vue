@@ -26,7 +26,7 @@
                         <div class="column is-12 is-12-mobile is-12-desktop">
                             <p class="t-mont title t-bold">Deposits <b-icon icon="cash-plus"/></p>
 
-                            <b-table :data="isEmpty ? [] : deposits"
+                            <b-table :data="deposits"
                                      :striped="true"
                                      mobile-cards
                                      :paginated="paginationEnabled"
@@ -110,7 +110,6 @@
             this.loading = true;
 
             axios.get('deposits').then(({data}) => {
-                console.log(data.deposits)
                 this.deposits = data.deposits.data;
                 this.perPage = data.deposits.per_page;
                 this.currentPage = data.deposits.current_page;
@@ -137,7 +136,6 @@
                 this.loading = true;
 
                 axios.get(`deposits/page=${this.currentPage++}`).then(({data}) => {
-                    console.log(data.deposits)
                     this.deposits = data.deposits.data;
                     this.perPage = data.deposits.per_page;
                     this.currentPage = data.deposits.current_page;

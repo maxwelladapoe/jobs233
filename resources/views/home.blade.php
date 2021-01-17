@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Jobs233</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/images/favicon/favicon.ico?v=124gdghhjst"/>
     <link rel="shortcut icon" href="/images/favicon/favicon-32x32.png"/>
     <link rel="shortcut icon" href="/images/favicon/favicon-192x192.png"/>
 

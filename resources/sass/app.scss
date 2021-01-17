@@ -231,7 +231,7 @@ header {
 }
 
 .t-2 {
-    font-size: 2em !important;
+    font-size: 3.5em !important;
 }
 
 .t-3 {
@@ -563,7 +563,7 @@ select.form-control {
     overflow: hidden;
 
 
-    .bg-cover{
+    .bg-cover {
         position: absolute;
         width: 100%;
         height: 20em;
@@ -573,7 +573,8 @@ select.form-control {
         z-index: 0;
 
     }
-    .profile{
+
+    .profile {
         position: relative;
         z-index: 1;
         width: 100%;
@@ -582,19 +583,19 @@ select.form-control {
         align-items: flex-end;
 
 
-
         .profile-picture {
 
             width: 12em;
             height: 12em;
             margin-right: 1em;
+
             .image {
                 border-radius: 10em;
             }
 
         }
 
-        .profile-details{
+        .profile-details {
 
         }
     }
@@ -979,7 +980,7 @@ end of login or sign up
 
 .jb-slider {
     width: 100%;
-    height: 45em;
+    height: 48em;
     z-index: -1;
 
     .carousel {
@@ -1013,7 +1014,7 @@ end of login or sign up
                             height: 100%;
                             width: 100%;
                             z-index: 0;
-                            opacity: 0.3;
+                            opacity: 0.4;
                         }
 
                         .carousel-image {
@@ -1161,6 +1162,7 @@ end of login or sign up
         position: absolute;
         height: 20em;
         background: center top no-repeat;
+        background-size: cover;
         width: 100%;
 
     }
@@ -1174,6 +1176,7 @@ end of login or sign up
     @include media-breakpoint-down(sm) {
         min-height: 75em;
     }
+
     .jb-overlay2 {
         background-color: rgba(0, 0, 0, 0.7);
         width: 100%;
@@ -1185,10 +1188,9 @@ end of login or sign up
             height: 100%;
         }
     }
+
     .jb-section {
         height: 100% !important;
-
-
 
 
         .jb-section-img {
@@ -1632,44 +1634,62 @@ textarea {
 .jb-dash-nav {
     height: 3em;
     width: 100%;
+    position: unset;
 
+    @include media-breakpoint-down(sm){
+        position: fixed;
+        bottom: 0;
+        z-index: 999;
+
+
+    }
     .jb-dash-links {
-        top: 1em;
+        width: 100%;
+        height: 3em;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
 
+
+        @include media-breakpoint-down(sm){
+            justify-content: space-between;
+
+
+        }
 
         .jb-dash-link {
-            margin-right: 0.8em;
+            margin-right: 1em;
             font-weight: 300;
             text-decoration: none;
-            width:auto;
-            line-height: 3em;
+            width: auto;
             text-align: unset;
+
             &:hover {
                 color: black;
             }
-            &.router-link-active{
+
+            &.router-link-active {
                 color: black;
                 font-weight: 600;
             }
 
-            .jb-nav-link-icon{
+            .jb-nav-link-icon {
                 display: unset;
             }
 
-            @include media-breakpoint-down(sm){
+            @include media-breakpoint-down(sm) {
+
+                margin-right: unset;
                 width: 60px !important;
-                display: inline-block;
-                background-color: green;
                 line-height: 1em;
                 text-align: center;
 
-                .jb-nav-link-icon{
+                .jb-nav-link-icon {
                     display: block;
                 }
-                .jb-nav-link-text{
+                .jb-nav-link-text {
                     font-size: 0.5em;
                     display: block;
-                    background-color: red;
                 }
             }
         }
@@ -2161,7 +2181,7 @@ textarea {
     position: relative;
     width: 100%;
     height: 100%;
-overflow: hidden;
+    overflow: hidden;
 }
 
 .slider-video {
@@ -2181,25 +2201,26 @@ overflow: hidden;
     width: 150px;
 }
 
-.has-text-shadow{
+.has-text-shadow {
     text-shadow: 0px 0px 3px #000;
 }
 
 
-.jb-card-image{
-    &:hover{
-        .buttons{
+.jb-card-image {
+    &:hover {
+        .buttons {
             display: block;
         }
     }
-    .buttons{
+
+    .buttons {
         display: none;
         position: absolute;
         z-index: 3;
         top: 10px;
         right: 10px;
 
-        .button{
+        .button {
             width: 35px !important;
             height: 35px !important;
             border-radius: 15px;
@@ -2207,7 +2228,7 @@ overflow: hidden;
     }
 }
 
-.jb-success-box{
+.jb-success-box {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2219,7 +2240,7 @@ overflow: hidden;
 }
 
 
-.jb-close-button{
+.jb-close-button {
     width: 1.5em;
     height: 1.5em;
     border-radius: 1em !important;
@@ -2229,6 +2250,6 @@ overflow: hidden;
     cursor: pointer;
 }
 
-.box,.my-card{
+.box, .my-card {
     box-shadow: 0 0 3px #babdc2 !important;
 }

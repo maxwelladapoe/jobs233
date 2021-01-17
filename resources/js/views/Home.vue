@@ -21,10 +21,10 @@
                                     Just post your projects and get bids from freelancers.
 
                                 </p>
-<!--                                <p>-->
-<!--                                    With ranking and reps it-->
-<!--                                    makes selecting the best freelancers easier.-->
-<!--                                </p>-->
+                                <!--                                <p>-->
+                                <!--                                    With ranking and reps it-->
+                                <!--                                    makes selecting the best freelancers easier.-->
+                                <!--                                </p>-->
                                 <p class="t-meri t-normal">
                                     We have freelancers who are experts in graphic design, web design, mobile app
                                     development,
@@ -108,7 +108,7 @@
                             <div class="jb-video-details">
                                 <div class="jb-section-text t-white t-bold">
 
-                                    <div> Post your first job
+                                    <div> Post your project
                                         in just a few steps.
                                         Its simple! <br> Here is a walk through.
                                     </div>
@@ -154,7 +154,7 @@
                             </div>
                             <br>
                             <router-link :to="{name:'Categories'}" class="button bg-black has-text-white">View
-                                More
+                                all
                             </router-link>
 
                         </div>
@@ -164,73 +164,73 @@
             </div>
 
 
-            <div class="jb-section-small bg-orange">
+            <!--            <div class="jb-section-small bg-orange">-->
 
-                <div class="container">
+            <!--                <div class="container">-->
 
-                    <div class="text-center contents">
-                        <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>
+            <!--                    <div class="text-center contents">-->
+            <!--                        <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>-->
 
-                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>
-
-
-                    </div>
-
-                </div>
-
-            </div>
-
-<!--            <div class="jb-section jb-quote-background">-->
-
-<!--                <div class="section no-padding-margin-top-bottom">-->
+            <!--                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>-->
 
 
-<!--                    <div class="container">-->
-<!--                        <div class="columns">-->
-<!--                            <div class="column is-12 jb-quote-wrapper">-->
+            <!--                    </div>-->
 
-<!--                                <div class="jb-bg-overlay">-->
+            <!--                </div>-->
 
-<!--                                </div>-->
+            <!--            </div>-->
 
+            <!--            <div class="jb-section jb-quote-background">-->
 
-<!--                                <transition name="fade" mode="out-in">-->
-<!--                                    <jb-quote v-on:mouseout.native="startRotation" v-on:mouseover.native="stopRotation"-->
-<!--                                              :key="currentQuoteNumber">-->
+            <!--                <div class="section no-padding-margin-top-bottom">-->
 
 
-<!--                                        <h4 class="t-bold  t-mont jb-quote-title" slot="title">-->
-<!--                                            {{quotes[currentQuoteNumber].title}}</h4>-->
-<!--                                        <p class="t-normal t-meri col-md-10 p-0" slot="contents">-->
-<!--                                            {{quotes[currentQuoteNumber].text}}-->
-<!--                                        </p>-->
-<!--                                        <p class="jb-quote-name t-meri" slot="author" style="white-space: pre-line">-->
-<!--                                            {{quotes[currentQuoteNumber].author}}-->
-<!--                                            {{quotes[currentQuoteNumber].authorPosition}}</p>-->
+            <!--                    <div class="container">-->
+            <!--                        <div class="columns">-->
+            <!--                            <div class="column is-12 jb-quote-wrapper">-->
+
+            <!--                                <div class="jb-bg-overlay">-->
+
+            <!--                                </div>-->
 
 
-<!--                                    </jb-quote>-->
-<!--                                </transition>-->
+            <!--                                <transition name="fade" mode="out-in">-->
+            <!--                                    <jb-quote v-on:mouseout.native="startRotation" v-on:mouseover.native="stopRotation"-->
+            <!--                                              :key="currentQuoteNumber">-->
 
 
-<!--                                <div class="jb-quote-btn-wrapper">-->
-<!--                                    <div class="jb-quote-btn left" @click.prevent="showPreviousQuote"><i-->
-<!--                                        class="fa fa-chevron-left"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="jb-quote-btn right" @click.prevent="showNextQuote"><i-->
-<!--                                        class="fa fa-chevron-right"></i>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-
-<!--                            </div>-->
-
-<!--                        </div>-->
+            <!--                                        <h4 class="t-bold  t-mont jb-quote-title" slot="title">-->
+            <!--                                            {{quotes[currentQuoteNumber].title}}</h4>-->
+            <!--                                        <p class="t-normal t-meri col-md-10 p-0" slot="contents">-->
+            <!--                                            {{quotes[currentQuoteNumber].text}}-->
+            <!--                                        </p>-->
+            <!--                                        <p class="jb-quote-name t-meri" slot="author" style="white-space: pre-line">-->
+            <!--                                            {{quotes[currentQuoteNumber].author}}-->
+            <!--                                            {{quotes[currentQuoteNumber].authorPosition}}</p>-->
 
 
-<!--                    </div>-->
-<!--                </div>-->
+            <!--                                    </jb-quote>-->
+            <!--                                </transition>-->
 
-<!--            </div>-->
+
+            <!--                                <div class="jb-quote-btn-wrapper">-->
+            <!--                                    <div class="jb-quote-btn left" @click.prevent="showPreviousQuote"><i-->
+            <!--                                        class="fa fa-chevron-left"></i>-->
+            <!--                                    </div>-->
+            <!--                                    <div class="jb-quote-btn right" @click.prevent="showNextQuote"><i-->
+            <!--                                        class="fa fa-chevron-right"></i>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+
+            <!--                            </div>-->
+
+            <!--                        </div>-->
+
+
+            <!--                    </div>-->
+            <!--                </div>-->
+
+            <!--            </div>-->
 
 
         </div>
