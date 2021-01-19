@@ -222,37 +222,6 @@ class ProjectController extends Controller
 
                 if ($project->save()) {
 
-//
-//                    if ($request->has('attachments')) {
-//                        $files = $request['attachments'];
-//
-//                        foreach ($files as $file) {
-//
-//
-//                            $filenameWithExt = $file->getClientOriginalName();
-//                            //Get just filename
-//                            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-//                            // Get just ext
-//                            $extension = $file->getClientOriginalExtension();
-//                            // Filename to store
-//                            $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
-//
-//                            $path = $file->storeAs('public/attachments', $fileNameToStore);
-//
-//                            if ($path) {
-//                                $attachment = new Attachment();
-//                                $attachment->user_id = Auth::user()->id;
-//                                $attachment->project_id = $project->id;
-//                                $attachment->name = $filenameWithExt;
-//                                $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
-//                                $attachment->size = $file->getSize();
-//                                $attachment->format = $file->getMimeType();
-//                                $attachment->save();
-//                            }
-//
-//                        }
-//
-//                    }
 
                     Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
 
@@ -590,7 +559,9 @@ class ProjectController extends Controller
 
     public function getAssignedProjects()
     {
-        $projects = Project::where('worker_id', Auth::user()->id)->where('status', '<>', 'completed')->orderby('updated_at', 'desc')->paginate(10);
+        $projects = Project::where('worker_id', Auth::user()->id)
+            ->orWhere('user_id', Auth::user()->id)
+            ->where('status', '<>', 'completed')->orderby('updated_at', 'desc')->paginate(10);
 
         return response()->json(['success' => true, 'projects' => $projects], 200);
 

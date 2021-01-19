@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\ProjectCategory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class AssignedProjectController extends Controller
@@ -13,28 +15,21 @@ class AssignedProjectController extends Controller
      * Display a listing of the resource.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(Request $request)
 
     {
-        //check if there is an assigned to
 
-        $query = Project::latest();
-
-        //check if there is a created by
-
-
-        if (!$request->has('owner') || $request->has('assigned_to')) {
-            //$query->where('accepted_bid_id','<>', null);
-
+        if (Auth::user()->profile->preference == 'work') {
+            $query = Project::where('worker_id', Auth::user()->id);
+        } elseif (Auth::user()->profile->preference == 'hire') {
+            $query = Project::where('user_id', Auth::user()->id);
+        } elseif (Auth::user()->profile->preference == 'work&hire') {
+            $query = Project::where('user_id', Auth::user()->id)->orWhere('worker_id', Auth::user()->id);
         }
 
-        if (Auth::user()->profile->proference =='work' ){
-            $query->where('worker_id', Auth::user()->id);
-        }elseif (Auth::user()->profile->proference =='hire' ){
-            $query->where('user_id', Auth::user()->id);
-        }
+        $query->whereNotIn('status', ['completed', 'new']);
 
         //checking if a category key has been added
         if ($request->has('category')) {
@@ -69,8 +64,8 @@ class AssignedProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -80,8 +75,8 @@ class AssignedProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function show($id)
     {
@@ -91,8 +86,8 @@ class AssignedProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function edit($id)
     {
@@ -102,9 +97,9 @@ class AssignedProjectController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -114,8 +109,8 @@ class AssignedProjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Response
      */
     public function destroy($id)
     {

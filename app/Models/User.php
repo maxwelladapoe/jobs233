@@ -40,7 +40,7 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
         'remember_token',
     ];
     protected $with = ['profile', 'wallet', 'skills'];
-    protected $withCount = ['projects','assigned_projects', 'completedProjects','completed_assigned_projects'];
+    protected $withCount = ['projects','assigned_projects_to_worker', 'my_assigned_projects', 'completedProjects','completed_assigned_projects'];
 
     /**
      * The attributes that should be cast to native types.
@@ -71,9 +71,13 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
         return $this->hasMany(ProjectPayment::class);
     }
 
-    public function assigned_projects()
+    public function assigned_projects_to_worker()
     {
-        return $this->hasMany(Project::class, 'worker_id');
+        return $this->hasMany(Project::class, 'user_id')->whereNotIn('status', ['completed', 'new']);
+    }
+ public function my_assigned_projects()
+    {
+        return $this->hasMany(Project::class, 'worker_id')->whereNotIn('status', ['completed', 'new']);
     }
 
     public function completed_assigned_projects()

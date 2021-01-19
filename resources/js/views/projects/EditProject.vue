@@ -550,7 +550,7 @@
             return {
                 categories: [],
                 skillsList: [],
-                selectedCurrency:{},
+                selectedCurrency: {},
                 skillsListFiltered: [],
                 uploadedFileList: [],
                 isLoading: false,
@@ -679,9 +679,8 @@
             },
 
             uploadAttachments() {
-                console.log("attachments here");
 
-                if (!this.project.worker_id || !this.project.accepted_bid_id) {
+                if ((!this.project.worker_id || !this.project.accepted_bid_id) && this.uploadedFileList) {
                     let formData = new FormData();
                     let config = {
 
@@ -699,17 +698,22 @@
                         formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
                     }
 
+                    formData.append('project_id', this.project.id);
 
-                    axios.post(`projects/add-attachments/${this.project.id}`, formData, config)
+
+                    axios.post(`/attachments`, formData, config)
 
                         .then(({data}) => {
                             if (data.success === true) {
-                                this.createdProject = data.project;
+                                console.log(data.attachments);
+                                this.uploadedFileList = [];
+                                this.project.attachments = data.attachments;
+
                                 //this.resetProject();
                                 Snackbar.open(data.message)
 
-                                this.isLoading = false;
-                                this.isSuccessful = true;
+                                // this.isLoading = false;
+                                // this.isSuccessful = true;
                             } else {
                                 return
                             }
@@ -724,7 +728,6 @@
                 }
 
             },
-
 
             deleteAttachment(attachment) {
                 //TODO: delete attachments

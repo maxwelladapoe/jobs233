@@ -151,10 +151,10 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{ user.assigned_projects_count}}
+                                                        {{ user.my_assigned_projects_count}}
                                                     </p>
                                                     <p class="jb-stats-brief">Assigned {{ 'Project' |
-                                                        pluralize(user.assigned_projects_count) }}</p>
+                                                        pluralize(user.my_assigned_projects_count) }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -176,23 +176,8 @@
                                     </template>
 
                                     <template v-if="profileType === 'hire' || profileType === 'work&hire'">
-                                        <!--                    <div-->
-                                        <!--                      class="column is-6-mobile is-3-desktop has-text-centered"-->
-                                        <!--                    >-->
-                                        <!--                      <div class="box stats-item stats-item">-->
-                                        <!--                        <div>-->
-                                        <!--                          <p class="jb-dash-stats-number t-bold t-mont">-->
-                                        <!--                            <span class="t-normal">₵</span>-->
-                                        <!--                            50-->
-                                        <!--                          </p>-->
-                                        <!--                          <p class="jb-stats-brief">Spent</p>-->
-                                        <!--                        </div>-->
-                                        <!--                      </div>-->
-                                        <!--                    </div>-->
                                         <div
-                                            class="column is-12-mobile is-4-desktop has-text-centered"
-
-                                        >
+                                            class="column is-12-mobile is-4-desktop has-text-centered">
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
@@ -210,10 +195,10 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{user.completed_projects_count}}</p>
+                                                        {{user.assigned_projects_to_worker_count}}</p>
                                                     <p class="jb-stats-brief">
                                                         Assigned {{ "project" |
-                                                        pluralize(user.completed_projects_count) }}
+                                                        pluralize(user.assigned_projects_to_worker_count) }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -491,16 +476,6 @@
                             .catch((error) => {
                                 console.log(error);
                             });
-                        axios
-                            .get("/projects/assigned")
-                            .then(({data}) => {
-                                this.assignedProjects = data.projects.data;
-                                this.assignedProjectsCount = data.projects.total;
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-
                         break;
                     case "hire":
                         axios
@@ -535,12 +510,24 @@
                                 console.log(error);
                             });
                         break;
+
+
+
                 }
+
+                axios
+                    .get("/projects/assigned")
+                    .then(({data}) => {
+                        this.assignedProjects = data.projects.data;
+                        this.assignedProjectsCount = data.projects.total;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
             },
         },
         mounted() {
             this.getSomeProjects();
-            console.log(this.user.profile);
         },
 
     };

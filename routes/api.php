@@ -68,23 +68,19 @@ Route::prefix('v1')->group(function () {
             Route::post('/accept_bid', [App\Http\Controllers\BidController::class, 'acceptBid']);
             Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
 
-
             Route::prefix('bids')->group(function () {
                 Route::post('/', [App\Http\Controllers\BidController::class, 'create']);
                 Route::get('/', [App\Http\Controllers\BidController::class, 'getBids']);
             });
 
-            //attachments
-
-
-
         });
-
-
 
     });
 
+
+    //attachments
     Route::prefix('attachments')->group(function () {
+        Route::post('/', [App\Http\Controllers\AttachmentController::class, 'create']);
         Route::delete('/delete/{attachment}',[App\Http\Controllers\AttachmentController::class,'delete']);
     });
 

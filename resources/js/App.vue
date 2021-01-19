@@ -1,6 +1,7 @@
 <template>
     <div>
-        <v-idle @idle="inactiveUserAction" :wait="600" :duration="3600" hidden :loop="true"/>
+        <v-idle @idle="inactiveUserAction" :wait="600" :duration="1800" hidden :loop="true"/>
+        <!--        <v-idle @idle="inactiveUserAction" :duration="1800"  :loop="true"/>-->
 
         <div>
             <jb-nav/>
