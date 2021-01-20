@@ -30,8 +30,8 @@ if (window.location.href.indexOf(".test") !== -1) {
 
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
 
-    window.axios.defaults.baseURL = "http://jobs233.test:8000/api/" + version + "/";
-    window.baseUrl = "http://jobs233.test:8000/api/" + version + "/"
+    window.axios.defaults.baseURL = "http://jobs233.test/api/" + version + "/";
+    window.baseUrl = "http://jobs233.test/api/" + version + "/"
 
 } else if (window.location.href.indexOf("localhost") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
