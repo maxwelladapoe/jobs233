@@ -9,7 +9,7 @@
                     <div class="columns is is-multiline is-mobile">
 
                         <div
-                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
+                            class="column is-8-mobile is-6-tablet  is-offset-2-mobile is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
 
                             <form class="has-txt-center">
                                 <div class="jb-profile-picture">
