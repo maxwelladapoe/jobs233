@@ -58,7 +58,7 @@ class ProfileController extends Controller
 
         $this->validate($request, [
             'name' => ['required', 'string', 'min:3'],
-            'phone_number' => ['nullable', 'digits', 'min:10', 'max:15'],
+            'phone_number' => ['nullable', 'string','min:10','max:15'],
             'gender' => ['required'],
             'bio' => ['nullable', 'min:3'],
             'country' => ['nullable', 'string', 'min:3'],

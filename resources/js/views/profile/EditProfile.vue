@@ -322,7 +322,7 @@
                                                     <div class="loader"></div>
                                                 </div>
 
-                                                <b-button type="is-primary" :class="profileUpdateLoading?'d-none':''"
+                                                <b-button type="is-primary"  v-if="!profileUpdateLoading"
                                                           @click.prevent="handleSubmit(editProfile)">
                                                     Update Profile
                                                 </b-button>
@@ -621,7 +621,11 @@
                 axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
                     this.profileUpdateLoading = false;
                     this.refresh();
-                }).catch()
+                }).catch((errorRes) => {
+                    this.profileUpdateLoading = false;
+                    //show error
+                    this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
+                })
             },
             changePassword() {
 
