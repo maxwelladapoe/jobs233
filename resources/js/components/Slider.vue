@@ -35,7 +35,6 @@
                 </section>
             </b-carousel-item>
         </b-carousel>
- s
     </div>
 </template>
 

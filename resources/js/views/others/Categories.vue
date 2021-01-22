@@ -2,17 +2,17 @@
 
     <div>
 
-        <div class="hero is-medium has-background-primary">
+        <div class="hero is-medium  has-background-pattern-white">
 
             <div class="hero-body">
                 <div class="container">
 
                     <div class="columns is-multiline">
                         <div class="column ">
-                            <h1 class="title t-black t-1 t-bold">Browse through our categories.</h1>
+                            <h1 class="title t-white t-1 t-bold">Browse through our categories.</h1>
                             <p class="subtitle t-white">Get work done in different categories
                             </p>
-                            <b-button type="is-black">Get Started</b-button>
+                            <b-button type="is-primary">Get Started</b-button>
                         </div>
                         <div class="column">
 

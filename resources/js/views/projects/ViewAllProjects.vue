@@ -380,10 +380,8 @@
                 if (this.assignedTo) {
                     link += '&' + `assigned_to=${(this.assignedTo).toLowerCase().trim() + '&'}`
                 }
-                if (this.page) {
-                    link += '&' + `page=${(this.currentPage + 1)}`
-                }
 
+                link += '&' + `page=${(this.currentPage + 1)}`
 
                 return link;
 
