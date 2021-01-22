@@ -84,7 +84,8 @@
         name: "AttachFiles",
         props: {
             value: {
-                type: Array
+                type: Array,
+                required: true
             }
         },
 
@@ -96,6 +97,9 @@
             }
         },
 
+        created() {
+            this.uploadedFileList = this.value;
+        },
         methods: {
 
             onFileInputChange() {
@@ -129,6 +133,10 @@
             },
 
 
+        },
+        watch (value) {
+            // This causes, that v-model on parent will work!
+            this.$emit('input', this.value)
         }
     }
 </script>

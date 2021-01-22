@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -60,10 +63,9 @@ class LoginController extends Controller
     /**
      * Validate the user login request.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
      */
     protected function validateLogin(Request $request)
     {
@@ -80,6 +82,35 @@ class LoginController extends Controller
             'email' => 'string|exists:users',
             'username' => 'string|exists:users',
         ], $messages);
+    }
+
+
+    /**
+     * Get a token for Mobile login.
+     *
+     * @param Request $request
+     * @return string
+     *
+     * @throws ValidationException
+     */
+
+    public function requestToken(Request $request): string
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        return $user->createToken($request->device_name)->plainTextToken;
     }
 
 

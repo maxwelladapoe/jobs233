@@ -103,36 +103,6 @@
 
                                             </ValidationProvider>
 
-
-                                            <ValidationProvider
-                                                persist
-                                                name="description"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="{ errors, valid }" slim
-                                            >
-                                                <b-field
-                                                    id="description"
-                                                    label="Description"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="description"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                >
-                                                    <b-input
-                                                        rows="8"
-                                                        no-resize
-                                                        type="textarea"
-                                                        expanded
-
-                                                        id="textarea-default"
-                                                        placeholder="Describe the project here"
-                                                        v-model="project.description"
-                                                    ></b-input>
-
-                                                </b-field>
-                                            </ValidationProvider>
-
-
                                             <b-field grouped>
 
 
@@ -199,6 +169,37 @@
                                                 </ValidationProvider>
 
                                             </b-field>
+                                            <ValidationProvider
+                                                persist
+                                                name="description"
+                                                :rules="{ required: true, min: 3, }"
+                                                v-slot="{ errors, valid }" slim
+                                            >
+                                                <b-field
+                                                    id="description"
+                                                    label="Description"
+                                                    label-class="t-mont t-bold"
+                                                    label-for="description"
+                                                    :message="errors"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                >
+
+
+                                                        <quill-editor
+                                                            class="textarea editor p-0"
+                                                            ref="myTextEditor"
+                                                            :content="project.description"
+                                                            v-model="project.description"
+                                                            :options="editorOption"
+                                                            @change="onEditorChange($event)"
+                                                        />
+
+
+                                                </b-field>
+                                            </ValidationProvider>
+
+
+
 
 
                                             <b-field
@@ -271,7 +272,7 @@
                                         <ValidationObserver :key="2" v-if="step===2">
 
                                             <ValidationProvider
-                                                :rules="{ required: true,}"
+                                                :rules="{ required: false,}"
                                                 name="skills" slim
                                                 v-slot="{ errors, valid }"
                                             >
@@ -362,7 +363,7 @@
                                             >
                                                 <b-field
                                                     id="deadline"
-                                                    label="Expected time"
+                                                    label="Deadline"
                                                     label-class="t-mont t-bold"
                                                     label-for="deadline"
                                                     :message="errors"
@@ -393,7 +394,7 @@
                                             <p class="mb-3">{{project.title}}</p>
 
                                             <p class="t-mont t-bold t-orange"> Description</p>
-                                            <p class="mb-3">{{project.description}}</p>
+                                            <div class="mb-3 content" v-html="project.description"></div>
 
                                             <p class="t-mont t-bold t-orange"> Category</p>
                                             <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> >
@@ -505,7 +506,9 @@
 
     import {mapGetters} from "vuex";
     import AttachFiles from "../../components/extras/AttachFiles";
-    import { SnackbarProgrammatic as Snackbar } from 'buefy'
+    import {SnackbarProgrammatic as Snackbar} from 'buefy'
+    import {quillEditor} from "vue-quill-editor";
+
 
 
     export default {
@@ -519,6 +522,23 @@
             const today = new Date();
 
             return {
+
+
+                editorOption: {
+                    theme: 'bubble',
+                    placeholder: "Project description",
+                    modules: {
+                        toolbar: [
+                            ['bold', 'italic', 'underline'],
+                            [{'list': 'ordered'}, {'list': 'bullet'}],
+                            [{ 'header': 2 }, { 'header': 3 }],
+                            ['link']
+                        ]
+                    }
+                },
+                content:'',
+
+
                 categories: [],
                 skillsList: [],
                 skillsListFiltered: [],
@@ -531,7 +551,7 @@
 
                 dropAreaDragOver: false,
                 dropAreaDragLeave: false,
-                createdProject:null,
+                createdProject: null,
 
                 project: {
                     title: '',
@@ -551,14 +571,13 @@
                 step: 1,
                 totalSteps: 3,
 
-                editorOption: {
-                    modules: {
-                        toolbar: '#toolbar'
-                    }
-                },
+
             }
         },
         methods: {
+            onEditorChange({ html, text }) {
+                this.project.description = html;
+            },
 
             getFilteredSkills(text) {
                 this.skillsListFiltered = this.skillsList.filter((option) => {
@@ -643,7 +662,7 @@
                         //some filtering is going on here to reduce the request size
                         if (key === 'category' || key === 'subcategory') {
                             formData.append(key, this.project[key].id)
-                        }  else if (key === 'skills') {
+                        } else if (key === 'skills') {
 
                             let skillArray = []
                             for (let i = 0; i < this.project[key].length; i++) {
@@ -676,7 +695,7 @@
 
                     this.isLoading = true;
 
-                    if (this.createdProject === null){
+                    if (this.createdProject === null) {
                         axios.post('projects', formData, config)
 
                             .then(({data}) => {
@@ -719,7 +738,7 @@
         computed: {
 
             subCategories() {
-                let subCat = null;
+                let subCat = [];
 
                 if (this.project.category != null) {
                     let selectedCategory = this.project.category;
@@ -737,13 +756,8 @@
 
         },
         watch: {
-            title: function () {
-                if (this.project.title.length === 10) {
-
-                }
-            }
         },
-        components: {AttachFiles}
+        components: {AttachFiles,quillEditor}
     }
 </script>
 

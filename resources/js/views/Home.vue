@@ -6,7 +6,7 @@
 
         <jb-slider/>
 
-        <div class="jb-main-section-wrapper">
+        <div class="jb-main-section-wrapper no-margin-bottom">
 
             <div class="jb-section " style="position: relative">
 
@@ -18,13 +18,8 @@
                                 <h1 class="title t-bold t-orange t-mont">Get more done, <br>hire a freelancer</h1>
                                 <p class="t-meri t-normal">Speed up your workflow by hiring an experienced freelancer in
                                     any field.
-                                    Just post your projects and get bids from freelancers.
-
+                                    Post your projects and get bids from freelancers.
                                 </p>
-                                <!--                                <p>-->
-                                <!--                                    With ranking and reps it-->
-                                <!--                                    makes selecting the best freelancers easier.-->
-                                <!--                                </p>-->
                                 <p class="t-meri t-normal">
                                     We have freelancers who are experts in graphic design, web design, mobile app
                                     development,
@@ -164,21 +159,57 @@
             </div>
 
 
-            <!--            <div class="jb-section-small bg-orange">-->
-
-            <!--                <div class="container">-->
-
-            <!--                    <div class="text-center contents">-->
-            <!--                        <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>-->
-
-            <!--                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>-->
 
 
-            <!--                    </div>-->
 
-            <!--                </div>-->
+            <div class="jb-section no-margin-bottom  has-background-grey-dark">
+                <div class="section">
+                    <div class="container">
+                        <div class="columns is-multiline is-vcentered">
+                            <div class="column is-5-desktop t-white ">
 
-            <!--            </div>-->
+                                <p class="t-bold t-3 ">Talented and experienced freelancers at your fingertip</p>
+
+
+                                <p class="t-bold  t-mont mt-5">A friendly budget for the best of
+                                    Jobs</p>
+                                <p>Find high-quality services at every price point. No hourly rates, just project-based
+                                    pricing.</p>
+
+
+                                <p class="t-bold  t-mont mt-5">Quality work done on time</p>
+                                <p> Find the right freelancer to begin working on your project within minutes.</p>
+
+                                <p class="t-bold  t-mont mt-5">Secured payments, every time</p>
+                                <p>Always know what you'll pay upfront. Your payment isn't released until you approve
+                                the work.</p>
+
+                            </div>
+                            <div class="column is-6-desktop is-offset-1-desktop">
+                                <img src="/images/crisp-feedback-white.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="jb-section-small no-margin-top  bg-orange">
+
+                <div class="container">
+
+                    <div class="text-center contents">
+                        <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>
+
+                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
 
             <!--            <div class="jb-section jb-quote-background">-->
 

@@ -21,7 +21,7 @@
                                 </p>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
-                                <p class="t-meri">{{project.description}}</p>
+                                <div class="t-meri content" v-html="project.description"></div>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                                 <h5>

@@ -1,5 +1,5 @@
 <template>
-    <footer class="jb-footer">
+    <footer class="jb-footer has-background-pattern-white">
 
         <div class="section">
             <div class="container">

@@ -35,6 +35,7 @@ Route::prefix('v1')->group(function () {
 
     Route::prefix('auth')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+        Route::post('request_token', [App\Http\Controllers\Auth\LoginController::class, 'requestToken'])->name('requestToken');
         Route::get('logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
         Route::post('register', [App\Http\Controllers\Auth\AltRegisterController::class, 'register'])->name('register');
         Route::put('{user}/is_online', [App\Http\Controllers\UserOnlineController::class, 'setOnlineStatus'])->name('onlineStatus');

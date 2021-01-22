@@ -29,6 +29,14 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * Get all Projects (projects that are not assigned).
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
     public function index(Request $request)
     {
 
@@ -85,6 +93,15 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * Create a project.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function create(Request $request)
     {
 
@@ -97,8 +114,8 @@ class ProjectController extends Controller
             'budget' => ['required', 'string'],
             'currency' => ['required', 'integer', 'min:1'],
             'additional_details' => ['nullable', 'string'],
-            'skills' => ['required'],
-            'tags' => ['nullable'],
+            'skills' => ['nullable','string'],
+            'tags' => ['nullable','string'],
             'deadline' => ['date', 'required'],
 
         ]);
@@ -177,12 +194,31 @@ class ProjectController extends Controller
 
     }
 
+
+
+
+    /**
+     * Read/view a project.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
     public function read(Request $request)
     {
         $project = Project::where('id', $request->project)->with('bids')->first();
         return response()->json(['success' => true, 'project' => $project], 200);
     }
 
+
+    /**
+     * Update a project.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function update(Project $project, Request $request)
     {
 
@@ -246,6 +282,15 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * function to update a project with a new status.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function updateStatus(Request $request)
     {
 
@@ -370,12 +415,27 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * get status updates for a project.
+     *
+     * @param Project $project
+     * @return void
+     */
     public function statusUpdates(Project $project)
     {
         $statusUpdates = $project->statusUpdates()->latest();
     }
 
 
+    /**
+     * Function to mark a project as completed.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function markProjectAsCompleted(Request $request)
     {
 
@@ -439,6 +499,13 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * Function to pay a worker.
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function payWorker(Project $project)
     {
         if (Auth::user() && Auth::user()->id === $project->user_id) {
@@ -509,6 +576,15 @@ class ProjectController extends Controller
         }
     }
 
+
+
+    /**
+     * Delete a Project
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
     public function delete(Request $request)
     {
 
@@ -534,6 +610,12 @@ class ProjectController extends Controller
     }
 
 
+    /**
+     * Get a specific assigned Project.
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAssignedProject(Project $project)
     {
 
@@ -557,6 +639,12 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * Get all assigned Projects to authenticated user.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAssignedProjects()
     {
         $projects = Project::where('worker_id', Auth::user()->id)
@@ -567,6 +655,12 @@ class ProjectController extends Controller
 
     }
 
+
+    /**
+     * Get all Categories & Skills.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCategoriesAndSkills()
     {
         $categories = ProjectCategory::with(['subcategories'])->get();
@@ -574,18 +668,41 @@ class ProjectController extends Controller
         return response()->json(['success' => true, 'categories' => $categories, 'skills' => $skills], 200);
     }
 
+
+
+    /**
+     * Get all categories.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
     public function getCategories()
     {
         $categories = ProjectCategory::with(['subcategories'])->get();
         return response()->json(['success' => true, 'categories' => $categories], 200);
     }
 
+
+    /**
+     * Get all skills.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *
+     */
     public function getSkills()
     {
         $skills = Skill::all();
         return response()->json(['success' => true, 'skills' => $skills], 200);
     }
 
+
+    /**
+     * function to handle searching.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function search(Request $request)
     {
         $this->validate($request, [
@@ -598,17 +715,26 @@ class ProjectController extends Controller
 
     }
 
-    private function watermarkPhoto($imgF, $filePath2Save, $fileNameToStore)
+    /**
+     * watermarking an image/photo.
+     *
+     * @param $imgFile
+     * @param $pathToSaveFile
+     * @param $fileNameToSave
+     * @return string
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    private function watermarkPhoto($imgFile, $pathToSaveFile, $fileNameToSave)
     {
 
-        $originalExtension = $imgF->getClientOriginalExtension();
+        $originalExtension = $imgFile->getClientOriginalExtension();
 
         $watermark_path = Storage::disk('private')->get('watermark/pattern.png');
 
 
         $watermarkImg = Image::make($watermark_path);
 
-        $img = Image::make($imgF);
+        $img = Image::make($imgFile);
 
         $wmarkWidth = $watermarkImg->width();
         $wmarkHeight = $watermarkImg->height();
@@ -627,7 +753,7 @@ class ProjectController extends Controller
             }
         }
 
-        Storage::put($filePath2Save . "/" . $fileNameToStore, $img->encode($originalExtension));
+        Storage::put($pathToSaveFile . "/" . $fileNameToSave, $img->encode($originalExtension));
 
 
         //$img->save($filePath2Save);
@@ -635,7 +761,7 @@ class ProjectController extends Controller
         $watermarkImg->destroy();
         $img->destroy();
 
-        return $filePath2Save;
+        return $pathToSaveFile;
     }
 
 }

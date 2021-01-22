@@ -2,16 +2,16 @@
 
     <div>
 
-        <div class="hero is-medium has-background-primary">
+        <div class="hero is-medium has-background-pattern">
 
             <div class="hero-body">
                 <div class="container">
 
-                    <div class="columns is-multiline">
+                    <div class="columns is-multiline is-vcentered">
                         <div class="column ">
                             <h1 class="title t-black t-1 t-bold">How Jobs 233 works</h1>
                             <p class="subtitle t-white">Getting something done is easy.
-                                <br> In just a few steps you can get
+                                <br> In a few steps you can get
                                 started with you projects</p>
                             <b-button type="is-black">Get Started</b-button>
                         </div>
@@ -45,7 +45,7 @@
                             <div class="columns is-multiline is-mobile mt-5">
                                 <div class="column is-12 has-text-centered">
                                     <p class="t-2 t-meri t-bold">Need some work done?</p>
-                                    <p class="mt-3">Just post it and have our creatives work on it. Its that simple.
+                                    <p class="mt-3">Post it and have our creatives work on it. Its that simple.
                                         <br> There
                                         is always a creative to meet your needs.</p>
                                     <div>
@@ -58,7 +58,7 @@
                             <div class="columns is-multiline is-mobile mt-5">
                                 <div class="column is-12-touch is-6-desktop has-text-centered is-offset-3-desktop">
                                     <p class="mt-3">
-                                        Just give us the details of what you need completed, our creatives will get it
+                                        Give us the details of what you need completed, our creatives will get it
                                         done on time, cheaper and better. We work within your budget
                                     </p>
                                 </div>
@@ -67,8 +67,8 @@
 
                             <div class="columns is-multiline is-mobile mt-5">
 
-                                <div class="column is-4-desktop">
-                                    <div class="columns">
+                                <div class="column is-12-touch is-4-desktop">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/shopping-list.svg"/>
                                         </div>
@@ -82,9 +82,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="column is-4-desktop">
+                                <div class="column is-12-touch is-4-desktop">
 
-                                    <div class="columns">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/confirm.svg"/>
                                         </div>
@@ -98,8 +98,8 @@
 
 
                                 </div>
-                                <div class="column is-4-desktop">
-                                    <div class="columns">
+                                <div class="column is-12-touch is-4-desktop">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/money-bag.svg"/>
                                         </div>
@@ -122,7 +122,7 @@
                                 <div class="column is-12 has-text-centered">
                                     <p class="t-2 t-meri t-bold">Got some skills?</p>
                                     <p class="mt-3">You can find a wide range of projects that match your skills.
-                                        <br>Just complete your profile and let us know your skills so we can easily
+                                        <br>Complete your profile and let us know your skills so we can easily
                                         direct employers to you</p>
                                     <div>
                                         <b-button class="button mt-3">Browse projects</b-button>
@@ -144,8 +144,8 @@
 
                             <div class="columns is-multiline is-mobile mt-5">
 
-                                <div class="column is-4-desktop">
-                                    <div class="columns">
+                                <div class="column is-12-touch is-4-desktop">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/profile.svg"/>
                                         </div>
@@ -157,9 +157,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="column is-4-desktop">
+                                <div class="column is-12-touch is-4-desktop">
 
-                                    <div class="columns">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/bid.svg"/>
                                         </div>
@@ -173,8 +173,8 @@
 
 
                                 </div>
-                                <div class="column is-4-desktop">
-                                    <div class="columns">
+                                <div class="column is-12-touch is-4-desktop">
+                                    <div class="columns is-mobile">
                                         <div class="column is-2">
                                             <b-image src="/images/commerse/wallet.svg"/>
                                         </div>

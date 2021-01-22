@@ -36,6 +36,8 @@ mix.js('resources/js/app.js', 'public/js')
         'vue-i18n',
         'vue-pluralize',
         'lodash',
+        'vue-quill-editor',
+        'v-idle',
     ])
     .sass('resources/sass/vendor.scss', './public/css/vendor.css')
     .sass('resources/sass/app.scss', 'public/css')

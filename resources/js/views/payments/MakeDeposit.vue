@@ -26,7 +26,6 @@
 
                             </p>
 
-                            <!--                this was just added it will be a future feature -->
                             <p class="t-meri t-bold mt-2 ">
                                 When topping up your balance, please note: Per our fraud control guidelines, some
                                 transactions
