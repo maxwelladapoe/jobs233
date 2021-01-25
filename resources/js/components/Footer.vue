@@ -43,8 +43,7 @@
                                 </router-link>
                             </li>
                             <li class="footer-item"><a class="footer-link" href="read.html">Read our blog</a></li>
-                            <li class="footer-item"><a class="footer-link " href="login.html">Subscribe to our News
-                                Letter</a>
+
                             </li>
                             <li class="footer-item"><a class=footer-link href="conditions.html">Conditions of Use</a></li>
                             <li class="footer-item"><a class="footer-link" href="privacy.html">Privacy Notice</a></li>
@@ -55,7 +54,7 @@
                     </div>
 
                     <div class="column is-6 ">
-                        <p>+233(0)275762217</p>
+                        <p><a href="tel:233553795656">+233(0)55-379-5656</a></p>
                         <p><a href="mailto:support@jobs233.com" >support@jobs233.com</a></p>
 
                         <div class="jb-social">

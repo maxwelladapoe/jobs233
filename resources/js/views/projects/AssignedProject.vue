@@ -20,7 +20,7 @@
                                 </p>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
-                                <p class="t-meri mb-3">{{project.description}}</p>
+                                <p class="t-meri mb-3" v-html="project.description"></p>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                                 <b-taglist>
@@ -61,6 +61,9 @@
 
 
                                             <div class="col-4 col-lg-3">
+                                                <a :href="attachment.location" download>
+
+
                                                 <div class="d-flex justify-content-between">
 
                                                     <div>
@@ -84,7 +87,7 @@
 
 
                                                 </div>
-
+                                                </a>
                                             </div>
 
                                         </template>

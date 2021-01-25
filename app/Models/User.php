@@ -15,7 +15,7 @@ use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements Customer,MustVerifyEmail
 {
-    use HasFactory, Notifiable, Searchable, CanPayFloat;
+    use HasFactory, Notifiable, Searchable, CanPayFloat, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

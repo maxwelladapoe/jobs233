@@ -19,7 +19,7 @@
                                 <h1 class=" t-white title t-2">Welcome Back</h1>
                                 <p class="t-meri t-white subtitle">Follow up on your projects, work, <br> collaborate
                                     and
-                                get things done</p>
+                                    get things done</p>
                             </div>
                             <div class="column is-12-mobile is-5-desktop is-offset-1-desktop">
                                 <div class="card">
@@ -85,17 +85,10 @@
                                                         >
 
 
-                                                            <div class="input-with-icon">
+                                                            <b-input id="password" type="password"
+                                                                     v-model="loginCredentials.password"
+                                                                     placeholder="" password-reveal></b-input>
 
-
-                                                                <b-input id="password" :type="!ipv?'password':'text'"
-                                                                         v-model="loginCredentials.password"
-                                                                         placeholder=""
-                                                                         aria-describedby="password-live-feedback"></b-input>
-                                                                <b-icon :icon="!ipv?'eye':'eye-slash'" class="the-icon"
-                                                                        @click="ipv = !ipv"/>
-
-                                                            </div>
 
                                                         </b-field>
 
@@ -211,6 +204,8 @@
             },
 
             async loginSubmit() {
+
+
 
                 this.displayErrors = false;
                 this.isLoading = true;

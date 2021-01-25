@@ -97,12 +97,12 @@ class LoginController extends Controller
     public function requestToken(Request $request): string
     {
         $request->validate([
-            'email' => 'required|email',
+            'identity' => 'required|string',
             'password' => 'required',
             'device_name' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $request->identity)->orWhere('username',$request->identity)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([

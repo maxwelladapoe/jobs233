@@ -174,9 +174,8 @@
                                                         expanded>
 
 
-                                                        <b-input id="s_password" :type="!ipv?'password':'text'"
-                                                                 v-model="signupCredentials.password"
-                                                                 aria-describedby="password-live-feedback"
+                                                        <b-input id="s_password" type="password"
+                                                                 v-model="signupCredentials.password"password-reveal
                                                                  expanded></b-input>
 
 
