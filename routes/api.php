@@ -134,6 +134,9 @@ Route::prefix('v1')->group(function () {
     //getting he profile
     Route::get('{username}', [App\Http\Controllers\ProfileController::class, 'readProfileForPublic']);
 
+
+    Route::post('contact/submit-request', [App\Http\Controllers\HomeController::class, 'submitRequest']);
+
 });
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
