@@ -14,6 +14,7 @@ import Categories from "../views/others/Categories";
 import Contact from "../views/others/Contact";
 import About from "../views/others/About";
 import ForgotPassword from "../views/auth/ForgotPassword";
+import Blog from "../views/others/Blog";
 
 Vue.use(VueRouter);
 
@@ -47,6 +48,12 @@ const routes = [
         path: '/contact',
         name: 'Contact',
         component: Contact,
+        meta: {requiresAuth: false}
+
+    },{
+        path: '/blog',
+        name: 'Blog',
+        component: Blog,
         meta: {requiresAuth: false}
 
     }, {

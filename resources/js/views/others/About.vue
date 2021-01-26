@@ -40,7 +40,14 @@
 
 <script>
     export default {
-        name: "About"
+        name: "About",
+        title: 'About Us',
+        meta: [
+            {
+                name: 'description',
+                content: `Need to make some inquiries? Feel free to send us an email or submit a request`
+            }
+        ]
     }
 </script>
 

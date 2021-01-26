@@ -13,11 +13,8 @@ import Buefy from 'buefy';
 
 require('./bootstrap');
 import VueQuillEditor, {Quill} from 'vue-quill-editor'
-
 import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.bubble.css' // for bubble theme
-
-Vue.use(VueQuillEditor, /* { default global options } */)
 import {ValidationProvider, ValidationObserver, extend, localize} from 'vee-validate';
 import * as rules from "vee-validate/dist/rules";
 import en from "vee-validate/dist/locale/en.json";
@@ -26,6 +23,11 @@ import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
 import pluralize from 'pluralize';
 import Vidle from 'v-idle'
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+
+Vue.use(VueQuillEditor, /* { default global options } */)
+
+Vue.use(VueHcaptcha);
 
 const icons = Quill.import("ui/icons");
 
@@ -67,6 +69,7 @@ localize("en", en);
 // Register it globally
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+Vue.component('VueHcaptcha', VueHcaptcha);
 
 
 /**

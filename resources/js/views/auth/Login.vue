@@ -123,6 +123,18 @@
                                                     </b-field>
 
 
+                                                    <b-field>
+                                                        <vue-hcaptcha
+                                                            sitekey="eb4114e5-96ea-418b-a707-876f5a0cebf1"
+                                                            @verify="onCaptchaVerify"
+                                                            @expired="onCaptchaExpire"
+                                                            @error="onCaptchaError"
+                                                            size="invisible"
+                                                            ref="invisibleHcaptcha"
+                                                        ></vue-hcaptcha>
+                                                    </b-field>
+
+
                                                     <div class="field mb-0">
 
                                                         <div class="columns">
@@ -176,6 +188,12 @@
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
             title: 'Log In',
+            meta: [
+                {
+                    name: 'description',
+                    content: `Follow up on your projects, work, collaborate and get things done`
+                }
+            ]
         },
         data() {
             return {
@@ -190,7 +208,13 @@
                 },
 
                 displayErrors: false,
-                errorMessages: []
+                errorMessages: [],
+                verified: false,
+                token: null,
+                eKey: null,
+                captchaError: null,
+                expired:null,
+
             }
         },
         methods: {
@@ -199,13 +223,36 @@
             }),
 
 
+            onCaptchaVerify(token, ekey) {
+                this.verified = true;
+                this.token = token;
+                this.eKey = ekey;
+                console.log(`Callback token: ${token}, ekey: ${ekey}`);
+
+
+            },
+
+
+            onCaptchaExpire() {
+                this.verified = false;
+                this.token = null;
+                this.eKey = null;
+                this.expired = true;
+                console.log('Expired');
+            },
+            onCaptchaError(err) {
+                this.token = null;
+                this.eKey = null;
+                this.captchaError = err;
+                console.log(`Error: ${err}`);
+            },
+
+
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
 
             async loginSubmit() {
-
-
 
                 this.displayErrors = false;
                 this.isLoading = true;

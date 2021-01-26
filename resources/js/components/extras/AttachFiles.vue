@@ -134,9 +134,13 @@
 
 
         },
-        watch (value) {
+        watch: {
             // This causes, that v-model on parent will work!
-            this.$emit('input', this.value)
+
+            value(){
+                this.$emit('input', this.value);
+            }
+
         }
     }
 </script>

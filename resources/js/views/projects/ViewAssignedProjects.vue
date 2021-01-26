@@ -299,7 +299,7 @@
 
                     axios.get(this.api).then(({data}) => {
 
-                        console.log(data);
+                     //   console.log(data);
                         this.lastPage = parseInt(data.projects.last_page);
 
 
@@ -344,7 +344,7 @@
                 this.selectedCategory = this.$route.query.category;
             }
             if (this.$route.query.assigned_to) {
-                console.log(this.$route.query.assigned_to)
+            //    console.log(this.$route.query.assigned_to)
                 this.assignedTo = this.$route.query.assigned_to;
             }
             if (this.$route.query.page) {

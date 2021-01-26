@@ -55,404 +55,391 @@
                         <div class="column is-12 is-8-desktop">
                             <div class="jb-project-form p-3">
 
-                                <ValidationObserver v-slot="{handleSubmit}" ref="submitProject">
-                                    <form @submit.prevent="handleSubmit(updateProject)">
+                                <template v-if="project">
 
 
-                                        <ValidationObserver :key="1" v-if="step ===1">
-                                            <ValidationProvider
-                                                persist
-                                                name="title" slim
-                                                :rules="{ required: true, min: 3, max:150}"
-                                                v-slot="{ errors, valid }"
-                                            >
-                                                <b-field
-                                                    label="Title"
-                                                    label-class="t-mont t-bold"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                    label-for="title">
-
-                                                    <b-input id="title" type="text"
-                                                             placeholder=""
-                                                             v-model="project.title"
-                                                             aria-describedby="title-live-feedback">
-
-                                                    </b-input>
-
-                                                </b-field>
-
-                                            </ValidationProvider>
+                                    <ValidationObserver v-slot="{handleSubmit}" ref="submitProject">
+                                        <form @submit.prevent="handleSubmit(updateProject)">
 
 
-                                            <b-field grouped>
-
-
+                                            <ValidationObserver :key="1" v-if="step ===1">
                                                 <ValidationProvider
                                                     persist
-                                                    name="Category"
-                                                    :rules="{required: true}"
+                                                    name="title" slim
+                                                    :rules="{ required: true, min: 3, max:150}"
                                                     v-slot="{ errors, valid }"
-                                                    slim
-                                                >
-
-                                                    <b-field
-                                                        id="category"
-                                                        label="Category"
-                                                        :message="errors"
-                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                        expanded
-                                                    >
-
-                                                        <b-select placeholder="Select a category"
-                                                                  v-model="project.category_id" expanded>
-                                                            <option
-                                                                v-for="category  in categories"
-                                                                :key="category.id"
-                                                                :value="category.id">{{category.name}}
-                                                            </option>
-
-                                                        </b-select>
-
-                                                    </b-field>
-
-
-                                                </ValidationProvider>
-
-                                                <ValidationProvider
-                                                    persist
-                                                    name="subcategory"
-                                                    v-slot="{ errors, valid }"
-                                                    :rules="{required: true}" slim
                                                 >
                                                     <b-field
-                                                        id="sub_category"
-                                                        label="Subcategory"
+                                                        label="Title"
+                                                        label-class="t-mont t-bold"
                                                         :message="errors"
                                                         :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                        expanded
-                                                    >
-                                                        <b-select v-model="project.secondary_category_id"
-                                                                  placeholder="Select a subcategory"
-                                                                  expanded
-                                                                  :disabled="subCategories == null">
+                                                        label-for="title">
 
-                                                            <option
-                                                                v-for="subCategory  in subCategories"
-                                                                :key="subCategory.id"
-                                                                :value="subCategory.id">{{subCategory.name}}
-                                                            </option>
-
-                                                        </b-select>
-
-                                                    </b-field>
-
-
-                                                </ValidationProvider>
-
-                                            </b-field>
-
-                                            <ValidationProvider
-                                                persist
-                                                name="description"
-                                                :rules="{ required: true, min: 3, max:2000}"
-                                                v-slot="{ errors, valid }" slim
-                                            >
-                                                <b-field
-                                                    id="description"
-                                                    label="Description"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="description"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                >
-
-
-                                                    <quill-editor
-                                                        class="textarea editor p-0"
-                                                        ref="myTextEditor"
-                                                        :content="project.description"
-                                                        v-model="project.description"
-                                                        :options="editorOption"
-                                                        @change="onEditorChange($event)"
-                                                    />
-                                                </b-field>
-                                            </ValidationProvider>
-
-
-                                            <b-field
-
-                                                label="Budget"
-                                                label-class="t-mont t-bold"
-                                                label-for="budget"
-                                                expanded
-                                                grouped
-                                            >
-
-
-                                                <ValidationProvider
-                                                    :rules="{ required: true, integer:false}"
-                                                    name="currency"
-                                                    v-slot="{ errors, valid }" slim
-                                                >
-
-                                                    <b-field
-                                                        :message="errors"
-                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                    >
-                                                        <b-select
-                                                            placeholder="  Select a
-                                                                            currency"
-                                                            name="currency"
-                                                            v-model="selectedCurrency">
-
-                                                            <option v-for="currency in currencies"
-                                                                    :key="currency.id"
-                                                                    :value="currency">
-                                                                {{currency.name}}
-                                                            </option>
-
-                                                        </b-select>
-                                                    </b-field>
-
-                                                </ValidationProvider>
-
-
-                                                <ValidationProvider
-                                                    :rules="{ required: true,  min:1}"
-                                                    name="budget"
-                                                    v-slot="{ errors, valid }" slim
-                                                >
-                                                    <b-field
-                                                        :message="errors"
-                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                        expanded
-                                                    >
-                                                        <b-input id="budget" type="text" min="1"
+                                                        <b-input id="title" type="text"
                                                                  placeholder=""
-                                                                 name="budget"
-                                                                 expanded
-                                                                 v-model="project.budget">
+                                                                 v-model="project.title"
+                                                                 aria-describedby="title-live-feedback">
 
                                                         </b-input>
 
                                                     </b-field>
 
-
                                                 </ValidationProvider>
 
 
-                                            </b-field>
+                                                <b-field grouped>
 
 
-                                        </ValidationObserver>
+                                                    <ValidationProvider
+                                                        persist
+                                                        name="Category"
+                                                        :rules="{required: true}"
+                                                        v-slot="{ errors, valid }"
+                                                        slim
+                                                    >
+
+                                                        <b-field
+                                                            id="category"
+                                                            label="Category"
+                                                            :message="errors"
+                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                            expanded
+                                                        >
+
+                                                            <b-select placeholder="Select a category"
+                                                                      v-model="project.category_id" expanded>
+                                                                <template v-if="categories">
+                                                                    <option
+                                                                        v-for="category  in categories"
+                                                                        :key="category.id"
+                                                                        :value="category.id">{{category.name}}
+                                                                    </option>
+                                                                </template>
 
 
-                                        <ValidationObserver :key="2" v-if="step===2">
+                                                            </b-select>
 
-                                            <ValidationProvider
-                                                :rules="{ required: true,}"
-                                                name="skills"
-                                                v-slot="{ errors, valid }"
-                                            >
-                                                <b-field
-                                                    id="skills"
-                                                    label="Skills"
-                                                    label-class="t-mont t-bold"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                    label-for="skills"
+                                                        </b-field>
+
+
+                                                    </ValidationProvider>
+
+                                                    <ValidationProvider
+                                                        persist
+                                                        name="subcategory"
+                                                        v-slot="{ errors, valid }"
+                                                        :rules="{required: true}" slim
+                                                    >
+                                                        <b-field
+                                                            id="sub_category"
+                                                            label="Subcategory"
+                                                            :message="errors"
+                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                            expanded
+                                                        >
+                                                            <b-select v-model="project.secondary_category_id"
+                                                                      placeholder="Select a subcategory"
+                                                                      expanded
+                                                                      :disabled="subCategories == null">
+
+                                                                <template v-if="subCategories">
+                                                                    <option
+                                                                        v-for="subCategory  in subCategories"
+                                                                        :key="subCategory.id"
+                                                                        :value="subCategory.id">{{subCategory.name}}
+                                                                    </option>
+                                                                </template>
+
+                                                            </b-select>
+
+                                                        </b-field>
+
+
+                                                    </ValidationProvider>
+
+                                                </b-field>
+
+                                                <ValidationProvider
+                                                    persist
+                                                    name="description"
+                                                    :rules="{ required: true, min: 3, max:2000}"
+                                                    v-slot="{ errors, valid }" slim
                                                 >
-                                                    <b-taginput
-                                                        input-id="tags-separators"
-                                                        name="skills"
-                                                        :data="skillsListFiltered"
-                                                        icon="label"
-                                                        autocomplete
-                                                        field="name"
-                                                        @typing="getFilteredSkills"
-                                                        placeholder="Add preferred skills"
-                                                        v-model="project.skills"
-                                                        aria-describedby="title-live-feedback">
-                                                        <template slot-scope="props">
-                                                            {{props.option.name}}
-                                                        </template>
-                                                        <template slot="empty">
-                                                            There are no items
-                                                        </template>
-                                                    </b-taginput>
+                                                    <b-field
+                                                        id="description"
+                                                        label="Description"
+                                                        label-class="t-mont t-bold"
+                                                        label-for="description"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+
+
+                                                        <quill-editor
+                                                            class="textarea editor p-0"
+                                                            ref="myTextEditor"
+                                                            :content="project.description"
+                                                            v-model="project.description"
+                                                            :options="editorOption"
+                                                            @change="onEditorChange($event)"
+                                                        />
+                                                    </b-field>
+                                                </ValidationProvider>
+
+
+                                                <b-field
+
+                                                    label="Budget"
+                                                    label-class="t-mont t-bold"
+                                                    label-for="budget"
+                                                    expanded
+                                                    grouped
+                                                >
+
+
+                                                    <ValidationProvider
+                                                        :rules="{ required: true,  min:1}"
+                                                        name="budget"
+                                                        v-slot="{ errors, valid }" slim
+                                                    >
+                                                        <b-field
+                                                            :message="errors"
+                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                            expanded
+                                                        >
+
+                                                            <p class="control" >
+                                                                <span
+                                                                    class="button is-static" v-if="project.currency"
+                                                                >{{project.currency.name}} </span>
+                                                            </p>
+                                                            <b-input id="budget" type="text" min="1"
+                                                                     placeholder=""
+                                                                     name="budget"
+                                                                     expanded
+                                                                     v-model="project.budget">
+
+                                                            </b-input>
+
+                                                        </b-field>
+
+
+                                                    </ValidationProvider>
+
 
                                                 </b-field>
 
 
-                                            </ValidationProvider>
-                                            <ValidationProvider
-                                                :rules="{ required: false,}"
-                                                v-slot="{ errors, valid }"
-                                                name="Tags"
-                                            >
-                                                <b-field
-                                                    id="tags"
-                                                    label="Tags"
-                                                    label-class="t-mont t-bold"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                            </ValidationObserver>
+
+
+                                            <ValidationObserver :key="2" v-if="step===2">
+
+                                                <ValidationProvider
+                                                    :rules="{ required: true,}"
+                                                    name="skills"
+                                                    v-slot="{ errors, valid }"
                                                 >
-                                                    <b-taginput
-                                                        input-id="tags-separators"
+                                                    <b-field
+                                                        id="skills"
+                                                        label="Skills"
+                                                        label-class="t-mont t-bold"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                        label-for="skills"
+                                                    >
+                                                        <b-taginput v-if="project.skills"
+                                                            input-id="tags-separators"
+                                                            name="skills"
+                                                            :data="skillsListFiltered"
+                                                            icon="label"
+                                                            autocomplete
+                                                            field="name"
+                                                            @typing="getFilteredSkills"
+                                                            placeholder="Add preferred skills"
+                                                            v-model="project.skills"
+                                                            aria-describedby="title-live-feedback">
+                                                            <template slot-scope="props">
+                                                                {{props.option.name}}
+                                                            </template>
+                                                            <template slot="empty">
+                                                                There are no items
+                                                            </template>
+                                                        </b-taginput>
 
-                                                        v-model="project.tags"
-                                                        ellipsis
-                                                        icon="label"
-                                                        placeholder="Add a tag"
-                                                        aria-close-label="Delete this tag">
-
-                                                    </b-taginput>
+                                                    </b-field>
 
 
-                                                </b-field>
-                                            </ValidationProvider>
+                                                </ValidationProvider>
+                                                <ValidationProvider
+                                                    :rules="{ required: false,}"
+                                                    v-slot="{ errors, valid }"
+                                                    name="Tags"
+                                                >
+                                                    <b-field
+                                                        id="tags"
+                                                        label="Tags"
+                                                        label-class="t-mont t-bold"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+                                                        <b-taginput
+                                                            input-id="tags-separators"
+
+                                                            v-model="project.tags"
+                                                            ellipsis
+                                                            icon="label"
+                                                            placeholder="Add a tag"
+                                                            aria-close-label="Delete this tag">
+
+                                                        </b-taginput>
 
 
-                                            <ValidationProvider
-                                                :rules="{ required: false,}"
-                                                v-slot="{ errors, valid }"
-                                                name="extra requirements"
-                                            >
-                                                <b-field label="Any Extra
+                                                    </b-field>
+                                                </ValidationProvider>
+
+
+                                                <ValidationProvider
+                                                    :rules="{ required: false,}"
+                                                    v-slot="{ errors, valid }"
+                                                    name="extra requirements"
+                                                >
+                                                    <b-field label="Any Extra
                                                 Requirements"
-                                                         :message="errors"
-                                                         :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                             :message="errors"
+                                                             :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+                                                        <b-input id="projectExtra"
+                                                                 v-model="project.additional_details"
+                                                                 rows="2"
+                                                                 type="textarea">
+                                                        </b-input>
+                                                    </b-field>
+                                                </ValidationProvider>
+
+                                                <!--deadline -->
+                                                <ValidationProvider
+                                                    :rules="{ required: true,}"
+                                                    name="deadline"
+                                                    v-slot="{ errors, valid }"
                                                 >
-                                                    <b-input id="projectExtra"
-                                                             v-model="project.additional_details"
-                                                             rows="2"
-                                                             type="textarea">
-                                                    </b-input>
-                                                </b-field>
-                                            </ValidationProvider>
+                                                    <b-field
+                                                        id="deadline"
+                                                        label="Expected time"
+                                                        label-class="t-mont t-bold"
+                                                        label-for="deadline"
+                                                        :message="errors"
+                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    >
+                                                        <b-datepicker
+                                                            input-id="deadline"
+                                                            name="deadline"
+                                                            placeholder=" Select deadline"
+                                                            v-model="project.deadline"
+                                                            aria-describedby="deadline-live-feedback">
 
-                                            <!--deadline -->
-                                            <ValidationProvider
-                                                :rules="{ required: true,}"
-                                                name="deadline"
-                                                v-slot="{ errors, valid }"
-                                            >
-                                                <b-field
-                                                    id="deadline"
-                                                    label="Expected time"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="deadline"
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                >
-                                                    <b-datepicker
-                                                        input-id="deadline"
-                                                        name="deadline"
-                                                        placeholder=" Select deadline"
-                                                        v-model="project.deadline"
-                                                        aria-describedby="deadline-live-feedback">
+                                                        </b-datepicker>
 
-                                                    </b-datepicker>
-
-                                                </b-field>
-                                            </ValidationProvider>
+                                                    </b-field>
+                                                </ValidationProvider>
 
 
-                                        </ValidationObserver>
+                                            </ValidationObserver>
 
 
-                                        <div :key="4" v-if="step===3">
-                                            <p class="t-mont t-bold t-orange">Title</p>
-                                            <p>{{project.title}}</p>
+                                            <div :key="4" v-if="step===3">
+                                                <p class="t-mont t-bold t-orange">Title</p>
+                                                <p>{{project.title}}</p>
 
-                                            <p class="t-mont t-bold t-orange"> Description</p>
-                                            <div class="mt-3 content" v-html="project.description"></div>
-
-
-                                            <p class="t-mont t-bold t-orange"> Category</p>
-                                            <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> >
-                                                {{project.subcategory.name}} </p>
-
-                                            <p class="t-mont t-bold t-orange"> Budget</p>
-                                            <p>{{selectedCurrency.symbol}} {{project.budget}}</p>
-
-                                            <p class="t-mont t-bold t-orange" v-if="project.additional_details"> Extra
-                                                Requirements</p>
-                                            <p>{{project.additional_details}}</p>
-
-                                            <p class="t-mont t-bold t-orange"> skills</p>
-                                            <h6>
-                                                <b-taglist>
-                                                    <template v-for="skill in project.skills">
-
-                                                        <b-tag type="is-success">{{skill}}</b-tag>
+                                                <p class="t-mont t-bold t-orange"> Description</p>
+                                                <div class="mt-3 content" v-html="project.description"></div>
 
 
-                                                    </template>
-                                                </b-taglist>
-                                            </h6>
+                                                <p class="t-mont t-bold t-orange"> Category</p>
+                                                <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> >
+                                                    {{project.subcategory.name}} </p>
 
-                                            <p class="t-mont t-bold t-orange"> tags</p>
+                                                <p class="t-mont t-bold t-orange"> Budget</p>
+                                                <p>{{project.currency.name}} {{project.budget}}</p>
 
-                                            <h6>
-                                                <b-taglist>
-                                                    <template v-for="tag in project.tags">
-                                                        <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
-                                                    </template>
-                                                </b-taglist>
-                                            </h6>
+                                                <p class="t-mont t-bold t-orange" v-if="project.additional_details">
+                                                    Extra
+                                                    Requirements</p>
+                                                <p>{{project.additional_details}}</p>
+
+                                                <p class="t-mont t-bold t-orange"> skills</p>
+                                                <h6>
+                                                    <b-taglist>
+                                                        <template v-for="skill in project.skills">
+
+                                                            <b-tag type="is-success">{{skill}}</b-tag>
 
 
-                                        </div>
+                                                        </template>
+                                                    </b-taglist>
+                                                </h6>
+
+                                                <p class="t-mont t-bold t-orange"> tags</p>
+
+                                                <h6>
+                                                    <b-taglist>
+                                                        <template v-for="tag in project.tags">
+                                                            <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
+                                                        </template>
+                                                    </b-taglist>
+                                                </h6>
 
 
-                                        <b-field class="mt-5">
+                                            </div>
 
-                                            <div v-if="!isLoading && !isSuccessful"
-                                                 class=" form-group mr-auto text-right t-white">
 
-                                                <button type="submit" class="button bg-orange"
-                                                        v-if="step> 1 && step <= totalSteps"
-                                                        @click.prevent="prev()">
-                                                    Previous
-                                                </button>
+                                            <b-field class="mt-5">
 
-                                                <button type="submit" class="button bg-orange t-white">
+                                                <div v-if="!isLoading && !isSuccessful"
+                                                     class=" form-group mr-auto text-right t-white">
+
+                                                    <button type="submit" class="button bg-orange"
+                                                            v-if="step> 1 && step <= totalSteps"
+                                                            @click.prevent="prev()">
+                                                        Previous
+                                                    </button>
+
+                                                    <button type="submit" class="button bg-orange t-white">
                                             <span v-if="step ===totalSteps">
                                                 Update Project
                                             </span>
-                                                    <span v-else>
+                                                        <span v-else>
                                                   Next
                                             </span>
-                                                </button>
+                                                    </button>
 
-                                            </div>
+                                                </div>
 
-                                            <div v-if="isSuccessful && project.id" class="text-right">
+                                                <div v-if="isSuccessful && project.id" class="text-right">
                                                 <span class="text-success"><b-icon icon="check-circle"/> Your Project
                                                     was updated successfully</span>
 
-                                                <b-button @click="viewPostedProject"
-                                                          class="ml-2" variant="success">View Project
-                                                </b-button>
-                                            </div>
-
-                                            <div
-                                                class="form-group text-right d-flex align-items-start justify-content-end"
-                                                v-if="isLoading">
-                                                <div
-                                                    class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
-                                                >
-                                                    <p class="mr-2 p-0 m-0">Updating... </p>
-                                                    <div class="loader"></div>
+                                                    <b-button @click="viewPostedProject"
+                                                              class="ml-2" variant="success">View Project
+                                                    </b-button>
                                                 </div>
-                                            </div>
-                                        </b-field>
-                                    </form>
 
-                                </ValidationObserver>
+                                                <div
+                                                    class="form-group text-right d-flex align-items-start justify-content-end"
+                                                    v-if="isLoading">
+                                                    <div
+                                                        class=" mr-4 d-flex flex-wrap align-baseline justify-content-center"
+                                                    >
+                                                        <p class="mr-2 p-0 m-0">Updating... </p>
+                                                        <div class="loader"></div>
+                                                    </div>
+                                                </div>
+                                            </b-field>
+                                        </form>
 
+                                    </ValidationObserver>
+                                </template>
 
                             </div>
 
@@ -574,11 +561,9 @@
                 dropAreaDragLeave: false,
                 projectNotFound: false,
                 project: {
-                    category:{
+                    category: {
 
-                        subcategories:{
-
-                        }
+                        subcategories: {}
                     }
                 },
                 currencies: [],
@@ -648,7 +633,7 @@
                             } else if (key === 'deadline') {
                                 formData.append(key, this.formatDate(new Date(this.project[key])))
                             } else if (key === 'currency') {
-                                formData.append(key, this.selectedCurrency.id)
+                                formData.append(key, this.project.currency.id)
                             } else if (key === 'user' || key === 'attachments') {
                                 // formData.append(key, this.formatDate(new Date(this.project[key])))
                             } else {
@@ -778,7 +763,7 @@
             axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
                 this.project = data.project;
 
-                this.selectedCurrency = this.project.currency;
+                //this.selectedCurrency = this.project.currency;
                 this.project.skills = (this.project.skills).split(',');
                 this.project.tags = (this.project.tags).split(',');
                 this.project.deadline = new Date(this.project.deadline);
@@ -788,6 +773,7 @@
 
 
         },
+
         computed: {
 
 
@@ -808,7 +794,7 @@
 
                     }
 
-                   if(selectedCategory){
+                    if (selectedCategory) {
                         subCat = selectedCategory.subcategories;
                     }
 
@@ -825,7 +811,6 @@
             })
 
         },
-        watch: {},
         components: {AttachFiles, quillEditor}
     }
 </script>

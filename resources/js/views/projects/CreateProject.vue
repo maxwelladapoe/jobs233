@@ -26,19 +26,19 @@
                                 <div class="jb-step">
                                     <p>
                                         <span class="jb-step-circle">1</span> Description
-                                        <b-icon icon="chevron-right"/>
+                                        <b-icon icon="chevron-right" size="is-small"/>
                                     </p>
                                 </div>
                                 <div class="jb-step">
                                     <p>
                                         <span class="jb-step-circle">2</span> Extra Requirements
-                                        <b-icon icon="chevron-right"/>
+                                        <b-icon icon="chevron-right" size="is-small"/>
                                     </p>
                                 </div>
                                 <div class="jb-step">
                                     <p>
                                         <span class="jb-step-circle">3</span> Publish
-                                        <b-icon icon="chevron-right"/>
+
                                     </p>
                                 </div>
 
@@ -185,21 +185,18 @@
                                                 >
 
 
-                                                        <quill-editor
-                                                            class="textarea editor p-0"
-                                                            ref="myTextEditor"
-                                                            :content="project.description"
-                                                            v-model="project.description"
-                                                            :options="editorOption"
-                                                            @change="onEditorChange($event)"
-                                                        />
+                                                    <quill-editor
+                                                        class="textarea editor p-0"
+                                                        ref="myTextEditor"
+                                                        :content="project.description"
+                                                        v-model="project.description"
+                                                        :options="editorOption"
+                                                        @change="onEditorChange($event)"
+                                                    />
 
 
                                                 </b-field>
                                             </ValidationProvider>
-
-
-
 
 
                                             <b-field
@@ -211,32 +208,32 @@
                                             >
 
 
-                                                <ValidationProvider
-                                                    :rules="{ required: true, integer:false}"
-                                                    name="currency"
-                                                    v-slot="{ errors, valid }" slim
-                                                >
+                                                <!--                                                <ValidationProvider-->
+                                                <!--                                                    :rules="{ required: true, integer:false}"-->
+                                                <!--                                                    name="currency"-->
+                                                <!--                                                    v-slot="{ errors, valid }" slim-->
+                                                <!--                                                >-->
 
-                                                    <b-field
-                                                        :message="errors"
-                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                    >
-                                                        <b-select
-                                                            placeholder="  Select a
-                                                                            currency"
-                                                            name="currency"
-                                                            v-model="project.currency">
+                                                <!--                                                    <b-field-->
+                                                <!--                                                        :message="errors"-->
+                                                <!--                                                        :type="{ 'is-danger': errors[0], 'is-success': valid }"-->
+                                                <!--                                                    >-->
+                                                <!--                                                        <b-select-->
+                                                <!--                                                            placeholder="  Select a-->
+                                                <!--                                                                            currency"-->
+                                                <!--                                                            name="currency"-->
+                                                <!--                                                            v-model="project.currency">-->
 
-                                                            <option v-for="currency in currencies"
-                                                                    :key="currency.id"
-                                                                    :value="currency.id">
-                                                                {{currency.name}}
-                                                            </option>
+                                                <!--                                                            <option v-for="currency in currencies"-->
+                                                <!--                                                                    :key="currency.id"-->
+                                                <!--                                                                    :value="currency.id">-->
+                                                <!--                                                                {{currency.name}}-->
+                                                <!--                                                            </option>-->
 
-                                                        </b-select>
-                                                    </b-field>
+                                                <!--                                                        </b-select>-->
+                                                <!--                                                    </b-field>-->
 
-                                                </ValidationProvider>
+                                                <!--                                                </ValidationProvider>-->
 
 
                                                 <ValidationProvider
@@ -249,6 +246,11 @@
                                                         :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                         expanded
                                                     >
+
+                                                        <p class="control">
+                                                            <span class="button is-static">{{user.profile
+                                                                .currency.name}} </span>
+                                                        </p>
                                                         <b-input id="budget" type="number" min="1"
                                                                  placeholder="120"
                                                                  name="budget"
@@ -402,13 +404,14 @@
 
                                             <p class="t-mont t-bold t-orange"> Budget</p>
 
-                                            <p class="mb-3">{{project.currency}} {{project.budget}}</p>
+                                            <p class="mb-3">{{user.profile
+                                                .currency.name}} {{project.budget}}</p>
 
                                             <p class="t-mont t-bold t-orange" v-if="project.additional_details"> Extra
                                                 Requirements</p>
                                             <p class="mb-3">{{project.additional_details}}</p>
 
-                                            <p class="t-mont t-bold t-orange"> Skills</p>
+                                            <p class="t-mont t-bold t-orange" v-if="project.skills.length>0"> Skills</p>
                                             <b-taglist class="mb-3">
                                                 <template v-for="(skill,index) in project.skills">
                                                     <b-tag class="mr-1" type="is-success" v-bind:key="index">
@@ -418,7 +421,7 @@
                                             </b-taglist>
 
 
-                                            <p class="t-mont t-bold t-orange"> Tags</p>
+                                            <p class="t-mont t-bold t-orange" v-if="project.tags.length>0"> Tags</p>
 
 
                                             <b-taglist>
@@ -510,7 +513,6 @@
     import {quillEditor} from "vue-quill-editor";
 
 
-
     export default {
 
         metaInfo: {
@@ -531,12 +533,12 @@
                         toolbar: [
                             ['bold', 'italic', 'underline'],
                             [{'list': 'ordered'}, {'list': 'bullet'}],
-                            [{ 'header': 2 }, { 'header': 3 }],
+                            [{'header': 2}, {'header': 3}],
                             ['link']
                         ]
                     }
                 },
-                content:'',
+                content: '',
 
 
                 categories: [],
@@ -574,8 +576,11 @@
 
             }
         },
+        mounted() {
+            this.project.currency = this.user.profile.currency.id;
+        },
         methods: {
-            onEditorChange({ html, text }) {
+            onEditorChange({html, text}) {
                 this.project.description = html;
             },
 
@@ -617,7 +622,7 @@
                     description: '',
                     category: null,
                     budget: '',
-                    currency: null,
+                    currency: this.user.profile.currency.id,
                     subcategory: null,
                     additional_details: '',
                     skills: '',
@@ -648,7 +653,7 @@
                 if (this.step < this.totalSteps) {
                     this.step++
                 } else {
-
+                    this.project.currency = this.user.profile.currency.id;
 
                     let formData = new FormData();
 
@@ -688,7 +693,7 @@
 
                         onUploadProgress: (progressEvent) => {
                             let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                            console.log(percentCompleted)
+                           // console.log(percentCompleted)
                         }
                     };
 
@@ -755,9 +760,8 @@
             })
 
         },
-        watch: {
-        },
-        components: {AttachFiles,quillEditor}
+        watch: {},
+        components: {AttachFiles, quillEditor}
     }
 </script>
 

@@ -265,6 +265,12 @@
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
             title: 'Sign Up',
+            meta: [
+                {
+                    name: 'description',
+                    content: `Join our community of creatives. You can get your projects completed or get hired.`
+                }
+            ]
         },
         data() {
             return {

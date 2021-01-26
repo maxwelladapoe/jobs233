@@ -129,22 +129,30 @@
                         <div class="">
                             <h1 class="t-bold  t-mont title">Get your project started</h1>
                             <br>
-                            <div class="columns is-multiline is-mobile">
+                            <div class="columns is-multiline is-mobile is-centered">
                                 <div class="column is-6-mobile is-3-tablet is-3-desktop ">
-                                    <img class="jb-projects-img" src="/images/icon.png">
-                                    <p class="t-bold jb-project-title  t-mont">Website Development</p>
+                                    <img class="jb-projects-img" src="/images/icons/programming.svg">
+                                    <p class="t-bold jb-project-title  t-mont">Programming & Tech</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
-                                    <img class="jb-projects-img" src="/images/icon2.png">
+                                    <img class="jb-projects-img" src="/images/icons/graphic-design.svg">
                                     <p class="t-bold jb-project-title  t-mont">Graphic Design</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
-                                    <img class="jb-projects-img" src="/images/icon3.png">
-                                    <p class="t-bold jb-project-title t-mont">Mobile Applications</p>
+                                    <img class="jb-projects-img" src="/images/icons/video.svg">
+                                    <p class="t-bold jb-project-title t-mont">Video & Animation</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
-                                    <img class="jb-projects-img" src="/images/icon4.png">
-                                    <p class="t-bold jb-project-title t-mont">Photography</p>
+                                    <img class="jb-projects-img" src="/images/icons/business.svg">
+                                    <p class="t-bold jb-project-title  t-mont">Business</p>
+                                </div>
+                                <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
+                                    <img class="jb-projects-img" src="/images/icons/social-media.svg">
+                                    <p class="t-bold jb-project-title t-mont">Digital Marketing</p>
+                                </div>
+                                <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
+                                    <img class="jb-projects-img" src="/images/icons/translation.svg">
+                                    <p class="t-bold jb-project-title t-mont">Writing & Translation</p>
                                 </div>
                             </div>
                             <br>
@@ -157,9 +165,6 @@
                 </div>
 
             </div>
-
-
-
 
 
             <div class="jb-section no-margin-bottom  has-background-grey-dark">
@@ -182,7 +187,7 @@
 
                                 <p class="t-bold  t-mont mt-5">Secured payments, every time</p>
                                 <p>Always know what you'll pay upfront. Your payment isn't released until you approve
-                                the work.</p>
+                                    the work.</p>
 
                             </div>
                             <div class="column is-6-desktop is-offset-1-desktop">
@@ -280,7 +285,15 @@
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
             title: 'Jobs233',
-            titleTemplate: false
+            titleTemplate: false,
+            meta: [
+                {
+                    name: 'description',
+                    content:
+                        `A freelance marketplace that makes it easy for clients and designers, developers, content developers
+                 to colaborate and get things done. It is  aimed at bringing your creative projects to life at your budget.`
+                }
+            ]
         },
 
         data() {

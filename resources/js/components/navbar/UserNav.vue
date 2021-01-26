@@ -40,7 +40,7 @@
                         </template>
 
 
-                        <b-navbar-item class="no-padding">
+                        <b-navbar-item class="no-padding" tag="div">
 
                             <div class=" nav-item-special">
                                 <section class="">

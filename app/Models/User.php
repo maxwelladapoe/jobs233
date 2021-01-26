@@ -54,7 +54,6 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
 
     public function profile()
     {
-
         return $this->hasOne(Profile::class);
     }
 

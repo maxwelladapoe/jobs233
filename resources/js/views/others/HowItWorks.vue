@@ -13,7 +13,11 @@
                             <p class="subtitle t-white">Getting something done is easy.
                                 <br> In a few steps you can get
                                 started with you projects</p>
-                            <b-button type="is-black">Get Started</b-button>
+
+                            <router-link :to="{name:'Projects'}">
+                                <b-button type="is-black">Get Started</b-button>
+                            </router-link>
+
                         </div>
                         <div class="column">
                             <div class="jb-player-wrapper">
@@ -49,7 +53,12 @@
                                         <br> There
                                         is always a creative to meet your needs.</p>
                                     <div>
+
+                                        <router-link :to="{name:'createProject'}">
                                         <b-button class="button mt-3">Post a project</b-button>
+                                        </router-link>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -104,9 +113,9 @@
                                             <b-image src="/images/commerse/money-bag.svg"/>
                                         </div>
                                         <div class="column is-10">
-                                    <p class="t-bold t-4">Get it completed & Pay</p>
-                                    <p>Pay using our fast stable and secure portal. We act as an intermediary
-                                        ensuring you are satisfied before funds are released</p>
+                                            <p class="t-bold t-4">Get it completed & Pay</p>
+                                            <p>Pay using our fast stable and secure portal. We act as an intermediary
+                                                ensuring you are satisfied before funds are released</p>
 
                                         </div>
                                     </div>
@@ -125,7 +134,9 @@
                                         <br>Complete your profile and let us know your skills so we can easily
                                         direct employers to you</p>
                                     <div>
+                                        <router-link :to="{name:'Projects'}">
                                         <b-button class="button mt-3">Browse projects</b-button>
+                                        </router-link>
                                     </div>
                                 </div>
                             </div>

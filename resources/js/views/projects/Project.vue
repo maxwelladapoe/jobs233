@@ -96,7 +96,7 @@
                                 <hr>
                                 <p class="t-meri"><span>Deadline</span>
                                     <span></span>
-                                    <timeago :datetime="project.deadline" :auto-update="60"/>
+                                    <timeago v-if='project.deadline' :datetime="project.deadline" :auto-update="60"/>
                                 </p>
                                 <hr>
 
@@ -154,7 +154,8 @@
 
                                                                 <div>
                                                                     <p class="t-meri text-right">
-                                                                        <timeago :datetime="bid.created_at"
+                                                                        <timeago v-if='bid.created_at'
+                                                                                 :datetime="bid.created_at"
                                                                                  :auto-update="60"/>
                                                                     </p>
                                                                     <p class="t-meri t-5">
@@ -258,7 +259,7 @@
 
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
-                                    <timeago :datetime="project.created_at" :auto-update="60"/>
+                                    <timeago v-if="project.created_at" :datetime="project.created_at" :auto-update="60"/>
                                     by
                                 </p>
 
@@ -278,7 +279,8 @@
                                             <span class="mr-auto" v-else>{{project.user.name}}</span>
                                         </router-link>
                                         <p class="t-6 t-orange">Joined
-                                            <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
+                                            <timeago v-if="project.user.created_at" :datetime="project.user.created_at"
+                                                     :auto-update="60"></timeago>
                                         </p>
                                     </div>
 

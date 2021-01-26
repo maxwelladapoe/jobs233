@@ -5,7 +5,8 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-4">
-                        <p class="jb-footer-essay t-meri"> Hire the right people, get work done on time and work within your
+                        <p class="jb-footer-essay t-meri"> Hire the right people, get work done, on time and
+                            within your
                             budget. Expert freelances are just a click away</p>
                     </div>
                     <div class="column is-3  is-offset-2">
@@ -42,9 +43,10 @@
                                 <router-link class="footer-link " :to="{name:'About'}">Learn more about Jobs233
                                 </router-link>
                             </li>
-                            <li class="footer-item"><a class="footer-link" href="read.html">Read our blog</a></li>
+                            <li class="footer-item"><router-link class="footer-link" :to="{name:'Blog'}">Read our
+                                blog</router-link></li>
 
-                            </li>
+
                             <li class="footer-item"><a class=footer-link href="conditions.html">Conditions of Use</a></li>
                             <li class="footer-item"><a class="footer-link" href="privacy.html">Privacy Notice</a></li>
                         </ul>
