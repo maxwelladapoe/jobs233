@@ -22,12 +22,21 @@ import VueTimeago from 'vue-timeago';
 import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
 import pluralize from 'pluralize';
-import Vidle from 'v-idle'
-import VueHcaptcha from '@hcaptcha/vue-hcaptcha';
+import Vidle from 'v-idle';
+import { VueReCaptcha } from 'vue-recaptcha-v3';
+
 
 Vue.use(VueQuillEditor, /* { default global options } */)
 
-Vue.use(VueHcaptcha);
+Vue.use(VueReCaptcha, {
+    siteKey: '6LeIjD0aAAAAAESXi_zIdiMPplqNpQOl1UzwTEdi',
+    loaderOptions: {
+        useRecaptchaNet: true,
+        autoHideBadge: true
+
+    }
+});
+
 
 const icons = Quill.import("ui/icons");
 
@@ -69,7 +78,6 @@ localize("en", en);
 // Register it globally
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
-Vue.component('VueHcaptcha', VueHcaptcha);
 
 
 /**

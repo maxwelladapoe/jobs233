@@ -99,7 +99,7 @@
                                         <b-field>
 
                                             <template v-if="!isLoading">
-                                                <b-button type="is-primary" @click.prevent="handleSubmit(submitRequest)">
+                                                <b-button type="is-primary" @click.prevent="handleSubmit(recaptchaAuth)">
                                                     Submit
                                                 </b-button>
                                             </template>
@@ -171,6 +171,12 @@
             }
         },
         methods: {
+
+            async recaptchaAuth(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha(this.submitRequest())
+            },
             submitRequest() {
                 this.isLoading = true
                 axios.post('contact/submit-request', this.contactUsRequest).then(({data}) => {
@@ -192,7 +198,8 @@
                     this.isLoading = false
                 }
             }
-        }
+        },
+
     }
 </script>
 

@@ -70,7 +70,7 @@
                                     <div class="card-content">
                                         <ValidationObserver v-slot="{ handleSubmit }" ref="signupForm">
 
-                                            <form @submit.prevent="handleSubmit(signUpSubmit)">
+                                            <form @submit.prevent="handleSubmit(recaptchaAuth)">
 
 
                                                 <b-field grouped group-multiline>
@@ -300,7 +300,11 @@
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
             },
+            async recaptchaAuth(){
+                await this.$recaptchaLoaded();
 
+                const token = await this.$recaptcha(this.signUpSubmit())
+            },
 
             async signUpSubmit() {
                 this.isLoading = true;

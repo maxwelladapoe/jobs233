@@ -1,24 +1,16 @@
 <template>
     <div>
 
-        <div class="hero is-medium has-background-pattern">
+        <div class="hero is-medium has-background-pattern-white">
 
             <div class="hero-body">
                 <div class="container">
 
                     <div class="columns is-multiline">
 
-                        <div class="column is-12 is-6-desktop is-offset-3-desktop has-text-centered">
-                            <h1 class="title t-black t-1 t-bold">Contact Us</h1>
-                            <p class="subtitle t-white">Need some help / information</p>
-
-                            <div class=" has-text-centered">
-                                <a class="t-bold button is-text bg-white no-decoration"
-                                   href="mailto:support@jobs233.com">Send us an email <span
-                                    class="ml-2"><b-icon
-                                    icon="arrow-right"/></span></a>
-                            </div>
-
+                        <div class="column is-12">
+                            <h1 class="title t-white t-1 t-bold">Our Blog</h1>
+                            <p class="subtitle t-white">News & Articles</p>
 
                         </div>
                     </div>
@@ -49,7 +41,7 @@
         name: "Contact",
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Contact Us',
+            title: 'Blog',
             meta: [
                 {
                     name: 'description',

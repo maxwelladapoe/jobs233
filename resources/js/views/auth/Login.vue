@@ -51,7 +51,7 @@
                                         <validation-observer v-slot="{ handleSubmit }" ref="loginForm">
 
                                             <section>
-                                                <form @submit.prevent="handleSubmit(loginSubmit)">
+                                                <form @submit.prevent="handleSubmit(recaptchaAuth)">
 
 
                                                     <ValidationProvider
@@ -123,18 +123,6 @@
                                                     </b-field>
 
 
-                                                    <b-field>
-                                                        <vue-hcaptcha
-                                                            sitekey="eb4114e5-96ea-418b-a707-876f5a0cebf1"
-                                                            @verify="onCaptchaVerify"
-                                                            @expired="onCaptchaExpire"
-                                                            @error="onCaptchaError"
-                                                            size="invisible"
-                                                            ref="invisibleHcaptcha"
-                                                        ></vue-hcaptcha>
-                                                    </b-field>
-
-
                                                     <div class="field mb-0">
 
                                                         <div class="columns">
@@ -149,6 +137,8 @@
                                                             </div>
 
                                                         </div>
+
+
 
 
                                                     </div>
@@ -208,13 +198,7 @@
                 },
 
                 displayErrors: false,
-                errorMessages: [],
-                verified: false,
-                token: null,
-                eKey: null,
-                captchaError: null,
-                expired:null,
-
+                errorMessages: []
             }
         },
         methods: {
@@ -223,33 +207,14 @@
             }),
 
 
-            onCaptchaVerify(token, ekey) {
-                this.verified = true;
-                this.token = token;
-                this.eKey = ekey;
-                console.log(`Callback token: ${token}, ekey: ${ekey}`);
-
-
-            },
-
-
-            onCaptchaExpire() {
-                this.verified = false;
-                this.token = null;
-                this.eKey = null;
-                this.expired = true;
-                console.log('Expired');
-            },
-            onCaptchaError(err) {
-                this.token = null;
-                this.eKey = null;
-                this.captchaError = err;
-                console.log(`Error: ${err}`);
-            },
-
-
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
+            },
+
+            async recaptchaAuth(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha(this.loginSubmit())
             },
 
             async loginSubmit() {
