@@ -1,24 +1,22 @@
 <template>
-    <div class="jb-main-section-wrapper-alt p-0  ">
+    <div class="jb-main-section-wrapper-alt p-0 ">
 
-        <div class="jb-section p-0 m-0">
-            <img src="/images/slider/1.jpg" class="bg-image" alt="">
+        <section class="hero is-fullheight-with-navbar p-0 m-0">
+            <img src="/images/slider/4.jpg" class="bg-image" alt="">
 
-            <div class="jb-overlay"></div>
+            <div class="jb-overlay2"></div>
+
+            <div class="hero-body">
+
 
             <div class="container jb-login-wrap">
 
-                <div class="section is-large">
+                <div class="section">
 
-                    <div class="columns is-vcentered is-multiline is-mobile">
+                    <div class="columns  is-vcentered is-mobile is-multiline">
                         <div class="column is-12-mobile is-6-desktop  has-text-centered-mobile has-text-left-desktop ">
-                            <h1 class=" t-white title">Work / Get hired</h1>
-                            <p class="t-meri t-white subtitle">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                Aliquid
-                                architecto aspernatur
-                                assumenda aut corporis delectus esse, et harum iste nesciunt nihil pariatur perspiciatis
-                                quo
-                                quod rem sed similique unde voluptatibus.</p>
+                            <h1 class=" t-white title">Reset your password</h1>
+                            <p class="t-meri t-white subtitle">Don't worry, it happens to the best of us.</p>
                         </div>
                         <div class="column is-12-mobile is-5-desktop is-offset-1-desktop">
 
@@ -51,7 +49,7 @@
                                 <div class="card-content">
                                     <ValidationObserver v-slot="{ handleSubmit }" ref="resetForm">
 
-                                        <form @submit.prevent="handleSubmit(resetCredentialsSubmit)">
+                                        <form @submit.prevent="handleSubmit(recaptchaAuth)">
 
                                             <ValidationProvider
                                                 name="email"
@@ -77,8 +75,8 @@
 
                                                 <div class="columns">
                                                     <div class="column is-4">
-                                                        <button type="submit" class="button bg-orange">
-                                                            Email Reset Link
+                                                        <button type="submit" class="button bg-orange t-white">
+                                                            Email reset link
                                                         </button>
                                                     </div>
 
@@ -95,8 +93,8 @@
 
                                 <footer class="card-footer">
                                     <div class="jb-modal-footer card-footer-item ">
-                                        Remember your password?
-                                        <router-link class="t-orange" :to="{name:'Login'}"> Login</router-link>
+                                        Remember your password? <router-link class="t-orange ml-1" :to="{name:'Login'}">
+                                        Login</router-link>
 
                                     </div>
                                 </footer>
@@ -110,6 +108,8 @@
 
             </div>
         </div>
+
+        </section>
 
     </div>
 </template>
@@ -140,6 +140,12 @@
 
             getValidationState({dirty, validated, valid = null}) {
                 return dirty || validated ? valid : null;
+            },
+
+            async recaptchaAuth(){
+                await this.$recaptchaLoaded();
+
+                const token = await this.$recaptcha(this.resetCredentialsSubmit())
             },
 
 

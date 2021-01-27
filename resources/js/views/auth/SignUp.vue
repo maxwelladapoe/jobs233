@@ -185,7 +185,7 @@
 
 
 
-                                                <b-field class="text-center mt-3 expanded">
+                                                <b-field class="text-center mt-3 expanded" label="I want to">
 
                                                     <b-radio-button  expanded v-model="signupCredentials.preference"
                                                                      native-value="work"
@@ -237,7 +237,7 @@
                                     <footer class="card-footer">
                                         <div class="jb-modal-footer card-footer-item ">
                                             Already a member?
-                                            <router-link class="t-orange" :to="{name:'Login'}">Login</router-link>
+                                            <router-link class="t-orange ml-1" :to="{name:'Login'}">Login</router-link>
 
                                         </div>
                                     </footer>
@@ -286,7 +286,7 @@
                     username: '',
                     email: '',
                     password: '',
-                    preference: 'hire'
+                    preference: ''
                 },
             }
         },

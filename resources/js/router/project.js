@@ -14,6 +14,12 @@ export default [
         meta: {requiresAuth: true, requiresHire: true},
     },
     {
+        path: '/jobs',
+        name: 'Jobs',
+        component: ViewAllProjects,
+        meta: {requiresAuth: false}
+    },
+    {
         path: '/projects',
         name: 'Projects',
         component: ViewAllProjects,

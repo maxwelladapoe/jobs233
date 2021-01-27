@@ -152,7 +152,7 @@
 
                                         <p class="card-footer-item ">
                                             Not a member?
-                                            <span><router-link class="t-orange"
+                                            <span><router-link class="t-orange ml-1"
                                                                :to="{name:'SignUp'}"> SignUp</router-link></span>
 
                                         </p>
