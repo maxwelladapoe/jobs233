@@ -206,7 +206,8 @@
                     <div class="text-center contents">
                         <p class="t-bold t-mont mr-3 mb-3 ">Convinced? Hire a freelancer</p>
 
-                        <a href="#" class="button bg-black ml-3 has-text-white">Hire</a>
+                        <router-link :to="{name:'createProject'}" class="button bg-black ml-3 has-text-white">Hire
+                        </router-link>
 
 
                     </div>
