@@ -29,9 +29,6 @@ Route::prefix('v1')->group(function () {
     });
 
 
-    Route::get('email/verify/{id}', [App\Http\Controllers\Auth\AltVerificationController::class, 'verify'])->name('verification.verify');
-    Route::get('email/resend', [App\Http\Controllers\Auth\AltVerificationController::class, 'resend'])->name('verification.resend');
-
 
     Route::prefix('auth')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');

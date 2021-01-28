@@ -5,24 +5,45 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AltVerificationController extends Controller
 {
-    public function verify($user_id, Request $request) {
+//
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
+
+    public function verify($user_id, Request $request)
+    {
+
+
         if (!$request->hasValidSignature()) {
             return response()->json(["msg" => "Invalid/Expired url provided."], 401);
         }
 
-        $user = User::findOrFail($user_id);
+        if (Auth::user() && Auth::user()->id == $user_id) {
+            $user = User::findOrFail($user_id);
 
-        if (!$user->hasVerifiedEmail()) {
-            $user->markEmailAsVerified();
+            if (!$user->hasVerifiedEmail()) {
+                $user->markEmailAsVerified();
+                return redirect()->to('/email-verified');
+            }else{
+                return redirect()->to('/email-already-verified');
+            }
+
+
+        } else {
+            return redirect()->to('/forbidden');
         }
 
-        return redirect()->to('/email-verified');
     }
 
-    public function resend() {
+    public function resend()
+    {
         if (auth()->user()->hasVerifiedEmail()) {
             return response()->json(["msg" => "Email already verified."], 400);
         }

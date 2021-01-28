@@ -4,6 +4,19 @@
 
         <jb-modal/>
 
+        <div class="jb-alert-notification" v-if="alert" :class="`has-background-${alert.type}`">
+            <div class="container">
+                <div class="jb-notification-wrap">
+                    <div class="alert-message">{{alert.message}}</div>
+                    <div class="close">
+                        <button type="button" aria-label="Close notification" class="delete" @click="close"></button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
         <jb-slider/>
 
         <div class="jb-main-section-wrapper no-margin-bottom">
@@ -300,6 +313,7 @@
         data() {
             return {
 
+                alert: null,
                 quotes: [
                     {
                         id: 1,
@@ -332,8 +346,27 @@
         mounted() {
             this.startRotation()
 
+
+            if (this.$route.name === 'EmailVerified'|| this.$route.name === 'EmailAlreadyVerified') {
+
+                this.alert = {};
+                if(this.$route.name === 'EmailAlreadyVerified'){
+                    this.alert.message = "Your email has already been verified";
+                    this.alert.type = "info";
+                }else{
+                    this.alert.message = "Your email has successfully been verified";
+                    this.alert.type = "success";
+                }
+
+                this.$router.replace({name:'Home'});
+            }
+
         },
         methods: {
+
+            close(){
+                this.alert=null;
+            },
             startRotation() {
                 this.timer = setInterval(this.showNextQuote, 12000);
                 console.log('started');

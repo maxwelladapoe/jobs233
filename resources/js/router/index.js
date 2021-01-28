@@ -15,6 +15,9 @@ import Contact from "../views/others/Contact";
 import About from "../views/others/About";
 import ForgotPassword from "../views/auth/ForgotPassword";
 import Blog from "../views/others/Blog";
+import EmailVerified from "../views/auth/EmailVerified";
+import Forbidden from "../views/errors/Forbidden";
+import NotFound from "../views/errors/NotFound";
 
 Vue.use(VueRouter);
 
@@ -38,7 +41,7 @@ const routes = [
         component: HowItWorks,
         meta: {requiresAuth: false}
 
-    },  {
+    }, {
         path: '/categories',
         name: 'Categories',
         component: Categories,
@@ -50,7 +53,7 @@ const routes = [
         component: Contact,
         meta: {requiresAuth: false}
 
-    },{
+    }, {
         path: '/blog',
         name: 'Blog',
         component: Blog,
@@ -86,10 +89,39 @@ const routes = [
         component: Messages,
         meta: {requiresAuth: true}
 
+    }, {
+        path: '/email-verified',
+        name: 'EmailVerified',
+        component: Home,
+        meta: {requiresAuth: true}
+
+    }, {
+        path: '/email-already-verified',
+        name: 'EmailAlreadyVerified',
+        component: Home,
+        meta: {requiresAuth: true}
+
     },
+    {
+        path: '/forbidden',
+        name: 'Forbidden',
+        component: Forbidden,
+        meta: {requiresAuth: false}
+
+    },
+
+
     ...project,
     ...profile,
     ...payment,
+
+
+
+    {
+        path: '*',
+        name: 'Not Found',
+        component: NotFound
+    }
 ];
 
 const router = new VueRouter({
@@ -113,13 +145,13 @@ router.beforeEach((to, from, next) => {
         }
         next('/login')
     } else if (to.matched.some(record => record.meta.requiresHire)) {
-        if (store.state.auth.preference ==='hire'||store.state.auth.preference === 'work&hire') {
+        if (store.state.auth.preference === 'hire' || store.state.auth.preference === 'work&hire') {
             next();
             return
         }
         next('/dashboard')
-    }else if (to.matched.some(record => record.meta.requiresWork)) {
-        if (store.state.auth.preference ==='work'||store.state.auth.preference === 'work&hire') {
+    } else if (to.matched.some(record => record.meta.requiresWork)) {
+        if (store.state.auth.preference === 'work' || store.state.auth.preference === 'work&hire') {
             next();
             return
         }

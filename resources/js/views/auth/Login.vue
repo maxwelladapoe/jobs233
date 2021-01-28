@@ -225,7 +225,8 @@
                 await this.logIn(this.loginCredentials).then(response => {
                     this.isLoading = false;
 
-                    this.$router.push(this.$route.query.redirect || '/');
+
+                    this.$router.push(this.$route.query.redirect || '/dashboard');
 
                 }).catch(errors => {
                     this.displayErrors = true;

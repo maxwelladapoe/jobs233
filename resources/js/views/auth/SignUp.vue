@@ -35,7 +35,7 @@
 
                                                 <template v-if="isSuccessful">
                                                     <b-icon class="t-white" icon="check-circle" v-if="isSuccessful"/>
-                                                    <p class="t-5 t-mont t-bold t-white" v-if="isSuccessful">
+                                                    <p class="t-5 t-mont t-bold t-white mb-5" v-if="isSuccessful">
                                                         <span>{{successMessage}}</span>
                                                         <br>
                                                         <span >{{additionalMessage}}</span>

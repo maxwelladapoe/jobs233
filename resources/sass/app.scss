@@ -1113,6 +1113,7 @@ end of login or sign up
 .no-margin-bottom {
     margin-bottom: 0 !important;
 }
+
 .no-margin-top {
     margin-top: 0 !important;
 }
@@ -1148,7 +1149,6 @@ end of login or sign up
         line-height: 1em;
 
         color: white;
-
 
 
         .contents {
@@ -1585,7 +1585,7 @@ textarea {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 2;
+    z-index: 99999999999;
     display: none;
     text-align: center;
 
@@ -1702,7 +1702,7 @@ textarea {
                     display: block;
                 }
                 .jb-nav-link-text {
-                    font-size: 0.5em;
+                    font-size: 0.5em!important;
                     display: block;
                 }
             }
@@ -2303,4 +2303,19 @@ textarea {
     background-size: contain;
     background: url("/images/pattern/pattern-white.png") center center no-repeat #000;
 
+}
+
+
+.jb-alert-notification {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    color: #fff;
+    .jb-notification-wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: center;
+    }
 }
