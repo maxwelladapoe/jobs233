@@ -39,6 +39,8 @@ class AltRegisterController extends Controller
 
 
             $user = User::create([
+                'first_name' => ucfirst(strtolower(trim($request['firstName']))),
+                'last_name' => ucfirst(strtolower(trim($request['lastName']))),
                 'name' => ucfirst(strtolower(trim($request['firstName']))) . " " . ucfirst(strtolower(trim($request['lastName']))),
                 'username' => strtolower(trim($request['username'])),
                 'email' => strtolower(trim($request['email'])),

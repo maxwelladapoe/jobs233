@@ -35,7 +35,7 @@
 
                                                 <template v-if="isSuccessful">
                                                     <b-icon class="t-white" icon="check-circle" v-if="isSuccessful"/>
-                                                    <p class="t-5 t-mont t-bold t-white mb-5" v-if="isSuccessful">
+                                                    <p class="t-5 t-mont t-bold t-white" v-if="isSuccessful">
                                                         <span>{{successMessage}}</span>
                                                         <br>
                                                         <span >{{additionalMessage}}</span>
@@ -43,14 +43,23 @@
                                                     </p>
 
 
-                                                    <router-link :to="{name:'Login'}">
-                                                        <button class="button bg-orange t-white">
-                                                           Click here to login
-                                                        </button>
+                                                    <div class="buttons mt-3">
+
+                                                        <router-link :to="{name:'Login'}">
+                                                            <b-button type="is-primary" >
+                                                                Click here to login
+                                                            </b-button>
+                                                        </router-link>
 
 
-                                                    </router-link>
+                                                        <b-button type="is-white"
+                                                                  class=" ml-2" @click="resendVerificationMail">
+                                                            Resend link
+                                                        </b-button>
 
+
+
+                                                    </div>
 
                                                 </template>
 
@@ -185,7 +194,7 @@
 
 
 
-                                                <b-field class="text-center mt-3 expanded" label="I want to">
+                                                <b-field class="text-center mt-3 expanded" label="I want to:">
 
                                                     <b-radio-button  expanded v-model="signupCredentials.preference"
                                                                      native-value="work"
@@ -237,7 +246,7 @@
                                     <footer class="card-footer">
                                         <div class="jb-modal-footer card-footer-item ">
                                             Already a member?
-                                            <router-link class="t-orange ml-1" :to="{name:'Login'}">Login</router-link>
+                                            <router-link class="t-orange" :to="{name:'Login'}">Login</router-link>
 
                                         </div>
                                     </footer>
@@ -313,7 +322,7 @@
                 await this.signUp(this.signupCredentials).then(({data}) => {
 
                     //this.loadingMessage = data.message;
-                    this.isLoading = false;
+
                     this.isLoading = false;
                     this.isSuccessful=true;
                     this.successMessage = data.message;
@@ -331,6 +340,17 @@
                     console.log("there was an error", errors.response.data)
                     this.$refs.signupForm.setErrors({...errors.response.data.errors})
                     this.isLoading = false;
+                })
+            },
+
+            resendVerificationMail(){
+                this.isSuccessful=false;
+                this.isLoading = true;
+                this.loadingMessage = 'Resending verification email...';
+                axios.post('email/resend').then(({data})=>{
+                    this.isLoading = false;
+                    this.isSuccessful=true;
+                    this.successMessage = data.message;
                 })
             }
         }

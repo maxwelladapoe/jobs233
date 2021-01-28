@@ -29,6 +29,8 @@ Route::prefix('v1')->group(function () {
     });
 
 
+    Route::get('email/resend', [App\Http\Controllers\Auth\AltVerificationController::class, 'resend'])->name('verification.resend');
+
 
     Route::prefix('auth')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
@@ -57,8 +59,8 @@ Route::prefix('v1')->group(function () {
         Route::get('/assigned/{project}', [App\Http\Controllers\ProjectController::class, 'getAssignedProject']);
         Route::get('/{project}', [App\Http\Controllers\ProjectController::class, 'read']);
         Route::post('/update/{project}', [App\Http\Controllers\ProjectController::class, 'update']);
-        Route::post('/update-status', [App\Http\Controllers\ProjectController::class, 'updateStatus']);
-        Route::get('/status-updates/{project}', [App\Http\Controllers\ProjectController::class, 'statusUpdates']);
+        Route::post('/update-status', [App\Http\Controllers\ProjectStatusUpdateController::class, 'create']);
+        Route::get('/status-updates/{project}', [App\Http\Controllers\ProjectStatusUpdateController::class, 'index']);
         Route::delete('/delete/{id}', [App\Http\Controllers\ProjectController::class, 'delete']);
 
         //bid

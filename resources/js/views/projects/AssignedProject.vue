@@ -8,7 +8,7 @@
                     <div class="container">
 
                         <div class="columns is-multiline  ">
-                            <div class=" column is-12 is-8-desktop">
+                            <div class=" column is-12 is-7-desktop">
 
                                 <p class="t-bold jb-project-title-big t-mont mb-3">{{project.title}}</p>
 
@@ -56,38 +56,41 @@
                                     <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>
 
 
-                                    <div class="columns mt-2">
-                                        <template v-for="attachment in project.attachments">
+                                    <div class="columns mt-2 is-multiline is-mobile">
+                                        <template v-for="file in project.attachments">
 
 
-                                            <div class="col-4 col-lg-3">
-                                                <a :href="attachment.location" download>
+                                            <div class="column is-12-mobile is-4-desktop ">
+                                                <a :href="file.location" download>
+                                                    <div class="box is-relative">
 
+                                                        <div>
 
-                                                <div class="d-flex justify-content-between">
+                                                            <div class="">
+                                                                <figure class="image is-32x32">
+                                                                    <template
+                                                                        v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
+                                                                        <img
+                                                                            src="/images/file_type_icons/doc.svg"
+                                                                            alt="" width="35">
+                                                                    </template>
+                                                                    <template v-else>
+                                                                        <img
+                                                                            :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
+                                                                            alt="" width="35">
+                                                                    </template>
+                                                                </figure>
+                                                            </div>
+                                                            <div class="jb-filename">
+                                                                <p class="t-bold t-6 ">{{ file.name }}</p>
+                                                                <!--                                                            <p class=" t-6">{{ formatBytes(file.size)}}</p>-->
+                                                            </div>
 
-                                                    <div>
-                                                        <template
-                                                            v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">
-                                                            <img
-                                                                src="/images/file_type_icons/doc.svg"
-                                                                alt="" width="35">
-                                                        </template>
-                                                        <template v-else>
-                                                            <img
-                                                                :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"
-                                                                alt="" width="35">
-                                                        </template>
+                                                        </div>
 
                                                     </div>
-
-                                                    <div class="ml-2">
-                                                        <p class="t-6">{{ attachment.name }}</p>
-                                                    </div>
-
-
-                                                </div>
                                                 </a>
+
                                             </div>
 
                                         </template>
@@ -104,7 +107,7 @@
 
                             </div>
 
-                            <div class="column is-12 is-4-desktop ">
+                            <div class="column is-12 is-4-desktop is-offset-1-desktop">
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Accepted Offer</p>
                                 <p class="t-meri t-4 t-bold mb-3">{{acceptedBid.currency.symbol}}
                                     {{acceptedBid.amount}}</p>
@@ -146,7 +149,8 @@
                                                     <div class="bid-details-wrap">
                                                         <div>
                                                             <p class="t-meri text-right t-6">
-                                                                <timeago :datetime="acceptedBid.created_at"
+                                                                <timeago v-if="acceptedBid.created_at"
+                                                                         :datetime="acceptedBid.created_at"
                                                                          :auto-update="60"/>
                                                             </p>
                                                             <p class="t-meri t-5">
@@ -210,14 +214,15 @@
 
                                 <p class="t-meri"><span>Deadline</span>
                                     <span class="t-6 badge pill badge-danger">
-                                <timeago :datetime="project.deadline" :auto-update="60"/></span>
+                                <timeago v-if="project.deadline" :datetime="project.deadline" :auto-update="60"/></span>
                                 </p>
 
                                 <hr>
 
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
-                                    <timeago :datetime="project.created_at" :auto-update="60"/>
+                                    <timeago v-if='project.created_at' :datetime="project.created_at"
+                                             :auto-update="60"/>
                                     by
                                 </p>
 
@@ -237,7 +242,8 @@
                                             <span class="mr-auto" v-else>{{project.user.name}}</span>
                                         </router-link>
                                         <p class="t-6 t-orange">Joined
-                                            <timeago :datetime="project.user.created_at" :auto-update="60"></timeago>
+                                            <timeago v-if="project.user.created_at" :datetime="project.user.created_at"
+                                                     :auto-update="60"></timeago>
                                         </p>
                                     </div>
 
@@ -248,13 +254,13 @@
 
                                     <hr>
 
-                                    <router-link to="" class="button bg-orange">Post a similar Job</router-link>
+                                    <router-link to="" class="button bg-orange t-white">Post a similar Job</router-link>
 
                                 </template>
 
                             </div>
 
-                            <div class="column is-12 is-8-desktop">
+                            <div class="column is-12 is-7-desktop">
                                 <div v-if="acceptedBid.user_id === user.id">
 
                                     <p class="t-4 t-mont t-bold t-orange">Update Status</p>
@@ -338,7 +344,7 @@
 
                                     <template v-if="latestStatusUpdate">
 
-                                        <div class="mt-2 mb-3 p-3 border">
+                                        <div class="mt-2 mb-5 p-3 border">
                                             <p class="t-6 t-orange">
                                                 <b-icon icon="update" size="is-small"/>
                                                 <span>{{latestStatusUpdate.status.replace('-',' ')}}</span></p>
@@ -346,9 +352,43 @@
                                                 <b-icon icon="message" size="is-small"></b-icon>
                                                 {{latestStatusUpdate.message}}
                                             </p>
-                                            <p class="t-6 mt-2 t-ash text-right">
-                                                <timeago :datetime="latestStatusUpdate.created_at" :auto-update="60"/>
-                                            </p>
+                                            <div class="t-6 mt-2">
+                                                <div class="t-ash">
+
+
+                                                <timeago v-if='latestStatusUpdate.created_at'
+                                                         :datetime="latestStatusUpdate.created_at"
+                                                         :auto-update="60"/>
+                                            </div>
+
+                                                <div class="has-text-left t-orange">
+                                                    <template v-if="latestStatusUpdate.attachments && latestStatusUpdate.attachments.length>0">
+
+                                                        <b-collapse :open="false" aria-id="contentIdForA11y1">
+                                                            <template #trigger>
+                                                                <b-icon icon="paperclip" size="is-small"/> Attachments
+                                                            </template>
+                                                            <div class="mt-2">
+                                                                <div class="content">
+
+                                                                    <template v-for="file in update.attachments">
+                                                                        <a :href="file.location" download class="mb-2">
+                                                                            <b-tag type="is-primary">
+                                                                                {{file.name}}
+                                                                            </b-tag>
+                                                                        </a>
+                                                                    </template>
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </b-collapse>
+
+                                                    </template>
+                                                </div>
+                                            </div>
                                         </div>
 
                                     </template>
@@ -382,6 +422,10 @@
                                                             Further Changes Required
                                                         </option>
 
+                                                        <option value="in-progress" >
+                                                            In progress
+                                                        </option>
+
 
                                                         <option value="assigned" disabled style="color: #cdcdcd">
                                                             Assigned
@@ -391,9 +435,7 @@
                                                             Submitted For Review
                                                         </option>
 
-                                                        <option value="in-progress" disabled style="color: #cdcdcd">
-                                                            In progress
-                                                        </option>
+
 
                                                     </b-select>
 
@@ -446,12 +488,12 @@
                             </div>
 
 
-                            <div class="column is-4-desktop is-12 ">
+                            <div class="column is-12 is-4-desktop is-offset-1-desktop is-12 ">
 
                                 <template v-if="statusUpdates.length> 0 ">
                                     <p class="t-bold">Recent Updates</p>
 
-                                    <div class="mt-2 p-3 border" v-for="update in statusUpdates">
+                                    <div class="mt-2 py-3 border" v-for="update in statusUpdates">
                                         <p class="t-6 t-orange">
                                             <b-icon icon="update" size="is-small"/>
                                             <span>{{update.status.replace('-',' ')}}</span></p>
@@ -459,9 +501,44 @@
                                             <b-icon icon="message" size="is-small"></b-icon>
                                             {{update.message}}
                                         </p>
-                                        <p class="t-6 mt-2 t-ash text-right">
-                                            <timeago :datetime="update.created_at" :auto-update="60"/>
-                                        </p>
+
+                                        <div class="t-6 mt-2 ">
+                                            <div class="has-text-left t-ash">
+                                            <timeago v-if="update.created_at" :datetime="update.created_at"
+                                                     :auto-update="60"/>
+                                            </div>
+
+                                            <div class="has-text-left t-orange">
+                                                  <template v-if="update.attachments && update.attachments.length>0">
+
+                                                    <b-collapse :open="false" aria-id="contentIdForA11y1">
+                                                        <template #trigger>
+                                                        <b-icon icon="paperclip" size="is-small"/> Attachments
+                                                        </template>
+                                                        <div class="mt-2">
+                                                            <div class="content">
+
+                                                                <template v-for="file in update.attachments">
+                                                                    <a :href="file.location" download class="mb-2">
+                                                                        <b-tag type="is-primary">
+                                                                           {{file.name}}
+                                                                        </b-tag>
+                                                                    </a>
+                                                                </template>
+
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </b-collapse>
+
+                                                     </template>
+                                            </div>
+
+                                        </div>
+
+
                                     </div>
 
                                 </template>
@@ -515,6 +592,7 @@
     import {mapGetters} from "vuex";
     import project from "../../router/project";
     import AttachFiles from "../../components/extras/AttachFiles";
+    import {SnackbarProgrammatic as Snackbar} from 'buefy';
 
     export default {
         name: "projects",
@@ -617,7 +695,19 @@
                 };
                 axios.post('projects/update-status', formData, config)
                     .then(({data}) => {
+                        Snackbar.open(data.message);
                         this.project = data.project;
+                        this.statusUpdates.unshift(data.status_update);
+                        this.latestStatusUpdate = data.status_update;
+
+                        this.statusUpdate = {
+                            project_id: this.project.id,
+                            status: this.project.status,
+                            message: ''
+                        }
+                        this.uploadedFileList = [];
+
+
                     })
             },
             markProjectAsCompleted() {

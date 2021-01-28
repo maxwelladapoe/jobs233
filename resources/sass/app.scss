@@ -2319,3 +2319,14 @@ textarea {
         align-content: center;
     }
 }
+
+.jb-filename{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+}
+
+a{
+    cursor: pointer!important;
+}

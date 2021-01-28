@@ -528,7 +528,7 @@
 
                 editorOption: {
                     theme: 'bubble',
-                    placeholder: "Project description",
+                    placeholder: "Describe what you want done. eg. Logo design for ...",
                     modules: {
                         toolbar: [
                             ['bold', 'italic', 'underline'],

@@ -22,4 +22,9 @@ class Attachment extends Model
         return $this->belongsTo(Project::class);
     }
 
+    public function status_update()
+    {
+        return $this->belongsTo(ProjectStatusUpdate::class);
+    }
+
 }
