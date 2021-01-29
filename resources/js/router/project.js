@@ -25,6 +25,22 @@ export default [
         component: ViewAllProjects,
         meta: {requiresAuth: false}
     },
+
+
+    {
+        path: '/projects/assigned/',
+        name: 'ViewAssignedProjects',
+        component: ViewAssignedProjects,
+        meta: {requiresAuth: true}
+    },
+    {
+        path: '/projects/my-projects/',
+        name: 'MyProjects',
+        component: ViewAllProjects,
+        meta: {requiresAuth: true}
+    },
+
+
     {
         path: '/projects/:id',
         name: 'singleProject',
@@ -35,12 +51,6 @@ export default [
         path: '/projects/edit/:id',
         name: 'editProject',
         component: EditProject,
-        meta: {requiresAuth: true}
-    },
-    {
-        path: '/projects/assigned/',
-        name: 'ViewAssignedProjects',
-        component: ViewAssignedProjects,
         meta: {requiresAuth: true}
     },
     {

@@ -78,70 +78,39 @@
 
                                 <template v-if="allProjects.length>0 || allProjects">
 
-                                    <project-component v-for="project in allProjects" :key="project.id" :project="project" :authenticated="authenticated"  :user="user">
+                                    <project-component v-for="project in allProjects" :key="project.id"
+                                                       :project="project" :authenticated="authenticated" :user="user">
 
 
-
-                                            <template
-                                                v-if=" !authenticated">
-                                                <template slot="button">
-                                                    <div class="jb-project-bid-btn text-right">
-
-
-                                                        <router-link
-                                                            :to="{name:'singleProject' , params:{id:project.id}}"
-                                                            class="button bg-orange t-white">View
-                                                        </router-link>
+                                        <template
+                                            v-if=" !authenticated">
+                                            <template slot="button">
+                                                <div class="jb-project-bid-btn text-right">
 
 
-                                                    </div>
-                                                </template>
+                                                    <router-link
+                                                        :to="{name:'singleProject' , params:{id:project.id}}"
+                                                        class="button bg-orange t-white">View
+                                                    </router-link>
+
+
+                                                </div>
                                             </template>
+                                        </template>
 
 
-                                            <template
-                                                v-if="(profileType ==='hire' || profileType ==='work&hire' ) && authenticated">
-                                                <template slot="button">
-                                                    <div class="jb-project-bid-btn text-right">
-
-
-                                                        <template
-                                                            v-if="(project.accepted_bid_id !== null
-                                                             && project.accepted_bid_id !== 0 &&
-                                                              project.accepted_bid_id !=='') &&
-                                                              (project.user.id === user.id || project.worker_id
-                                                              ===user.id)">
-                                                            <router-link
-                                                                :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                                class="button bg-orange t-white">View
-                                                            </router-link>
-                                                        </template>
-
-                                                        <template v-else>
-                                                            <router-link
-                                                                :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                class="button bg-orange t-white">View
-                                                            </router-link>
-                                                        </template>
-
-
-                                                    </div>
-                                                </template>
-                                            </template>
-
-
-                                            <template
-                                                v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
-
-
-                                                <template slot="button">
+                                        <template
+                                            v-if="(profileType ==='hire' || profileType ==='work&hire' ) && authenticated">
+                                            <template slot="button">
+                                                <div class="jb-project-bid-btn text-right">
 
 
                                                     <template
                                                         v-if="(project.accepted_bid_id !== null
                                                              && project.accepted_bid_id !== 0 &&
                                                               project.accepted_bid_id !=='') &&
-                                                              ( project.worker_id===user.id)">
+                                                              (project.user.id === user.id || project.worker_id
+                                                              ===user.id)">
                                                         <router-link
                                                             :to="{name:'assignedProject' , params:{id:project.id}}"
                                                             class="button bg-orange t-white">View
@@ -149,16 +118,47 @@
                                                     </template>
 
                                                     <template v-else>
-                                                        <div class="jb-project-bid-btn text-right">
-                                                            <router-link
-                                                                :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                class="button bg-orange">Bid
-                                                            </router-link>
-                                                        </div>
+                                                        <router-link
+                                                            :to="{name:'singleProject' , params:{id:project.id}}"
+                                                            class="button bg-orange t-white">View
+                                                        </router-link>
                                                     </template>
 
-                                                </template>
+
+                                                </div>
                                             </template>
+                                        </template>
+
+
+                                        <template
+                                            v-if="(profileType ==='work' || profileType ==='work&hire')  && authenticated">
+
+
+                                            <template slot="button">
+
+
+                                                <template
+                                                    v-if="(project.accepted_bid_id !== null
+                                                             && project.accepted_bid_id !== 0 &&
+                                                              project.accepted_bid_id !=='') &&
+                                                              ( project.worker_id===user.id)">
+                                                    <router-link
+                                                        :to="{name:'assignedProject' , params:{id:project.id}}"
+                                                        class="button bg-orange t-white">View
+                                                    </router-link>
+                                                </template>
+
+                                                <template v-else>
+                                                    <div class="jb-project-bid-btn text-right">
+                                                        <router-link
+                                                            :to="{name:'singleProject' , params:{id:project.id}}"
+                                                            class="button bg-orange">Bid
+                                                        </router-link>
+                                                    </div>
+                                                </template>
+
+                                            </template>
+                                        </template>
 
 
                                     </project-component>
@@ -272,24 +272,25 @@
                 })
             },
 
-            fetchWithSelectedCategory(category) {
-                this.selectedCategory = category;
+            refreshInfiniteLoader() {
 
                 this.temp = [];
                 this.currentPage = 0;
                 this.infiniteId += 1;
                 this.allProjects = [];
+            },
 
+            fetchWithSelectedCategory(category) {
+                this.selectedCategory = category;
+
+                this.refreshInfiniteLoader();
 
                 // this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
 
 
             },
             fetchWithSelectedCategoryDropDown() {
-                this.temp = [];
-                this.currentPage = 0;
-                this.infiniteId += 1;
-                this.allProjects = [];
+                this.refreshInfiniteLoader();
                 // this.$refs.infiniteLoading.$emit('$InfiniteLoading:reset');
             },
             infiniteHandler($state) {
@@ -299,7 +300,7 @@
 
                     axios.get(this.api).then(({data}) => {
 
-                      //  console.log(data);
+                        //  console.log(data);
                         this.lastPage = parseInt(data.projects.last_page);
 
 
@@ -337,16 +338,24 @@
         },
 
         mounted() {
+
+            if (this.$route.name === 'MyProjects') {
+                this.owner = 'me'
+            }
+
             if (this.$route.query.owner) {
                 this.owner = this.$route.query.owner;
             }
+
             if (this.$route.query.category) {
                 this.selectedCategory = this.$route.query.category;
             }
+
             if (this.$route.query.assigned_to) {
-               // console.log(this.$route.query.assigned_to)
+                // console.log(this.$route.query.assigned_to)
                 this.assignedTo = this.$route.query.assigned_to;
             }
+
             if (this.$route.query.page) {
                 //doing this inorder use the currentPage variable.
                 //in the creating the api link +1 is added to the link
@@ -387,6 +396,47 @@
 
             }
         },
+
+        watch: {
+            $route(to, from) {
+
+
+                if (Object.keys(to.query).length) {
+
+                    if (to.query.owner) {
+                        this.owner = to.query.owner;
+                    }
+
+                    if (to.query.category) {
+                        this.selectedCategory = to.query.category;
+                    }
+
+                    if (to.query.assigned_to) {
+                        this.assignedTo = to.query.assigned_to;
+                    }
+
+                    if (to.query.page) {
+                        this.currentPage = parseInt(to.query.page) - 1;
+                    }
+
+                } else {
+
+                    this.categories = {};
+                    this.allProjects = [];
+                    this.lastPage = 1;
+                    this.numItems = 7;
+                    this.currentPage = 0;
+                    this.selectedCategory = 'all';
+                    this.selectedSortOption = 'latest';
+                    this.owner = '';
+                    this.assignedTo = '';
+                }
+
+
+                this.refreshInfiniteLoader();
+
+            }
+        }
 
 
     }
