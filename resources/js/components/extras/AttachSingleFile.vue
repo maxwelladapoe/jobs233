@@ -1,6 +1,6 @@
 <template>
 
-    <div class="h-100">
+    <div class="h-100 w-100" >
 
 
         <div class="jb-attached-file">
@@ -82,7 +82,7 @@
 
 <script>
     export default {
-        name: "AttachFiles",
+        name: "AttachSingleFile",
         props: {
             value: {
                 type: File

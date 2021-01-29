@@ -575,8 +575,6 @@ select.form-control {
     }
 
 
-
-
 }
 
 .profile {
@@ -597,13 +595,15 @@ select.form-control {
 
 .profile-details {
 
-    .t-4{
+    .t-4 {
         line-height: 1.8em !important;
     }
-    p{
+
+    p {
         line-height: 1em !important;
     }
-    .t-6{
+
+    .t-6 {
         line-height: 1.4em !important;
     }
 }
@@ -624,7 +624,6 @@ select.form-control {
 }
 
 .jb-profile-portfolio {
-    margin-top: 1em;
 }
 
 .jb-title-with-underline {
@@ -866,9 +865,11 @@ select.form-control {
 
 .jb-attached-file {
     height: 100%;
+    width: 100%;
 
     .image-display {
         position: relative;
+
 
         button {
             position: absolute;
@@ -879,7 +880,7 @@ select.form-control {
 
     .dropzone {
         height: 12em !important;
-
+        width: 100% !important;
     }
 }
 
@@ -1707,7 +1708,7 @@ textarea {
                     display: block;
                 }
                 .jb-nav-link-text {
-                    font-size: 0.5em!important;
+                    font-size: 0.5em !important;
                     display: block;
                 }
             }
@@ -2147,7 +2148,7 @@ textarea {
 }
 
 .jb-add-portfolio-item-modal {
-    width: 50em;
+    width: 40em;
 
     @include media-breakpoint-down(md) {
         width: auto;
@@ -2159,6 +2160,8 @@ textarea {
     align-items: flex-start;
     flex-direction: column;
     flex-wrap: nowrap;
+    max-width: 800px;
+    max-height: 800px;
 
     .form-img {
         width: 100%;
@@ -2170,7 +2173,6 @@ textarea {
         flex: 1;
         width: 100%;
     }
-
 }
 
 .has-text-danger, .has-text-success {
@@ -2317,6 +2319,7 @@ textarea {
     align-items: center;
     align-content: center;
     color: #fff;
+
     .jb-notification-wrap {
         display: flex;
         justify-content: space-between;
@@ -2325,13 +2328,15 @@ textarea {
     }
 }
 
-.jb-filename{
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+.jb-filename {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
 }
 
-a{
-    cursor: pointer!important;
+a {
+    cursor: pointer !important;
 }
+
+

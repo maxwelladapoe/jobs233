@@ -9,7 +9,7 @@
                     <div class="columns is is-multiline is-mobile">
 
                         <div
-                            class="column is-8-mobile is-6-tablet  is-offset-2-mobile is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
+                            class="column is-12-mobile is-8-tablet  is-offset-2-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
 
                             <form class="has-txt-center">
                                 <div class="jb-profile-picture">
@@ -102,7 +102,7 @@
 
 
                         <div
-                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-8-desktop  is-offset-1-desktop ">
+                            class="column is-12-mobile is-8-tablet is-offset-2-tablet is-8-desktop  is-offset-1-desktop ">
                             <p class="mb-5">Profile</p>
 
 
@@ -532,10 +532,9 @@
                 <div class="container" v-if="profileType === 'work' || profileType === 'work&hire'">
                     <div class="columns is-mobile is-multiline">
                         <div
-                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-offset-0-desktop is-3-desktop  mb-5 "></div>
-
+                            class="column is-12-mobile is-8-tablet is-offset-2-tablet is-offset-0-desktop is-3-desktop  mb-5 "></div>
                         <div
-                            class="column is-12-mobile is-6-tablet is-offset-3-tablet is-8-desktop  is-offset-1-desktop">
+                            class="column is-12-mobile is-8-tablet is-offset-2-tablet is-8-desktop  is-offset-1-desktop">
                             <div class="jb-title-with-icon mb-5 mt-5">
                                 <div><p>Your Portfolio</p></div>
                                 <div @click="showPortfolioModal"
@@ -551,13 +550,13 @@
 
                             <template v-else>
 
-                                <div class="columns">
+                                <div class="columns is-multiline is-mobile">
 
 
                                     <div v-for="portfolioItem in portfolioItems"
                                          v-bind:key="portfolioItem.id"
-                                         class="column is-4">
-                                        <div class="card">
+                                         class="column is-6-mobile is-4-tablet is-3-desktop">
+                                        <div class="card jb-portfolio-card">
                                             <div class="card-image jb-card-image">
 
                                                 <div class="buttons">
@@ -574,38 +573,8 @@
                                                 </div>
                                                 <figure class="image is-4">
                                                     <img :src="portfolioItem.cover_image"
-                                                         alt="Placeholder image">
+                                                         alt="portfolioItem.name">
                                                 </figure>
-                                            </div>
-                                            <div class="card-content">
-
-
-                                                <div class="content">
-                                                    <p>
-                                                                <span class="t-bold">
-                                                                    {{portfolioItem.name}}
-                                                                </span>
-
-                                                        <br>
-                                                        <span>
-                                                                     {{portfolioItem.description}}
-                                                                </span>
-                                                    </p>
-
-
-                                                    <span class="t-6 t-bold">Skills & Tools</span>
-
-                                                    <b-taglist>
-                                                        <template v-for="skill in
-                                                                portfolioItem.skills_and_tools.split(',')">
-
-                                                            <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
-
-                                                        </template>
-                                                    </b-taglist>
-
-
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -677,7 +646,12 @@
                     component: AddPortfolioItem,
                     hasModalCard: true,
                     customClass: 'custom-class custom-class-2',
-                    trapFocus: true
+                    trapFocus: true,
+                    events:{
+                        'portfolioItemAdded': item =>{
+                           this.portfolioItems.push(item);
+                        }
+                    }
                 })
             },
 
@@ -753,7 +727,6 @@
                     type: 'is-danger',
                     hasIcon: true,
                     onConfirm: () => {
-
 
                         axios.delete(`/portfolio/delete/${portfolioItem.id}`).then(({data}) => {
 

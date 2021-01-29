@@ -192,7 +192,7 @@ class ProfileController extends Controller
 
     public function markAllAsRead()
     {
-        //Auth::user()->unreadNotifications->markAsRead();
+
         Auth::user()->notifications()->delete();
         return response()->json(['success' => true], 200);
 

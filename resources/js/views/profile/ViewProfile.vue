@@ -54,12 +54,15 @@
                                     <hr>
                                 </div>
                                 <div class="column is-12 is-4-desktop">
-                                    <div class="mt-3">
-                                        <template v-if="viewUser.skills.length > 0">
-                                            <div class=" t-bold">Skills</div>
+                                    <div class="">
+
+                                        <template v-if="userSkills.length > 0">
+
+                                            <div class="t-bold t-6  mb-2">Skills</div>
                                             <b-taglist>
-                                                <b-tag v-for="skill in viewUser.skills" v-bind:key="skill.id">
-                                                    {{skill.name}}
+                                                <b-tag v-for="skill in userSkills" type="is-success"
+                                                       v-bind:key="skill.id">
+                                                    {{skill}}
                                                 </b-tag>
                                             </b-taglist>
                                         </template>
@@ -74,7 +77,7 @@
 
                                         <div>
                                             <template v-if="viewUser.profile.bio">
-                                                <div class="t-bold t-6">Bio</div>
+                                                <div class="t-bold t-6 ">Bio</div>
                                                 <div class="jb-profile-bio">
                                                     <p class="t-normal t-meri">{{viewUser.profile.bio}}</p>
                                                 </div>
@@ -84,53 +87,22 @@
 
                                         <div>
                                             <template v-if="viewUser.portfolio.length>0">
-                                                <div class=" t-bold">Portfolio</div>
+                                                <div class="t-bold t-6  mb-2">Portfolio</div>
 
                                                 <div class="jb-profile-portfolio">
 
-                                                    <div class="columns">
+                                                    <div class="columns is-multiline is-mobile">
 
 
                                                         <div v-for="portfolioItem in viewUser.portfolio"
                                                              v-bind:key="portfolioItem.id"
-                                                             class="column is-4">
+                                                             class="column is-6-mobile is-4-desktop">
                                                             <div class="card">
                                                                 <div class="card-image">
                                                                     <figure class="image is-4">
                                                                         <img :src="portfolioItem.cover_image"
                                                                              alt="Placeholder image">
                                                                     </figure>
-                                                                </div>
-                                                                <div class="card-content">
-
-                                                                    <div class="content">
-                                                                        <p>
-                                                                <span class="t-bold">
-                                                                    {{portfolioItem.name}}
-                                                                </span>
-
-                                                                            <br>
-                                                                            <span>
-                                                                     {{portfolioItem.description}}
-                                                                </span>
-                                                                        </p>
-
-
-                                                                        <span class="t-6 t-bold">Skills & Tools</span>
-
-                                                                        <b-taglist>
-                                                                            <template v-for="skill in
-                                                                portfolioItem.skills_and_tools.split(',')">
-
-                                                                                <b-tag type="is-success" class="mr-1">
-                                                                                    {{skill}}
-                                                                                </b-tag>
-
-                                                                            </template>
-                                                                        </b-taglist>
-
-
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -181,6 +153,7 @@
 
             return {
                 title: this.viewUser.name,
+                userSkills:[]
             }
 
         },
@@ -198,6 +171,9 @@
         mounted() {
             axios.get(`${this.username}`).then(({data}) => {
                 this.viewUser = data.user[0];
+
+                this.userSkills= (data.user[0].skills.skills).split(',');
+                console.log(this.userSkills)
             })
 
         }

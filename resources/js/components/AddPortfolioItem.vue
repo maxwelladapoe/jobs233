@@ -4,6 +4,7 @@
 
             <div class="modal-card jb-add-portfolio-item-modal" >
 
+
                 <header class="modal-card-head">
                     <p class="modal-card-title">Add Portfolio Item</p>
                     <button
@@ -12,26 +13,33 @@
                         @click="$emit('close')"/>
                 </header>
                 <section class="modal-card-body">
+
+                    <b-loading :is-full-page="false"  v-model="isLoading" ></b-loading>
+
                     <div class="jb-add-portfolio-item-form">
-                        <div class="form-img">
-                            <attach-single-file v-model="portfolio.cover_image"></attach-single-file>
-                        </div>
+                        <b-field message="Select a cover image, preferably a square image" style="width: 100%">
+                            <div class="form-img">
+                                <attach-single-file v-model="portfolio.cover_image"></attach-single-file>
+                            </div>
+
+                        </b-field>
 
                         <div class="form-details mt-3">
 
                             <b-field label="Name" label-class="t-bold t-mont">
-                                <b-input type="text" v-model="portfolio.name"></b-input>
+                                <b-input type="text" v-model="portfolio.name" required></b-input>
                             </b-field>
 
                             <b-field label="Description" label-class="t-bold t-mont">
                                 <b-input type="textarea" no-resize rows="4"
-                                         v-model="portfolio.description"></b-input>
+                                         v-model="portfolio.description" required></b-input>
                             </b-field>
                             <b-field label="Skills & Tools" label-class="t-bold t-mont">
                                 <b-taginput
                                     ellipsis
                                     icon="label"
                                     placeholder="Skills / Tools used"
+                                    maxlength="3"
 
                                     v-model="portfolio.skills_and_tools"
                                     remove-on-delete>
@@ -40,7 +48,7 @@
                             </b-field>
 
 
-                            <b-field class="text-right">
+                            <b-field class="text-right mb-5">
                                 <b-button type="submit"
                                           @click.prevent="handleSubmit(submitPortfolio)">Save
                                 </b-button>
@@ -61,12 +69,14 @@
 <script>
 
     import AttachSingleFile from "./extras/AttachSingleFile";
+    import {SnackbarProgrammatic as Snackbar} from "buefy";
 
     export default {
         name: "AddPortfolioItemForm",
 
         data() {
             return {
+                isLoading:false,
                 portfolio: {
                     name: '',
                     description: '',
@@ -107,8 +117,24 @@
                 };
 
 
+                this.isLoading=true;
                 axios.post(`/portfolio/add`, formData, config).then(({data}) => {
+
+                    this.isLoading=false;
+                    this.portfolio= {
+                        name: '',
+                            description: '',
+                            cover_image: new File([], "", undefined),
+                            skills_and_tools: []
+                    };
+                    this.$emit('portfolioItemAdded', data.item)
+                    this.$emit('close');
+
+
+                    Snackbar.open(data.message);
                     console.log(data);
+                }).catch(e=>{
+
                 })
             },
 

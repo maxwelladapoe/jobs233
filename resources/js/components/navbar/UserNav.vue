@@ -1,7 +1,7 @@
 <template>
     <header class="bg-black pt-3">
         <div class="container  pb-3">
-            <b-navbar type="is-black" spaced class="user-nav" >
+            <b-navbar type="is-black" spaced class="user-nav">
 
 
                 <template slot="brand">
@@ -10,7 +10,7 @@
                     </b-navbar-item>
                 </template>
                 <template slot="start">
-                    <b-navbar-item  tag="router-link" :to="{name:'HowItWorks'}">
+                    <b-navbar-item tag="router-link" :to="{name:'HowItWorks'}">
                         How it Works
                     </b-navbar-item>
                     <b-navbar-item tag="router-link" :to="{name:'Projects'}">Browse Projects
@@ -139,44 +139,59 @@
                 <div class="container">
                     <div class="jb-dash-links">
 
-                        <div><router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
-                            <span class=" jb-nav-link-icon"> <b-icon icon="view-dashboard" size="is-small"/> </span>
-                            <span class="jb-nav-link-text">Dashboard</span>
-                        </router-link> </div>
+                        <div>
+                            <router-link :to="{name:'Dashboard'}" class="jb-dash-link t-white ">
+                                <span class=" jb-nav-link-icon"> <b-icon icon="view-dashboard" size="is-small"/> </span>
+                                <span class="jb-nav-link-text">Dashboard</span>
+                            </router-link>
+                        </div>
                         <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
-                            <div>  <router-link :to="{name:'Projects',query:{owner:'me'}}"
-                                         class="jb-dash-link t-white ">
-                                <span class=" jb-nav-link-icon"> <b-icon icon="briefcase-variant-outline" size="is-small"/>
+                            <div>
+                                <router-link :to="{name:'Projects',query:{owner:'me'}}"
+                                             class="jb-dash-link t-white ">
+                                <span class=" jb-nav-link-icon"> <b-icon icon="briefcase-variant-outline"
+                                                                         size="is-small"/>
                                 </span> <span class="jb-nav-link-text">My Projects</span>
-                            </router-link></div>
+                                </router-link>
+                            </div>
 
-                            <div> <router-link :to="{name:'Account'}"
-                                         class="jb-dash-link t-white ">
+                            <div>
+                                <router-link :to="{name:'Account'}"
+                                             class="jb-dash-link t-white ">
                                 <span class=" jb-nav-link-icon"> <b-icon icon="cash-multiple" size="is-small"/>
-                                </span>  <span class="jb-nav-link-text">Account</span>
-                            </router-link></div>
+                                </span> <span class="jb-nav-link-text">Account</span>
+                                </router-link>
+                            </div>
 
                         </template>
                         <template v-if="profileType ==='work' || profileType ==='work&hire'">
-                            <div>  <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
-                                         class="jb-dash-link t-white ">
-                                <span class="mr-2"> <b-icon icon="briefcase-variant-outline" size="is-small"/> </span> Assigned
-                                Projects
-                            </router-link></div>
-                            <div>  <router-link :to="{name:'Wallet'}"
-                                         class="jb-dash-link t-white ">
-                                <span class="mr-2"> <b-icon icon="cash-multiple" size="is-small"/> </span> Wallet
-                            </router-link></div>
-
-
+                            <div>
+                                <router-link :to="{name:'Projects',query:{assigned_to:'me'}}" href="#"
+                                             class="jb-dash-link t-white ">
+                                    <span class="jb-nav-link-icon"> <b-icon icon="briefcase-variant-outline"
+                                                                            size="is-small"/> </span>
+                                    <span class="jb-nav-link-text"> Assigned
+                                    Projects</span>
+                                </router-link>
+                            </div>
+                            <div>
+                                <router-link :to="{name:'Wallet'}"
+                                             class="jb-dash-link t-white ">
+                                    <span class="jb-nav-link-icon"> <b-icon icon="cash-multiple"
+                                                                            size="is-small"/> </span>
+                                    <span class="jb-nav-link-text">Wallet</span>
+                                </router-link>
+                            </div>
 
 
                         </template>
-                        <div><router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
-                            <span class=" jb-nav-link-icon"> <b-icon icon="chat" size="is-small"/> </span>
-                            <span class="jb-nav-link-text"> Messages</span>
-                        </router-link> </div>
+                        <div>
+                            <router-link :to="{name:'Messages'}" class="jb-dash-link t-white ">
+                                <span class=" jb-nav-link-icon"> <b-icon icon="chat" size="is-small"/> </span>
+                                <span class="jb-nav-link-text"> Messages</span>
+                            </router-link>
+                        </div>
                     </div>
                 </div>
             </div>
