@@ -135,7 +135,7 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
 //the skills function is primary accessed through the pivot table UserSkill
     public function skills()
     {
-        return $this->belongsToMany(Skill::class);
+        return $this->hasOne(UserSkills::class,'user_id');
     }
 
 

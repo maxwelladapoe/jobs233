@@ -89,6 +89,8 @@ Route::prefix('v1')->group(function () {
     Route::prefix('profile')->group(function () {
         Route::patch('/', [App\Http\Controllers\ProfileController::class, 'update']);
         Route::post('/picture', [App\Http\Controllers\ProfileController::class, 'changeProfilePicture']);
+        Route::post('/skills', [App\Http\Controllers\ProfileController::class, 'addSkill']);
+        Route::post('/skills/delete', [App\Http\Controllers\ProfileController::class, 'removeSkill']);
     });
 
     Route::prefix('messages')->group(function () {

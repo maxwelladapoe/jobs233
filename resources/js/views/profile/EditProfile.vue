@@ -40,40 +40,57 @@
                                             <ValidationProvider
                                                 persist
                                                 name="skills"
-                                                :rules="{ required: true, min: 3, max:150}"
+                                                :rules="{ required: true,max:150}"
                                                 v-slot="{ errors, valid }" slim
                                             >
+                                                <b-field
+                                                    id="skills"
+                                                    :message="errors"
+                                                    expanded
+                                                    class="mt-5"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    label-for="skills"
+                                                >
 
-                                                <b-field expanded
-                                                         id="skills">
-                                                    <b-field class="mb-2" :message="errors"
+                                                    <b-autocomplete
+                                                        input-id="tags-separators"
+                                                        name="skills"
+                                                        :data="skillsListFiltered"
+                                                        expanded
+                                                        field="name"
+                                                        :clearable="true"
+                                                        @typing="getFilteredSkills"
+                                                        placeholder="Add a skill"
+                                                        v-model="additionalSkill">
 
-                                                             :type="{ 'is-danger': errors[0], 'is-success': valid }">
-                                                        <b-input
-                                                            v-model="additionalSkill"
-                                                            placeholder="Add Skill" expanded
-                                                        ></b-input>
+                                                    </b-autocomplete>
 
-                                                        <b-button @click="addSkill" variant="primary">Add
-                                                        </b-button>
-
-                                                    </b-field>
-
+                                                    <b-button @click="addSkill" variant="primary">Add
+                                                    </b-button>
 
                                                 </b-field>
 
                                             </ValidationProvider>
-                                            <div class="d-inline-block" style="font-size: 1.5rem;">
+
+
+                                            <b-taglist >
+
+
                                                 <b-tag
-                                                    v-for="skill in skills"
-                                                    @remove="removeTag(skill)"
+                                                    v-for="(skill, index) in userSkills"
                                                     :key="skill"
                                                     :title="skill"
-                                                    :variant="tagVariant"
+                                                    closable
+                                                    close-type='is-danger'
+                                                    aria-close-label="Close tag"
                                                     class="mr-1"
+                                                    type="is-success"
+                                                    @close="removeSkill(skill, index)"
                                                 >{{ skill }}
                                                 </b-tag>
-                                            </div>
+
+
+                                            </b-taglist>
 
                                         </form>
                                     </ValidationObserver>
@@ -156,7 +173,6 @@
                                         </b-field>
 
 
-
                                         <b-field class="mb-5" grouped group-multiline>
 
 
@@ -209,7 +225,6 @@
                                             </ValidationProvider>
 
                                         </b-field>
-
 
 
                                         <b-field class="mb-5" grouped group-multiline>
@@ -563,19 +578,6 @@
                                                 </figure>
                                             </div>
                                             <div class="card-content">
-                                                <!--                                                        <div class="media">-->
-                                                <!--                                                            <div class="media-left">-->
-                                                <!--                                                                <figure class="image is-48x48">-->
-                                                <!--                                                                    <img-->
-                                                <!--                                                                        src="https://bulma.io/images/placeholders/96x96.png"-->
-                                                <!--                                                                        alt="Placeholder image">-->
-                                                <!--                                                                </figure>-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                            <div class="media-content">-->
-                                                <!--                                                                <p class="title is-4">John Smith</p>-->
-                                                <!--                                                                <p class="subtitle is-6">@johnsmith</p>-->
-                                                <!--                                                            </div>-->
-                                                <!--                                                        </div>-->
 
 
                                                 <div class="content">
@@ -628,6 +630,7 @@
 <script>
     import {mapGetters, mapActions} from 'vuex';
     import AddPortfolioItem from "../../components/AddPortfolioItem";
+    import {SnackbarProgrammatic as Snackbar} from "buefy";
 
     export default {
         name: "EditProfile",
@@ -640,6 +643,7 @@
                 userDetails: {},
                 showUploadButton: false,
                 showPortfolioForm: false,
+                skillsListFiltered: [],
                 profileDetails: {
                     picture: '',
                     gender: null,
@@ -653,11 +657,10 @@
                 file: '',
                 profileUpdateLoading: false,
                 showPortfolioItem: false,
-
-
                 portfolioItems: [],
-                allSkills: [],
+                skillsList: [],
                 additionalSkill: '',
+                userSkills:'',
                 skills: [],
             }
         },
@@ -682,6 +685,7 @@
                 this.profileUpdateLoading = true;
                 axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
                     this.profileUpdateLoading = false;
+                    Snackbar.open(data.message);
                     this.refresh();
                 }).catch((errorRes) => {
                     this.profileUpdateLoading = false;
@@ -732,7 +736,8 @@
                     },
 
 
-                }).then((data) => {
+                }).then(({data}) => {
+                    Snackbar.open(data.message);
                     this.refresh();
                     console.log(data)
                 })
@@ -758,23 +763,54 @@
                             })
 
                             this.portfolioItems = [...arrayItems];
+                            Snackbar.open(`You deleted ${portfolioItem.name} successfully`);
 
-                            this.$buefy.toast.open(`You deleted ${portfolioItem.name} successfully`)
-//remove the item from the array
+                            // this.$buefy.toast.open()
+
 
                         })
 
                     }
                 })
+            },
+
+
+            getFilteredSkills(text) {
+                this.skillsListFiltered = this.skillsList.filter((option) => {
+                    return option.name
+                        .toString()
+                        .toLowerCase()
+                        .indexOf(text.toLowerCase()) >= 0
+                })
+            },
+
+            addSkill() {
+                axios.post('profile/skills', {skill: this.additionalSkill}).then(({data}) => {
+
+                    this.userSkills.push(this.additionalSkill);
+                    this.additionalSkill = '';
+                    this.$refs.skillsForm.reset();
+
+                    Snackbar.open(data.message);
+                }).catch()
+            },
+
+
+            removeSkill(skill, index){
+                axios.post('profile/skills/delete', {skill: skill}).then(({data}) => {
+                    this.userSkills.splice(index,1);
+                    Snackbar.open(data.message);
+                }).catch()
             }
         },
         mounted() {
             this.profileDetails = {...this.user.profile};
             this.imagePreview = this.profileDetails.picture;
             this.userDetails = {...this.user};
+            this.userSkills = this.user.skills.skills.split(',')
 
             axios.get('skills').then(({data}) => {
-                this.allSkills = data.skills;
+                this.skillsList = data.skills;
             })
 
             axios.get('portfolio').then(({data}) => {

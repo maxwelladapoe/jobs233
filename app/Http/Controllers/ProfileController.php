@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\ProjectCategory;
 use App\Models\Skill;
 use App\Models\User;
+use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -88,7 +89,7 @@ class ProfileController extends Controller
 
 
         if ($profile->save() && $user->save()) {
-            return response()->json(['success' => true, 'profile' => $profile], 200);
+            return response()->json(['success' => true, 'profile' => $profile, 'message' => 'Your profile has been updated successfully'], 200);
         } else {
 
             return response()->json(['success' => false, 'message' => 'the profile for this user does not seem to exist'], 400);
@@ -197,11 +198,77 @@ class ProfileController extends Controller
 
     }
 
-    public function addSkill(Skill $skill)
+
+    public function addSkill(Request $request)
     {
 
-        dd($skill);
-        Auth::user()->skills()->attach($skill->id);
+        $this->validate($request, [
+            'skill' => ['required', 'string', 'min:3']
+        ]);
+
+
+        $userSkills = Auth::user()->skills->pluck('skills')[0];
+
+        $strArray = explode(',', strtolower($userSkills));
+
+
+        if (in_array(strtolower($request['skill']), $strArray)) {
+
+            return response()->json(['success' => false,
+                'message' => $request['skill'] . ' has already been added'], 200);
+        }
+
+        if ($userSkills) {
+            $userSkills = $userSkills . ',' . $request['skill'];
+        } else {
+            $userSkills = $request['skill'];
+        }
+
+
+        $skill = UserSkills::updateOrCreate(
+            ['user_id' => Auth::user()->id],
+            ['skills' => $userSkills]
+        );
+
+        return response()->json(['success' => true, 'message' => $request['skill'] . ' has been added successfully',
+            'skills' => $skill], 200);
+
+    }
+
+    public function removeSkill(Request $request)
+    {
+
+        $this->validate($request, [
+            'skill' => ['required', 'string', 'min:3']
+        ]);
+
+        $userSkills = Auth::user()->skills->pluck('skills')[0];
+
+        $strArray = explode(',', $userSkills);
+
+
+        if (in_array($request['skill'], $strArray)) {
+            $key = array_search($request['skill'], $strArray);
+
+            unset($strArray[$key]);
+
+            $userSkills = trim(implode(',', $strArray));
+
+
+            $skill = UserSkills::updateOrCreate(
+                ['user_id' => Auth::user()->id],
+                ['skills' => $userSkills]
+            );
+
+            return response()->json(['success' => true, 'message' => $request['skill'] . ' has been deleted successfully',
+                'skills' => $skill], 200);
+
+        } else {
+            return response()->json(['success' => false,
+                'message' => $request['skill'] . ' does not exist in your list'], 400);
+        }
+
+
     }
 
 }
