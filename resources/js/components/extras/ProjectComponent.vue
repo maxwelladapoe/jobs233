@@ -95,7 +95,7 @@
                                     </p>
 
                                     <div class="jb-project-posted-by-extra">
-                                        <span><b-icon icon="check-circle" size="is-small"/> Verified</span>
+<!--                                        <span><b-icon icon="check-circle" size="is-small"/> Verified</span>-->
 
                                         <span v-if="project.deposit_made"><b-icon icon="cash-plus" size="is-small"/>
                                             Deposited</span>

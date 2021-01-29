@@ -57,9 +57,11 @@ class ProfileController extends Controller
     {
 
         $this->validate($request, [
-            'name' => ['required', 'string', 'min:3'],
-            'phone_number' => ['nullable', 'string','min:10','max:15'],
-            'gender' => ['required'],
+            'first_name' => ['required', 'string', 'min:3'],
+            'last_name' => ['required', 'string', 'min:3'],
+            'title' => ['nullable', 'string', 'min:3'],
+            'phone_number' => ['nullable', 'string', 'min:10', 'max:15'],
+            'gender' => ['nullable'],
             'bio' => ['nullable', 'min:3'],
             'country' => ['nullable', 'string', 'min:3'],
             'city' => ['nullable', 'string', 'min:2'],
@@ -68,8 +70,9 @@ class ProfileController extends Controller
 
         $user = User::find(Auth::user()->id);
 
-        $profile = Profile::find($user->profile->id);
+        $profile = $user->profile;
 
+        $profile->title = $request['title'];
         $profile->phone_number = $request['phone_number'];
         $profile->gender = $request['gender'];
         $profile->bio = $request['bio'];
@@ -78,7 +81,10 @@ class ProfileController extends Controller
         $profile->city = $request['city'];
 
 
-        $user->name = ucwords(strtolower($request['name']));
+        $user->first_name = ucfirst(strtolower(trim($request['first_name'])));
+        $user->last_name = ucfirst(strtolower(trim($request['last_name'])));
+
+        $user->name = ucfirst(strtolower(trim($request['first_name']))) . " " . ucfirst(strtolower(trim($request['last_name'])));
 
 
         if ($profile->save() && $user->save()) {
@@ -94,7 +100,7 @@ class ProfileController extends Controller
     {
 
         $projects = Project::where('user_id', Auth::user()->id)->latest()
-            ->paginate($request->has('paginate')?intval($request->paginate) : 0);
+            ->paginate($request->has('paginate') ? intval($request->paginate) : 0);
 
 
         return response()->json(['success' => true, 'projects' => $projects], 200);

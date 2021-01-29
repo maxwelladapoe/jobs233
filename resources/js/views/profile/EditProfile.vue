@@ -94,35 +94,68 @@
 
                                 <ValidationObserver v-slot="{handleSubmit}" ref="editProfile">
                                     <form>
-                                        <ValidationProvider
-                                            slim
-                                            persist
-                                            name="full name"
-                                            :rules="{ required: true, min: 3, max:150}"
-                                            v-slot="{ errors, valid }"
-                                        >
 
-                                            <b-field
-                                                id="title1"
-                                                label="Full Name"
-                                                label-class="t-mont t-bold"
-                                                label-for="fullname"
-                                                :message="errors"
-                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                        <b-field class="mb-5" grouped group-multiline>
 
+                                            <ValidationProvider
+                                                slim
+                                                persist
+                                                name="first name"
+                                                :rules="{ required: true, min: 3, max:150}"
+                                                v-slot="{ errors, valid }"
                                             >
-                                                <b-input id="title" type="text"
-                                                         rows="6"
-                                                         placeholder=""
-                                                         v-model="userDetails.name"
-                                                         aria-describedby="fullname-live-feedback">
 
-                                                </b-input>
+                                                <b-field expanded
+                                                         id="first_name1"
+                                                         label="First name"
+                                                         label-class="t-mont t-bold"
+                                                         label-for="first_name"
+                                                         :message="errors"
+                                                         :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                                >
+                                                    <b-input id="first_name" type="text" expanded
+                                                             placeholder="Johnson"
+                                                             v-model="userDetails.first_name">
+
+                                                    </b-input>
 
 
-                                            </b-field>
+                                                </b-field>
 
-                                        </ValidationProvider>
+                                            </ValidationProvider>
+                                            <ValidationProvider
+                                                slim
+                                                persist
+                                                name="last name"
+                                                :rules="{ required: true, min: 3, max:150}"
+                                                v-slot="{ errors, valid }"
+                                            >
+
+                                                <b-field
+                                                    id="last_name1"
+                                                    label="Last name"
+                                                    label-class="t-mont t-bold"
+                                                    label-for="last_name"
+                                                    :message="errors" expanded
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                                >
+                                                    <b-input id="last_name" type="text" expanded
+
+                                                             placeholder="Doe"
+                                                             v-model="userDetails.last_name"
+                                                             aria-describedby="fullname-live-feedback">
+
+                                                    </b-input>
+
+
+                                                </b-field>
+
+                                            </ValidationProvider>
+                                        </b-field>
+
+
 
                                         <b-field class="mb-5" grouped group-multiline>
 
@@ -160,7 +193,7 @@
                                             >
                                                 <b-field
                                                     id="phone_number"
-                                                    label="Phone Number"
+                                                    label="Phone number"
                                                     label-class="t-mont t-bold"
                                                     label-for="phone_number" expanded
                                                     :message="errors"
@@ -177,8 +210,38 @@
 
                                         </b-field>
 
+
+
                                         <b-field class="mb-5" grouped group-multiline>
 
+                                            <ValidationProvider
+                                                slim
+                                                persist
+                                                name="title"
+                                                :rules="{ min: 3, max:150}"
+                                                v-slot="{ errors, valid }"
+                                            >
+
+                                                <b-field
+                                                    id="title1"
+                                                    label="Title"
+                                                    label-class="t-mont t-bold"
+                                                    label-for="title"
+                                                    :message="errors" expanded
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                                >
+                                                    <b-input id="title" type="text" expanded
+
+                                                             placeholder="Software developer"
+                                                             v-model="profileDetails.title">
+
+                                                    </b-input>
+
+
+                                                </b-field>
+
+                                            </ValidationProvider>
 
                                             <ValidationProvider
                                                 persist slim
@@ -210,38 +273,37 @@
                                                 </b-field>
                                             </ValidationProvider>
 
-
-                                            <ValidationProvider
-                                                persist slim
-                                                name="bio"
-                                                :rules="{  min: 3, max:2000}"
-                                                v-slot="{ errors, valid }"
-                                            >
-                                                <b-field
-                                                    id="bio"
-                                                    label="Bio"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="bio" expanded
-                                                    :message="errors"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-
-                                                >
-                                                    <b-input type="textarea"
-                                                             rows="5"
-                                                             no-resize
-                                                             id="bio-default"
-                                                             placeholder="Tell us about yourself"
-                                                             v-model="profileDetails.bio" expanded
-                                                    ></b-input>
-                                                </b-field>
-                                            </ValidationProvider>
                                         </b-field>
 
+                                        <ValidationProvider
+                                            persist slim
+                                            name="bio"
+                                            :rules="{  min: 3, max:2000}"
+                                            v-slot="{ errors, valid }"
+                                        >
+                                            <b-field
+                                                id="bio"
+                                                label="Bio"
+                                                label-class="t-mont t-bold"
+                                                label-for="bio" expanded
+                                                :message="errors"
+                                                :type="{ 'is-danger': errors[0], 'is-success': valid }"
+
+                                            >
+                                                <b-input type="textarea"
+                                                         rows="5"
+                                                         no-resize
+                                                         id="bio-default"
+                                                         placeholder="Tell us about yourself"
+                                                         v-model="profileDetails.bio" expanded
+                                                ></b-input>
+                                            </b-field>
+                                        </ValidationProvider>
                                         <hr>
 
                                         <p class=" mb-5">Location Details</p>
 
-                                        <b-field grouped group-multiline>
+                                        <b-field grouped group-multiline class="mb-5">
                                             <ValidationProvider
                                                 persist slim
                                                 name="country"
@@ -322,7 +384,7 @@
                                                     <div class="loader"></div>
                                                 </div>
 
-                                                <b-button type="is-primary"  v-if="!profileUpdateLoading"
+                                                <b-button type="is-primary" v-if="!profileUpdateLoading"
                                                           @click.prevent="handleSubmit(editProfile)">
                                                     Update Profile
                                                 </b-button>

@@ -79,7 +79,10 @@ class AltRegisterController extends Controller
     {
 
         return Validator::make($data, [
+            'firstName' => ['required', 'string', 'max:255'],
+            'lastName' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:35', 'min:5', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6',],
         ]);
@@ -90,6 +93,8 @@ class AltRegisterController extends Controller
     {
         $user = User::create([
             'name' => $data['name'],
+            'first_name' => ucfirst(strtolower(trim($data['firstName']))),
+            'last_name' => ucfirst(strtolower(trim($data['lastName']))),
             'email' => trim($data['email']),
             'password' => Hash::make(trim($data['password'])),
         ]);

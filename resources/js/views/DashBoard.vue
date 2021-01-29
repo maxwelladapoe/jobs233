@@ -339,14 +339,14 @@
                                                               ===user.id)">
                                                     <router-link
                                                         :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                        class="button bg-orange">View
+                                                        class="button bg-orange t-white">View
                                                     </router-link>
                                                 </template>
 
                                                 <template v-else>
                                                     <router-link
                                                         :to="{name:'singleProject' , params:{id:project.id}}"
-                                                        class="button bg-orange">View
+                                                        class="button bg-orange t-white">View
                                                     </router-link>
                                                 </template>
 
@@ -394,7 +394,7 @@
                                 <div class="has-text-centered" v-if="someProjects.length > 0">
                                     <router-link
                                         :to="{ name: 'Projects' }"
-                                        class="button bg-orange"
+                                        class="button bg-orange t-white"
                                     >View More
                                     </router-link>
                                 </div>
@@ -440,14 +440,12 @@
             profilePercentageCompleted() {
 
                 const columns = [
-                    "address", "bio", "city", "gender", "phone_number", "country",
+                    "address", "bio", "city", "gender", "phone_number", "country","title"
                 ];
                 let percentagePerColumn = 100 / columns.length;
 
                 let total = 0;
                 for (let column in this.user.profile) {
-
-
                     if ((this.user.profile[column] !== null && this.user.profile[column] !== '' &&
                         this.user.profile[column] !== []) && columns.includes(column)) {
                         total += percentagePerColumn;

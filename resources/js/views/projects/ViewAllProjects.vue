@@ -90,7 +90,7 @@
 
                                                         <router-link
                                                             :to="{name:'singleProject' , params:{id:project.id}}"
-                                                            class="button bg-orange">View
+                                                            class="button bg-orange t-white">View
                                                         </router-link>
 
 
@@ -113,14 +113,14 @@
                                                               ===user.id)">
                                                             <router-link
                                                                 :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                                class="button bg-orange">View
+                                                                class="button bg-orange t-white">View
                                                             </router-link>
                                                         </template>
 
                                                         <template v-else>
                                                             <router-link
                                                                 :to="{name:'singleProject' , params:{id:project.id}}"
-                                                                class="button bg-orange">View
+                                                                class="button bg-orange t-white">View
                                                             </router-link>
                                                         </template>
 
@@ -144,7 +144,7 @@
                                                               ( project.worker_id===user.id)">
                                                         <router-link
                                                             :to="{name:'assignedProject' , params:{id:project.id}}"
-                                                            class="button bg-orange">View
+                                                            class="button bg-orange t-white">View
                                                         </router-link>
                                                     </template>
 

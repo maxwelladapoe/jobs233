@@ -574,33 +574,38 @@ select.form-control {
 
     }
 
-    .profile {
-        position: relative;
-        z-index: 1;
-        width: 100%;
-        height: 12em;
-        display: flex;
-        align-items: flex-end;
 
 
-        .profile-picture {
 
-            width: 12em;
-            height: 12em;
-            margin-right: 1em;
+}
 
-            .image {
-                border-radius: 10em;
-            }
+.profile {
 
+
+    .profile-picture {
+        width: 15em;
+        height: 15em;
+
+        .image {
+            border-radius: 10em;
         }
 
-        .profile-details {
-
-        }
     }
 
 
+}
+
+.profile-details {
+
+    .t-4{
+        line-height: 1.8em !important;
+    }
+    p{
+        line-height: 1em !important;
+    }
+    .t-6{
+        line-height: 1.4em !important;
+    }
 }
 
 .jb-profile-row {
@@ -615,7 +620,7 @@ select.form-control {
 
 .jb-profile-bio {
     min-height: 200px;
-    padding: 1em 1em 1em 0;
+    padding: 0.5em 1em 1em 0;
 }
 
 .jb-profile-portfolio {
