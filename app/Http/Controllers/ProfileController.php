@@ -206,8 +206,12 @@ class ProfileController extends Controller
             'skill' => ['required', 'string', 'min:3']
         ]);
 
+        if (Auth::user()->skills) {
+            $userSkills = Auth::user()->skills->pluck('skills')[0];
+        } else {
+            $userSkills = '';
+        }
 
-        $userSkills = Auth::user()->skills->pluck('skills')[0];
 
         $strArray = explode(',', strtolower($userSkills));
 
