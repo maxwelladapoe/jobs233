@@ -33,7 +33,9 @@
 
                                         <div class="jb-dash-profile-extra">
                                             <router-link :to="{ name: 'EditProfile' }">
-                                                <p class="t-mont t-white text-right">Edit Profile</p>
+                                                <span class="t-mont t-orange text-right">
+                                                    <b-icon icon="account-edit"/>
+                                                </span>
                                             </router-link>
                                         </div>
                                     </div>
@@ -47,17 +49,20 @@
 
                                         <p class="small-title t-black t-mont">Your Balance</p>
 
-                                        <p class="t-mont t-5 t-bold">
-                                            ₵ {{ user.wallet.balance }}
+                                        <p class="t-mont">
+                                            <span class="t-5 t-bold"> {{user.profile.currency.name}} {{
+                                                    user.wallet.balance }}</span>
+
                                             <template v-if="user.wallet.balance > 0">
-                                                 <span>
-                                                    <router-link
-                                                        v-if="profileType === 'work' || profileType === 'work&hire' "
-                                                        :to="{ name: 'WithdrawFunds' }"
-                                                        class="t-normal t-6" >
-                                                        Withdraw
-                                                    </router-link>
+                                                <router-link
+                                                    v-if="profileType === 'work' || profileType === 'work&hire' "
+                                                    :to="{ name: 'WithdrawFunds' }" >
+
+                                                 <span class="t-normal t-6">
+                                                        withdraw
                                                  </span>
+
+                                                </router-link>
 
                                             </template>
                                         </p>
@@ -81,6 +86,22 @@
                                                 profile
                                             </b-button>
                                         </router-link>
+
+                                    </template>
+
+
+                                    <template v-if="profileType === 'work' || profileType === 'work&hire' ">
+
+                                        <template v-if="user.skills">
+                                            <hr>
+                                            <router-link :to="{ name: 'EditProfile' }">
+                                                <p>
+                                                    <b-icon icon="briefcase-plus" size="is-small"/>
+                                                    Add your skills
+                                                </p>
+                                            </router-link>
+
+                                        </template>
 
                                     </template>
 
@@ -151,10 +172,12 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{ user.my_assigned_projects_count}}
+                                                        {{ user.my_assigned_projects_count }}
                                                     </p>
-                                                    <p class="jb-stats-brief">Assigned {{ 'Project' |
-                                                        pluralize(user.my_assigned_projects_count) }}</p>
+                                                    <p class="jb-stats-brief">Assigned {{
+                                                            'Project' |
+                                                                pluralize(user.my_assigned_projects_count)
+                                                        }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -165,10 +188,12 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{user.completed_assigned_projects_count}}</p>
+                                                        {{ user.completed_assigned_projects_count }}</p>
                                                     <p class="jb-stats-brief">
-                                                        Completed {{ "project" |
-                                                        pluralize(user.completed_assigned_projects_count) }}
+                                                        Completed {{
+                                                            "project" |
+                                                                pluralize(user.completed_assigned_projects_count)
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -183,8 +208,10 @@
                                                     <p class="jb-dash-stats-number t-bold t-mont">
                                                         {{ user.projects_count }}
                                                     </p>
-                                                    <p class="jb-stats-brief">Posted {{ 'project' |
-                                                        pluralize(user.projects_count) }}</p>
+                                                    <p class="jb-stats-brief">Posted {{
+                                                            'project' |
+                                                                pluralize(user.projects_count)
+                                                        }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,10 +222,12 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{user.assigned_projects_to_worker_count}}</p>
+                                                        {{ user.assigned_projects_to_worker_count }}</p>
                                                     <p class="jb-stats-brief">
-                                                        Assigned {{ "project" |
-                                                        pluralize(user.assigned_projects_to_worker_count) }}
+                                                        Assigned {{
+                                                            "project" |
+                                                                pluralize(user.assigned_projects_to_worker_count)
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -209,10 +238,12 @@
                                             <div class="box stats-item">
                                                 <div>
                                                     <p class="jb-dash-stats-number t-bold t-mont">
-                                                        {{user.completed_projects_count}}</p>
+                                                        {{ user.completed_projects_count }}</p>
                                                     <p class="jb-stats-brief">
-                                                        Completed {{ "project" |
-                                                        pluralize(user.completed_projects_count) }}
+                                                        Completed {{
+                                                            "project" |
+                                                                pluralize(user.completed_projects_count)
+                                                        }}
                                                     </p>
                                                 </div>
                                             </div>
@@ -224,7 +255,6 @@
                             </div>
 
                             <dash-notification/>
-
 
 
                             <!-- Is employer -->
@@ -411,122 +441,121 @@
 </template>
 
 <script>
-    import DashNotification from "../components/notification/DashNotification";
-    import ProjectComponent from "../components/extras/ProjectComponent";
-    import {mapGetters, mapActions} from "vuex";
+import DashNotification from "../components/notification/DashNotification";
+import ProjectComponent from "../components/extras/ProjectComponent";
+import {mapGetters, mapActions} from "vuex";
 
-    export default {
-        name: "dash-board",
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: "Dashboard",
-        },
-        data() {
-            return {
-                someProjects: [],
-                assignedProjects: [],
-                assignedProjectsCount: 0,
-                somePostedProjects: [],
-                somePostedProjectsCount: 0,
-            };
-        },
-        computed: {
-            ...mapGetters({
-                authenticated: "auth/authenticated",
-                user: "auth/user",
-                profileType: "auth/profileType",
-            }),
+export default {
+    name: "dash-board",
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: "Dashboard",
+    },
+    data() {
+        return {
+            someProjects: [],
+            assignedProjects: [],
+            assignedProjectsCount: 0,
+            somePostedProjects: [],
+            somePostedProjectsCount: 0,
+        };
+    },
+    computed: {
+        ...mapGetters({
+            authenticated: "auth/authenticated",
+            user: "auth/user",
+            profileType: "auth/profileType",
+        }),
 
-            profilePercentageCompleted() {
+        profilePercentageCompleted() {
 
-                const columns = [
-                    "address", "bio", "city", "gender", "phone_number", "country","title"
-                ];
-                let percentagePerColumn = 100 / columns.length;
+            const columns = [
+                "address", "bio", "city", "gender", "phone_number", "country", "title"
+            ];
+            let percentagePerColumn = 100 / columns.length;
 
-                let total = 0;
-                for (let column in this.user.profile) {
-                    if ((this.user.profile[column] !== null && this.user.profile[column] !== '' &&
-                        this.user.profile[column] !== []) && columns.includes(column)) {
-                        total += percentagePerColumn;
-                    }
+            let total = 0;
+            for (let column in this.user.profile) {
+                if ((this.user.profile[column] !== null && this.user.profile[column] !== '' &&
+                    this.user.profile[column] !== []) && columns.includes(column)) {
+                    total += percentagePerColumn;
                 }
-                return total;
             }
-        },
-        components: {
-            DashNotification,
-            ProjectComponent,
-        },
-        methods: {
-            truncate(str, n) {
-                return str.length > n ? str.substr(0, n - 1) + "&hellip;" : str;
-            },
-
-            getSomeProjects() {
-                switch (this.profileType) {
-                    case "work":
-                        axios
-                            .get("/projects")
-                            .then(({data}) => {
-                                this.someProjects = data.projects.data;
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                        break;
-                    case "hire":
-                        axios
-                            .get("user/projects/?paginate=5")
-                            .then(({data}) => {
-                                this.somePostedProjects = data.projects.data;
-                                this.somePostedProjectsCount = data.projects.total;
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-
-                        break;
-                    case "work&hire":
-                        axios
-                            .get("/projects")
-                            .then(({data}) => {
-                                this.someProjects = data.projects.data;
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-
-                        axios
-                            .get("user/projects/?paginate=5")
-                            .then(({data}) => {
-                                this.somePostedProjects = data.projects.data;
-
-                                this.somePostedProjectsCount = data.projects.total;
-                            })
-                            .catch((error) => {
-                                console.log(error);
-                            });
-                        break;
-
-
-
-                }
-
-                axios
-                    .get("/projects/assigned")
-                    .then(({data}) => {
-                        this.assignedProjects = data.projects.data;
-                        this.assignedProjectsCount = data.projects.total;
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
-            },
-        },
-        mounted() {
-            this.getSomeProjects();
+            return total;
+        }
+    },
+    components: {
+        DashNotification,
+        ProjectComponent,
+    },
+    methods: {
+        truncate(str, n) {
+            return str.length > n ? str.substr(0, n - 1) + "&hellip;" : str;
         },
 
-    };
+        getSomeProjects() {
+            switch (this.profileType) {
+                case "work":
+                    axios
+                        .get("/projects")
+                        .then(({data}) => {
+                            this.someProjects = data.projects.data;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    break;
+                case "hire":
+                    axios
+                        .get("user/projects/?paginate=5")
+                        .then(({data}) => {
+                            this.somePostedProjects = data.projects.data;
+                            this.somePostedProjectsCount = data.projects.total;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                    break;
+                case "work&hire":
+                    axios
+                        .get("/projects")
+                        .then(({data}) => {
+                            this.someProjects = data.projects.data;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+
+                    axios
+                        .get("user/projects/?paginate=5")
+                        .then(({data}) => {
+                            this.somePostedProjects = data.projects.data;
+
+                            this.somePostedProjectsCount = data.projects.total;
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                    break;
+
+
+            }
+
+            axios
+                .get("/projects/assigned")
+                .then(({data}) => {
+                    this.assignedProjects = data.projects.data;
+                    this.assignedProjectsCount = data.projects.total;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        },
+    },
+    mounted() {
+        this.getSomeProjects();
+    },
+
+};
 </script>

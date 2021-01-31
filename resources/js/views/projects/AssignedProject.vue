@@ -573,8 +573,13 @@
                     <div class="section no-padding-margin-top-bottom">
 
                         <div class="container">
-                            <p class="error t-mont t-orange">404</p>
-                            <p class="t-mont">OOPS! the page you requested for was not found</p>
+                            <p class="error t-meri t-orange">OOPS!</p>
+                            <p class="mb-5">We are sorry for the inconvenience. <br> The project you are trying to
+                                access  does not
+                                exist or has been deleted</p>
+                            <router-link to="/" >
+                                <b-button type="is-primary">Go Home</b-button>
+                            </router-link>
                         </div>
 
                     </div>
@@ -590,7 +595,6 @@
 
 <script>
     import {mapGetters} from "vuex";
-    import project from "../../router/project";
     import AttachFiles from "../../components/extras/AttachFiles";
     import {SnackbarProgrammatic as Snackbar} from 'buefy';
 

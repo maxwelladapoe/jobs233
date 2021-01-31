@@ -27,11 +27,12 @@
                                 <div class="column is-12 is-8-desktop">
 
                                     <div class="profile-details mb-4">
-                                        <p class="t-bold t-4">{{viewUser.name}}</p>
-                                        <p class="t-orange">{{viewUser.profile.title}}</p>
+                                        <p class="t-bold t-4">{{ viewUser.name }}</p>
+                                        <p class="t-orange">{{ viewUser.profile.title }}</p>
                                         <p class="t-6 mt-2 t-ash">
-                                           Joined <timeago v-if='viewUser.created_at'
-                                                              :datetime="viewUser.created_at" :auto-update="60"/>
+                                            Joined
+                                            <timeago v-if='viewUser.created_at'
+                                                     :datetime="viewUser.created_at" :auto-update="60"/>
 
                                         </p>
 
@@ -62,7 +63,7 @@
                                             <b-taglist>
                                                 <b-tag v-for="skill in userSkills" type="is-success"
                                                        v-bind:key="skill.id">
-                                                    {{skill}}
+                                                    {{ skill }}
                                                 </b-tag>
                                             </b-taglist>
                                         </template>
@@ -79,7 +80,7 @@
                                             <template v-if="viewUser.profile.bio">
                                                 <div class="t-bold t-6 ">Bio</div>
                                                 <div class="jb-profile-bio">
-                                                    <p class="t-normal t-meri">{{viewUser.profile.bio}}</p>
+                                                    <p class="t-normal t-meri">{{ viewUser.profile.bio }}</p>
                                                 </div>
                                             </template>
                                         </div>
@@ -146,38 +147,40 @@
 </template>
 
 <script>
-    export default {
-        name: "ViewProfile",
-        metaInfo() {
-            // if no subcomponents specify a metaInfo.title, this title will be used
+export default {
+    name: "ViewProfile",
+    metaInfo() {
+        // if no subcomponents specify a metaInfo.title, this title will be used
 
-            return {
-                title: this.viewUser.name,
-                userSkills:[]
-            }
-
-        },
-        props: {
-            username: {
-                type: String,
-                required: true
-            }
-        },
-        data() {
-            return {
-                viewUser: ''
-            }
-        },
-        mounted() {
-            axios.get(`${this.username}`).then(({data}) => {
-                this.viewUser = data.user[0];
-
-                this.userSkills= (data.user[0].skills.skills).split(',');
-                console.log(this.userSkills)
-            })
-
+        return {
+            title: this.viewUser.name,
+            userSkills: []
         }
+
+    },
+    props: {
+        username: {
+            type: String,
+            required: true
+        }
+    },
+    data() {
+        return {
+            viewUser: ''
+        }
+    },
+    mounted() {
+        axios.get(`${this.username}`).then(({data}) => {
+            this.viewUser = data.user[0];
+
+            if (data.user[0].skills) {
+                this.userSkills = (data.user[0].skills.skills).split(',');
+            }
+
+        })
+
     }
+}
 </script>
 
 <style scoped>

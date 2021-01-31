@@ -5,7 +5,7 @@
 
 
                 <template slot="brand">
-                    <b-navbar-item tag="router-link" to="/">
+                    <b-navbar-item tag="router-link" to="/dashboard">
                         <img src="/images/logowhite.png" alt="Jobs 233 logo">
                     </b-navbar-item>
                 </template>
