@@ -206,21 +206,28 @@ class ProfileController extends Controller
             'skill' => ['required', 'string', 'min:3']
         ]);
 
-        if (Auth::user()->skills) {
-            $userSkills = Auth::user()->skills->pluck('skills')[0];
+        $skills = UserSkills::where('user_id', Auth::user()->id)->first();
+
+
+        if ($skills) {
+
+            $userSkills = $skills->pluck('skills')[0];
+
+            $strArray = explode(',', strtolower($userSkills));
+
+
+            if (in_array(strtolower($request['skill']), $strArray)) {
+                return response()->json(['success' => false,
+                    'message' => $request['skill'] . ' has already been added'], 200);
+            }
+
+
         } else {
             $userSkills = '';
+            $skills = new UserSkills();
+            $skills->user_id = Auth::user()->id;
         }
 
-
-        $strArray = explode(',', strtolower($userSkills));
-
-
-        if (in_array(strtolower($request['skill']), $strArray)) {
-
-            return response()->json(['success' => false,
-                'message' => $request['skill'] . ' has already been added'], 200);
-        }
 
         if ($userSkills) {
             $userSkills = $userSkills . ',' . $request['skill'];
@@ -229,13 +236,12 @@ class ProfileController extends Controller
         }
 
 
-        $skill = UserSkills::updateOrCreate(
-            ['user_id' => Auth::user()->id],
-            ['skills' => $userSkills]
-        );
+        $skills->skills = $userSkills;
+
+        $skills->save();
 
         return response()->json(['success' => true, 'message' => $request['skill'] . ' has been added successfully',
-            'skills' => $skill], 200);
+            'skills' => $skills], 200);
 
     }
 
@@ -246,7 +252,10 @@ class ProfileController extends Controller
             'skill' => ['required', 'string', 'min:3']
         ]);
 
-        $userSkills = Auth::user()->skills->pluck('skills')[0];
+        $skills = UserSkills::where('user_id', Auth::user()->id)->first();
+
+
+        $userSkills = $skills->pluck('skills')[0];
 
         $strArray = explode(',', $userSkills);
 
@@ -259,13 +268,12 @@ class ProfileController extends Controller
             $userSkills = trim(implode(',', $strArray));
 
 
-            $skill = UserSkills::updateOrCreate(
-                ['user_id' => Auth::user()->id],
-                ['skills' => $userSkills]
-            );
+            $skills->skills = $userSkills;
 
+
+            $skills->save();
             return response()->json(['success' => true, 'message' => $request['skill'] . ' has been deleted successfully',
-                'skills' => $skill], 200);
+                'skills' => $skills], 200);
 
         } else {
             return response()->json(['success' => false,

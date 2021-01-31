@@ -72,8 +72,7 @@
 
                                             </ValidationProvider>
 
-
-                                            <b-taglist >
+                                            <b-taglist v-if="userSkills" >
 
 
                                                 <b-tag
@@ -629,7 +628,7 @@
                 portfolioItems: [],
                 skillsList: [],
                 additionalSkill: '',
-                userSkills:'',
+                userSkills:[],
                 skills: [],
             }
         },
@@ -780,7 +779,11 @@
             this.profileDetails = {...this.user.profile};
             this.imagePreview = this.profileDetails.picture;
             this.userDetails = {...this.user};
-            this.userSkills = this.user.skills.skills.split(',')
+            console.log(this.user.skills.skills ==='')
+            if(this.user.skills.skills !=''){
+                this.userSkills = this.user.skills.skills.split(',')
+            }
+
 
             axios.get('skills').then(({data}) => {
                 this.skillsList = data.skills;

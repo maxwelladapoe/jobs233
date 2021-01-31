@@ -26,7 +26,7 @@
         name: "404 Not Found",
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
-            title: '403 Forbidden',
+            title: '404 Page Not Found',
 
         },
     }

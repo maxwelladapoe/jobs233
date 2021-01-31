@@ -56,7 +56,7 @@
                                 <div class="column is-12 is-4-desktop">
                                     <div class="">
 
-                                        <template v-if="userSkills.length > 0">
+                                        <template v-if="userSkills && userSkills.length > 0">
 
                                             <div class="t-bold t-6  mb-2">Skills</div>
                                             <b-taglist>
