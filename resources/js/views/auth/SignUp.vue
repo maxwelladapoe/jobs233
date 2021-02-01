@@ -130,7 +130,7 @@
 
                                                 <ValidationProvider
                                                     name="username"
-                                                    :rules="{ required: true, min: 5, max:35}"
+                                                    :rules="{ required: true, min: 5, max:35, alpha_dash:true}"
                                                     v-slot="{ errors, valid }" slim
                                                 >
 

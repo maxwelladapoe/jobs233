@@ -92,7 +92,7 @@
 
                                     <template v-if="profileType === 'work' || profileType === 'work&hire' ">
 
-                                        <template v-if="user.skills">
+                                        <template v-if="!user.skills">
                                             <hr>
                                             <router-link :to="{ name: 'EditProfile' }">
                                                 <p>
@@ -125,23 +125,6 @@
                                     </router-link>
                                 </div>
 
-                                <!--                                <div class="jb-dash-invite-box bg-ash-light has-text-centered">-->
-                                <!--                                    <p class="invite t-mont t-bold">Invite your friends</p>-->
-                                <!--                                    <p class="earn t-meri t-orange">-->
-                                <!--                                        Earn a reward for each <br/>friend you invite-->
-                                <!--                                    </p>-->
-                                <!--                                    <p class="icon t-black">-->
-                                <!--                                        <i class="fa fa-users" id="jb-dash-icon"></i>-->
-                                <!--                                    </p>-->
-
-                                <!--                                    <p class="copy t-meri">Copy your Reference link to share</p>-->
-
-                                <!--                                    <a href="#">-->
-                                <!--                                        <div class="button bg-orange">-->
-                                <!--                                            <i class="fa fa-clipboard"></i> Copy Link-->
-                                <!--                                        </div>-->
-                                <!--                                    </a>-->
-                                <!--                                </div>-->
                             </div>
                         </div>
 

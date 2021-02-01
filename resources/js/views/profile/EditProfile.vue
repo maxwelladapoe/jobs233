@@ -72,7 +72,7 @@
 
                                             </ValidationProvider>
 
-                                            <b-taglist v-if="userSkills" >
+                                            <b-taglist v-if="userSkills">
 
 
                                                 <b-tag
@@ -555,6 +555,8 @@
                                     <div v-for="portfolioItem in portfolioItems"
                                          v-bind:key="portfolioItem.id"
                                          class="column is-6-mobile is-4-tablet is-3-desktop">
+
+
                                         <div class="card jb-portfolio-card">
                                             <div class="card-image jb-card-image">
 
@@ -570,12 +572,19 @@
                                                     </div>
 
                                                 </div>
-                                                <figure class="image is-4">
-                                                    <img :src="portfolioItem.cover_image"
-                                                         alt="portfolioItem.name">
-                                                </figure>
+
+                                                <router-link :to="{name:'ViewPortfolioItem',
+                                        params:{userId:user.id,portfolioItemId:
+                                        portfolioItem.id}}">
+                                                    <figure class="image is-4">
+                                                        <img :src="portfolioItem.cover_image"
+                                                             alt="portfolioItem.name">
+                                                    </figure>
+                                                </router-link>
                                             </div>
                                         </div>
+
+
                                     </div>
 
                                 </div>
@@ -596,217 +605,217 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
-    import AddPortfolioItem from "../../components/AddPortfolioItem";
-    import {SnackbarProgrammatic as Snackbar} from "buefy";
+import {mapGetters, mapActions} from 'vuex';
+import AddPortfolioItem from "../../components/AddPortfolioItem";
+import {SnackbarProgrammatic as Snackbar} from "buefy";
 
-    export default {
-        name: "EditProfile",
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Edit Profile',
-        },
-        data() {
-            return {
-                userDetails: {},
-                showUploadButton: false,
-                showPortfolioForm: false,
-                skillsListFiltered: [],
-                profileDetails: {
-                    picture: '',
-                    gender: null,
-                },
-                credentials: {
-                    currentPassword: '',
-                    newPassword: '',
-                    confirmNewPassword: '',
-                },
-                imagePreview: null,
-                file: '',
-                profileUpdateLoading: false,
-                showPortfolioItem: false,
-                portfolioItems: [],
-                skillsList: [],
-                additionalSkill: '',
-                userSkills:[],
-                skills: [],
-            }
-        },
-        methods: {
-
-            ...mapActions({
-                refresh: 'auth/refresh'
-            }),
-
-
-            showPortfolioModal() {
-                this.$buefy.modal.open({
-                    parent: this,
-                    component: AddPortfolioItem,
-                    hasModalCard: true,
-                    customClass: 'custom-class custom-class-2',
-                    trapFocus: true,
-                    events:{
-                        'portfolioItemAdded': item =>{
-                           this.portfolioItems.push(item);
-                        }
-                    }
-                })
+export default {
+    name: "EditProfile",
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Edit Profile',
+    },
+    data() {
+        return {
+            userDetails: {},
+            showUploadButton: false,
+            showPortfolioForm: false,
+            skillsListFiltered: [],
+            profileDetails: {
+                picture: '',
+                gender: null,
             },
-
-            editProfile() {
-                this.profileUpdateLoading = true;
-                axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
-                    this.profileUpdateLoading = false;
-                    Snackbar.open(data.message);
-                    this.refresh();
-                }).catch((errorRes) => {
-                    this.profileUpdateLoading = false;
-                    //show error
-                    this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
-                })
+            credentials: {
+                currentPassword: '',
+                newPassword: '',
+                confirmNewPassword: '',
             },
-            changePassword() {
+            imagePreview: null,
+            file: '',
+            profileUpdateLoading: false,
+            showPortfolioItem: false,
+            portfolioItems: [],
+            skillsList: [],
+            additionalSkill: '',
+            userSkills: [],
+            skills: [],
+        }
+    },
+    methods: {
 
-            },
+        ...mapActions({
+            refresh: 'auth/refresh'
+        }),
 
-            handleImageUpload() {
-                this.file = this.$refs.changeProfilePicture.files[0];
 
-                let reader = new FileReader();
-
-                reader.addEventListener("load", function () {
-
-                    this.imagePreview = reader.result;
-                }.bind(this), false);
-
-                if (this.file) {
-
-                    if (/\.(jpe?g|png|gif)$/i.test(this.file.name)) {
-                        this.showUploadButton = true;
-                        reader.readAsDataURL(this.file);
+        showPortfolioModal() {
+            this.$buefy.modal.open({
+                parent: this,
+                component: AddPortfolioItem,
+                hasModalCard: true,
+                customClass: 'custom-class custom-class-2',
+                trapFocus: true,
+                events: {
+                    'portfolioItemAdded': item => {
+                        this.portfolioItems.push(item);
                     }
                 }
+            })
+        },
+
+        editProfile() {
+            this.profileUpdateLoading = true;
+            axios.patch('profile/', {...this.userDetails, ...this.profileDetails}).then(({data}) => {
+                this.profileUpdateLoading = false;
+                Snackbar.open(data.message);
+                this.refresh();
+            }).catch((errorRes) => {
+                this.profileUpdateLoading = false;
+                //show error
+                this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
+            })
+        },
+        changePassword() {
+
+        },
+
+        handleImageUpload() {
+            this.file = this.$refs.changeProfilePicture.files[0];
+
+            let reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+
+                this.imagePreview = reader.result;
+            }.bind(this), false);
+
+            if (this.file) {
+
+                if (/\.(jpe?g|png|gif)$/i.test(this.file.name)) {
+                    this.showUploadButton = true;
+                    reader.readAsDataURL(this.file);
+                }
+            }
 
 
-            },
+        },
 
-            changeProfilePicture() {
+        changeProfilePicture() {
 
-                let data = new FormData();
-                const config = {}
+            let data = new FormData();
+            const config = {}
 
-                data.append('image', this.file);
-                axios.post('profile/picture', data, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
+            data.append('image', this.file);
+            axios.post('profile/picture', data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
 
-                    onUploadProgress: (progressEvent) => {
-                        this.showUploadButton = false;
-                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                        console.log(percentCompleted)
-                    },
-
-
-                }).then(({data}) => {
-                    Snackbar.open(data.message);
-                    this.refresh();
-                    console.log(data)
-                })
-            },
-
-            deleteItem(portfolioItem) {
-
-                this.$buefy.dialog.confirm({
-                    title: `Delete `,
-                    message:
-                        `Are you sure you want to ${portfolioItem.name} your from your portfolio? This action cannot be undone.`,
-                    confirmText: 'Delete',
-                    type: 'is-danger',
-                    hasIcon: true,
-                    onConfirm: () => {
-
-                        axios.delete(`/portfolio/delete/${portfolioItem.id}`).then(({data}) => {
-
-                            let arrayItems = [...this.portfolioItems]
-                            _.remove(arrayItems, (n) => {
-                                return n.id === portfolioItem.id
-                            })
-
-                            this.portfolioItems = [...arrayItems];
-                            Snackbar.open(`You deleted ${portfolioItem.name} successfully`);
-
-                            // this.$buefy.toast.open()
+                onUploadProgress: (progressEvent) => {
+                    this.showUploadButton = false;
+                    let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                    console.log(percentCompleted)
+                },
 
 
+            }).then(({data}) => {
+                Snackbar.open(data.message);
+                this.refresh();
+                console.log(data)
+            })
+        },
+
+        deleteItem(portfolioItem) {
+
+            this.$buefy.dialog.confirm({
+                title: `Delete `,
+                message:
+                    `Are you sure you want to ${portfolioItem.name} your from your portfolio? This action cannot be undone.`,
+                confirmText: 'Delete',
+                type: 'is-danger',
+                hasIcon: true,
+                onConfirm: () => {
+
+                    axios.delete(`/portfolio/delete/${portfolioItem.id}`).then(({data}) => {
+
+                        let arrayItems = [...this.portfolioItems]
+                        _.remove(arrayItems, (n) => {
+                            return n.id === portfolioItem.id
                         })
 
-                    }
-                })
-            },
+                        this.portfolioItems = [...arrayItems];
+                        Snackbar.open(`You deleted ${portfolioItem.name} successfully`);
+
+                        // this.$buefy.toast.open()
 
 
-            getFilteredSkills(text) {
-                this.skillsListFiltered = this.skillsList.filter((option) => {
-                    return option.name
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(text.toLowerCase()) >= 0
-                })
-            },
+                    })
 
-            addSkill() {
-                axios.post('profile/skills', {skill: this.additionalSkill}).then(({data}) => {
-
-                    this.userSkills.push(this.additionalSkill);
-                    this.additionalSkill = '';
-                    this.$refs.skillsForm.reset();
-
-                    Snackbar.open(data.message);
-                }).catch()
-            },
-
-
-            removeSkill(skill, index){
-                axios.post('profile/skills/delete', {skill: skill}).then(({data}) => {
-                    this.userSkills.splice(index,1);
-                    Snackbar.open(data.message);
-                }).catch()
-            }
-        },
-        mounted() {
-            this.profileDetails = {...this.user.profile};
-            this.imagePreview = this.profileDetails.picture;
-            this.userDetails = {...this.user};
-            console.log(this.user.skills.skills ==='')
-            if(this.user.skills.skills !=''){
-                this.userSkills = this.user.skills.skills.split(',')
-            }
-
-
-            axios.get('skills').then(({data}) => {
-                this.skillsList = data.skills;
-            })
-
-            axios.get('portfolio').then(({data}) => {
-                this.portfolioItems = data.portfolio;
-            })
-
-            delete this.userDetails.profile;
-        },
-        computed: {
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
+                }
             })
         },
-        components: {
-            AddPortfolioItem
+
+
+        getFilteredSkills(text) {
+            this.skillsListFiltered = this.skillsList.filter((option) => {
+                return option.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0
+            })
+        },
+
+        addSkill() {
+            axios.post('profile/skills', {skill: this.additionalSkill}).then(({data}) => {
+
+                this.userSkills.push(this.additionalSkill);
+                this.additionalSkill = '';
+                this.$refs.skillsForm.reset();
+
+                Snackbar.open(data.message);
+            }).catch()
+        },
+
+
+        removeSkill(skill, index) {
+            axios.post('profile/skills/delete', {skill: skill}).then(({data}) => {
+                this.userSkills.splice(index, 1);
+                Snackbar.open(data.message);
+            }).catch()
+        }
+    },
+    mounted() {
+        this.profileDetails = {...this.user.profile};
+        this.imagePreview = this.profileDetails.picture;
+        this.userDetails = {...this.user};
+        console.log(this.user.skills.skills === '')
+        if (this.user.skills.skills != '') {
+            this.userSkills = this.user.skills.skills.split(',')
         }
 
+
+        axios.get('skills').then(({data}) => {
+            this.skillsList = data.skills;
+        })
+
+        axios.get('portfolio').then(({data}) => {
+            this.portfolioItems = data.portfolio;
+        })
+
+        delete this.userDetails.profile;
+    },
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        })
+    },
+    components: {
+        AddPortfolioItem
     }
+
+}
 </script>
 
 <style scoped>

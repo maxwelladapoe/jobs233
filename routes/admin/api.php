@@ -119,7 +119,7 @@ Route::prefix('v1')->group(function () {
     //skills
     Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
 
-    Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'getAll']);
+    Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'index']);
 
 
     Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);

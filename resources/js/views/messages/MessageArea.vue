@@ -59,7 +59,6 @@
                                                                 class="text-right t-6 t-orange ml-auto">10 mins</span>
                                                             </div>
                                                             <div class="last-message t-6">
-                                                                <!--                                                    {{truncate('Lorem ipsum dolor sit amet edfdfx elit',38)}}-->
                                                             </div>
                                                         </div>
                                                     </div>

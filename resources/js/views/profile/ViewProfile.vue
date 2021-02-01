@@ -98,14 +98,19 @@
                                                         <div v-for="portfolioItem in viewUser.portfolio"
                                                              v-bind:key="portfolioItem.id"
                                                              class="column is-6-mobile is-4-desktop">
-                                                            <div class="card">
-                                                                <div class="card-image">
-                                                                    <figure class="image is-4">
-                                                                        <img :src="portfolioItem.cover_image"
-                                                                             alt="Placeholder image">
-                                                                    </figure>
+
+                                                            <router-link :to="{name:'ViewPortfolioItem',
+                                        params:{userId:viewUser.id,portfolioItemId:
+                                        portfolioItem.id}}">
+                                                                <div class="card">
+                                                                    <div class="card-image">
+                                                                        <figure class="image is-4">
+                                                                            <img :src="portfolioItem.cover_image"
+                                                                                 alt="Placeholder image">
+                                                                        </figure>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            </router-link>
                                                         </div>
 
                                                     </div>

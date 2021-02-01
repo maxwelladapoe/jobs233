@@ -2016,6 +2016,33 @@ textarea {
     }
 }
 
+
+.loader-with-percentage-wrap {
+    position: relative;
+    width: 4.5em;
+    height: 4.5em;
+
+
+    .loader-with-percentage {
+        border: 0.3em solid $ash-light; /* Light grey */
+        border-top: 0.3em solid white; /* Blue */
+        border-radius: 50%;
+        width: 4em;
+        height: 4em;
+        animation: spin 2s linear infinite;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -2em auto 0 -2em;
+    }
+
+    .percentage {
+        text-align: center;
+        line-height: 5.5em;
+        font-size: 0.8em;
+    }
+}
+
 .loader {
     border: 0.3em solid $orange; /* Light grey */
     border-top: 0.3em solid white; /* Blue */
@@ -2148,10 +2175,14 @@ textarea {
 }
 
 .jb-add-portfolio-item-modal {
-    width: 40em;
+    width: 35em;
 
     @include media-breakpoint-down(md) {
         width: auto;
+    }
+
+    @include media-breakpoint-down(sm){
+
     }
 }
 
@@ -2162,6 +2193,11 @@ textarea {
     flex-wrap: nowrap;
     max-width: 800px;
     max-height: 800px;
+
+    @include media-breakpoint-down(sm){
+        max-width: 300px;
+        justify-content: center;
+    }
 
     .form-img {
         width: 100%;
@@ -2340,3 +2376,38 @@ a {
 }
 
 
+.custom-image-container {
+    text-align: center;
+    width: 100% !important;
+    height: 32em !important;
+    padding: 1em;
+
+    img {
+        width: unset;
+        max-height: 30em;
+        height: inherit !important;
+    }
+
+
+}
+
+.custom-carousel-list {
+
+    position: unset !important;
+
+    .carousel-arrow {
+        top: 50%;
+        left: 0;
+        width: 100%;
+        position: absolute !important;
+    }
+
+    .carousel-arrow .icon {
+        background: $ash !important;
+        color: #fff;
+        height: 40px;
+        width: 40px;
+        border: none;
+        border-radius: 5px;
+    }
+}

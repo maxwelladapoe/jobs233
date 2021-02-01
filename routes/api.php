@@ -81,9 +81,8 @@ Route::prefix('v1')->group(function () {
     //attachments
     Route::prefix('attachments')->group(function () {
         Route::post('/', [App\Http\Controllers\AttachmentController::class, 'create']);
-        Route::delete('/delete/{attachment}',[App\Http\Controllers\AttachmentController::class,'delete']);
+        Route::delete('/delete/{attachment}', [App\Http\Controllers\AttachmentController::class, 'delete']);
     });
-
 
 
     Route::prefix('profile')->group(function () {
@@ -100,9 +99,7 @@ Route::prefix('v1')->group(function () {
     });
 
 
-    Route::prefix('{user}')->group(function () {
-        Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'create']);
-    });
+
 
 
     //payment paystack
@@ -120,12 +117,24 @@ Route::prefix('v1')->group(function () {
     //skills
     Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
 
-    Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'getAll']);
 
 
-    Route::post('/portfolio/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
+    //portfolio
+    Route::prefix('{user}')->group(function () {
+        Route::post('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'create']);
+        Route::get('/portfolio', [App\Http\Controllers\PortfolioItemController::class, 'viewAllForUser']);
 
-    Route::delete('/portfolio/delete/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'delete']);
+    });
+    Route::prefix('portfolio')->group(function () {
+
+        Route::get('/', [App\Http\Controllers\PortfolioItemController::class, 'index']);
+
+        Route::post('/add', [App\Http\Controllers\PortfolioItemController::class, 'create']);
+
+        Route::get('/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'view']);
+
+        Route::delete('/delete/{portfolioItem}', [App\Http\Controllers\PortfolioItemController::class, 'delete']);
+    });
 
 
     //forgot password

@@ -50,49 +50,6 @@
                                     </h5>
                                 </template>
 
-
-<!--                                <template v-if="project.attachments && project.attachments.length >0">-->
-<!--                                    <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Attachments</p>-->
-
-
-<!--                                    <div class="columns mt-2">-->
-<!--                                        <template v-for="(attachment,index) in project.attachments">-->
-
-
-<!--                                            <div class="col-4 col-lg-3" v-bind:key="index">-->
-<!--                                                <div class="d-flex justify-content-between">-->
-
-<!--                                                    <div>-->
-<!--                                                        <template-->
-<!--                                                            v-if="['xlsx','docx'].includes(attachment.name.split('.').pop().toLowerCase() )">-->
-<!--                                                            <img-->
-<!--                                                                src="/images/file_type_icons/doc.svg"-->
-<!--                                                                alt="" width="35">-->
-<!--                                                        </template>-->
-<!--                                                        <template v-else>-->
-<!--                                                            <img-->
-<!--                                                                :src="`/images/file_type_icons/${attachment.name.split('.').pop()}.svg`"-->
-<!--                                                                alt="" width="35">-->
-<!--                                                        </template>-->
-
-<!--                                                    </div>-->
-
-<!--                                                    <div class="ml-2">-->
-<!--                                                        <p class="t-6">{{ attachment.name }}</p>-->
-<!--                                                    </div>-->
-
-
-<!--                                                </div>-->
-
-<!--                                            </div>-->
-
-<!--                                        </template>-->
-<!--                                    </div>-->
-
-
-<!--                                </template>-->
-
-
                                 <hr>
                                 <p class="t-meri"><span>Deadline</span>
                                     <span></span>
@@ -332,33 +289,33 @@
                                                 <b-field grouped>
 
 
-                                                    <ValidationProvider
-                                                        :rules="{ required: true, integer:false}"
-                                                        name="currency"
-                                                        v-slot="{ errors, valid }" slim
-                                                    >
+<!--                                                    <ValidationProvider-->
+<!--                                                        :rules="{ required: true, integer:false}"-->
+<!--                                                        name="currency"-->
+<!--                                                        v-slot="{ errors, valid }" slim-->
+<!--                                                    >-->
 
-                                                        <b-field
-                                                            :message="errors"
-                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                        >
-                                                            <b-select
-                                                                placeholder="  Select a
-                                                                            currency"
-                                                                name="currency"
-                                                                expanded
-                                                                v-model="bid.currency">
+<!--                                                        <b-field-->
+<!--                                                            :message="errors"-->
+<!--                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"-->
+<!--                                                        >-->
+<!--                                                            <b-select-->
+<!--                                                                placeholder="  Select a-->
+<!--                                                                            currency"-->
+<!--                                                                name="currency"-->
+<!--                                                                expanded-->
+<!--                                                                v-model="bid.currency">-->
 
-                                                                <option v-for="currency in currencies"
-                                                                        :key="currency.id"
-                                                                        :value="currency.id">
-                                                                    {{currency.name}}
-                                                                </option>
+<!--                                                                <option v-for="currency in currencies"-->
+<!--                                                                        :key="currency.id"-->
+<!--                                                                        :value="currency.id">-->
+<!--                                                                    {{currency.name}}-->
+<!--                                                                </option>-->
 
-                                                            </b-select>
-                                                        </b-field>
+<!--                                                            </b-select>-->
+<!--                                                        </b-field>-->
 
-                                                    </ValidationProvider>
+<!--                                                    </ValidationProvider>-->
 
 
                                                     <ValidationProvider
@@ -371,6 +328,11 @@
                                                             :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                             expanded
                                                         >
+                                                            <p class="control" >
+                                                                <span
+                                                                    class="button is-static" v-if="project.currency"
+                                                                >{{project.currency.name}} </span>
+                                                            </p>
                                                             <b-input id="budget" type="text" min="1"
                                                                      placeholder=""
                                                                      name="budget"

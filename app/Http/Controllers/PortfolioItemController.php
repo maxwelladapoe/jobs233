@@ -13,20 +13,42 @@ class PortfolioItemController extends Controller
 {
 
 
-    public function getAll(){
+    public function index()
+    {
 
-        if (Auth::user()){
+        if (Auth::user()) {
             $allowedPreferenceArray = ['work', 'work&hire'];
 
             if (in_array(strtolower(Auth::user()->profile->preference), $allowedPreferenceArray
-            )){
+            )) {
                 return response()->json(['success' => true,
                     'portfolio' => Auth::user()->portfolio], 200);
             }
-        }else{
+        } else {
 
         }
     }
+
+    public function view(PortfolioItem $portfolioItem)
+    {
+
+        $portfolioItem->load('user');
+
+        return response()->json(['success' => true,
+            'portfolio_item' => $portfolioItem], 200);
+    }
+
+    public function viewAllForUser(User $user)
+    {
+
+
+        $portfolioItems = $user->portfolio;
+
+        return response()->json(['success' => true,
+            'user' => $user, 'portfolio_items' => $portfolioItems], 200);
+    }
+
+
     public function create(Request $request)
     {
 
@@ -117,12 +139,13 @@ class PortfolioItemController extends Controller
     }
 
 
-    public function delete(PortfolioItem $portfolioItem ){
+    public function delete(PortfolioItem $portfolioItem)
+    {
 
 
-        if (Auth::user()){
+        if (Auth::user()) {
 
-            if ($portfolioItem && Auth::user()->id ===$portfolioItem->user_id){
+            if ($portfolioItem && Auth::user()->id === $portfolioItem->user_id) {
                 //delete the ITEM
 
                 //delete the cover image
@@ -134,15 +157,15 @@ class PortfolioItemController extends Controller
 
                 }
 
-                if($portfolioItem->delete()){
+                if ($portfolioItem->delete()) {
                     return response()->json(['success' => true,
                         'message' => 'portfolio item deleted successfully'], 200);
                 }
-            }else{
+            } else {
                 return response()->json(['success' => false,
                     'message' => 'this item does not belong to your profile'], 401);
             }
-        }else{
+        } else {
             return response()->json(['success' => false,
                 'message' => 'you are not authorised to perform this action'], 401);
         }

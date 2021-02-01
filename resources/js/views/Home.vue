@@ -230,58 +230,6 @@
             </div>
 
 
-            <!--            <div class="jb-section jb-quote-background">-->
-
-            <!--                <div class="section no-padding-margin-top-bottom">-->
-
-
-            <!--                    <div class="container">-->
-            <!--                        <div class="columns">-->
-            <!--                            <div class="column is-12 jb-quote-wrapper">-->
-
-            <!--                                <div class="jb-bg-overlay">-->
-
-            <!--                                </div>-->
-
-
-            <!--                                <transition name="fade" mode="out-in">-->
-            <!--                                    <jb-quote v-on:mouseout.native="startRotation" v-on:mouseover.native="stopRotation"-->
-            <!--                                              :key="currentQuoteNumber">-->
-
-
-            <!--                                        <h4 class="t-bold  t-mont jb-quote-title" slot="title">-->
-            <!--                                            {{quotes[currentQuoteNumber].title}}</h4>-->
-            <!--                                        <p class="t-normal t-meri col-md-10 p-0" slot="contents">-->
-            <!--                                            {{quotes[currentQuoteNumber].text}}-->
-            <!--                                        </p>-->
-            <!--                                        <p class="jb-quote-name t-meri" slot="author" style="white-space: pre-line">-->
-            <!--                                            {{quotes[currentQuoteNumber].author}}-->
-            <!--                                            {{quotes[currentQuoteNumber].authorPosition}}</p>-->
-
-
-            <!--                                    </jb-quote>-->
-            <!--                                </transition>-->
-
-
-            <!--                                <div class="jb-quote-btn-wrapper">-->
-            <!--                                    <div class="jb-quote-btn left" @click.prevent="showPreviousQuote"><i-->
-            <!--                                        class="fa fa-chevron-left"></i>-->
-            <!--                                    </div>-->
-            <!--                                    <div class="jb-quote-btn right" @click.prevent="showNextQuote"><i-->
-            <!--                                        class="fa fa-chevron-right"></i>-->
-            <!--                                    </div>-->
-            <!--                                </div>-->
-
-            <!--                            </div>-->
-
-            <!--                        </div>-->
-
-
-            <!--                    </div>-->
-            <!--                </div>-->
-
-            <!--            </div>-->
-
 
         </div>
 
