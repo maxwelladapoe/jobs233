@@ -69,13 +69,13 @@ const routes = [
         path: '/login',
         name: 'Login',
         component: Login,
-        meta: {requiresAuth: false}
+        meta: {requiresAuth: false,mustNotBeAuthenticated:true}
 
     }, {
         path: '/signup',
         name: 'SignUp',
         component: SignUp,
-        meta: {requiresAuth: false}
+        meta: {requiresAuth: false, mustNotBeAuthenticated:true}
 
     }, {
         path: '/forgot-password',
@@ -137,6 +137,16 @@ const router = new VueRouter({
 let entryUrl = null;
 
 router.beforeEach((to, from, next) => {
+
+    if (to.matched.some(record => record.meta.mustNotBeAuthenticated)) {
+        if (store.state.auth.authenticated) {
+            next('/dashboard');
+            return
+        }else{
+            next();
+        }
+
+    }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.state.auth.authenticated) {

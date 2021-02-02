@@ -23,12 +23,15 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
                                 <div class="t-meri content" v-html="project.description"></div>
 
-                                <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
-                                <h5>
-                                    <template v-for="(skill,index) in project.skills.split(',')">
-                                        <b-tag type="is-success" class="mr-1" v-bind:key="index">{{ skill }}</b-tag>
+                                <p class="t-mont jb-project-title-small t-bold t-orange" v-if="project.skills">
+                                    Skills</p>
+                                <b-taglist>
+                                    <template v-if="project.skills">
+                                        <b-tag type="is-success" class="mr-1" v-bind:key="index"
+                                               v-for="(skill,index) in project.skills.split(',')">{{ skill }}
+                                        </b-tag>
                                     </template>
-                                </h5>
+                                </b-taglist>
 
 
                                 <template v-if="project.complexity">
@@ -40,14 +43,17 @@
                                 <template v-if="project.tags">
                                     <p class="t-mont jb-project-title-small t-bold t-orange mt-3">Tags</p>
 
-                                    <h5>
-                                        <template v-for="(tag,index) in project.tags.split(',')">
+                                    <b-taglist>
 
 
-                                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{ tag }}</b-tag>
+                                        <b-tag class="mr-1" type="is-success"
+                                               v-for="(tag,index) in project.tags.split(',')" v-bind:key="index">{{
+                                                tag
+                                            }}
+                                        </b-tag>
 
-                                        </template>
-                                    </h5>
+
+                                    </b-taglist>
                                 </template>
 
                                 <hr>
@@ -59,7 +65,7 @@
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Activities on this Job</p>
                                 <p class="t-meri m-0">Bids: {{ project.bids_count }}</p>
-                                <p class="t-meri">Views: 0</p>
+<!--                                <p class="t-meri">Views: 0</p>-->
 
 
                                 <hr>
