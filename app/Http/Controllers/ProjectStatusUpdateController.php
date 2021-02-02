@@ -50,7 +50,7 @@ class ProjectStatusUpdateController extends Controller
                 if ($project->worker_id == Auth::user()->id) {
                     $allowedStatus = array("in-progress", "submitted-for-review");
                 } elseif ($project->user_id == Auth::user()->id) {
-                    $allowedStatus = array("completed", "further-changes-required", "in-progress","submitted-for-review");
+                    $allowedStatus = array("completed", "further-changes-required", "in-progress", "submitted-for-review");
                 }
 
                 if (in_array($request->status, $allowedStatus)) {
@@ -80,6 +80,7 @@ class ProjectStatusUpdateController extends Controller
                                 $extension = $file->getClientOriginalExtension();
                                 // Filename to store
                                 $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
+                                $altFileNameToStore = md5($filename . '' . rand()) . '_' . time() . '.' . $extension;
 
 
                                 if (Auth::user()->id === $project->worker_id) {
@@ -91,14 +92,17 @@ class ProjectStatusUpdateController extends Controller
                                     $pdfArray = ['application/pdf'];
                                     if (in_array($file->getMimeType(), $imageMimeArray)) {
 
-                                        $path = $this->watermarkPhoto($file, 'public/attachments/watermarked',
+                                        $path = $this->watermarkPhoto($file, 'public/projects/' . $project->id . '/attachments/watermarked',
                                             $fileNameToStore);
 
+
                                     }
+                                    $path = $file->storeAs('public/projects/' . $project->id . '/attachments', $altFileNameToStore);
 
 
                                 } else {
-                                    $path = $file->storeAs('public/attachments', md5($fileNameToStore) . '.' . $extension);
+                                    $path = $file->storeAs('public/projects/' . $project->id . '/attachments', $fileNameToStore);
+
                                 }
 
 
@@ -109,7 +113,18 @@ class ProjectStatusUpdateController extends Controller
                                     $attachment->belongs_to_status_update = true;
                                     $attachment->status_update_id = $statusUpdate->id;
                                     $attachment->name = $filenameWithExt;
-                                    $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+
+                                    if (Auth::user()->id === $project->worker_id) {
+                                        $attachment->location = '/storage/projects/' . $project->id . '/attachments/watermarked/' . $fileNameToStore;
+                                        $attachment->original_file_location = '/storage/projects/' . $project->id . '/attachments/' . $altFileNameToStore;
+                                        $attachment->is_water_marked = true;
+
+                                    } else {
+                                        $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;
+
+                                    }
+
+
                                     $attachment->size = $file->getSize();
                                     $attachment->format = $file->getMimeType();
                                     $attachment->save();
@@ -122,7 +137,7 @@ class ProjectStatusUpdateController extends Controller
                         $project->fresh();
 
                         //make it realtime
-                        return response()->json(['success' => true, 'project' => $project,'status_update'=>$statusUpdate], 200);
+                        return response()->json(['success' => true, 'project' => $project, 'status_update' => $statusUpdate], 200);
 
                     } else {
                         Log::debug("there seems to be an issue with project status creation. you may have to check the database");

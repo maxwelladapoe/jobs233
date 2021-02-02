@@ -47,6 +47,7 @@ class ProjectController extends Controller
             $query = Project::where('status', $request['status']);
         } else {
             $query = Project::latest();
+            $query->where('status','<>', 'Completed');
         }
 
 
@@ -60,9 +61,11 @@ class ProjectController extends Controller
             $query->where('worker_id', Auth::user()->id);
         }
 
-        if (!$request->has('owner') || !$request->has('assigned_to')) {
-            $query->where('status', 'new');
-        }
+//        if (!$request->has('owner') || !$request->has('assigned_to')) {
+//            $query->where('status', 'new');
+//        }
+
+
 
         //checking if a category key has been added
         if ($request->has('category')) {
@@ -158,14 +161,14 @@ class ProjectController extends Controller
                         // Filename to store
                         $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
 
-                        $path = $file->storeAs('public/attachments', $fileNameToStore);
+                        $path = $file->storeAs('public/projects/' . $project->id . '/attachments', $fileNameToStore);
 
                         if ($path) {
                             $attachment = new Attachment();
                             $attachment->user_id = Auth::user()->id;
                             $attachment->project_id = $project->id;
                             $attachment->name = $filenameWithExt;
-                            $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;;
+                            $attachment->location = '/storage/projects/' . $project->id . '/attachments/' . $fileNameToStore;
                             $attachment->size = $file->getSize();
                             $attachment->format = $file->getMimeType();
                             $attachment->save();

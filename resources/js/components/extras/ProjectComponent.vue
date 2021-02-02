@@ -100,6 +100,13 @@
                                         <span v-if="project.deposit_made"><b-icon icon="cash-plus" size="is-small"/>
                                             Deposited</span>
 
+
+                                        <span v-if="project.accepted_bid_id" class="" style="color: crimson">
+                                            <b-icon icon="circle" style="color:crimson;" size="is-small"/>
+                                            Bidding closed
+                                        </span>
+
+
                                     </div>
                                 </div>
 

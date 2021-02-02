@@ -136,11 +136,11 @@ export default {
                 };
                 this.$emit('portfolioItemAdded', data.item)
                 this.$emit('close');
+                this.isLoading=false;
 
                 Snackbar.open(data.message);
-                console.log(data);
             }).catch(e => {
-
+                this.isLoading=false;
             })
         },
 

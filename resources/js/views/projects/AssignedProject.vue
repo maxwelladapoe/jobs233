@@ -10,13 +10,13 @@
                         <div class="columns is-multiline  ">
                             <div class=" column is-12 is-7-desktop">
 
-                                <p class="t-bold jb-project-title-big t-mont mb-3">{{project.title}}</p>
+                                <p class="t-bold jb-project-title-big t-mont mb-3">{{ project.title }}</p>
 
                                 <p class="t-meri mb-3"> <span class="t-bold">
-                                {{project.category.name}}
+                                {{ project.category.name }}
                             </span>
 
-                                    <span v-if="project.subcategory">> {{project.subcategory.name}}</span>
+                                    <span v-if="project.subcategory">> {{ project.subcategory.name }}</span>
                                 </p>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
@@ -27,7 +27,7 @@
                                     <template v-for="skill in project.skills.split(',')">
 
 
-                                        <b-tag type="is-success" class="mr-1">{{skill}}</b-tag>
+                                        <b-tag type="is-success" class="mr-1">{{ skill }}</b-tag>
 
                                     </template>
                                 </b-taglist>
@@ -35,7 +35,7 @@
 
                                 <template v-if="project.complexity">
                                     <p class="t-mont jb-project-title-small t-bold t-orange">Complexity</p>
-                                    <p class="mb-3">{{project.complexity}}</p>
+                                    <p class="mb-3">{{ project.complexity }}</p>
                                 </template>
 
 
@@ -45,7 +45,7 @@
                                     <b-taglist>
                                         <template v-for="tag in project.tags.split(',')">
 
-                                            <b-tag class="mr-1" type="is-success">{{tag}}</b-tag>
+                                            <b-tag class="mr-1" type="is-success">{{ tag }}</b-tag>
 
                                         </template>
                                     </b-taglist>
@@ -61,35 +61,59 @@
 
 
                                             <div class="column is-12-mobile is-4-desktop ">
-                                                <a :href="file.location" download>
-                                                    <div class="box is-relative">
 
+
+
+                                                    <div class="box is-relative">
+                                                        <a :href="file.location" download>
                                                         <div>
 
                                                             <div class="">
-                                                                <figure class="image is-32x32">
-                                                                    <template
-                                                                        v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
+
+                                                                <template
+                                                                    v-if="['xlsx','docx'].includes(file.name.split('.').pop().toLowerCase() )">
+                                                                    <figure class="image is-32x32">
                                                                         <img
                                                                             src="/images/file_type_icons/doc.svg"
                                                                             alt="" width="35">
-                                                                    </template>
-                                                                    <template v-else>
+                                                                    </figure>
+                                                                </template>
+                                                                <template
+                                                                    v-else-if="['jpg','jpeg','png','svg'].includes(file.name.split('.').pop().toLowerCase() )">
+                                                                    <figure class="image">
+                                                                        <img
+                                                                            :src="file.location"
+                                                                            alt="">
+                                                                    </figure>
+                                                                </template>
+                                                                <template v-else>
+                                                                    <figure class="image is-32x32">
                                                                         <img
                                                                             :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
                                                                             alt="" width="35">
-                                                                    </template>
-                                                                </figure>
+                                                                    </figure>
+                                                                </template>
+
                                                             </div>
-                                                            <div class="jb-filename">
+                                                            <div class="jb-filename has-text-centered mt-2">
                                                                 <p class="t-bold t-6 ">{{ file.name }}</p>
                                                                 <!--                                                            <p class=" t-6">{{ formatBytes(file.size)}}</p>-->
                                                             </div>
 
                                                         </div>
+                                                        </a>
+                                                        <template v-if="file.user_id === user.id">
+                                                            <button class="jb-close-button delete" type="button" rounded
+                                                                    size="is-small"
+                                                                    @click="deleteAttachment(file)"
+                                                                    title="Remove file">
+                                                                <b-icon icon="close" size="is-small"/>
+                                                            </button>
+                                                        </template>
+
 
                                                     </div>
-                                                </a>
+
 
                                             </div>
 
@@ -97,6 +121,9 @@
                                     </div>
 
 
+                                    <p class="t-6 text-success"><b-icon icon="information" size="is-small"/>
+                                        Please note that non watermarked images are only available once payment
+                                        is concluded</p>
                                 </template>
 
 
@@ -109,8 +136,8 @@
 
                             <div class="column is-12 is-4-desktop is-offset-1-desktop">
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Accepted Offer</p>
-                                <p class="t-meri t-4 t-bold mb-3">{{acceptedBid.currency.symbol}}
-                                    {{acceptedBid.amount}}</p>
+                                <p class="t-meri t-4 t-bold mb-3">{{ acceptedBid.currency.symbol }}
+                                    {{ acceptedBid.amount }}</p>
 
 
                                 <!-- Placed bids -->
@@ -135,7 +162,9 @@
                                                                              alt=""
                                                                     />
                                                                     <span
-                                                                        class="t-meri">{{acceptedBid.user.name}}</span>
+                                                                        class="t-meri">{{
+                                                                            acceptedBid.user.name
+                                                                        }}</span>
                                                                 </p>
                                                             </div>
                                                         </router-link>
@@ -154,7 +183,10 @@
                                                                          :auto-update="60"/>
                                                             </p>
                                                             <p class="t-meri t-5">
-                                                                offer <span class="t-bold">{{acceptedBid.currency.symbol}} {{acceptedBid.amount}}</span>
+                                                                offer <span
+                                                                class="t-bold">{{
+                                                                    acceptedBid.currency.symbol
+                                                                }} {{ acceptedBid.amount }}</span>
                                                             </p>
                                                         </div>
 
@@ -180,7 +212,7 @@
 
 
                                                                 <div class="text-right mt-0 p-0">
-                                                                    <p>{{acceptedBid.additional_details}}</p>
+                                                                    <p>{{ acceptedBid.additional_details }}</p>
                                                                 </div>
                                                             </b-collapse>
 
@@ -201,7 +233,7 @@
 
                                 <template v-if="authenticated && project.user.id === user.id &&
                                 project.payment_concluded ===0">
-                                    <router-link :to="{name:'MakeDeposit' ,params:{'project_id':project.id}}"
+                                    <router-link :to="{name:'MakeDeposit' ,params:{project_id:project.id}}"
                                                  class="button is-primary mt-5">Make a
                                         deposit
                                         <b-icon icon="cash-plus" class="ml-2" size="is-small"/>
@@ -233,13 +265,11 @@
                                              style="width: 50px; border-radius:50px">
                                     </figure>
 
-                                    <div class="media-content">
-                                        <router-link :to="{name:'ViewProfile', params:{'username':
-                                        project.user.username}
-                                        }">
+                                    <div class="media-content" >
+                                        <router-link :to="{name:'ViewProfile', params:{username:project.user.username}}">
                                              <span class="mr-auto"
                                                    v-if="authenticated && (user.id === project.user.id)">You</span>
-                                            <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                            <span class="mr-auto" v-else>{{ project.user.name }}</span>
                                         </router-link>
                                         <p class="t-6 t-orange">Joined
                                             <timeago v-if="project.user.created_at" :datetime="project.user.created_at"
@@ -254,132 +284,61 @@
 
                                     <hr>
 
-                                    <router-link to="" class="button bg-orange t-white">Post a similar Job</router-link>
+                                    <router-link :to=" {name:'createProject'}" class="button bg-orange t-white">Post a
+                                        similar
+                                        Job</router-link>
 
                                 </template>
 
                             </div>
 
                             <div class="column is-12 is-7-desktop">
-                                <div v-if="acceptedBid.user_id === user.id">
+                                <div>
 
-                                    <p class="t-4 t-mont t-bold t-orange">Update Status</p>
-                                    <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
+                                    <p class="t-4 t-mont t-bold t-orange" v-if="acceptedBid.user_id === user.id">Update Status</p>
+                                    <p class="t-3 t-mont t-bold" v-if="project.user_id === user.id"> Review Update</p>
 
-                                        <form>
-                                            <ValidationProvider
-                                                :rules="{ required: true}"
-                                                v-slot="{ errors, valid }"
-                                                name="Status" slim>
-
-                                                <b-field
-
-                                                    label="Status"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="select_status"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-                                                    expanded
-                                                >
-                                                    <b-select expanded placeholder="Select Project Status"
-                                                              v-model="statusUpdate.status">
-
-                                                        <option value="assigned" disabled>
-                                                            Assigned
-                                                        </option>
-
-                                                        <option value="in-progress">
-                                                            In progress
-                                                        </option>
-                                                        <option value="submitted-for-review">
-                                                            Submitted for Review
-                                                        </option>
-                                                    </b-select>
-
-                                                </b-field>
-                                            </ValidationProvider>
-
-
-                                            <ValidationProvider :rules="{ required: true}"
-                                                                v-slot="{ errors, valid }"
-                                                                name="Message" slim>
-                                                <b-field
-                                                    label="Message"
-                                                    label-class="t-mont t-bold"
-                                                    label-for="add_note"
-                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
-
-                                                >
-                                                    <b-input
-                                                        type="textarea"
-                                                        placeholder="Enter message here"
-                                                        rows="3"
-                                                        v-model="statusUpdate.message"
-                                                        no-resize>
-                                                    </b-input>
-                                                </b-field>
-
-                                            </ValidationProvider>
-
-
-                                            <b-field>
-                                                <attach-files v-model="uploadedFileList"></attach-files>
-
-                                            </b-field>
-
-
-                                            <b-field>
-                                                <b-button type="is-success"
-                                                          @click.prevent="handleSubmit(projectStatusUpdate)">
-                                                    Submit
-                                                </b-button>
-                                            </b-field>
-
-                                        </form>
-                                    </ValidationObserver>
-
-                                </div>
-
-                                <div v-if="project.user_id === user.id">
-                                    <p class="t-3 t-mont t-bold"> Review Update</p>
 
                                     <template v-if="latestStatusUpdate">
 
                                         <div class="mt-2 mb-5 p-3 border">
                                             <p class="t-6 t-orange">
                                                 <b-icon icon="update" size="is-small"/>
-                                                <span>{{latestStatusUpdate.status.replace('-',' ')}}</span></p>
+                                                <span>{{ latestStatusUpdate.status.replace('-', ' ') }}</span></p>
                                             <p>
                                                 <b-icon icon="message" size="is-small"></b-icon>
-                                                {{latestStatusUpdate.message}}
+                                                {{ latestStatusUpdate.message }}
                                             </p>
                                             <div class="t-6 mt-2">
                                                 <div class="t-ash">
 
 
-                                                <timeago v-if='latestStatusUpdate.created_at'
-                                                         :datetime="latestStatusUpdate.created_at"
-                                                         :auto-update="60"/>
-                                            </div>
+                                                    <timeago v-if='latestStatusUpdate.created_at'
+                                                             :datetime="latestStatusUpdate.created_at"
+                                                             :auto-update="60"/>
+                                                </div>
 
                                                 <div class="has-text-left t-orange">
-                                                    <template v-if="latestStatusUpdate.attachments && latestStatusUpdate.attachments.length>0">
+                                                    <template
+                                                        v-if="latestStatusUpdate.attachments && latestStatusUpdate.attachments.length>0">
 
                                                         <b-collapse :open="false" aria-id="contentIdForA11y1">
                                                             <template #trigger>
-                                                                <b-icon icon="paperclip" size="is-small"/> Attachments
+                                                                <b-icon icon="paperclip" size="is-small"/>
+                                                                Attachments
                                                             </template>
                                                             <div class="mt-2">
                                                                 <div class="content">
 
-                                                                    <template v-for="file in update.attachments">
-                                                                        <a :href="file.location" download class="mb-2">
-                                                                            <b-tag type="is-primary">
-                                                                                {{file.name}}
-                                                                            </b-tag>
-                                                                        </a>
+                                                                    <template v-for="file in latestStatusUpdate.attachments">
+
+                                                                        <b-tag type="is-primary">
+                                                                            <a :href="file.location" download class="mb-2">
+                                                                                {{ file.name }}
+                                                                            </a>
+                                                                        </b-tag>
+
                                                                     </template>
-
-
 
 
                                                                 </div>
@@ -392,18 +351,24 @@
                                         </div>
 
                                     </template>
-
-
                                     <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
 
-                                        <form>
+                                        <form class="is-relative">
+
+                                            <b-loading :is-full-page="false" v-model="isLoading">
+                                                <div class="loader-with-percentage-wrap">
+                                                    <div class="loader-with-percentage"></div>
+                                                    <div class="percentage t-orange">{{uploadPercentage}}%</div>
+                                                </div>
+
+                                            </b-loading>
                                             <ValidationProvider
                                                 :rules="{ required: true}"
                                                 v-slot="{ errors, valid }"
                                                 name="Status" slim>
 
                                                 <b-field
-                                                    id="status"
+
                                                     label="Status"
                                                     label-class="t-mont t-bold"
                                                     label-for="select_status"
@@ -413,28 +378,43 @@
                                                     <b-select expanded placeholder="Select Project Status"
                                                               v-model="statusUpdate.status">
 
+                                                        <template v-if="acceptedBid.user_id === user.id">
+                                                            <option value="assigned" disabled>
+                                                                Assigned
+                                                            </option>
 
-                                                        <option value="completed">
-                                                            Completed
-                                                        </option>
+                                                            <option value="in-progress">
+                                                                In progress
+                                                            </option>
+                                                            <option value="submitted-for-review">
+                                                                Submitted for Review
+                                                            </option>
+                                                        </template>
 
-                                                        <option value="further-changes-required">
-                                                            Further Changes Required
-                                                        </option>
+                                                        <template v-if="project.user_id === user.id">
 
-                                                        <option value="in-progress" >
-                                                            In progress
-                                                        </option>
+                                                            <option value="completed">
+                                                                Completed
+                                                            </option>
+
+                                                            <option value="further-changes-required">
+                                                                Further Changes Required
+                                                            </option>
+
+                                                            <option value="in-progress">
+                                                                In progress
+                                                            </option>
 
 
-                                                        <option value="assigned" disabled style="color: #cdcdcd">
-                                                            Assigned
-                                                        </option>
-                                                        <option value="submitted-for-review" disabled
-                                                                style="color: #cdcdcd">
-                                                            Submitted For Review
-                                                        </option>
+                                                            <option value="assigned" disabled style="color: #cdcdcd">
+                                                                Assigned
+                                                            </option>
+                                                            <option value="submitted-for-review" disabled
+                                                                    style="color: #cdcdcd">
+                                                                Submitted For Review
+                                                            </option>
 
+                                                        </template>
 
 
                                                     </b-select>
@@ -447,8 +427,6 @@
                                                                 v-slot="{ errors, valid }"
                                                                 name="Message" slim>
                                                 <b-field
-
-                                                    id="message"
                                                     label="Message"
                                                     label-class="t-mont t-bold"
                                                     label-for="add_note"
@@ -483,8 +461,9 @@
                                         </form>
                                     </ValidationObserver>
 
-
                                 </div>
+
+
                             </div>
 
 
@@ -496,24 +475,25 @@
                                     <div class="mt-2 py-3 border" v-for="update in statusUpdates">
                                         <p class="t-6 t-orange">
                                             <b-icon icon="update" size="is-small"/>
-                                            <span>{{update.status.replace('-',' ')}}</span></p>
+                                            <span>{{ update.status.replace('-', ' ') }}</span></p>
                                         <p>
                                             <b-icon icon="message" size="is-small"></b-icon>
-                                            {{update.message}}
+                                            {{ update.message }}
                                         </p>
 
                                         <div class="t-6 mt-2 ">
                                             <div class="has-text-left t-ash">
-                                            <timeago v-if="update.created_at" :datetime="update.created_at"
-                                                     :auto-update="60"/>
+                                                <timeago v-if="update.created_at" :datetime="update.created_at"
+                                                         :auto-update="60"/>
                                             </div>
 
                                             <div class="has-text-left t-orange">
-                                                  <template v-if="update.attachments && update.attachments.length>0">
+                                                <template v-if="update.attachments && update.attachments.length>0">
 
                                                     <b-collapse :open="false" aria-id="contentIdForA11y1">
                                                         <template #trigger>
-                                                        <b-icon icon="paperclip" size="is-small"/> Attachments
+                                                            <b-icon icon="paperclip" size="is-small"/>
+                                                            Attachments
                                                         </template>
                                                         <div class="mt-2">
                                                             <div class="content">
@@ -521,19 +501,16 @@
                                                                 <template v-for="file in update.attachments">
                                                                     <a :href="file.location" download class="mb-2">
                                                                         <b-tag type="is-primary">
-                                                                           {{file.name}}
+                                                                            {{ file.name }}
                                                                         </b-tag>
                                                                     </a>
                                                                 </template>
-
-
-
 
                                                             </div>
                                                         </div>
                                                     </b-collapse>
 
-                                                     </template>
+                                                </template>
                                             </div>
 
                                         </div>
@@ -575,9 +552,9 @@
                         <div class="container">
                             <p class="error t-meri t-orange">OOPS!</p>
                             <p class="mb-5">We are sorry for the inconvenience. <br> The project you are trying to
-                                access  does not
+                                access does not
                                 exist or has been deleted</p>
-                            <router-link to="/" >
+                            <router-link to="/">
                                 <b-button type="is-primary">Go Home</b-button>
                             </router-link>
                         </div>
@@ -594,190 +571,209 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import AttachFiles from "../../components/extras/AttachFiles";
-    import {SnackbarProgrammatic as Snackbar} from 'buefy';
+import {mapGetters} from "vuex";
+import AttachFiles from "../../components/extras/AttachFiles";
+import {SnackbarProgrammatic as Snackbar} from 'buefy';
 
-    export default {
-        name: "projects",
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Assigned Project',
+export default {
+    name: "projects",
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Assigned Project',
+    },
+
+    data() {
+        return {
+            uploadedFileList: [],
+            initialBidsToShow: 10,
+            showBidsViewMore: 0,
+            statusUpdates: [],
+            isLoading:false,
+            uploadPercentage:0,
+            latestStatusUpdate: '',
+            project: {
+                category: {
+                    name: '',
+
+                },
+                currency: {
+                    symbol: '',
+                },
+                user: {
+                    name: '',
+                    profile: {}
+                },
+                skills: '',
+                tags: '',
+            },
+
+            statusUpdate: {
+                project_id: '',
+                status: '',
+                message: ''
+            },
+            projectNotFound: false,
+            currencies: [],
+
+            acceptedBid: {
+                currency: {
+                    symbol: '',
+                },
+            },
+
+        }
+    },
+    beforeCreate() {
+        axios.get(`projects/assigned/${this.$route.params.id}`).then(({data}) => {
+            this.project = data.project;
+            this.statusUpdate.status = this.project.status;
+            this.statusUpdate.project_id = this.project.id;
+
+
+            this.acceptedBid = data.accepted_bid;
+
+            this.statusUpdates = data.status_updates;
+            this.latestStatusUpdate = data.latest_status_update;
+
+
+        }).catch(() => {
+            this.projectNotFound = true;
+        });
+
+        axios.get('currencies').then(({data}) => {
+            this.currencies = data.currencies;
+        })
+
+
+    },
+    methods: {
+
+        getValidationState({dirty, validated, valid = null}) {
+            return dirty || validated ? valid : null;
         },
 
-        data() {
-            return {
-                uploadedFileList: [],
-                initialBidsToShow: 10,
-                showBidsViewMore: 0,
-                statusUpdates: [],
-                latestStatusUpdate: '',
-                project: {
-                    category: {
-                        name: '',
+        projectStatusUpdate() {
 
-                    },
-                    currency: {
-                        symbol: '',
-                    },
-                    user: {
-                        name: '',
-                        profile: {}
-                    },
-                    skills: '',
-                    tags: '',
-                },
-
-                statusUpdate: {
-                    project_id: '',
-                    status: '',
-                    message: ''
-                },
-                projectNotFound: false,
-                currencies: [],
-
-                acceptedBid: {
-                    currency: {
-                        symbol: '',
-                    },
-                },
-
+            if (this.project.status === 'assigned') {
+                this.statusUpdate.status = 'in-progress'
             }
-        },
-        beforeCreate() {
-            axios.get(`projects/assigned/${this.$route.params.id}`).then(({data}) => {
-                this.project = data.project;
-                this.statusUpdate.status = this.project.status;
-                this.statusUpdate.project_id = this.project.id;
+            this.isLoading=true;
+            let formData = new FormData();
 
+            for (let i = 0; i < this.uploadedFileList.length; i++) {
+                formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+            }
+            for (let key in this.statusUpdate) {
+                formData.append(key, this.statusUpdate[key]);
+            }
+            const config = {
 
-                this.acceptedBid = data.accepted_bid;
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
 
-                this.statusUpdates = data.status_updates;
-                this.latestStatusUpdate = data.latest_status_update;
+                onUploadProgress: (progressEvent) => {
+                    this.uploadPercentage = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                }
+            };
+            axios.post('projects/update-status', formData, config)
+                .then(({data}) => {
 
+                    this.project = data.project;
+                    this.statusUpdates.unshift(data.status_update);
+                    this.latestStatusUpdate = data.status_update;
 
-            }).catch(() => {
-                this.projectNotFound = true;
-            });
+                    this.statusUpdate = {
+                        project_id: this.project.id,
+                        status: this.project.status,
+                        message: ''
+                    }
+                    this.uploadedFileList = [];
+                    this.isLoading=false;
+                    Snackbar.open(data.message);
 
-            axios.get('currencies').then(({data}) => {
-                this.currencies = data.currencies;
+                }).catch(e=>{
+                    console.log(e);
+                this.isLoading=false;
             })
-
-
         },
-        methods: {
+        markProjectAsCompleted() {
 
-            getValidationState({dirty, validated, valid = null}) {
-                return dirty || validated ? valid : null;
-            },
-            submitForReview() {
-            },
-            projectStatusUpdate() {
 
-                if (this.project.status === 'assigned') {
-                    this.statusUpdate.status = 'in-progress'
-                }
-                let formData = new FormData();
+            if (this.project.user_id === this.user.id) {
 
-                for (let i = 0; i < this.uploadedFileList.length; i++) {
-                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
-                }
-                for (let key in this.statusUpdate) {
-                    formData.append(key, this.statusUpdate[key]);
-                }
-                const config = {
 
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-
-                    onUploadProgress: (progressEvent) => {
-                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                    }
-                };
-                axios.post('projects/update-status', formData, config)
-                    .then(({data}) => {
-                        Snackbar.open(data.message);
+                if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
+                    axios.post('projects/mark_as_completed', {project_id: this.project.id}).then(({data}) => {
                         this.project = data.project;
-                        this.statusUpdates.unshift(data.status_update);
-                        this.latestStatusUpdate = data.status_update;
-
-                        this.statusUpdate = {
-                            project_id: this.project.id,
-                            status: this.project.status,
-                            message: ''
-                        }
-                        this.uploadedFileList = [];
-
-
+                    }).catch((e) => {
+                        console.log(e);
                     })
-            },
-            markProjectAsCompleted() {
-
-
-                if (this.project.user_id === this.user.id) {
-
-
-                    if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
-                        axios.post('projects/mark_as_completed', {project_id: this.project.id}).then(({data}) => {
-                            this.project = data.project;
-                        }).catch((e) => {
-                            console.log(e);
-                        })
-                    }
-
-
                 }
 
 
             }
+
+
         },
-        computed: {
 
-            exchangeAmount() {
+        deleteAttachment(attachment) {
+            //TODO: delete attachments
 
-                let exAmount = '';
+            axios.delete(`/attachments/delete/${attachment.id}`).then(({data}) => {
+                let index = this.project.attachments.indexOf(attachment);
+                this.project.attachments.splice(index, 1);
+                Snackbar.open(data.message);
 
-                //get current project currency
-                let pcExchange = this.project.currency.exchange_rate_in_usd;
-                return exAmount;
-            },
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
-            }),
+            }).catch((e) => {
 
-            hasAlreadyPlacedBid() {
+            })
+        }
+    },
+    computed: {
 
-                if (!this.project.bids) {
-                    return false;
-                }
+        exchangeAmount() {
 
-                if (this.authenticated) {
-                    let userBid = this.project.bids.find((bid) => {
-                        return bid.user_id === this.user.id;
-                    });
+            let exAmount = '';
 
-                    if (userBid) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+            //get current project currency
+            let pcExchange = this.project.currency.exchange_rate_in_usd;
+            return exAmount;
+        },
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        }),
 
+        hasAlreadyPlacedBid() {
+
+            if (!this.project.bids) {
+                return false;
+            }
+
+            if (this.authenticated) {
+                let userBid = this.project.bids.find((bid) => {
+                    return bid.user_id === this.user.id;
+                });
+
+                if (userBid) {
+                    return true;
                 } else {
                     return false;
                 }
 
-
+            } else {
+                return false;
             }
-        },
-        components: {
-            AttachFiles
+
+
         }
+    },
+    components: {
+        AttachFiles
     }
+}
 </script>
 
 <style scoped>

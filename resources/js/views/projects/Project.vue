@@ -11,13 +11,13 @@
                             <div class="column is-8">
 
 
-                                <p class="t-bold jb-project-title-big t-mont ">{{project.title}}</p>
+                                <p class="t-bold jb-project-title-big t-mont ">{{ project.title }}</p>
 
                                 <p class="t-meri"> <span class="t-bold">
-                                {{project.category.name}}
+                                {{ project.category.name }}
                             </span>
 
-                                    <span v-if="project.subcategory">> {{project.subcategory.name}}</span>
+                                    <span v-if="project.subcategory">> {{ project.subcategory.name }}</span>
                                 </p>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
@@ -26,14 +26,14 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
                                 <h5>
                                     <template v-for="(skill,index) in project.skills.split(',')">
-                                        <b-tag type="is-success" class="mr-1" v-bind:key="index">{{skill}}</b-tag>
+                                        <b-tag type="is-success" class="mr-1" v-bind:key="index">{{ skill }}</b-tag>
                                     </template>
                                 </h5>
 
 
                                 <template v-if="project.complexity">
                                     <p class="t-mont jb-project-title-small t-bold t-orange">Complexity</p>
-                                    <p>{{project.complexity}}</p>
+                                    <p>{{ project.complexity }}</p>
                                 </template>
 
 
@@ -44,7 +44,7 @@
                                         <template v-for="(tag,index) in project.tags.split(',')">
 
 
-                                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}</b-tag>
+                                            <b-tag class="mr-1" type="is-success" v-bind:key="index">{{ tag }}</b-tag>
 
                                         </template>
                                     </h5>
@@ -58,7 +58,7 @@
                                 <hr>
 
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Activities on this Job</p>
-                                <p class="t-meri m-0">Bids: {{project.bids_count}}</p>
+                                <p class="t-meri m-0">Bids: {{ project.bids_count }}</p>
                                 <p class="t-meri">Views: 0</p>
 
 
@@ -89,15 +89,23 @@
 
 
                                                                     <div>
-                                                                        <p>
+                                                                        <div class="media">
 
-                                                                            <b-image class="" rounded
-                                                                                     :src="bid.user.profile.picture"
-                                                                                     alt=""
-                                                                            />
-                                                                            <span
-                                                                                class="t-meri">{{bid.user.name}}</span>
-                                                                        </p>
+                                                                            <div class="media-left">
+                                                                                <b-image class="" rounded
+                                                                                         :src="bid.user.profile.picture"
+                                                                                         alt=""
+                                                                                />
+                                                                            </div>
+                                                                            <div class="media-content">
+                                                                                   <span
+                                                                                       class="t-meri">{{
+                                                                                           bid.user.name
+                                                                                       }}</span>
+                                                                            </div>
+
+
+                                                                        </div>
                                                                     </div>
                                                                 </router-link>
                                                                 <div>
@@ -116,7 +124,10 @@
                                                                                  :auto-update="60"/>
                                                                     </p>
                                                                     <p class="t-meri t-5">
-                                                                        offer <span class="t-bold">{{bid.currency.symbol}} {{bid.amount}}</span>
+                                                                        offer <span
+                                                                        class="t-bold">{{
+                                                                            bid.currency.symbol
+                                                                        }} {{ bid.amount }}</span>
                                                                     </p>
 
                                                                 </div>
@@ -143,7 +154,7 @@
 
 
                                                                         <div class="text-right mt-0 p-0">
-                                                                            <p>{{bid.additional_details}}</p>
+                                                                            <p>{{ bid.additional_details }}</p>
                                                                         </div>
                                                                     </b-collapse>
 
@@ -156,11 +167,19 @@
 
                                                             <template
                                                                 v-if="!bid.is_accepted && project.accepted_bid_id == null">
-                                                                <b-button @click.prevent="acceptBid(bid.id)"
-                                                                          variant="success"
-                                                                          class="ml-auto">
-                                                                    Accept Bid
-                                                                </b-button>
+                                                                <div class="buttons">
+                                                                    <router-link :to="{name:'ViewPortfolioItem',
+                                                                    params:{userId:bid.user.id,portfolioItemId:null}}"
+                                                                                 class="button is-primary is-outlined">
+                                                                        View Portfolio
+                                                                    </router-link>
+                                                                    <b-button @click.prevent="acceptBid(bid.id)"
+                                                                              type="is-success"
+                                                                              class="ml-auto">
+                                                                        Accept Bid
+                                                                    </b-button>
+                                                                </div>
+
                                                             </template>
 
                                                             <div v-if="bid.is_accepted"
@@ -169,7 +188,7 @@
 
                                                                 <p class="text-success">
                                                                     <b-icon icon="check-circle" size="is-small"/>
-                                                                    Accepted Offer
+                                                                    Accepted Bid
                                                                 </p>
 
                                                             </div>
@@ -196,7 +215,7 @@
 
                             <div class="column is-4">
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Budget</p>
-                                <p class="t-meri t-4 t-bold">{{project.currency.symbol}} {{project.budget}}</p>
+                                <p class="t-meri t-4 t-bold">{{ project.currency.symbol }} {{ project.budget }}</p>
 
                                 <hr>
 
@@ -213,10 +232,9 @@
                                 </template>
 
 
-
-
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Created
-                                    <timeago v-if="project.created_at" :datetime="project.created_at" :auto-update="60"/>
+                                    <timeago v-if="project.created_at" :datetime="project.created_at"
+                                             :auto-update="60"/>
                                     by
                                 </p>
 
@@ -233,7 +251,7 @@
                                         }">
                                              <span class="mr-auto"
                                                    v-if="authenticated && (user.id === project.user.id)">You</span>
-                                            <span class="mr-auto" v-else>{{project.user.name}}</span>
+                                            <span class="mr-auto" v-else>{{ project.user.name }}</span>
                                         </router-link>
                                         <p class="t-6 t-orange">Joined
                                             <timeago v-if="project.user.created_at" :datetime="project.user.created_at"
@@ -289,33 +307,33 @@
                                                 <b-field grouped>
 
 
-<!--                                                    <ValidationProvider-->
-<!--                                                        :rules="{ required: true, integer:false}"-->
-<!--                                                        name="currency"-->
-<!--                                                        v-slot="{ errors, valid }" slim-->
-<!--                                                    >-->
+                                                    <!--                                                    <ValidationProvider-->
+                                                    <!--                                                        :rules="{ required: true, integer:false}"-->
+                                                    <!--                                                        name="currency"-->
+                                                    <!--                                                        v-slot="{ errors, valid }" slim-->
+                                                    <!--                                                    >-->
 
-<!--                                                        <b-field-->
-<!--                                                            :message="errors"-->
-<!--                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"-->
-<!--                                                        >-->
-<!--                                                            <b-select-->
-<!--                                                                placeholder="  Select a-->
-<!--                                                                            currency"-->
-<!--                                                                name="currency"-->
-<!--                                                                expanded-->
-<!--                                                                v-model="bid.currency">-->
+                                                    <!--                                                        <b-field-->
+                                                    <!--                                                            :message="errors"-->
+                                                    <!--                                                            :type="{ 'is-danger': errors[0], 'is-success': valid }"-->
+                                                    <!--                                                        >-->
+                                                    <!--                                                            <b-select-->
+                                                    <!--                                                                placeholder="  Select a-->
+                                                    <!--                                                                            currency"-->
+                                                    <!--                                                                name="currency"-->
+                                                    <!--                                                                expanded-->
+                                                    <!--                                                                v-model="bid.currency">-->
 
-<!--                                                                <option v-for="currency in currencies"-->
-<!--                                                                        :key="currency.id"-->
-<!--                                                                        :value="currency.id">-->
-<!--                                                                    {{currency.name}}-->
-<!--                                                                </option>-->
+                                                    <!--                                                                <option v-for="currency in currencies"-->
+                                                    <!--                                                                        :key="currency.id"-->
+                                                    <!--                                                                        :value="currency.id">-->
+                                                    <!--                                                                    {{currency.name}}-->
+                                                    <!--                                                                </option>-->
 
-<!--                                                            </b-select>-->
-<!--                                                        </b-field>-->
+                                                    <!--                                                            </b-select>-->
+                                                    <!--                                                        </b-field>-->
 
-<!--                                                    </ValidationProvider>-->
+                                                    <!--                                                    </ValidationProvider>-->
 
 
                                                     <ValidationProvider
@@ -328,10 +346,10 @@
                                                             :type="{ 'is-danger': errors[0], 'is-success': valid }"
                                                             expanded
                                                         >
-                                                            <p class="control" >
+                                                            <p class="control">
                                                                 <span
                                                                     class="button is-static" v-if="project.currency"
-                                                                >{{project.currency.name}} </span>
+                                                                >{{ project.currency.name }} </span>
                                                             </p>
                                                             <b-input id="budget" type="text" min="1"
                                                                      placeholder=""
@@ -463,148 +481,164 @@
 </template>
 
 <script>
-    import {mapGetters} from "vuex";
-    import project from "../../router/project";
+import {mapGetters} from "vuex";
+import project from "../../router/project";
 
-    export default {
-        name: "projects",
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Freelance Projects',
-        },
-        data() {
-            return {
-                initialBidsToShow: 10,
-                showBidsViewMore: 0,
-                bidSubmitted: false,
-                showBidSubmittedSuccessfully: false,
-                bidSubmissionLoading: false,
-                bidSubmittedSuccessfully: true,
-                project: {
-                    category: {
-                        name: '',
-                    },
-                    currency: {
-                        symbol: '',
-                    },
-                    user: {
-                        name: '',
-                        profile: {}
-                    },
-                    skills: '',
-                    tags: '',
+export default {
+    name: "projects",
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Freelance Projects',
+    },
+    data() {
+        return {
+            initialBidsToShow: 10,
+            showBidsViewMore: 0,
+            bidSubmitted: false,
+            showBidSubmittedSuccessfully: false,
+            bidSubmissionLoading: false,
+            bidSubmittedSuccessfully: true,
+            project: {
+                category: {
+                    name: '',
                 },
-                projectNotFound: false,
-                currencies: [],
+                currency: {
+                    symbol: '',
+                },
+                user: {
+                    name: '',
+                    profile: {}
+                },
+                skills: '',
+                tags: '',
+            },
+            projectNotFound: false,
+            currencies: [],
 
-                bids: {},
-                bid: {
-                    // project_id:'',
-                    currency: '',
-                    amount: '',
-                    additional_details: '',
-                }
+            bids: {},
+            bid: {
+                // project_id:'',
+                currency: '',
+                amount: '',
+                additional_details: '',
+            }
+
+        }
+    },
+    beforeCreate() {
+
+
+        axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
+            this.project = data.project;
+            //this.bid.project_id= this.project.id;
+            this.bid.currency = this.project.currency.id;
+        }).catch(() => {
+            this.projectNotFound = true;
+        });
+
+        axios.get('currencies').then(({data}) => {
+            this.currencies = data.currencies;
+        })
+
+
+    },
+    methods: {
+
+        getValidationState({dirty, validated, valid = null}) {
+            return dirty || validated ? valid : null;
+        },
+
+        submitBid() {
+            this.bidSubmissionLoading = true;
+            axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
+
+                this.bidSubmissionLoading = false
+                this.showBidSubmittedSuccessfully = true;
+                this.bidSubmittedSuccessfully = true;
+                this.bids.push(data.bid);
+                setTimeout(() => {
+                    this.showBidSubmittedSuccessfully = false;
+                    this.bidSubmitted = true
+                }, 10000)
+
+            }).catch((e) => {
+
+                this.bidSubmissionLoading = false;
+
+            })
+        },
+        acceptBid(bid_id) {
+
+
+            if (this.user.id === this.project.user_id) {
+
+
+                this.$buefy.dialog.confirm({
+                    title: 'Accept Bid',
+                    message:
+                        `Are You sure you want to <b>accept</b> this bid? <br> <span style="color: crimson"> *Please note that this cannot be undone</span>`,
+                    cancelText: 'Cancel',
+                    confirmText: 'Approve',
+                    type: 'is-success',
+                    onConfirm: () => {
+                        let data = {
+                            bid_id,
+                            project_id: this.project.id
+                        };
+                        axios.post(`projects/${this.project.id}/accept_bid`, data).then(({data}) => {
+                            this.project = data.project;
+                            this.$router.push(`/projects/assigned/${this.project.id}`)
+                        })
+                    }
+                })
+
 
             }
         },
-        beforeCreate() {
+
+    },
+    computed: {
+
+        exchangeAmount() {
+
+            let exAmount = '';
+            //get current project currency
+            let pcExchange = this.project.currency.exchange_rate_in_usd;
 
 
-            axios.get(`projects/${this.$route.params.id}`).then(({data}) => {
-                this.project = data.project;
-                //this.bid.project_id= this.project.id;
-                this.bid.currency = this.project.currency.id;
-            }).catch(() => {
-                this.projectNotFound = true;
-            });
-
-            axios.get('currencies').then(({data}) => {
-                this.currencies = data.currencies;
-            })
-
-
+            return exAmount;
         },
-        methods: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        }),
 
-            getValidationState({dirty, validated, valid = null}) {
-                return dirty || validated ? valid : null;
-            },
+        hasAlreadyPlacedBid() {
 
-            submitBid() {
-                this.bidSubmissionLoading = true;
-                axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
+            if (!this.project.bids) {
+                return false;
+            }
 
-                    this.bidSubmissionLoading = false
-                    this.showBidSubmittedSuccessfully = true;
-                    this.bidSubmittedSuccessfully = true;
-                    this.bids.push(data.bid);
-                    setTimeout(() => {
-                        this.showBidSubmittedSuccessfully = false;
-                        this.bidSubmitted = true
-                    }, 10000)
+            if (this.authenticated) {
+                let userBid = this.project.bids.find((bid) => {
+                    return bid.user_id === this.user.id;
+                });
 
-                }).catch((e) => {
-
-                    this.bidSubmissionLoading = false;
-
-                })
-            },
-            acceptBid(bid_id) {
-                if (this.user.id === this.project.user_id) {
-                    let data = {
-                        bid_id,
-                        project_id: this.project.id
-                    };
-                    axios.post(`projects/${this.project.id}/accept_bid`, data).then(({data}) => {
-                        this.project = data.project;
-                        this.$router.push(`/projects/assigned/${this.project.id}`)
-                    })
-                }
-            },
-
-        },
-        computed: {
-
-            exchangeAmount() {
-
-                let exAmount = '';
-                //get current project currency
-                let pcExchange = this.project.currency.exchange_rate_in_usd;
-
-
-                return exAmount;
-            },
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
-            }),
-
-            hasAlreadyPlacedBid() {
-
-                if (!this.project.bids) {
-                    return false;
-                }
-
-                if (this.authenticated) {
-                    let userBid = this.project.bids.find((bid) => {
-                        return bid.user_id === this.user.id;
-                    });
-
-                    if (userBid) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-
+                if (userBid) {
+                    return true;
                 } else {
                     return false;
                 }
 
-
+            } else {
+                return false;
             }
+
+
         }
     }
+}
 </script>
 
 <style scoped>

@@ -711,8 +711,9 @@
 
                         .then(({data}) => {
                             if (data.success === true) {
-                                console.log(data.attachments);
+
                                 this.uploadedFileList = [];
+                                console.log("the uploaded list is ", this.uploadedFileList);
                                 this.project.attachments = data.attachments;
 
                                 //this.resetProject();

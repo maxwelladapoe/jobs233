@@ -44,7 +44,7 @@ class AttachmentController extends Controller
                     // Filename to store
                     $fileNameToStore = md5($filename) . '_' . time() . '.' . $extension;
 
-                    $path = $file->storeAs('public/attachments', $fileNameToStore);
+                    $path = $file->storeAs('public/projects/' . $project->id . '/attachments', $fileNameToStore);
 
                     if ($path) {
                         $attachment = new Attachment();
@@ -85,7 +85,7 @@ class AttachmentController extends Controller
 
             $fda = explode('/', $attachment->location);
             $fd = end($fda);
-            Storage::delete('public/attachments/' . $fd);
+            Storage::delete('public/projects/' . $attachment->project->id . '/attachments/' . $fd);
 
             if ($attachment->delete()) {
                 return response()->json(['success' => true,

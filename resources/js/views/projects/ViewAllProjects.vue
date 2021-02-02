@@ -78,7 +78,7 @@
 
                                 <template v-if="allProjects.length>0 || allProjects">
 
-                                    <project-component v-for="project in allProjects" :key="project.id"
+                                    <project-component v-for="(project,i) in allProjects" :key="i"
                                                        :project="project" :authenticated="authenticated" :user="user">
 
 

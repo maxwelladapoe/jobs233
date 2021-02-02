@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Traits\UsesUUID;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -9,7 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 class Attachment extends Model
 {
     use HasFactory;
-    use \App\Http\Traits\UsesUUID;
+    use UsesUUID;
+
+    protected $hidden=[
+        'original_file_location',
+        'is_water_marked'
+    ];
 
 
     public function user()

@@ -113,7 +113,7 @@ export default {
     },
     props: {
         portfolioItemId: {
-            required: true
+            required: false
         },
         userId: {
             required: true
@@ -135,11 +135,13 @@ export default {
             this.viewUser = data.user;
             this.portfolioItems = data.portfolio_items;
 
+            let index = 0;
+            if (this.portfolioItemId) {
+                index = this.portfolioItems.findIndex(portfolioItem => {
 
-            let index = this.portfolioItems.findIndex(portfolioItem => {
-
-                return portfolioItem.id == this.portfolioItemId
-            })
+                    return portfolioItem.id == this.portfolioItemId
+                })
+            }
 
             this.selectedPortfolioItemIndex = index;
 

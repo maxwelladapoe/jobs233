@@ -33,7 +33,6 @@
                                             Joined
                                             <timeago v-if='viewUser.created_at'
                                                      :datetime="viewUser.created_at" :auto-update="60"/>
-
                                         </p>
 
 
@@ -41,7 +40,10 @@
 
                                     <div class="rating mb-5">
                                         <div class="t-bold t-6  mb-1">Rating</div>
-                                        <b-rate size="is-normal" type="is-primary" spaced></b-rate>
+                                        <b-rate v-model="rate" size="is-normal" disabled type="is-primary"
+                                                spaced></b-rate>
+                                        <p class="t-6 t-orange" v-if="rate > 0">{{rate}} by {{ratedByCount}}</p>
+                                        <p class="t-6 t-orange" v-else> No ratings yet</p>
                                     </div>
 
                                     <div class="buttons ">
@@ -171,7 +173,9 @@ export default {
     },
     data() {
         return {
-            viewUser: ''
+            viewUser: '',
+            rate: 0,
+            ratedByCount: 0,
         }
     },
     mounted() {

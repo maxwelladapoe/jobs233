@@ -103,6 +103,7 @@
         methods: {
 
             onFileInputChange() {
+                console.log("the value is",this.value)
                 this.uploadedFileList.push(...this.$refs.file.files);
                 this.$emit('input', this.uploadedFileList);
             },
@@ -138,7 +139,9 @@
             // This causes, that v-model on parent will work!
 
             value(){
-                this.$emit('input', this.value);
+
+                this.uploadedFileList = this.value;
+                //this.$emit('input', this.value);
             }
 
         }
