@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hello {{$project->user->name}},
+# Hello {{$project->user->first_name}},
 
 Your Project was created successfully.
 

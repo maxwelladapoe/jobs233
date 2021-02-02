@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ProjectStatusUpdateEmail;
 use App\Models\Attachment;
 use App\Models\Project;
 use App\Models\ProjectStatusUpdate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -135,6 +137,7 @@ class ProjectStatusUpdateController extends Controller
                         }
 
                         $project->fresh();
+                        Mail::to($project.user()->email)->queue(new ProjectStatusUpdateEmail($statusUpdate,$project));
 
                         //make it realtime
                         return response()->json(['success' => true, 'project' => $project, 'status_update' => $statusUpdate], 200);

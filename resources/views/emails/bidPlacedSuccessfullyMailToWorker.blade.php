@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hello {{$bid->user->name}},
+# Hello {{$bid->user->first_name}},
 
 Your bid of {{$bid->amount}} has been placed successfully.
 

@@ -7,18 +7,22 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ProjectStatusUpdate extends Mailable
+class ProjectStatusUpdateEmail extends Mailable
 {
     use Queueable, SerializesModels;
+
+    protected $statusUpdate,$project;
 
     /**
      * Create a new message instance.
      *
-     * @return void
+     * @param $statusUpdate
      */
-    public function __construct()
+    public function __construct($statusUpdate,$project)
     {
         //
+        $this->statusUpdate = $statusUpdate;
+        $this->project = $project;
     }
 
     /**
@@ -28,6 +32,6 @@ class ProjectStatusUpdate extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.projectStatusUpdate');
+        return $this->markdown('emails.projectStatusUpdate')->with('statusUpdate',$this->statusUpdate)->with('project',$this->project);
     }
 }

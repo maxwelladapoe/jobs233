@@ -1,5 +1,5 @@
 @component('mail::message')
-# Hello {{$projectPayment->user->name}},
+# Hello {{$projectPayment->user->first_name}},
 
 Your {{$projectPayment->description}} was successful.
 
