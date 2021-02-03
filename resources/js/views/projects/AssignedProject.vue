@@ -22,15 +22,18 @@
                                 <p class="t-mont jb-project-title-small t-bold t-orange">Description</p>
                                 <p class="t-meri mb-3" v-html="project.description"></p>
 
-                                <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
-                                <b-taglist>
-                                    <template v-for="skill in project.skills.split(',')">
+                                <template v-if="project.skills">
+                                    <p class="t-mont jb-project-title-small t-bold t-orange">Skills</p>
+                                    <b-taglist>
+                                        <template v-for="skill in project.skills.split(',')">
 
 
-                                        <b-tag type="is-success" class="mr-1">{{ skill }}</b-tag>
+                                            <b-tag type="is-success" class="mr-1">{{ skill }}</b-tag>
 
-                                    </template>
-                                </b-taglist>
+                                        </template>
+                                    </b-taglist>
+
+                                </template>
 
 
                                 <template v-if="project.complexity">
@@ -63,9 +66,8 @@
                                             <div class="column is-12-mobile is-4-desktop ">
 
 
-
-                                                    <div class="box is-relative">
-                                                        <a :href="file.location" download>
+                                                <div class="box is-relative">
+                                                    <a :href="file.location" download>
                                                         <div>
 
                                                             <div class="">
@@ -101,18 +103,18 @@
                                                             </div>
 
                                                         </div>
-                                                        </a>
-                                                        <template v-if="file.user_id === user.id">
-                                                            <button class="jb-close-button delete" type="button" rounded
-                                                                    size="is-small"
-                                                                    @click="deleteAttachment(file)"
-                                                                    title="Remove file">
-                                                                <b-icon icon="close" size="is-small"/>
-                                                            </button>
-                                                        </template>
+                                                    </a>
+                                                    <template v-if="file.user_id === user.id">
+                                                        <button class="jb-close-button delete" type="button" rounded
+                                                                size="is-small"
+                                                                @click="deleteAttachment(file)"
+                                                                title="Remove file">
+                                                            <b-icon icon="close" size="is-small"/>
+                                                        </button>
+                                                    </template>
 
 
-                                                    </div>
+                                                </div>
 
 
                                             </div>
@@ -121,9 +123,11 @@
                                     </div>
 
 
-                                    <p class="t-6 text-success"><b-icon icon="information" size="is-small"/>
+                                    <p class="t-6 text-success">
+                                        <b-icon icon="information" size="is-small"/>
                                         Please note that non watermarked images are only available once payment
-                                        is concluded</p>
+                                        is concluded
+                                    </p>
                                 </template>
 
 
@@ -265,8 +269,9 @@
                                              style="width: 50px; border-radius:50px">
                                     </figure>
 
-                                    <div class="media-content" >
-                                        <router-link :to="{name:'ViewProfile', params:{username:project.user.username}}">
+                                    <div class="media-content">
+                                        <router-link
+                                            :to="{name:'ViewProfile', params:{username:project.user.username}}">
                                              <span class="mr-auto"
                                                    v-if="authenticated && (user.id === project.user.id)">You</span>
                                             <span class="mr-auto" v-else>{{ project.user.name }}</span>
@@ -283,19 +288,36 @@
                                 <template v-if="profileType ==='hire' || profileType ==='work&hire'">
 
                                     <hr>
+                                    <div>
+                                        <router-link :to=" {name:'createProject'}"
+                                                     class="button is-primary mr-1 is-outlined">Post
+                                            a
+                                            similar
+                                            Job
+                                        </router-link>
 
-                                    <router-link :to=" {name:'createProject'}" class="button bg-orange t-white">Post a
-                                        similar
-                                        Job</router-link>
+
+                                        <template v-if=" project.user_id===user.id && project.worker_payed ===0 ">
+
+                                            <b-button class="is-success" @click="markProjectAsCompleted">Mark as
+                                                completed
+                                            </b-button>
+                                        </template>
+
+
+                                    </div>
+
 
                                 </template>
+                                <hr>
 
                             </div>
 
                             <div class="column is-12 is-7-desktop">
                                 <div>
 
-                                    <p class="t-4 t-mont t-bold t-orange" v-if="acceptedBid.user_id === user.id">Update Status</p>
+                                    <p class="t-4 t-mont t-bold t-orange" v-if="acceptedBid.user_id === user.id">Update
+                                        Status</p>
                                     <p class="t-3 t-mont t-bold" v-if="project.user_id === user.id"> Review Update</p>
 
 
@@ -330,10 +352,12 @@
                                                             <div class="mt-2">
                                                                 <div class="content">
 
-                                                                    <template v-for="file in latestStatusUpdate.attachments">
+                                                                    <template
+                                                                        v-for="file in latestStatusUpdate.attachments">
 
                                                                         <b-tag type="is-primary">
-                                                                            <a :href="file.location" download class="mb-2">
+                                                                            <a :href="file.location" download
+                                                                               class="mb-2">
                                                                                 {{ file.name }}
                                                                             </a>
                                                                         </b-tag>
@@ -351,14 +375,14 @@
                                         </div>
 
                                     </template>
-                                    <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdate">
+                                    <ValidationObserver v-slot="{handleSubmit}" ref="projectStatusUpdateForm">
 
                                         <form class="is-relative">
 
                                             <b-loading :is-full-page="false" v-model="isLoading">
                                                 <div class="loader-with-percentage-wrap">
                                                     <div class="loader-with-percentage"></div>
-                                                    <div class="percentage t-orange">{{uploadPercentage}}%</div>
+                                                    <div class="percentage t-orange">{{ uploadPercentage }}%</div>
                                                 </div>
 
                                             </b-loading>
@@ -376,7 +400,8 @@
                                                     expanded
                                                 >
                                                     <b-select expanded placeholder="Select Project Status"
-                                                              v-model="statusUpdate.status">
+                                                              v-model="statusUpdate.status"
+                                                              @input="changedSelection">
 
                                                         <template v-if="acceptedBid.user_id === user.id">
                                                             <option value="assigned" disabled>
@@ -392,6 +417,7 @@
                                                         </template>
 
                                                         <template v-if="project.user_id === user.id">
+
 
                                                             <option value="completed">
                                                                 Completed
@@ -425,11 +451,12 @@
 
                                             <ValidationProvider :rules="{ required: true}"
                                                                 v-slot="{ errors, valid }"
-                                                                name="Message" slim>
+                                                                name="Status update message" slim>
                                                 <b-field
                                                     label="Message"
                                                     label-class="t-mont t-bold"
                                                     label-for="add_note"
+                                                    :message="errors"
                                                     :type="{ 'is-danger': errors[0], 'is-success': valid }"
 
                                                 >
@@ -521,17 +548,6 @@
                                 </template>
 
 
-                                <template v-if="(statusUpdate.status === 'submitted-for-review' ||
-                                statusUpdate.status === 'completed') &&
-                                project.user_id===user.id && project.worker_payed ===0
-                                ">
-                                    <hr>
-                                    <p>If this project is completed</p>
-                                    <b-button class="mt-2 is-success" @click="markProjectAsCompleted">Mark as
-                                        completed
-                                    </b-button>
-                                </template>
-
                             </div>
 
                         </div>
@@ -574,6 +590,7 @@
 import {mapGetters} from "vuex";
 import AttachFiles from "../../components/extras/AttachFiles";
 import {SnackbarProgrammatic as Snackbar} from 'buefy';
+import ReviewAndRating from "../../components/ReviewAndRating";
 
 export default {
     name: "projects",
@@ -588,8 +605,8 @@ export default {
             initialBidsToShow: 10,
             showBidsViewMore: 0,
             statusUpdates: [],
-            isLoading:false,
-            uploadPercentage:0,
+            isLoading: false,
+            uploadPercentage: 0,
             latestStatusUpdate: '',
             project: {
                 category: {
@@ -648,54 +665,169 @@ export default {
     },
     methods: {
 
+        changedSelection(event) {
+            //if the selection is  is completed
+            if (event === "completed" && this.project.status !=='completed') {
+                this.$buefy.dialog.confirm({
+                    title: 'Mark as completed',
+                    message:
+                        'Are you sure you want to <b>mark this project as completed</b> ',
+                    confirmText: 'Yes',
+                    cancelText: 'No',
+                    type: 'is-primary',
+                    onCancel: () => {
+                        this.statusUpdate.status = this.project.status;
+                        return
+                    },
+                    onConfirm: () => {
+                        this.markProjectAsCompleted();
+                    }
+                })
+            }
+        },
+
         getValidationState({dirty, validated, valid = null}) {
             return dirty || validated ? valid : null;
         },
 
         projectStatusUpdate() {
 
-            if (this.project.status === 'assigned') {
-                this.statusUpdate.status = 'in-progress'
-            }
-            this.isLoading=true;
-            let formData = new FormData();
+            let isHire = ((this.profileType === "hire" || this.profileType === "work&hire") && this.project.user_id !==
+                this.user.id);
 
-            for (let i = 0; i < this.uploadedFileList.length; i++) {
-                formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
-            }
-            for (let key in this.statusUpdate) {
-                formData.append(key, this.statusUpdate[key]);
-            }
-            const config = {
+            let isWork = ((this.profileType === "work" || this.profileType === "work&hire") && this.acceptedBid.user_id !==
+                this.user.id);
 
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
+            if (isHire || isWork) {
+                console.log("issue dey here");
+                return
+            }
 
-                onUploadProgress: (progressEvent) => {
-                    this.uploadPercentage = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            let allowedStatuses = [];
+            //set the allowed list and check if a user is authorised
+            if (this.project.user_id === this.user.id) {
+                allowedStatuses = [
+                    "completed",
+                    "further-changes-required",
+                    "in-progress",
+                    "assigned",
+                    "submitted-for-review"
+                ];
+
+
+            } else if (this.acceptedBid.user_id === this.user.id) {
+                allowedStatuses = [
+                    "further-changes-required",
+                    "in-progress",
+                    "assigned",
+                    "submitted-for-review"
+
+                ];
+
+            } else {
+                console.log("not authorised");
+                return
+            }
+
+
+            //check if the status is in the allowed list
+            if (!allowedStatuses.includes(this.statusUpdate.status)) {
+
+                console.log("item not in the allowed list");
+                return
+            }
+
+            console.log("this one ");
+            console.log(this.statusUpdate.status === 'completed');
+
+
+            if (this.statusUpdate.status === 'completed') {
+                //check if the worker has been payed or payment has been finalised
+
+                this.markProjectAsCompleted();
+
+
+            } else {
+
+                if (this.project.status === 'assigned') {
+                    this.statusUpdate.status = 'in-progress'
                 }
-            };
-            axios.post('projects/update-status', formData, config)
-                .then(({data}) => {
 
-                    this.project = data.project;
-                    this.statusUpdates.unshift(data.status_update);
-                    this.latestStatusUpdate = data.status_update;
+                this.isLoading = true;
+                let formData = new FormData();
 
-                    this.statusUpdate = {
-                        project_id: this.project.id,
-                        status: this.project.status,
-                        message: ''
+                for (let i = 0; i < this.uploadedFileList.length; i++) {
+                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
+                }
+                for (let key in this.statusUpdate) {
+                    formData.append(key, this.statusUpdate[key]);
+                }
+                const config = {
+
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+
+                    onUploadProgress: (progressEvent) => {
+                        this.uploadPercentage = Math.round((progressEvent.loaded * 100) / progressEvent.total)
                     }
-                    this.uploadedFileList = [];
-                    this.isLoading=false;
-                    Snackbar.open(data.message);
+                };
 
-                }).catch(e=>{
+
+                axios.post('projects/update-status', formData, config)
+                    .then(({data}) => {
+
+                        this.project = data.project;
+                        this.statusUpdates.unshift(this.latestStatusUpdate);
+                        this.latestStatusUpdate = data.status_update;
+
+                        this.statusUpdate = {
+                            project_id: this.project.id,
+                            status: this.project.status,
+                            message: ''
+                        }
+                        this.uploadedFileList = [];
+                        this.isLoading = false;
+                        Snackbar.open(data.message);
+
+                        this.$refs.projectStatusUpdateForm.reset();
+
+                    }).catch(e => {
+                    this.$refs.projectStatusUpdateForm.setErrors({...e.response.data.errors})
+
                     console.log(e);
-                this.isLoading=false;
+                    this.isLoading = false;
+                })
+
+            }
+
+
+        },
+
+        showPayDialog() {
+            this.$buefy.dialog.confirm({
+                title: `Payment hasn't been completed`,
+                message:
+                    `It seems you haven't finalized payment for this project. Please click on the  <b>proceed</b> button to do so`,
+                confirmText: 'Proceed',
+                canCancel: true,
+                onCancel: () => {
+                    return
+                },
+                onConfirm: () => {
+                    this.$router.push({name: 'MakeDeposit', params: {project_id: this.project.id}});
+                }
+
             })
+        },
+        markAsCompletePost() {
+            axios.post('projects/mark_as_completed', {project_id: this.project.id}).then(({data}) => {
+                this.project = data.project;
+                Snackbar.open(data.message);
+            }).catch((e) => {
+                console.log(e);
+            })
+
         },
         markProjectAsCompleted() {
 
@@ -703,12 +835,48 @@ export default {
             if (this.project.user_id === this.user.id) {
 
 
-                if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
-                    axios.post('projects/mark_as_completed', {project_id: this.project.id}).then(({data}) => {
-                        this.project = data.project;
-                    }).catch((e) => {
-                        console.log(e);
+                 if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
+
+                    //launch the modal here
+
+                    this.$buefy.modal.open({
+                        parent: this,
+                        component: ReviewAndRating,
+                        props: {projectId: this.project.id},
+                        hasModalCard: true,
+                        customClass: 'custom-class custom-class-2',
+                        trapFocus: true,
+                        events: {
+                            'submitRating': response => {
+                                //this.portfolioItems.push(item);
+                                if (response.success === true) {
+                                    Snackbar.open(response.message);
+                                    this.markAsCompletePost();
+
+                                } else {
+
+                                }
+
+                            },
+                            'skipRating': () => {
+                               this.markAsCompletePost();
+                            }
+                        }
                     })
+
+
+                    //mark the project as complete
+
+
+                    //submit rating and review
+
+
+                } else {
+                    //show modal about concluding payment
+
+                    this.showPayDialog();
+
+
                 }
 
 
@@ -718,16 +886,25 @@ export default {
         },
 
         deleteAttachment(attachment) {
-            //TODO: delete attachments
 
-            axios.delete(`/attachments/delete/${attachment.id}`).then(({data}) => {
-                let index = this.project.attachments.indexOf(attachment);
-                this.project.attachments.splice(index, 1);
-                Snackbar.open(data.message);
+            this.$buefy.dialog.confirm({
+                title: 'Deleting Attachment',
+                message: 'Are you sure you want to <b>delete</b> this attachment? This action cannot be undone.',
+                confirmText: 'Delete',
+                type: 'is-danger',
+                closeOnConfirm: true,
+                onConfirm: () => {
+                    axios.delete(`/attachments/delete/${attachment.id}`).then(({data}) => {
+                        let index = this.project.attachments.indexOf(attachment);
+                        this.project.attachments.splice(index, 1);
+                        Snackbar.open(data.message);
 
-            }).catch((e) => {
-
+                    }).catch((e) => {
+                        console.log(e);
+                    })
+                }
             })
+
         }
     },
     computed: {

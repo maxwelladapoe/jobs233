@@ -1,5 +1,6 @@
 @component('mail::message')
-# Hello {{$project->user->first_name}},
+
+# Hello {{$firstName}},
 
 There is an update on your project.
 Click the button below to go to your project page

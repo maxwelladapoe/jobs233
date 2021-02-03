@@ -52,7 +52,6 @@ class PaystackPaymentController extends Controller
     {
 
 
-
         $this->validate($request, [
             "amount" => 'required',
             "email" => 'required|email',
@@ -68,36 +67,35 @@ class PaystackPaymentController extends Controller
 
             //if the project has an accepted bid use that
 
-            $amountInput = doubleval(str_replace(',','',$request['inputAmount']));
+            $amountInput = doubleval(str_replace(',', '', $request['inputAmount']));
 
 
             $acceptedBid = Bid::find($project->accepted_bid_id);
-            if ($acceptedBid){
+            if ($acceptedBid) {
                 $finalAgreedOfferAmount = doubleval(str_replace(',', '', $acceptedBid->amount));
 
-            }else{
-                $finalAgreedOfferAmount = doubleval(str_replace(',','',$project->budget));
+            } else {
+                $finalAgreedOfferAmount = doubleval(str_replace(',', '', $project->budget));
             }
 
 
             //if there are no deposits
             $projectPayment = ProjectPayment::where('project_id', $project->id);
 
-            if ($projectPayment->count() > 0){
+            if ($projectPayment->count() > 0) {
                 //reduce the minn payable amount to 1
-                $minPayableAmount =1;
-                $maxPayableAmount =doubleval($project->balance);
-            }else{
+                $minPayableAmount = 1;
+                $maxPayableAmount = doubleval($project->balance);
+            } else {
                 //the minimum payable amount is half of the final agreed offer
                 $minPayableAmount = $finalAgreedOfferAmount * 0.5;
                 $maxPayableAmount = $finalAgreedOfferAmount;
             }
 
 
+            if ($amountInput >= $minPayableAmount) {
 
-            if ($amountInput >= $minPayableAmount){
-
-                if ($amountInput <= $maxPayableAmount ){
+                if ($amountInput <= $maxPayableAmount) {
                     try {
 
                         return response()->json(['success' => true,
@@ -109,16 +107,15 @@ class PaystackPaymentController extends Controller
                             'error' => $e->getMessage()], 400);
 
                     }
-                }else{
+                } else {
                     return response()->json(['success' => false,
-                        'message' => "amount is more than the expected ". $maxPayableAmount], 400);
+                        'message' => "amount is more than the expected " . $maxPayableAmount], 400);
                 }
 
-            }else{
+            } else {
                 return response()->json(['success' => false,
-                    'message' => "amount is less than the expected ". $minPayableAmount], 400);
+                    'message' => "amount is less than the expected " . $minPayableAmount], 400);
             }
-
 
 
         } else {
@@ -164,7 +161,6 @@ class PaystackPaymentController extends Controller
                 $interfaceLogger->save();
 
 
-
                 //SAVING THE DETAILS INTO THE TABLES WITH THE GHS as the base currency
                 $projectPayment = new ProjectPayment;
                 $projectPayment->project_id = $metaData["project_id"];
@@ -172,9 +168,8 @@ class PaystackPaymentController extends Controller
                 $projectPayment->payment_id = $paymentDetailsData["id"];
 
 
-
                 $project = Project::find($metaData["project_id"]);
-                $currencyDetails =Currency::where('name',$paymentDetailsData["currency"])->first();
+                $currencyDetails = Currency::where('name', $paymentDetailsData["currency"])->first();
 
                 //recalculating the transaction amount using the base currency exchange rate
 
@@ -184,21 +179,21 @@ class PaystackPaymentController extends Controller
                 $projectPayment->amount = $transactionAmount;
 
                 $projectPayment->currency_id = 1;
-                $projectPayment->balance_after =  doubleval($project->balance) - $transactionAmount;
-                $projectPayment->type =  'Deposit';
-                $projectPayment->description =  'Deposit of '.$currencyDetails->name.' '.$originalTransactionAmount.' for project: '
-                    .$project->id;
+                $projectPayment->balance_after = doubleval($project->balance) - $transactionAmount;
+                $projectPayment->type = 'Deposit';
+                $projectPayment->description = 'Deposit of ' . $currencyDetails->name . ' ' . $originalTransactionAmount . ' for project: '
+                    . $project->id;
 
-                if($projectPayment->save()){
+                if ($projectPayment->save()) {
 
                     $user->deposit($transactionAmount);
 
-                    if ($project){
+                    if ($project) {
                         $project->deposit_made = true;
                         $project->balance = doubleval($project->balance) - $transactionAmount;
 
 
-                        if ($project->balance == 0 ){
+                        if ($project->balance == 0) {
                             $project->payment_concluded = true;
                         }
 
@@ -207,9 +202,9 @@ class PaystackPaymentController extends Controller
                         Mail::to($projectPayment->user->email)->queue(new DepositMadeSuccessfully($projectPayment));
                         return response()->json(['success' => true,
                             'message' => 'deposit made successfully',
-                            "paymentDetails" =>[
-                                "projectId"=>$metaData["project_id"],
-                                "paymentId"=>$paymentDetailsData["id"],
+                            "paymentDetails" => [
+                                "projectId" => $metaData["project_id"],
+                                "paymentId" => $paymentDetailsData["id"],
                                 "currency" => $paymentDetailsData["currency"],
                                 "amount" => $paymentDetailsData["amount"]
                             ]
@@ -218,20 +213,17 @@ class PaystackPaymentController extends Controller
                 }
 
 
-
-
-
             } else {
 
                 return response()->json(['success' => true,
                     'message' => 'confirmed earlier successfully deposit',
-                    "paymentDetails" =>[
-                        "projectId"=>$metaData["project_id"],
-                        "paymentId"=>$paymentDetailsData["id"],
+                    "paymentDetails" => [
+                        "projectId" => $metaData["project_id"],
+                        "paymentId" => $paymentDetailsData["id"],
                         "currency" => $paymentDetailsData["currency"],
                         "amount" => $paymentDetailsData["amount"]
                     ],
-                  ], 200);
+                ], 200);
 
             }
 

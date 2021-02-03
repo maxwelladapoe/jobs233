@@ -21,6 +21,12 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
+
+    public function worker()
+    {
+        return $this->belongsTo(User::class,'worker_id');
+    }
+
     public function currency()
     {
         return $this->belongsTo(Currency::class);

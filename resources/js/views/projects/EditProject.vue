@@ -64,6 +64,7 @@
 
                                             <ValidationObserver :key="1" v-if="step ===1">
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     persist
                                                     name="title" slim
                                                     :rules="{ required: true, min: 3, max:150}"
@@ -92,6 +93,7 @@
 
 
                                                     <ValidationProvider
+                                                         mode="lazy"
                                                         persist
                                                         name="Category"
                                                         :rules="{required: true}"
@@ -126,6 +128,7 @@
                                                     </ValidationProvider>
 
                                                     <ValidationProvider
+                                                         mode="lazy"
                                                         persist
                                                         name="subcategory"
                                                         v-slot="{ errors, valid }"
@@ -161,6 +164,7 @@
                                                 </b-field>
 
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     persist
                                                     name="description"
                                                     :rules="{ required: true, min: 3, max:2000}"
@@ -199,6 +203,7 @@
 
 
                                                     <ValidationProvider
+                                                         mode="lazy"
                                                         :rules="{ required: true,  min:1}"
                                                         name="budget"
                                                         v-slot="{ errors, valid }" slim
@@ -237,6 +242,7 @@
                                             <ValidationObserver :key="2" v-if="step===2">
 
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     :rules="{ required: true,}"
                                                     name="skills"
                                                     v-slot="{ errors, valid }"
@@ -273,6 +279,7 @@
 
                                                 </ValidationProvider>
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     :rules="{ required: false,}"
                                                     v-slot="{ errors, valid }"
                                                     name="Tags"
@@ -301,6 +308,7 @@
 
 
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     :rules="{ required: false,}"
                                                     v-slot="{ errors, valid }"
                                                     name="extra requirements"
@@ -320,6 +328,7 @@
 
                                                 <!--deadline -->
                                                 <ValidationProvider
+                                                     mode="lazy"
                                                     :rules="{ required: true,}"
                                                     name="deadline"
                                                     v-slot="{ errors, valid }"

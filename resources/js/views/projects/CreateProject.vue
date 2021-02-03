@@ -80,6 +80,7 @@
                                         <ValidationObserver :key="1" v-if="step ===1">
                                             <ValidationProvider
                                                 persist
+                                                mode="lazy"
                                                 name="title" slim
                                                 :rules="{ required: true, min: 3, max:150}"
                                                 v-slot="{ errors, valid }"
@@ -108,6 +109,7 @@
 
                                                 <ValidationProvider
                                                     persist
+                                                    mode="lazy"
                                                     name="Category"
                                                     :rules="{required: true}"
                                                     v-slot="{ errors, valid }"
@@ -127,7 +129,7 @@
                                                             <option
                                                                 v-for="category  in categories"
                                                                 :key="category.id"
-                                                                :value="category">{{category.name}}
+                                                                :value="category">{{ category.name }}
                                                             </option>
 
                                                         </b-select>
@@ -139,6 +141,7 @@
 
                                                 <ValidationProvider
                                                     persist
+                                                    mode="lazy"
                                                     name="subcategory"
                                                     v-slot="{ errors, valid }"
                                                     :rules="{required: true}" slim
@@ -158,7 +161,7 @@
                                                             <option
                                                                 v-for="subCategory  in subCategories"
                                                                 :key="subCategory.id"
-                                                                :value="subCategory">{{subCategory.name}}
+                                                                :value="subCategory">{{ subCategory.name }}
                                                             </option>
 
                                                         </b-select>
@@ -171,6 +174,7 @@
                                             </b-field>
                                             <ValidationProvider
                                                 persist
+                                                mode="lazy"
                                                 name="description"
                                                 :rules="{ required: true, min: 3, }"
                                                 v-slot="{ errors, valid }" slim
@@ -237,6 +241,7 @@
 
 
                                                 <ValidationProvider
+                                                    mode="lazy"
                                                     :rules="{ required: true, integer:true, min:1}"
                                                     name="budget"
                                                     v-slot="{ errors, valid }" slim
@@ -248,8 +253,10 @@
                                                     >
 
                                                         <p class="control">
-                                                            <span class="button is-static">{{user.profile
-                                                                .currency.name}} </span>
+                                                            <span class="button is-static">{{
+                                                                    user.profile
+                                                                        .currency.name
+                                                                }} </span>
                                                         </p>
                                                         <b-input id="budget" type="number" min="1"
                                                                  placeholder="120"
@@ -274,6 +281,7 @@
                                         <ValidationObserver :key="2" v-if="step===2">
 
                                             <ValidationProvider
+                                                mode="lazy"
                                                 :rules="{ required: false,}"
                                                 name="skills" slim
                                                 v-slot="{ errors, valid }"
@@ -300,7 +308,7 @@
 
                                                         aria-describedby="title-live-feedback">
                                                         <template slot-scope="props">
-                                                            {{props.option.name}}
+                                                            {{ props.option.name }}
                                                         </template>
                                                         <template slot="empty">
                                                             There are no skills
@@ -312,6 +320,7 @@
 
                                             </ValidationProvider>
                                             <ValidationProvider
+                                                mode="lazy"
                                                 :rules="{ required: false,}"
                                                 v-slot="{ errors, valid }"
                                                 name="Tags" slim
@@ -340,6 +349,7 @@
 
 
                                             <ValidationProvider
+                                                mode="lazy"
                                                 :rules="{ required: false,}"
                                                 v-slot="{ errors, valid }"
                                                 name="extra requirements" slim
@@ -359,6 +369,7 @@
 
                                             <!--deadline -->
                                             <ValidationProvider
+                                                mode="lazy"
                                                 :rules="{ required: true}"
                                                 name="deadline"
                                                 v-slot="{ errors, valid }" slim
@@ -393,29 +404,31 @@
 
                                         <div :key="4" v-if="step===3">
                                             <p class="t-mont t-bold t-orange">Title</p>
-                                            <p class="mb-3">{{project.title}}</p>
+                                            <p class="mb-3">{{ project.title }}</p>
 
                                             <p class="t-mont t-bold t-orange"> Description</p>
                                             <div class="mb-3 content" v-html="project.description"></div>
 
                                             <p class="t-mont t-bold t-orange"> Category</p>
-                                            <p class="mb-3"><span class="t-bold">{{project.category.name}}</span> >
-                                                {{project.subcategory.name}} </p>
+                                            <p class="mb-3"><span class="t-bold">{{ project.category.name }}</span> >
+                                                {{ project.subcategory.name }} </p>
 
                                             <p class="t-mont t-bold t-orange"> Budget</p>
 
-                                            <p class="mb-3">{{user.profile
-                                                .currency.name}} {{project.budget}}</p>
+                                            <p class="mb-3">{{
+                                                    user.profile
+                                                        .currency.name
+                                                }} {{ project.budget }}</p>
 
                                             <p class="t-mont t-bold t-orange" v-if="project.additional_details"> Extra
                                                 Requirements</p>
-                                            <p class="mb-3">{{project.additional_details}}</p>
+                                            <p class="mb-3">{{ project.additional_details }}</p>
 
                                             <p class="t-mont t-bold t-orange" v-if="project.skills.length>0"> Skills</p>
                                             <b-taglist class="mb-3">
                                                 <template v-for="(skill,index) in project.skills">
                                                     <b-tag class="mr-1" type="is-success" v-bind:key="index">
-                                                        {{skill.name}}
+                                                        {{ skill.name }}
                                                     </b-tag>
                                                 </template>
                                             </b-taglist>
@@ -426,7 +439,7 @@
 
                                             <b-taglist>
                                                 <template v-for="(tag,index) in project.tags">
-                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{tag}}
+                                                    <b-tag class="mr-1" type="is-success" v-bind:key="index">{{ tag }}
                                                     </b-tag>
                                                 </template>
                                             </b-taglist>
@@ -507,261 +520,261 @@
 <script>
 
 
-    import {mapGetters} from "vuex";
-    import AttachFiles from "../../components/extras/AttachFiles";
-    import {SnackbarProgrammatic as Snackbar} from 'buefy'
-    import {quillEditor} from "vue-quill-editor";
+import {mapGetters} from "vuex";
+import AttachFiles from "../../components/extras/AttachFiles";
+import {SnackbarProgrammatic as Snackbar} from 'buefy'
+import {quillEditor} from "vue-quill-editor";
 
 
-    export default {
+export default {
 
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Create Project',
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Create Project',
+    },
+
+    data() {
+        const today = new Date();
+
+        return {
+
+
+            editorOption: {
+                theme: 'bubble',
+                placeholder: "Describe what you want done. eg. Logo design for ...",
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{'list': 'ordered'}, {'list': 'bullet'}],
+                        [{'header': 2}, {'header': 3}],
+                        ['link']
+                    ]
+                }
+            },
+            content: '',
+
+
+            categories: [],
+            skillsList: [],
+            skillsListFiltered: [],
+            uploadedFileList: [],
+            isLoading: false,
+            isSuccessful: false,
+
+            minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+
+
+            dropAreaDragOver: false,
+            dropAreaDragLeave: false,
+            createdProject: null,
+
+            project: {
+                title: '',
+                description: '',
+                category: null,
+                budget: '',
+                currency: null,
+                subcategory: null,
+                additional_details: '',
+                skills: [],
+                tags: [],
+                deadline: new Date(),
+            },
+            currencies: [],
+
+            titleLength: 0,
+            step: 1,
+            totalSteps: 3,
+
+
+        }
+    },
+    mounted() {
+        this.project.currency = this.user.profile.currency.id;
+    },
+    methods: {
+        onEditorChange({html, text}) {
+            this.project.description = html;
         },
 
-        data() {
-            const today = new Date();
-
-            return {
-
-
-                editorOption: {
-                    theme: 'bubble',
-                    placeholder: "Describe what you want done. eg. Logo design for ...",
-                    modules: {
-                        toolbar: [
-                            ['bold', 'italic', 'underline'],
-                            [{'list': 'ordered'}, {'list': 'bullet'}],
-                            [{'header': 2}, {'header': 3}],
-                            ['link']
-                        ]
-                    }
-                },
-                content: '',
-
-
-                categories: [],
-                skillsList: [],
-                skillsListFiltered: [],
-                uploadedFileList: [],
-                isLoading: false,
-                isSuccessful: false,
-
-                minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
-
-
-                dropAreaDragOver: false,
-                dropAreaDragLeave: false,
-                createdProject: null,
-
-                project: {
-                    title: '',
-                    description: '',
-                    category: null,
-                    budget: '',
-                    currency: null,
-                    subcategory: null,
-                    additional_details: '',
-                    skills: [],
-                    tags: [],
-                    deadline: new Date(),
-                },
-                currencies: [],
-
-                titleLength: 0,
-                step: 1,
-                totalSteps: 3,
-
+        getFilteredSkills(text) {
+            this.skillsListFiltered = this.skillsList.filter((option) => {
+                return option.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0
+            })
+        },
+        viewPostedProject() {
+            if (this.createdProject.id) {
+                this.$router.push({name: 'singleProject', params: {id: this.createdProject.id}});
 
             }
         },
-        mounted() {
-            this.project.currency = this.user.profile.currency.id;
+
+        getValidationState({dirty, validated, valid = null}) {
+            return dirty || validated ? valid : null;
         },
-        methods: {
-            onEditorChange({html, text}) {
-                this.project.description = html;
-            },
 
-            getFilteredSkills(text) {
-                this.skillsListFiltered = this.skillsList.filter((option) => {
-                    return option.name
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(text.toLowerCase()) >= 0
-                })
-            },
-            viewPostedProject() {
-                if (this.createdProject.id) {
-                    this.$router.push({name: 'singleProject', params: {id: this.createdProject.id}});
+        titleCharacterCount() {
+            const length = this.project.title.length;
+            this.titleLength = length;
+            if (length === 150) {
 
+            }
+        },
+
+        prev() {
+            this.step--;
+        },
+
+
+        resetProject() {
+            this.project = {
+                title: '',
+                description: '',
+                category: null,
+                budget: '',
+                currency: this.user.profile.currency.id,
+                subcategory: null,
+                additional_details: '',
+                skills: '',
+                tags: [],
+                deadline: new Date(),
+            }
+            this.step = 1;
+            this.$refs.submitProject.reset();
+            //reset the errors
+        },
+
+        formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+
+            if (month.length < 2)
+                month = '0' + month;
+            if (day.length < 2)
+                day = '0' + day;
+
+            return [year, month, day].join('-');
+        },
+        submitProject() {
+
+
+            if (this.step < this.totalSteps) {
+                this.step++
+            } else {
+                this.project.currency = this.user.profile.currency.id;
+
+                let formData = new FormData();
+
+
+                for (let i = 0; i < this.uploadedFileList.length; i++) {
+                    formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
                 }
-            },
 
-            getValidationState({dirty, validated, valid = null}) {
-                return dirty || validated ? valid : null;
-            },
+                for (let key in this.project) {
 
-            titleCharacterCount() {
-                const length = this.project.title.length;
-                this.titleLength = length;
-                if (length === 150) {
+                    //some filtering is going on here to reduce the request size
+                    if (key === 'category' || key === 'subcategory') {
+                        formData.append(key, this.project[key].id)
+                    } else if (key === 'skills') {
 
-                }
-            },
+                        let skillArray = []
+                        for (let i = 0; i < this.project[key].length; i++) {
+                            skillArray.push(this.project[key][i].name)
+                        }
 
-            prev() {
-                this.step--;
-            },
+                        formData.append(key, skillArray.toString())
 
+                    } else if (key === 'deadline') {
+                        formData.append(key, this.formatDate(new Date(this.project[key])))
+                    } else {
+                        formData.append(key, this.project[key]);
 
-            resetProject() {
-                this.project = {
-                    title: '',
-                    description: '',
-                    category: null,
-                    budget: '',
-                    currency: this.user.profile.currency.id,
-                    subcategory: null,
-                    additional_details: '',
-                    skills: '',
-                    tags: [],
-                    deadline: new Date(),
-                }
-                this.step = 1;
-                this.$refs.submitProject.reset();
-                //reset the errors
-            },
-
-            formatDate(date) {
-                var d = new Date(date),
-                    month = '' + (d.getMonth() + 1),
-                    day = '' + d.getDate(),
-                    year = d.getFullYear();
-
-                if (month.length < 2)
-                    month = '0' + month;
-                if (day.length < 2)
-                    day = '0' + day;
-
-                return [year, month, day].join('-');
-            },
-            submitProject() {
-
-
-                if (this.step < this.totalSteps) {
-                    this.step++
-                } else {
-                    this.project.currency = this.user.profile.currency.id;
-
-                    let formData = new FormData();
-
-
-                    for (let i = 0; i < this.uploadedFileList.length; i++) {
-                        formData.append('attachments[' + i + ']', this.uploadedFileList[i]);
                     }
+                }
 
-                    for (let key in this.project) {
+                // data.append(...this.project);
+                const config = {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
 
-                        //some filtering is going on here to reduce the request size
-                        if (key === 'category' || key === 'subcategory') {
-                            formData.append(key, this.project[key].id)
-                        } else if (key === 'skills') {
+                    onUploadProgress: (progressEvent) => {
+                        let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                        // console.log(percentCompleted)
+                    }
+                };
 
-                            let skillArray = []
-                            for (let i = 0; i < this.project[key].length; i++) {
-                                skillArray.push(this.project[key][i].name)
+
+                this.isLoading = true;
+
+                if (this.createdProject === null) {
+                    axios.post('projects', formData, config)
+
+                        .then(({data}) => {
+                            if (data.success === true) {
+                                this.createdProject = data.project;
+                                //this.resetProject();
+                                Snackbar.open(data.message)
+
+                                this.isLoading = false;
+                                this.isSuccessful = true;
+                            } else {
+                                return
                             }
 
-                            formData.append(key, skillArray.toString())
-
-                        } else if (key === 'deadline') {
-                            formData.append(key, this.formatDate(new Date(this.project[key])))
-                        } else {
-                            formData.append(key, this.project[key]);
-
-                        }
-                    }
-
-                    // data.append(...this.project);
-                    const config = {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        },
-
-                        onUploadProgress: (progressEvent) => {
-                            let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
-                           // console.log(percentCompleted)
-                        }
-                    };
-
-
-                    this.isLoading = true;
-
-                    if (this.createdProject === null) {
-                        axios.post('projects', formData, config)
-
-                            .then(({data}) => {
-                                if (data.success === true) {
-                                    this.createdProject = data.project;
-                                    //this.resetProject();
-                                    Snackbar.open(data.message)
-
-                                    this.isLoading = false;
-                                    this.isSuccessful = true;
-                                } else {
-                                    return
-                                }
-
-                            })
-                            .catch((errorRes) => {
-                                //show error
-                                this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
-                            });
-                    }
-
+                        })
+                        .catch((errorRes) => {
+                            //show error
+                            this.$refs.submitProject.setErrors({...errorRes.response.data.errors})
+                        });
                 }
 
             }
 
+        }
+
+    },
+    beforeCreate() {
+        axios.get('projects/categories-skills').then(({data}) => {
+            this.categories = data.categories;
+            this.skillsList = data.skills;
+
+        });
+
+        axios.get('currencies').then(({data}) => {
+            this.currencies = data.currencies;
+
+        })
+
+    },
+    computed: {
+
+        subCategories() {
+            let subCat = [];
+
+            if (this.project.category != null) {
+                let selectedCategory = this.project.category;
+                subCat = selectedCategory.subcategories;
+            }
+
+            return subCat;
         },
-        beforeCreate() {
-            axios.get('projects/categories-skills').then(({data}) => {
-                this.categories = data.categories;
-                this.skillsList = data.skills;
 
-            });
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        })
 
-            axios.get('currencies').then(({data}) => {
-                this.currencies = data.currencies;
-
-            })
-
-        },
-        computed: {
-
-            subCategories() {
-                let subCat = [];
-
-                if (this.project.category != null) {
-                    let selectedCategory = this.project.category;
-                    subCat = selectedCategory.subcategories;
-                }
-
-                return subCat;
-            },
-
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
-            })
-
-        },
-        watch: {},
-        components: {AttachFiles, quillEditor}
-    }
+    },
+    watch: {},
+    components: {AttachFiles, quillEditor}
+}
 </script>
 
 

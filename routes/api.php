@@ -99,7 +99,7 @@ Route::prefix('v1')->group(function () {
     });
 
 
-
+    Route::post('rating', [App\Http\Controllers\RatingController::class, 'create']);
 
 
     //payment paystack
@@ -116,7 +116,6 @@ Route::prefix('v1')->group(function () {
 
     //skills
     Route::get('/skills', [App\Http\Controllers\ProjectController::class, 'getSkills']);
-
 
 
     //portfolio

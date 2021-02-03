@@ -138,17 +138,23 @@ class ProjectStatusUpdateController extends Controller
 
                         $project->fresh();
 
+
+
                         if (Auth::user()->id === $project->worker_id) {
 
-
                             Mail::to($project->user->email)->queue(new ProjectStatusUpdateEmail($statusUpdate,
-                                $project));
-                        }else{
+                                $project, 'worker'));
+                        }else if(Auth::user()->id === $project->user->id){
 
 
+
+                            Mail::to($project->worker->email)->queue(new ProjectStatusUpdateEmail($statusUpdate,
+                                $project,'employer'));
                         }
                         //make it realtime
-                        return response()->json(['success' => true, 'project' => $project, 'status_update' => $statusUpdate], 200);
+                        return response()->json(['success' => true,  'message' => 'project status updated successfully',
+                            'project' => $project, 'status_update' =>
+                            $statusUpdate], 200);
 
                     } else {
                         Log::debug("there seems to be an issue with project status creation. you may have to check the database");
