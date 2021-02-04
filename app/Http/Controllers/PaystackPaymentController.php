@@ -190,14 +190,18 @@ class PaystackPaymentController extends Controller
 
                     if ($project) {
                         $project->deposit_made = true;
+
+                        $theBalance = $project->balance;
+
                         $project->balance = doubleval($project->balance) - $transactionAmount;
 
 
-                        if ($project->balance == 0) {
+                        if (($theBalance - $transactionAmount) == 0) {
                             $project->payment_concluded = true;
                         }
 
                         $project->save();
+
 
                         Mail::to($projectPayment->user->email)->queue(new DepositMadeSuccessfully($projectPayment));
                         return response()->json(['success' => true,

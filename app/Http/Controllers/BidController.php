@@ -139,29 +139,32 @@ class BidController extends Controller
 
                 //check if a deposit has been made
                 //if there are no deposits
-                $projectPayment = ProjectPayment::where('project_id', $project->id);
+                $projectPayment = ProjectPayment::where('project_id', $project->id)->get();
 
-                if ($projectPayment->count() > 0){
+
+
+                if ($projectPayment){
                     //reduce the minn payable amount to 1
 
-                    $oldAmountPaid = (doubleval($project->budget) - doubleval
-                        ($project->balance)) ;
+                    $oldAmountPaid = (doubleval($project->budget) - doubleval($project->balance)) ;
                     $newBalance = doubleval($bid->amount) - $oldAmountPaid ;
+                    $project->balance = $newBalance;
 
+                    if ($newBalance >0){
+                        //reset the payment concluded
+                        $project->payment_concluded = false;
+                    }
+
+                    Log::debug("the new balance in the first if is :: ".$newBalance );
 
                 }else{
                     //the minimum payable amount is half of the final agreed offer
-
                     $newBalance = doubleval($bid->amount);
+                    $project->balance = $newBalance;
+
+                    Log::debug("the new balance in the else is:: ".$newBalance );
 
                 }
-
-
-                $project->balance = $newBalance;
-
-
-
-
 
 
                 if ($project->save() && $bid->save()) {

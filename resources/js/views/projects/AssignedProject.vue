@@ -236,7 +236,7 @@
                                 <!-- Placed bids -->
 
                                 <template v-if="authenticated && project.user.id === user.id &&
-                                project.payment_concluded ===0">
+                                project.payment_concluded ==0">
                                     <router-link :to="{name:'MakeDeposit' ,params:{project_id:project.id}}"
                                                  class="button is-primary mt-5">Make a
                                         deposit

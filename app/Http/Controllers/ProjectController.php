@@ -321,7 +321,7 @@ class ProjectController extends Controller
                     } else {
 
                         if (Auth::user()->wallet->balance > $project->balace)
-                            $statusUpdate = new ProjectStatusUpdate();
+                        $statusUpdate = new ProjectStatusUpdate();
                         $statusUpdate->project_id = $project->id;
                         $statusUpdate->status = "completed";
                         $statusUpdate->message = "Project Completed";
