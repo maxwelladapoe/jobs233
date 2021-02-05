@@ -295,7 +295,7 @@
                     username: '',
                     email: '',
                     password: '',
-                    preference: ''
+                    preference: 'hire'
                 },
             }
         },
