@@ -282,13 +282,27 @@
                                 </template>
 
                                 <template
-                                    v-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType ==='work&hire') ">
+                                    v-if="project.accepted_bid_id &&
+                                    (profileType ==='work' || profileType ==='work&hire') ">
+                                    <p class="t-meri t-bold t-5" style="color: crimson"><b-icon icon="circle"/> Bidding
+                                        closed for
+                                        this
+                                        project</p>
+
+                                </template>
+
+
+
+                                <template
+                                    v-else-if="hasAlreadyPlacedBid && (profileType ==='work' || profileType
+                                    ==='work&hire') ">
                                     <p class="t-meri t-bold t-5">You have already placed a Bid</p>
                                     <p>You should receive an email of confirmation if your bid has been accepted</p>
                                     <!-- <router-link to="" class="button bg-orange">Edit your Bid</router-link> -->
                                     <router-link to="" class="button bg-orange">View other projects</router-link>
 
                                 </template>
+
 
                                 <template
                                     v-else-if=" ( !bidSubmitted || !hasAlreadyPlacedBid) && (profileType ==='work' || profileType ==='work&hire') ">
@@ -555,6 +569,11 @@ export default {
         },
 
         submitBid() {
+            if (this.hasAlreadyPlacedBid){
+
+            }else{
+
+            }
             this.bidSubmissionLoading = true;
             axios.post(`projects/${this.project.id}/bids`, this.bid).then(({data}) => {
 

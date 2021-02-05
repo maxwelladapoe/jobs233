@@ -82,7 +82,7 @@
                                                                 </template>
                                                                 <template
                                                                     v-else-if="['jpg','jpeg','png','svg'].includes(file.name.split('.').pop().toLowerCase() )">
-                                                                    <figure class="image" style="max-height: 300px;
+                                                                    <figure class="image" style="max-height: 200px;
                                                                     overflow: hidden">
                                                                         <img
                                                                             :src="file.location"

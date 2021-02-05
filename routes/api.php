@@ -29,8 +29,9 @@ Route::prefix('v1')->group(function () {
     });
 
 
-    Route::get('email/resend', [App\Http\Controllers\Auth\AltVerificationController::class, 'resend'])->name('verification.resend');
+    Route::post('email/resend', [App\Http\Controllers\Auth\AltVerificationController::class, 'resend'])->name('verification.resend');
 
+    Route::post('email/resend/after_signup', [App\Http\Controllers\Auth\AltVerificationController::class, 'resendAfterSignup']);
 
     Route::prefix('auth')->group(function () {
         Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');

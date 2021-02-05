@@ -55,9 +55,12 @@
 
 
                                                     <ValidationProvider
+                                                        mode="lazy"
                                                         name="Email / Username"
                                                         :rules="{ required: true, min:3}"
                                                         v-slot="{ errors, valid }"
+
+
                                                     >
                                                         <b-field
                                                             label="Email / Username"
@@ -74,6 +77,7 @@
                                                     </ValidationProvider>
 
                                                     <ValidationProvider
+                                                        mode="lazy"
                                                         rules="required"
                                                         name="password"
                                                         v-slot="{ errors, valid }">

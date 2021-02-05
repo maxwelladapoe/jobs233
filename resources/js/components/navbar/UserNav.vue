@@ -214,9 +214,11 @@
                 logOut: 'auth/logOut'
             }),
             logout() {
-                this.logOut();
+                this.logOut().then(()=>{
+                    this.$router.push('/login');
+                });
 
-                this.$router.push('/login');
+
             }
         },
         computed: {

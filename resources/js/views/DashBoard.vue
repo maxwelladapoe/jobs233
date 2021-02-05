@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="jb-main-section-wrapper">
+        <div class="jb-main-section-wrapper" v-if="user">
             <div class="section no-padding-margin-top-bottom">
                 <div class="container jb-dashboard">
                     <div class="columns is-multiline">

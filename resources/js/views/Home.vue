@@ -300,7 +300,7 @@
                 this.alert = {};
                 if(this.$route.name === 'EmailAlreadyVerified'){
                     this.alert.message = "Your email has already been verified";
-                    this.alert.type = "info";
+                    this.alert.type = "success";
                 }else{
                     this.alert.message = "Your email has successfully been verified";
                     this.alert.type = "success";

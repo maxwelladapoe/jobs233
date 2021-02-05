@@ -13,7 +13,7 @@ class AltVerificationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
 
     }
 
@@ -25,20 +25,21 @@ class AltVerificationController extends Controller
             return response()->json(["msg" => "Invalid/Expired url provided."], 401);
         }
 
-        if (Auth::user() && Auth::user()->id == $user_id) {
-            $user = User::findOrFail($user_id);
 
-            if (!$user->hasVerifiedEmail()) {
-                $user->markEmailAsVerified();
-                return redirect()->to('/email-verified');
-            }else{
-                return redirect()->to('/email-already-verified');
-            }
+        $user = User::findOrFail($user_id);
 
+        if (!$user->hasVerifiedEmail()) {
+            $user->markEmailAsVerified();
 
+            return redirect()->to('/email-verified');
         } else {
-            return redirect()->to('/forbidden');
+
+            return redirect()->to('/email-already-verified');
         }
+
+
+        // return redirect()->to('/forbidden');
+
 
     }
 
@@ -51,5 +52,27 @@ class AltVerificationController extends Controller
         auth()->user()->sendEmailVerificationNotification();
 
         return response()->json(["message" => "Email verification link sent on your email id"]);
+    }
+
+
+    public function resendAfterSignup(Request $request)
+    {
+
+        $this->validate($request, [
+            'email' => 'required|email']);
+
+        $user = User::where('email', $request['email'])->first();
+
+        if (!$user) {
+            return response()->json(["success" => false, "message" => "User does not exist"], 400);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(["success" => true, "message" => "Email already verified."], 200);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json(["success" => true,"message" => "Email verification link sent on your email id"], 200);
     }
 }

@@ -93,13 +93,13 @@ const routes = [
         path: '/email-verified',
         name: 'EmailVerified',
         component: Home,
-        meta: {requiresAuth: true}
+        meta: {requiresAuth: false}
 
     }, {
         path: '/email-already-verified',
         name: 'EmailAlreadyVerified',
         component: Home,
-        meta: {requiresAuth: true}
+        meta: {requiresAuth: false}
 
     },
     {
