@@ -876,7 +876,7 @@ export default {
                                          this.markAsCompletePost();
 
                                      } else {
-
+                                         this.markAsCompletePost();
                                      }
 
                                  },
