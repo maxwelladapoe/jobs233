@@ -858,30 +858,35 @@ export default {
 
                     //launch the modal here
 
-                    this.$buefy.modal.open({
-                        parent: this,
-                        component: ReviewAndRating,
-                        props: {projectId: this.project.id},
-                        hasModalCard: true,
-                        customClass: 'custom-class custom-class-2',
-                        trapFocus: true,
-                        events: {
-                            'submitRating': response => {
-                                //this.portfolioItems.push(item);
-                                if (response.success === true) {
-                                    Snackbar.open(response.message);
-                                    this.markAsCompletePost();
+                     if(this.project.worker_already_rated ===1){
+                         this.markAsCompletePost();
+                     }else{
+                         this.$buefy.modal.open({
+                             parent: this,
+                             component: ReviewAndRating,
+                             props: {projectId: this.project.id},
+                             hasModalCard: true,
+                             customClass: 'custom-class custom-class-2',
+                             trapFocus: true,
+                             events: {
+                                 'submitRating': response => {
+                                     //this.portfolioItems.push(item);
+                                     if (response.success === true) {
+                                         Snackbar.open(response.message);
+                                         this.markAsCompletePost();
 
-                                } else {
+                                     } else {
 
-                                }
+                                     }
 
-                            },
-                            'skipRating': () => {
-                               this.markAsCompletePost();
-                            }
-                        }
-                    })
+                                 },
+                                 'skipRating': () => {
+                                     this.markAsCompletePost();
+                                 }
+                             }
+                         })
+                     }
+
 
 
                     //mark the project as complete
