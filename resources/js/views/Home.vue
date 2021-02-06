@@ -246,7 +246,7 @@
     export default {
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Jobs233',
+            title: 'Jobs 233',
             titleTemplate: false,
             meta: [
                 {
@@ -266,7 +266,8 @@
                     {
                         id: 1,
                         title: '"We accomplish a lot more for \nless."',
-                        text: 'With Jobs233 you are always a step ahead with our bidding system you are able to hire the right person that meets your need within your budget.',
+                        text:
+                            'With Jobs 233 you are always a step ahead with our bidding system you are able to hire the right person that meets your need within your budget.',
                         author: 'Peter Smith',
                         authorPosition: 'CEO & Founder Office 360',
                     },

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectStatusUpdatesTable extends Migration
+class AddWorkerRatedAlreadyColumToProjects extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreateProjectStatusUpdatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('project_status_updates', function (Blueprint $table) {
-            $table->id();
-            $table->char('project_id');
-            $table->string('status');
-            $table->text('message');
-            $table->timestamps();
+        Schema::table('projects', function (Blueprint $table) {
+            $table->boolean('worker_already_rated')->default(false);
+
         });
     }
 
@@ -29,6 +26,9 @@ class CreateProjectStatusUpdatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project_status_updates');
+        Schema::table('projects', function (Blueprint $table) {
+            $table->dropColumn('worker_already_rated');
+
+        });
     }
 }

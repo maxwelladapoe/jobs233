@@ -69,8 +69,10 @@
                                                         reset link again
                                                        </span>
                                                         <br>
-                                                        <span class="t-bold">{{millisToMinutesAndSeconds
-                                                        (remainingTime)}}</span>
+                                                        <span class="t-bold">{{
+                                                                millisToMinutesAndSeconds
+                                                                (remainingTime)
+                                                            }}</span>
                                                     </p>
 
                                                 </template>
@@ -98,7 +100,7 @@
 
                                                     <ValidationProvider
                                                         mode="lazy"
-                                                        name="First Name"
+                                                        name="first name"
                                                         :rules="{ required: true, min: 2, alpha_dash: true  }"
                                                         v-slot="{ errors, valid }" slim
                                                     >
@@ -117,7 +119,7 @@
 
                                                     <ValidationProvider
                                                         mode="lazy"
-                                                        name="Last Name"
+                                                        name="last name"
                                                         :rules="{ required: true, min: 2, alpha_dash: true }"
                                                         v-slot="{ errors, valid }" slim
                                                     >
@@ -305,7 +307,7 @@ export default {
             isSuccessful: false,
             successMessage: '',
             additionalMessage: '',
-            resendEnabled:true,
+            resendEnabled: true,
             signupCredentials: {
                 firstName: '',
                 lastName: '',
@@ -315,7 +317,7 @@ export default {
                 preference: 'hire'
             },
             emailForResend: 'jadd@example.com',
-            remainingTime:300000,
+            remainingTime: 300000,
         }
     },
 
@@ -371,36 +373,38 @@ export default {
 
         resendVerificationMail() {
 
-            if (this.resendEnabled){
+            if (this.resendEnabled) {
                 this.isSuccessful = false;
                 this.isLoading = true;
                 this.loadingMessage = 'Resending verification email...';
                 axios.post('email/resend/after_signup', {email: this.emailForResend}).then(({data}) => {
 
-                    if (data.message =='Email already verified.'){
+                    if (data.message == 'Email already verified.') {
                         this.$router.push('/email-already-verified')
                     }
                     this.isLoading = false;
                     this.isSuccessful = true;
                     this.successMessage = data.message;
-                    this.additionalMessage='';
-                }).catch(e=>{
+                    this.additionalMessage = '';
+                }).catch(e => {
                     console.log(e);
                     this.isSuccessful = false;
                     this.isLoading = false;
                 })
-                this.resendEnabled =false;
+                this.resendEnabled = false;
+
+                let interval = setInterval(() => {
+                    this.remainingTime = this.remainingTime - 1000;
+                }, 1000)
+
+                setTimeout(() => {
+                    this.resendEnabled = true;
+                    this.remainingTime = 300000;
+                    clearInterval(interval);
+                }, 300000);
 
 
-                setTimeout(()=>{
-                    this.resendEnabled=true;
-                    this.remainingTime=300000;
-                },300000);
-
-                setInterval(()=>{
-                    this.remainingTime =this.remainingTime-1000;
-                },1000)
-            }else{
+            } else {
 
             }
 

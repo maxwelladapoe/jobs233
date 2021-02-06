@@ -44,7 +44,10 @@ class RatingController extends Controller
                     $project->worker->id)->first();
 
                 if ($ratingExists){
-                    return response()->json(['success' => false, 'message' => 'you have already rated this user'], 409);
+                    $project->worker_already_rated=true;
+                    $project->save();
+                    return response()->json(['success' => true, 'message' => 'you have already rated this user for this project'],
+                        200);
                 }
 
                 $rating = new Rating();
@@ -61,6 +64,8 @@ class RatingController extends Controller
                 $rating->qow = $request['qow'];
 
                 if ($rating->save()) {
+                    $project->worker_already_rated=true;
+                    $project->save();
                     return response()->json(
                         ['success' => true,
                             'message' => 'Thanks for the feedback'], 200);

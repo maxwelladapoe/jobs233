@@ -40,7 +40,7 @@
                     <div class="column is-6">
                         <ul class="footer-align">
                             <li class="footer-item">
-                                <router-link class="footer-link " :to="{name:'About'}">Learn more about Jobs233
+                                <router-link class="footer-link " :to="{name:'About'}">Learn more about Jobs 233
                                 </router-link>
                             </li>
                             <li class="footer-item"><router-link class="footer-link" :to="{name:'Blog'}">Read our

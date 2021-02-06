@@ -47,7 +47,7 @@ class ProjectController extends Controller
             $query = Project::where('status', $request['status']);
         } else {
             $query = Project::latest();
-            $query->where('status','<>', 'Completed');
+            //$query->where('status','<>', 'Completed');
         }
 
 
@@ -327,12 +327,12 @@ class ProjectController extends Controller
                         $statusUpdate->message = "Project Completed";
                         if ($statusUpdate->save()) {
 
-
-                            $this->payWorker($project);
-
                             $project->status = "completed";
                             $project->worker_payed = true;
                             $project->save();
+                            $project->fresh();
+                            $this->payWorker($project);
+
 
                             return response()->json(['success' => true, 'project' => $project], 200);
                         } else {

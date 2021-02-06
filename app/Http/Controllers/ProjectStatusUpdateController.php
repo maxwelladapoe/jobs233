@@ -36,10 +36,14 @@ class ProjectStatusUpdateController extends Controller
 
         $this->validate($request, [
             'project_id' => ['required'],
-            'status' => ['string', 'required'],
-            'message' => ['string', 'required']
+            'status' => ['required', 'string'],
+            'message' => ['required_if:attachments,=,null'],
+            'attachments' => ['required_if:message,=,null'],
+            'watermark_images' => ['nullable', 'max:1', 'min:0'],
+
 
         ]);
+
 
         $project = Project::find($request->project_id);
 
@@ -63,9 +67,15 @@ class ProjectStatusUpdateController extends Controller
 
                     $statusUpdate = new ProjectStatusUpdate();
                     $statusUpdate->project_id = $project->id;
+                    $statusUpdate->user_id = Auth::user()->id;
                     $statusUpdate->status = $request->status;
-                    $statusUpdate->message = $request->message;
+                    if ($request->message) {
+                        $statusUpdate->message = $request->message;
+                    } else {
+                        $statusUpdate->message = "File attached";
+                    }
 
+                    $attachmentsUploaded = [];
                     if ($statusUpdate->save()) {
 
                         if ($request->has('attachments')) {
@@ -85,7 +95,7 @@ class ProjectStatusUpdateController extends Controller
                                 $altFileNameToStore = md5($filename . '' . rand()) . '_' . time() . '.' . $extension;
 
 
-                                if (Auth::user()->id === $project->worker_id) {
+                                if (Auth::user()->id === $project->worker_id && $request['watermark_images']==1) {
                                     //watermark all images or files
 
                                     $imageMimeArray = ['image/*', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
@@ -116,7 +126,7 @@ class ProjectStatusUpdateController extends Controller
                                     $attachment->status_update_id = $statusUpdate->id;
                                     $attachment->name = $filenameWithExt;
 
-                                    if (Auth::user()->id === $project->worker_id) {
+                                    if (Auth::user()->id === $project->worker_id && $request['watermark_images']==1) {
                                         $attachment->location = '/storage/projects/' . $project->id . '/attachments/watermarked/' . $fileNameToStore;
                                         $attachment->original_file_location = '/storage/projects/' . $project->id . '/attachments/' . $altFileNameToStore;
                                         $attachment->is_water_marked = true;
@@ -130,6 +140,8 @@ class ProjectStatusUpdateController extends Controller
                                     $attachment->size = $file->getSize();
                                     $attachment->format = $file->getMimeType();
                                     $attachment->save();
+
+                                    array_push($attachmentsUploaded, $attachment);
                                 }
 
                             }
@@ -139,22 +151,20 @@ class ProjectStatusUpdateController extends Controller
                         $project->fresh();
 
 
-
                         if (Auth::user()->id === $project->worker_id) {
 
                             Mail::to($project->user->email)->queue(new ProjectStatusUpdateEmail($statusUpdate,
                                 $project, 'worker'));
-                        }else if(Auth::user()->id === $project->user->id){
-
+                        } else if (Auth::user()->id === $project->user->id) {
 
 
                             Mail::to($project->worker->email)->queue(new ProjectStatusUpdateEmail($statusUpdate,
-                                $project,'employer'));
+                                $project, 'employer'));
                         }
                         //make it realtime
-                        return response()->json(['success' => true,  'message' => 'project status updated successfully',
+                        return response()->json(['success' => true, 'message' => 'project status updated successfully',
                             'project' => $project, 'status_update' =>
-                            $statusUpdate], 200);
+                                $statusUpdate, 'attachments' => $attachmentsUploaded], 200);
 
                     } else {
                         Log::debug("there seems to be an issue with project status creation. you may have to check the database");

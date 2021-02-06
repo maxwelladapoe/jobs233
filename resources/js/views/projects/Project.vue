@@ -281,6 +281,19 @@
                                     <router-link to="" class="button bg-orange">Sign Up to get Hired</router-link>
                                 </template>
 
+
+
+
+                                <template
+                                    v-if="project.status==='completed' ">
+                                    <p class="t-meri t-bold t-5 text-success"><b-icon icon="check-circle"/>
+                                        Project Completed
+                                    </p>
+
+                                </template>
+
+
+
                                 <template
                                     v-if="project.accepted_bid_id &&
                                     (profileType ==='work' || profileType ==='work&hire') ">

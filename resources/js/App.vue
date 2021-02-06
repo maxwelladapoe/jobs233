@@ -24,9 +24,9 @@
     export default {
         metaInfo: {
             // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Jobs233',
+            title: 'Jobs 233',
             // all titles will be injected into this template
-            titleTemplate: '%s - Jobs233'
+            titleTemplate: '%s - Jobs 233'
         },
         data: function () {
             return {

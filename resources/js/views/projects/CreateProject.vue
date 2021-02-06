@@ -110,7 +110,7 @@
                                                 <ValidationProvider
                                                     persist
                                                     mode="lazy"
-                                                    name="Category"
+                                                    name="category"
                                                     :rules="{required: true}"
                                                     v-slot="{ errors, valid }"
                                                     slim

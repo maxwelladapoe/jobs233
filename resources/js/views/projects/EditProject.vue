@@ -95,7 +95,7 @@
                                                     <ValidationProvider
                                                          mode="lazy"
                                                         persist
-                                                        name="Category"
+                                                        name="category"
                                                         :rules="{required: true}"
                                                         v-slot="{ errors, valid }"
                                                         slim
@@ -282,7 +282,7 @@
                                                      mode="lazy"
                                                     :rules="{ required: false,}"
                                                     v-slot="{ errors, valid }"
-                                                    name="Tags"
+                                                    name="tags"
                                                 >
                                                     <b-field
                                                         id="tags"

@@ -82,7 +82,7 @@
                                                                 </template>
                                                                 <template
                                                                     v-else-if="['jpg','jpeg','png','svg'].includes(file.name.split('.').pop().toLowerCase() )">
-                                                                    <figure class="image" style="max-height: 200px;
+                                                                    <figure class="image" style="height: 110px;
                                                                     overflow: hidden">
                                                                         <img
                                                                             :src="file.location"
@@ -90,7 +90,8 @@
                                                                     </figure>
                                                                 </template>
                                                                 <template v-else>
-                                                                    <figure class="image is-32x32">
+                                                                    <figure class="image is-64x64" style="height: 110px;
+                                                                    overflow: hidden">
                                                                         <img
                                                                             :src="`/images/file_type_icons/${file.name.split('.').pop()}.svg`"
                                                                             alt="" width="35">
@@ -116,6 +117,9 @@
 
 
                                                 </div>
+
+
+
 
 
                                             </div>
@@ -390,7 +394,7 @@
                                             <ValidationProvider
                                                 :rules="{ required: true}"
                                                 v-slot="{ errors, valid }"
-                                                name="Status" slim>
+                                                name="status" slim>
 
                                                 <b-field
 
@@ -450,9 +454,9 @@
                                             </ValidationProvider>
 
 
-                                            <ValidationProvider :rules="{ required: true}"
+                                            <ValidationProvider :rules="{ required_if: uploadedFileList.length ==0 }"
                                                                 v-slot="{ errors, valid }"
-                                                                name="Status update message" slim>
+                                                                name="message" slim>
                                                 <b-field
                                                     label="Message"
                                                     label-class="t-mont t-bold"
@@ -477,6 +481,18 @@
                                                 <attach-files v-model="uploadedFileList"></attach-files>
 
                                             </b-field>
+
+                                            <template v-if="uploadedFileList.length && uploadedFileList.length >0 &&
+                                            (profileType ==='work' ||
+                                            profileType ==='work&hire')">
+                                                <b-field >
+                                                    <b-switch v-model="statusUpdate.watermark_images"
+                                                              true-value=1
+                                                              false-value=0 >
+                                                       Watermark uploaded images
+                                                    </b-switch>
+                                                </b-field>
+                                            </template>
 
 
                                             <b-field>
@@ -628,7 +644,8 @@ export default {
             statusUpdate: {
                 project_id: '',
                 status: '',
-                message: ''
+                message: '',
+                watermark_images:0
             },
             projectNotFound: false,
             currencies: [],
@@ -787,6 +804,7 @@ export default {
                             status: this.project.status,
                             message: ''
                         }
+                       this.project.attachments.push(...data.attachments);
                         this.uploadedFileList = [];
                         this.isLoading = false;
                         Snackbar.open(data.message);
