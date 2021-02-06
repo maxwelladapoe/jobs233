@@ -101,7 +101,13 @@
                                             Deposited</span>
 
 
-                                        <span v-if="project.accepted_bid_id" class="" style="color: crimson">
+
+                                        <span v-if="project.status =='completed'" >
+                                            <b-icon icon="circle" size="is-small"/>
+                                            Completed
+                                        </span>
+
+                                        <span v-else-if="project.accepted_bid_id" class="" style="color: crimson">
                                             <b-icon icon="circle" style="color:crimson;" size="is-small"/>
                                             Bidding closed
                                         </span>
