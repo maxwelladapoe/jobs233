@@ -42,7 +42,6 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
         'remember_token',
     ];
     protected $with = ['profile', 'wallet', 'skills'];
-    protected $appends=['averageRating'];
     protected $withCount = ['projects','assigned_projects_to_worker', 'my_assigned_projects', 'completedProjects','completed_assigned_projects'];
 
     /**
