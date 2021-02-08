@@ -181,13 +181,14 @@ export default {
 
                 this.$emit('submitRating', data);
                 this.$refs.submitRatingForm.reset();
-
+                this.$emit('close');
             }).catch(e => {
                 console.log(e.response.data.errors)
                 this.$refs.submitRatingForm.setErrors({...e.response.data.errors})
 
             })
-           this.$emit('close');
+
+
         },
 
         skipRating() {

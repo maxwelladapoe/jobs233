@@ -119,9 +119,6 @@
                                                 </div>
 
 
-
-
-
                                             </div>
 
                                         </template>
@@ -485,11 +482,11 @@
                                             <template v-if="uploadedFileList.length && uploadedFileList.length >0 &&
                                             (profileType ==='work' ||
                                             profileType ==='work&hire')">
-                                                <b-field >
+                                                <b-field>
                                                     <b-switch v-model="statusUpdate.watermark_images"
                                                               true-value=1
-                                                              false-value=0 >
-                                                       Watermark uploaded images
+                                                              false-value=0>
+                                                        Watermark uploaded images
                                                     </b-switch>
                                                 </b-field>
                                             </template>
@@ -645,7 +642,7 @@ export default {
                 project_id: '',
                 status: '',
                 message: '',
-                watermark_images:0
+                watermark_images: 0
             },
             projectNotFound: false,
             currencies: [],
@@ -685,7 +682,7 @@ export default {
 
         changedSelection(event) {
             //if the selection is  is completed
-            if (event === "completed" && this.project.status !=='completed') {
+            if (event === "completed" && this.project.status !== 'completed') {
                 this.$buefy.dialog.confirm({
                     title: 'Mark as completed',
                     message:
@@ -804,7 +801,7 @@ export default {
                             status: this.project.status,
                             message: ''
                         }
-                       this.project.attachments.push(...data.attachments);
+                        this.project.attachments.push(...data.attachments);
                         this.uploadedFileList = [];
                         this.isLoading = false;
                         Snackbar.open(data.message);
@@ -854,39 +851,36 @@ export default {
             if (this.project.user_id === this.user.id) {
 
 
-                 if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
+                if (this.project.worker_payed === 0 && this.project.payment_concluded === 1) {
 
                     //launch the modal here
 
-                     if(this.project.worker_already_rated ===1){
-                         this.markAsCompletePost();
-                     }else{
-                         this.$buefy.modal.open({
-                             parent: this,
-                             component: ReviewAndRating,
-                             props: {projectId: this.project.id},
-                             hasModalCard: true,
-                             customClass: 'custom-class custom-class-2',
-                             trapFocus: true,
-                             events: {
-                                 'submitRating': response => {
-                                     //this.portfolioItems.push(item);
-                                     if (response.success === true) {
-                                         Snackbar.open(response.message);
-                                         this.markAsCompletePost();
+                    if (this.project.worker_already_rated === 1) {
+                        this.markAsCompletePost();
+                    } else {
+                        this.$buefy.modal.open({
+                            parent: this,
+                            component: ReviewAndRating,
+                            props: {projectId: this.project.id},
+                            hasModalCard: true,
+                            customClass: 'custom-class custom-class-2',
+                            trapFocus: true,
+                            events: {
+                                'submitRating': data => {
+                                    //this.portfolioItems.push(item);
 
-                                     } else {
-                                         this.markAsCompletePost();
-                                     }
+                                    Snackbar.open(data.message);
 
-                                 },
-                                 'skipRating': () => {
-                                     this.markAsCompletePost();
-                                 }
-                             }
-                         })
-                     }
+                                    this.markAsCompletePost();
 
+
+                                },
+                                'skipRating': () => {
+                                    this.markAsCompletePost();
+                                }
+                            }
+                        })
+                    }
 
 
                     //mark the project as complete

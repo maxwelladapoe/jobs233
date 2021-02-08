@@ -7,7 +7,7 @@
         <div class="jb-alert-notification" v-if="alert" :class="`has-background-${alert.type}`">
             <div class="container">
                 <div class="jb-notification-wrap">
-                    <div class="alert-message">{{alert.message}}</div>
+                    <div class="alert-message">{{ alert.message }}</div>
                     <div class="close">
                         <button type="button" aria-label="Close notification" class="delete" @click="close"></button>
                     </div>
@@ -114,17 +114,23 @@
                         <div class="jb-with-video">
 
                             <div class="jb-video-details">
-                                <div class="jb-section-text t-white t-bold">
+                                <div class="jb-section-text t-white t-bold t-mont">
 
-                                    <div> Post your project
+                                    <div> Get things done
                                         in just a few steps.
-                                        Its simple! <br> Here is a walk through.
+                                        <br> Its simple! Here is how.
                                     </div>
                                 </div>
-                                <div>
-                                    <img src="/images/play@2x.png" class="jb-play-icon2"/>
-
+                                <div class="jb-play-btn cursor-pointer" @click="isVideoModalActive=!isVideoModalActive">
+                                    <img src="/images/play.png" class="jb-play-icon2"/>
                                 </div>
+
+                                <b-modal v-model="isVideoModalActive">
+                                    <div class="video is-4by3">
+                                        <video class="jb-video" src="/videos/how_it_works_simple1.mp4" controls
+                                               autoplay/>
+                                    </div>
+                                </b-modal>
 
 
                             </div>
@@ -145,27 +151,27 @@
                             <div class="columns is-multiline is-mobile is-centered">
                                 <div class="column is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/programming.svg">
-                                    <p class="t-bold jb-project-title  t-mont">Programming & Tech</p>
+                                    <p class="t-bold jb-project-title  ">Programming & Tech</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/graphic-design.svg">
-                                    <p class="t-bold jb-project-title  t-mont">Graphic Design</p>
+                                    <p class="t-bold jb-project-title  ">Graphic Design</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/video.svg">
-                                    <p class="t-bold jb-project-title t-mont">Video & Animation</p>
+                                    <p class="t-bold jb-project-title ">Video & Animation</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/business.svg">
-                                    <p class="t-bold jb-project-title  t-mont">Business</p>
+                                    <p class="t-bold jb-project-title  ">Business</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/social-media.svg">
-                                    <p class="t-bold jb-project-title t-mont">Digital Marketing</p>
+                                    <p class="t-bold jb-project-title ">Digital Marketing</p>
                                 </div>
                                 <div class="column  is-6-mobile is-3-tablet is-3-desktop ">
                                     <img class="jb-projects-img" src="/images/icons/translation.svg">
-                                    <p class="t-bold jb-project-title t-mont">Writing & Translation</p>
+                                    <p class="t-bold jb-project-title ">Writing & Translation</p>
                                 </div>
                             </div>
                             <br>
@@ -186,7 +192,7 @@
                         <div class="columns is-multiline is-vcentered">
                             <div class="column is-5-desktop t-white ">
 
-                                <p class="t-bold t-3 ">Talented and experienced freelancers at your fingertip</p>
+                                <p class="t-bold t-3 t-mont">Talented and experienced freelancers just a click away</p>
 
 
                                 <p class="t-bold  t-mont mt-5">A friendly budget for the best of
@@ -230,7 +236,6 @@
             </div>
 
 
-
         </div>
 
     </div>
@@ -238,127 +243,127 @@
 
 <script>
 
-    import Slider from '../components/Slider';
-    import Modal from '../components/Modal';
-    import Quote from '../components/Quote';
-    import {mapGetters} from "vuex";
+import Slider from '../components/Slider';
+import Modal from '../components/Modal';
+import Quote from '../components/Quote';
+import {mapGetters} from "vuex";
 
-    export default {
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'Jobs 233',
-            titleTemplate: false,
-            meta: [
-                {
-                    name: 'description',
-                    content:
-                        `A freelance marketplace that makes it easy for clients and designers, developers, content developers
+export default {
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'Jobs 233',
+        titleTemplate: false,
+        meta: [
+            {
+                name: 'description',
+                content:
+                    `A freelance marketplace that makes it easy for clients and designers, developers, content developers
                  to colaborate and get things done. It is  aimed at bringing your creative projects to life at your budget.`
+            }
+        ]
+    },
+
+    data() {
+        return {
+            isVideoModalActive: false,
+            alert: null,
+            quotes: [
+                {
+                    id: 1,
+                    title: '"We accomplish a lot more for \nless."',
+                    text:
+                        'With Jobs 233 you are always a step ahead with our bidding system you are able to hire the right person that meets your need within your budget.',
+                    author: 'Peter Smith',
+                    authorPosition: 'CEO & Founder Office 360',
+                },
+                {
+                    id: 2,
+                    title: '"Branding is important "',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate dolores enim, ex incidunt rerum ullam! Autem ipsum magnam odit ',
+                    author: 'Joseph Smith',
+                    authorPosition: 'CEO & Founder Max int',
+                },
+                {
+                    id: 3,
+                    title: '"Build with Ease "',
+                    text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate dolores enim, ex incidunt rerum ullam! Autem ipsum magnam odit ',
+                    author: 'Joseph Smith',
+                    authorPosition: 'CEO & Founder Max int',
                 }
             ]
-        },
-
-        data() {
-            return {
-
-                alert: null,
-                quotes: [
-                    {
-                        id: 1,
-                        title: '"We accomplish a lot more for \nless."',
-                        text:
-                            'With Jobs 233 you are always a step ahead with our bidding system you are able to hire the right person that meets your need within your budget.',
-                        author: 'Peter Smith',
-                        authorPosition: 'CEO & Founder Office 360',
-                    },
-                    {
-                        id: 2,
-                        title: '"Branding is important "',
-                        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate dolores enim, ex incidunt rerum ullam! Autem ipsum magnam odit ',
-                        author: 'Joseph Smith',
-                        authorPosition: 'CEO & Founder Max int',
-                    },
-                    {
-                        id: 3,
-                        title: '"Build with Ease "',
-                        text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque cupiditate dolores enim, ex incidunt rerum ullam! Autem ipsum magnam odit ',
-                        author: 'Joseph Smith',
-                        authorPosition: 'CEO & Founder Max int',
-                    }
-                ]
-                ,
-                showSignUp: false,
-                currentQuoteNumber: 0,
-                timer: null,
-            }
-        },
-        mounted() {
-            this.startRotation()
+            ,
+            showSignUp: false,
+            currentQuoteNumber: 0,
+            timer: null,
+        }
+    },
+    mounted() {
+        this.startRotation()
 
 
-            if (this.$route.name === 'EmailVerified'|| this.$route.name === 'EmailAlreadyVerified') {
+        if (this.$route.name === 'EmailVerified' || this.$route.name === 'EmailAlreadyVerified') {
 
-                this.alert = {};
-                if(this.$route.name === 'EmailAlreadyVerified'){
-                    this.alert.message = "Your email has already been verified";
-                    this.alert.type = "success";
-                }else{
-                    this.alert.message = "Your email has successfully been verified";
-                    this.alert.type = "success";
-                }
-
-                this.$router.replace({name:'Home'});
+            this.alert = {};
+            if (this.$route.name === 'EmailAlreadyVerified') {
+                this.alert.message = "Your email has already been verified";
+                this.alert.type = "success";
+            } else {
+                this.alert.message = "Your email has successfully been verified";
+                this.alert.type = "success";
             }
 
-        },
-        methods: {
-
-            close(){
-                this.alert=null;
-            },
-            startRotation() {
-                this.timer = setInterval(this.showNextQuote, 12000);
-                console.log('started');
-            },
-            stopRotation() {
-                console.log('paused');
-                clearInterval(this.timer);
-            },
-            showNextQuote() {
-
-                var quotesLength = this.quotes.length;
-
-                //find the current visible quote
-
-                if (this.currentQuoteNumber < (quotesLength - 1)) {
-                    this.currentQuoteNumber += 1;
-                } else {
-                    this.currentQuoteNumber = 0;
-                }
-            },
-            showPreviousQuote() {
-                var quotesLength = this.quotes.length;
-                if (this.currentQuoteNumber <= 0) {
-                    this.currentQuoteNumber = this.quotes.length - 1;
-                } else {
-                    this.currentQuoteNumber -= 1;
-                }
-            }
-        },
-        components: {
-            jbSlider: Slider,
-            jbModal: Modal,
-            jbQuote: Quote,
-        },
-        computed: {
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
-            }),
+            this.$router.replace({name: 'Home'});
         }
 
+    },
+    methods: {
+
+        close() {
+            this.alert = null;
+        },
+        startRotation() {
+            this.timer = setInterval(this.showNextQuote, 12000);
+            console.log('started');
+        },
+        stopRotation() {
+            console.log('paused');
+            clearInterval(this.timer);
+        },
+        showNextQuote() {
+
+            var quotesLength = this.quotes.length;
+
+            //find the current visible quote
+
+            if (this.currentQuoteNumber < (quotesLength - 1)) {
+                this.currentQuoteNumber += 1;
+            } else {
+                this.currentQuoteNumber = 0;
+            }
+        },
+        showPreviousQuote() {
+            var quotesLength = this.quotes.length;
+            if (this.currentQuoteNumber <= 0) {
+                this.currentQuoteNumber = this.quotes.length - 1;
+            } else {
+                this.currentQuoteNumber -= 1;
+            }
+        }
+    },
+    components: {
+        jbSlider: Slider,
+        jbModal: Modal,
+        jbQuote: Quote,
+    },
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        }),
     }
+
+}
 </script>
 
 <style lang="scss">

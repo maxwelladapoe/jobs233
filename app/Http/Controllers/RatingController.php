@@ -63,13 +63,20 @@ class RatingController extends Controller
                 $rating->skill = $request['skill'];
                 $rating->qow = $request['qow'];
 
+
                 if ($rating->save()) {
+                    $averageUserRating= Rating::where('user_id', $project->worker->id)->average('total_average_rating');
+                    $project->worker->profile->rating=$averageUserRating;
+                    $project->worker->profile->save();
                     $project->worker_already_rated=true;
                     $project->save();
+
                     return response()->json(
                         ['success' => true,
                             'message' => 'Thanks for the feedback'], 200);
                 }
+
+
 
             } else {
                 return response()->json(['success' => false, 'message' => 'this project does not belong to you'], 401);

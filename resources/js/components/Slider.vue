@@ -21,19 +21,18 @@
 
                     </div>
                     <div class="hero-body">
-                        <div class="container">
-                            <h1 class="title t-white t-2" v-html="carousel.mainText"></h1>
-                            <p class=" subtitle t-meri t-white" v-if="carousel.subText" v-html="carousel.subText"></p>
+                        <div class="container" >
+                            <h1 class="title t-white t-2 clean-text-shadow" v-html="carousel.mainText"></h1>
+                            <p class=" subtitle t-meri t-white clean-text-shadow" v-if="carousel.subText" v-html="carousel.subText"></p>
 
                             <b-taglist>
-                                <b-tag rounded type="is-primary" style="border: 1px solid #fff;
-                                background: transparent; color: #fff; padding: 0 1em"
+                                <b-tag rounded type="is-primary" style=" color: #fff; padding: 0 1em"
                                        v-for="(item,i) in
                                 carousel.tags"
                                        :key="i">{{item}}</b-tag>
                             </b-taglist>
 
-                            <router-link :to="carousel.link" v-if="carousel.link" class="button is-white is-outlined">
+                            <router-link :to="carousel.link" v-if="carousel.link" class="button is-white">
                                 {{carousel.linkText}}</router-link>
 
                         </div>

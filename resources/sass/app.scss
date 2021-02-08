@@ -1020,7 +1020,7 @@ end of login or sign up
                             height: 100%;
                             width: 100%;
                             z-index: 0;
-                            opacity: 0.3;
+                            opacity: 0.1;
                         }
 
                         .carousel-image {
@@ -1302,9 +1302,21 @@ end of login or sign up
         align-content: center;
         justify-content: flex-start;
         align-items: center;
+
+        .jb-play-btn{
+
+            position: relative;
+
+        }
+    }
+
+    .jb-video{
+        width: 100% !important;
+        height: auto !important;
     }
 
     .jb-section-text {
+
         font-size: 1.5em;
         margin-right: 2em;
     }
@@ -2142,7 +2154,7 @@ textarea {
 
 
 .cursor-pointer {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 
@@ -2410,4 +2422,11 @@ a {
         border: none;
         border-radius: 5px;
     }
+}
+
+
+.clean-text-shadow{
+
+    text-shadow: 2px 3px 5px rgba(0,0,0,0.5);
+
 }
