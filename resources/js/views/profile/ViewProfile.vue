@@ -40,9 +40,9 @@
 
                                     <div class="rating mb-5">
                                         <div class="t-bold t-6  mb-1">Rating</div>
-                                        <b-rate v-model="rate" size="is-normal" disabled type="is-primary"
+                                        <b-rate v-model="viewUser.rating" size="is-normal" disabled type="is-primary"
                                                 spaced></b-rate>
-                                        <p class="t-6 t-orange" v-if="rate > 0">{{rate}} by {{ratedByCount}}</p>
+                                        <p class="t-6 t-orange" v-if="rate > 0">{{viewUser.rating}} by {{viewUser.rating_count}}</p>
                                         <p class="t-6 t-orange" v-else> No ratings yet</p>
                                     </div>
 

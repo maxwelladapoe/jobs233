@@ -14,7 +14,8 @@ class AddAverageRatingToProfiles extends Migration
     public function up()
     {
         Schema::table('profiles', function (Blueprint $table) {
-            $table->double('rating',5,2)->after('preference')->nullable();
+            $table->double('rating',5,2)->after('preference')->nullable()->default(0);
+            $table->bigInteger('rating_count')->after('rating')->nullable()->default(0);
         });
     }
 
@@ -29,6 +30,7 @@ class AddAverageRatingToProfiles extends Migration
             //
 
             $table->dropColumn('rating');
+            $table->dropColumn('rating_count');
 
         });
     }

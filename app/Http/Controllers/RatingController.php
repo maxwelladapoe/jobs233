@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RatingController extends Controller
 {
@@ -66,9 +67,16 @@ class RatingController extends Controller
 
                 if ($rating->save()) {
                     $averageUserRating= Rating::where('user_id', $project->worker->id)->average('total_average_rating');
+                    $uniqueRatingCount =  DB::table('ratings')->select('rated_by_user_id')->where('user_id',$project->worker->id)->distinct()->get()->count();
+
                     $project->worker->profile->rating=$averageUserRating;
+
+                    $project->worker->profile->rating_count=$uniqueRatingCount;
+
                     $project->worker->profile->save();
+
                     $project->worker_already_rated=true;
+
                     $project->save();
 
                     return response()->json(
