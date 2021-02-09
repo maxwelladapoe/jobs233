@@ -42,11 +42,19 @@
 
 
                                     <div class="column is-12 is-4-tablet is-3-desktop">
-                                        <p><span class="t-orange t-bold t-mont">Your budget:</span> <span
+
+
+                                        <p class="" v-if="project.accepted_bid_id"><span
+                                            class="t-bold t-mont">Accepted offer:</span>
+                                            <span
+                                            class="t-bold">{{project.accepted_bid.currency.symbol}}
+                                            {{project.accepted_bid
+                                            .amount}}</span>
+                                        </p>
+                                        <p v-else><span class=" t-bold t-mont">Your budget:</span> <span
                                             class="t-bold">{{project.currency.symbol}} {{project.budget}}</span>
                                         </p>
-
-                                        <p><span class="t-orange t-bold t-mont">Your balance:</span> <span
+                                        <p><span class=" t-bold t-mont">Your balance:</span> <span
                                             class="t-bold">{{project.currency.symbol}} {{project.balance}}</span>
                                         </p>
 

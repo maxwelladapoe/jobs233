@@ -21,7 +21,7 @@
                         </p>
                         <div class="jb-project-price t-mont t-bold " v-if="project.accepted_bid_id">
                             <b-tag type="is-success" size="is-small">Accepted Offer: {{ project.currency.symbol }}{{
-                                project.accepted_bid[0].amount }}
+                                project.accepted_bid.amount }}
                             </b-tag>
                         </div>
                         <div class="jb-project-price t-mont t-bold " v-else>

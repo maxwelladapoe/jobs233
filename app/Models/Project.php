@@ -49,7 +49,7 @@ class Project extends Model
 
     public function acceptedBid()
     {
-        return $this->hasMany(Bid::class)->where('is_accepted',true);
+        return $this->hasOne(Bid::class)->where('is_accepted',true);
     }
 
     public function attachments()

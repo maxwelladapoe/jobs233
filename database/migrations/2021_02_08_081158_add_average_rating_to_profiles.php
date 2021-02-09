@@ -29,8 +29,8 @@ class AddAverageRatingToProfiles extends Migration
         Schema::table('profiles', function (Blueprint $table) {
             //
 
-//            $table->dropColumn('rating');
-//            $table->dropColumn('rating_count');
+            $table->dropColumn('rating');
+            $table->dropColumn('rating_count');
 
         });
     }
