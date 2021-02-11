@@ -337,6 +337,20 @@
 
         },
 
+        created(){
+
+            Echo.private('jobs233-projects-new-post')
+                .listen('ProjectPosted', ({project}) => {
+                    //this.activeFriend=e.message.user_id;
+                    console.log("i am listening")
+                    console.log("this is working  ", project)
+                    this.allProjects.unshift(project);
+
+                    //this.allMessages.push(e.message)
+                    //setTimeout(this.scrollToEnd,100);
+                })
+        },
+
         mounted() {
 
             if (this.$route.name === 'MyProjects') {

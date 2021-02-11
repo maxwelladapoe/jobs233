@@ -75,12 +75,15 @@
 
                             <div class="posted-by-wrap is-vcentered">
                                 <div class="jb-project-posted-by-img">
-                                    <b-image
-                                        :rounded="true"
-                                        :src="project.user.profile.picture"
-                                        alt=""
-                                        class="rounded-circle"
-                                    />
+                                    <template v-if="project.user.profile">
+                                        <b-image
+                                            :rounded="true"
+                                            :src="project.user.profile.picture"
+                                            alt=""
+                                            class="rounded-circle"
+                                        />
+                                    </template>
+
                                 </div>
                                 <div class="jb-project-posted-by-name t-bold">
                                     <p

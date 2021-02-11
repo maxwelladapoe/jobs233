@@ -621,7 +621,7 @@ export default {
             statusUpdates: [],
             isLoading: false,
             uploadPercentage: 0,
-            latestStatusUpdate: '',
+            latestStatusUpdate: {},
             project: {
                 category: {
                     name: '',
@@ -967,6 +967,18 @@ export default {
     },
     components: {
         AttachFiles
+    },
+    created(){
+
+        Echo.private('jobs233-project-' + this.$route.params.id)
+            .listen('StatusUpdateSent', ({statusUpdate}) => {
+                //this.activeFriend=e.message.user_id;
+                this.statusUpdates.unshift(this.latestStatusUpdate);
+                this.latestStatusUpdate=(statusUpdate);
+
+                //this.allMessages.push(e.message)
+                //setTimeout(this.scrollToEnd,100);
+            })
     }
 }
 </script>

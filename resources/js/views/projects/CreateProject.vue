@@ -630,6 +630,8 @@ export default {
 
 
         resetProject() {
+            this.isLoading=false;
+            this.isSuccessful = false;
             this.project = {
                 title: '',
                 description: '',

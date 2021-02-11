@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StatusUpdateSent;
 use App\Mail\ProjectStatusUpdateEmail;
 use App\Models\Attachment;
 use App\Models\Project;
@@ -95,7 +96,7 @@ class ProjectStatusUpdateController extends Controller
                                 $altFileNameToStore = md5($filename . '' . rand()) . '_' . time() . '.' . $extension;
 
 
-                                if (Auth::user()->id === $project->worker_id && $request['watermark_images']==1) {
+                                if (Auth::user()->id === $project->worker_id && $request['watermark_images'] == 1) {
                                     //watermark all images or files
 
                                     $imageMimeArray = ['image/*', 'image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
@@ -126,7 +127,7 @@ class ProjectStatusUpdateController extends Controller
                                     $attachment->status_update_id = $statusUpdate->id;
                                     $attachment->name = $filenameWithExt;
 
-                                    if (Auth::user()->id === $project->worker_id && $request['watermark_images']==1) {
+                                    if (Auth::user()->id === $project->worker_id && $request['watermark_images'] == 1) {
                                         $attachment->location = '/storage/projects/' . $project->id . '/attachments/watermarked/' . $fileNameToStore;
                                         $attachment->original_file_location = '/storage/projects/' . $project->id . '/attachments/' . $altFileNameToStore;
                                         $attachment->is_water_marked = true;
@@ -150,6 +151,8 @@ class ProjectStatusUpdateController extends Controller
 
                         $project->fresh();
 
+
+                        broadcast(new StatusUpdateSent($statusUpdate))->toOthers();
 
                         if (Auth::user()->id === $project->worker_id) {
 

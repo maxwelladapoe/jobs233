@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectPosted;
 use App\Mail\ProjectCreatedSuccessfully;
 use App\Models\Attachment;
 use App\Models\Bid;
@@ -178,6 +179,7 @@ class ProjectController extends Controller
 
                 }
 
+                broadcast(new ProjectPosted($project))->toOthers();
                 Mail::to(Auth::user()->email)->queue(new ProjectCreatedSuccessfully($project));
 
                 return response()->json(['success' => true, 'project' => $project, 'message' => 'Your project has been created successfully'], 200);

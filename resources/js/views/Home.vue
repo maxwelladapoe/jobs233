@@ -127,7 +127,7 @@
 
                                 <b-modal v-model="isVideoModalActive">
                                     <div class="video is-4by3">
-                                        <video class="jb-video" src="/videos/how_it_works_simple1.mp4" controls
+                                        <video class="jb-video" src="/videos/how_it_works_simple1.WebM" controls
                                                autoplay/>
                                     </div>
                                 </b-modal>

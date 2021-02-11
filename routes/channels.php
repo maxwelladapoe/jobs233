@@ -28,8 +28,13 @@ Broadcast::channel('jobs233_messaging.{receiverid}', function ($user, $receiveri
 
     return auth()->check();
 });
-Broadcast::channel('jobs233_messaging.{receiverid}', function ($user, $receiverid) {
 
+Broadcast::channel('jobs233-project-{project_id}', function ($project_id) {
+    return auth()->check();
+});
+
+
+Broadcast::channel('jobs233-projects-new-post', function ($project) {
     return auth()->check();
 });
 
