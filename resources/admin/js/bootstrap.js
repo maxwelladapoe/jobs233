@@ -30,20 +30,20 @@ if (window.location.href.indexOf(".test") !== -1) {
 
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
 
-    window.axios.defaults.baseURL = "http://jobs233.test/api/" + version + "/";
-    window.baseUrl = "http://jobs233.test/api/" + version + "/"
+    window.axios.defaults.baseURL = "http://jobs233.test/admin/api/" + version + "/";
+    window.baseUrl = "http://jobs233.test/admin/api/" + version + "/"
 
 } else if (window.location.href.indexOf("localhost") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
-    window.axios.defaults.baseURL = "http://localhost:8000/api/" + version + "/";
-    window.baseUrl = "http://localhost:8000/api/" + version + "/"
+    window.axios.defaults.baseURL = "http://localhost:8000/admin/api/" + version + "/";
+    window.baseUrl = "http://localhost:8000/admin/api/" + version + "/"
 } else if (window.location.href.indexOf("127.0.0.1") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
-    window.axios.defaults.baseURL = "http://127.0.0.1:8000/api/" + version + "/";
-    window.baseUrl = "http://127.0.0.1:8000/api/" + version + "/"
+    window.axios.defaults.baseURL = "http://127.0.0.1:8000/admin/api/" + version + "/";
+    window.baseUrl = "http://127.0.0.1:8000/admin/api/" + version + "/"
 } else {
-    window.axios.defaults.baseURL = "https://www.jobs233.com/api/" + version + "/";
-    window.baseUrl = "https://www.jobs233.com/api/" + version + "/";
+    window.axios.defaults.baseURL = "https://www.jobs233.com/admin/api/" + version + "/";
+    window.baseUrl = "https://www.jobs233.com/admin/api/" + version + "/";
 }
 
 window.axios.defaults.withCredentials = true;
