@@ -9,6 +9,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 
@@ -42,6 +43,7 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
         'remember_token',
     ];
     protected $with = ['profile', 'wallet', 'skills'];
+    protected $appends=['is_user_online'];
     protected $withCount = ['projects','assigned_projects_to_worker', 'my_assigned_projects', 'completedProjects','completed_assigned_projects'];
 
     /**
@@ -53,6 +55,10 @@ class User extends Authenticatable implements Customer,MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    public function getIsUserOnlineAttribute()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
 
     public function profile()
     {

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +165,6 @@ return [
         /*
          * Package Service Providers...
          */
-
         /*
          * Application Service Providers...
          */
@@ -178,7 +177,7 @@ return [
         Laravel\Scout\ScoutServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
 
-
+        MaxwellAdapoe\PasswordIsTooCommon\PasswordIsTooCommonServiceProvider::class,
 
     ],
 
@@ -231,7 +230,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\PasswordIsTooCommon::class,
 
     ],
 

@@ -7,8 +7,8 @@
 
 import App from './App.vue';
 import Vue from 'vue';
- import router from "./router";
- import store from "./store";
+import adminRouter from "./router";
+import store from "./store";
 import Buefy from 'buefy';
 
 require('./bootstrap');
@@ -23,7 +23,7 @@ import VuePluralize from 'vue-pluralize';
 import Meta from 'vue-meta';
 import pluralize from 'pluralize';
 import Vidle from 'v-idle';
-import { VueReCaptcha } from 'vue-recaptcha-v3';
+import {VueReCaptcha} from 'vue-recaptcha-v3';
 
 
 Vue.use(VueQuillEditor, /* { default global options } */)
@@ -103,8 +103,8 @@ Vue.component('ValidationObserver', ValidationObserver);
 
 const app = store.dispatch('auth/me').then(() => {
     new Vue({
-        el: '#app',
-        router,
+        el: '#admin-app',
+        router:adminRouter,
         store,
         render: h => h(App),
     });

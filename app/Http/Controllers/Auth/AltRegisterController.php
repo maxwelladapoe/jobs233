@@ -29,9 +29,12 @@ class AltRegisterController extends Controller
             'lastName' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:35', 'min:5', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6',],
+            'password' => ['required', 'string', 'min:6','too_common'],
             'preference' => ['required', 'string']
         ]);
+
+        return response()->json(['success' => false, 'message' => 'the preference selected does not exist'], 500);
+
 
         $preference = strtolower($request['preference']);
         $preferenceArray = ['work', 'hire'];
@@ -84,7 +87,7 @@ class AltRegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:35', 'min:5', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6',],
+            'password' => ['required', 'string', 'min:6','too_common'],
         ]);
     }
 

@@ -2,11 +2,21 @@
     <div>
         <v-idle @idle="inactiveUserAction" :wait="600" :duration="1800" hidden :loop="true"/>
 
-        <div>
-            <jb-nav/>
-            <router-view/>
-            <jb-footer/>
-        </div>
+
+        <template v-if="!hideNav">
+            <div>
+                <jb-nav/>
+                <router-view/>
+                <jb-footer/>
+            </div>
+        </template>
+
+        <template v-else>
+            <div>
+                <router-view/>
+            </div>
+        </template>
+
 
 
     </div>
@@ -34,6 +44,7 @@
                 isInactive: false,
                 userActivityThrottlerTimeout: null,
                 userActivityTimeout: null,
+                hideNav:true,
 
             }
         },
@@ -66,6 +77,12 @@
 
 
         created() {
+            console.log()
+            if (this.$route.meta.noNav){
+                this.hideNav =this.$route.meta.noNav;
+                console.log("show nav is ",this.showNav)
+            }
+
 
             if (this.authenticated) {
                 Echo.join('jobs233_ymiutkyihzrihztnzwar')
