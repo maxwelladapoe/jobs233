@@ -18,6 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/home';
+    public const ADMIN_HOME = '/back-end-service/admin-login';
 
     /**
      * The controller namespace for the application.
@@ -35,6 +36,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
@@ -43,19 +47,25 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 //
-//            Route::prefix('admin-api')
-//                ->middleware('admin-api')
-//                ->namespace($this->namespace)
-//                ->group(base_path('routes/admin/api.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-//            Route::middleware('web')
-//                ->namespace($this->namespace)
-//                ->group(base_path('routes/admin/web.php'));
         });
+    }
+
+
+    public function  map(){
+        $this->mapAdminApiRoutes();
+    }
+
+
+    protected function mapAdminApiRoutes()
+    {
+        Route::prefix('admin-api')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin/api.php'));
     }
 
     /**
@@ -66,6 +76,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60);
+        }); RateLimiter::for('admin-api', function (Request $request) {
             return Limit::perMinute(60);
         });
     }

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import adminAxios from 'axios';
 
 export default {
     namespaced: true,
@@ -55,18 +55,18 @@ export default {
     },
 
     actions: {
-        async logIn({dispatch, state}, credentials) {
-            await axios.get('/sanctum/csrf-cookie');
-            await axios.post('/auth/login', credentials);
+        async adminLogIn({dispatch, state}, credentials) {
+            await adminAxios.get('/sanctum/csrf-cookie');
+            await adminAxios.post('/auth/login', credentials);
 
             return dispatch('me');
         },
 
         async logOut({dispatch, state}) {
 
-            axios.put(`/auth/${state.user.id}/is_offline`);
+            adminAxios.put(`/auth/${state.user.id}/is_offline`);
 
-            await axios.get(`/auth/logout`).then(()=>{
+            await adminAxios.get(`/auth/logout`).then(()=>{
                 return dispatch('me');
             })
 
@@ -83,10 +83,10 @@ export default {
         },
 
         me({commit, state}) {
-            return axios.get('/user').then((response) => {
+            return adminAxios.get('/admin/user').then((response) => {
                 commit('SET_AUTHENTICATED', true);
                 commit('SET_USER', response.data);
-                axios.put(`/auth/${state.user.id}/is_online`);
+                adminAxios.put(`/auth/${state.user.id}/is_online`);
                 commit('SET_PREFERENCE', response.data.profile.preference.toLowerCase());
             }).catch(() => {
                 commit('SET_AUTHENTICATED', false);
@@ -95,7 +95,7 @@ export default {
         },
 
         async signUp({dispatch}, credentials) {
-            return await axios.post('/auth/register', credentials)
+            return await adminAxios.post('/auth/register', credentials)
         }
     }
 

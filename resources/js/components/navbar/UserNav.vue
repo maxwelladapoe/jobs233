@@ -31,7 +31,7 @@
                                         <b-image :rounded="true" :src="user.profile.picture"/>
                                     </div>
                                     <div class="jb-profile-btn-name">
-                                <span class="t-meri ml-2">{{user.name}}
+                                <span class="t-meri ml-2">{{ user.name }}
                                 </span>
                                     </div>
                                 </template>
@@ -202,33 +202,33 @@
 
 <script>
 
-    import {mapGetters, mapActions} from 'vuex';
-    import DashNav from "./DashNav";
+import {mapGetters, mapActions} from 'vuex';
+import DashNav from "./DashNav";
 
-    export default {
-        name: "user-nav",
-        components: {DashNav},
-        methods: {
+export default {
+    name: "user-nav",
+    components: {DashNav},
+    methods: {
 
-            ...mapActions({
-                logOut: 'auth/logOut'
-            }),
-            logout() {
-                this.logOut().then(()=>{
-                    this.$router.push('/login');
-                });
+        ...mapActions({
+            logOut: 'auth/logOut'
+        }),
+        logout() {
+            this.logOut().then(() => {
+                this.$router.push('/login');
+            });
 
 
-            }
-        },
-        computed: {
-            ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
-            })
         }
+    },
+    computed: {
+        ...mapGetters({
+            authenticated: 'auth/authenticated',
+            user: 'auth/user',
+            profileType: 'auth/profileType',
+        })
     }
+}
 </script>
 
 <style scoped>

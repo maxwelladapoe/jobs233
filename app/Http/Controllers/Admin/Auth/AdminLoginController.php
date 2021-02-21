@@ -7,10 +7,11 @@ use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::ADMIN_HOME;
 
     /**
      * Create a new controller instance.
@@ -40,7 +41,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('admin-api')->except('logout');
-        $this->middleware('guest:api-admin')->except('logout');
+        $this->middleware('guest:admin-api')->except('logout');
     }
 
 
@@ -111,6 +112,11 @@ class LoginController extends Controller
         }
 
         return $user->createToken($request->device_name)->plainTextToken;
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('admin');
     }
 
 

@@ -21,32 +21,32 @@ try {
  */
 
 let version = 'v1';
-window.axios = require('axios');
+window.adminAxios = require('axios');
 
-window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-window.axios.defaults.headers.common['Content-Type'] = 'application/json';
+window.adminAxios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.adminAxios.defaults.headers.common['Content-Type'] = 'application/json';
 
 if (window.location.href.indexOf(".test") !== -1) {
 
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
 
-    window.axios.defaults.baseURL = "http://jobs233.test/admin/api/" + version + "/";
-    window.baseUrl = "http://jobs233.test/admin/api/" + version + "/"
+    window.adminAxios.defaults.baseURL = "http://jobs233.test/admin-api/" + version + "/";
+    window.baseUrl = "http://jobs233.test/admin-api/" + version + "/"
 
 } else if (window.location.href.indexOf("localhost") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
-    window.axios.defaults.baseURL = "http://localhost:8000/admin/api/" + version + "/";
-    window.baseUrl = "http://localhost:8000/admin/api/" + version + "/"
+    window.adminAxios.defaults.baseURL = "http://localhost:8000/admin-api/" + version + "/";
+    window.baseUrl = "http://localhost:8000/admin-api/" + version + "/"
 } else if (window.location.href.indexOf("127.0.0.1") !== -1) {
     console.log("%cYou are in development mode", 'background: green; color: white; display: block;')
-    window.axios.defaults.baseURL = "http://127.0.0.1:8000/admin/api/" + version + "/";
-    window.baseUrl = "http://127.0.0.1:8000/admin/api/" + version + "/"
+    window.adminAxios.defaults.baseURL = "http://127.0.0.1:8000/admin-api/" + version + "/";
+    window.baseUrl = "http://127.0.0.1:8000/admin-api/" + version + "/"
 } else {
-    window.axios.defaults.baseURL = "https://www.jobs233.com/admin/api/" + version + "/";
-    window.baseUrl = "https://www.jobs233.com/admin/api/" + version + "/";
+    window.adminAxios.defaults.baseURL = "https://www.jobs233.com/admin-api/" + version + "/";
+    window.baseUrl = "https://www.jobs233.com/admin-api/" + version + "/";
 }
 
-window.axios.defaults.withCredentials = true;
+window.adminAxios.defaults.withCredentials = true;
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
@@ -54,7 +54,7 @@ window.axios.defaults.withCredentials = true;
  * allows your team to easily build robust real-time web applications.
  */
 
-axios.defaults.withCredentials = true;
+adminAxios.defaults.withCredentials = true;
 
 
 import Echo from 'laravel-echo';

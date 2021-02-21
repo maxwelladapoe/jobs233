@@ -101,7 +101,7 @@ Vue.component('ValidationObserver', ValidationObserver);
 
 
 
-const app = store.dispatch('auth/me').then(() => {
+const adminApp = store.dispatch('adminAuth/me').then(() => {
     new Vue({
         el: '#admin-app',
         router:adminRouter,

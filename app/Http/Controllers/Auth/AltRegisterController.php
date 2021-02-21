@@ -33,7 +33,6 @@ class AltRegisterController extends Controller
             'preference' => ['required', 'string']
         ]);
 
-        return response()->json(['success' => false, 'message' => 'the preference selected does not exist'], 500);
 
 
         $preference = strtolower($request['preference']);

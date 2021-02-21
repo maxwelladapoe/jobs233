@@ -53,7 +53,7 @@ let entryUrl = null;
 adminRouter.beforeEach((to, from, next) => {
 
     if (to.matched.some(record => record.meta.mustNotBeAdminAuthenticated)) {
-        if (store.state.auth.authenticated) {
+        if (store.state.adminAuth.authenticated) {
             next({name:'AdminDashboard'});
             return
         }else{
@@ -65,7 +65,7 @@ adminRouter.beforeEach((to, from, next) => {
 
     if (to.matched.some(record => record.meta.requiresAdminAuth)) {
 
-        if (store.state.auth.authenticated) {
+        if (store.state.adminAuth.authenticated) {
             next();
             return
         }

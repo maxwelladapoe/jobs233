@@ -215,17 +215,17 @@
                                                 <b-field class="text-center mt-3 expanded" label="I want to:">
 
                                                     <b-radio-button expanded v-model="signupCredentials.preference"
-                                                                    native-value="work"
-                                                                    type="is-primary">
-                                                        <b-icon icon="account-hard-hat"></b-icon>
-                                                        <span>Work</span>
-                                                    </b-radio-button>
-
-                                                    <b-radio-button expanded v-model="signupCredentials.preference"
                                                                     native-value="hire"
                                                                     type="is-primary">
                                                         <b-icon icon="handshake"></b-icon>
                                                         <span>Hire</span>
+                                                    </b-radio-button>
+
+                                                    <b-radio-button expanded v-model="signupCredentials.preference"
+                                                                    native-value="work"
+                                                                    type="is-primary">
+                                                        <b-icon icon="account-hard-hat"></b-icon>
+                                                        <span>Work</span>
                                                     </b-radio-button>
 
 

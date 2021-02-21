@@ -40,7 +40,7 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('api')->except('logout');
-        $this->middleware('guest:api-admin')->except('logout');
+        $this->middleware('guest:api')->except('logout');
     }
 
 

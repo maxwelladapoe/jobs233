@@ -15,9 +15,9 @@
                                 </div>
                             </div>
                             <div class="card-content">
-                                <ValidationObserver>
+                                <ValidationObserver  v-slot="{ handleSubmit }" ref="adminLoginForm">
 
-                                    <form action="">
+                                    <form>
 
 
                                         <ValidationProvider
@@ -25,25 +25,28 @@
                                             slim
                                         >
                                             <b-field label="Email" label-class="t-bold t-mont" expanded>
-                                                <b-input expanded></b-input>
+                                                <b-input expanded v-model="loginCredentials.identity"> </b-input>
                                             </b-field>
                                         </ValidationProvider>
 
                                         <ValidationProvider>
 
                                             <b-field label="Password" label-class="t-bold t-white t-mont" expanded>
-                                                <b-input expanded>
+                                                <b-input expanded v-model="loginCredentials.password" password-reveal
+                                                         type="password">
 
                                                 </b-input>
                                             </b-field>
                                         </ValidationProvider>
 
-                                        <b-checkbox class="mt-3" type="is-success">Remember me
+                                        <b-checkbox class="mt-3" type="is-success"
+                                                    v-model="loginCredentials.remember">Remember me
                                         </b-checkbox>
 
 
                                         <b-field label="" class="has-text-centered">
-                                            <b-button class="mt-5 " type="submit is-primary" expanded>
+                                            <b-button class="mt-5 " type="submit is-primary" expanded
+                                                      @click.prevent="handleSubmit(loginSubmit)">
                                                 Login
                                             </b-button>
                                         </b-field>
@@ -66,8 +69,44 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
-    name: "AdminLogin"
+    name: "AdminLogin",
+    data() {
+        return {
+            loginCredentials: {
+                identity: '',
+                password: '',
+                remember: false,
+            }
+        }
+    },
+    methods: {
+        ...mapActions({
+            adminLogIn: 'adminAuth/adminLogIn',
+        }),
+
+        async loginSubmit() {
+
+            this.displayErrors = false;
+            this.isLoading = true;
+            this.loadingMessage = 'Logging you in ...';
+            await this.adminLogIn(this.loginCredentials).then(response => {
+                this.isLoading = false;
+
+
+                this.$router.push(this.$route.query.redirect || '/dashboard');
+
+            }).catch(errors => {
+                this.displayErrors = true;
+                this.errorMessages = errors.response.data.errors;
+                this.$refs.loginForm.setErrors({...errors.response.data.errors})
+                this.isLoading = false;
+            })
+        },
+    },
+
 }
 </script>
 

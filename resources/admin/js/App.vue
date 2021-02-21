@@ -27,7 +27,6 @@
 
 
     import Footer from './components/Footer'
-    import axios from "axios";
     import {mapActions, mapGetters} from "vuex";
     import AdminUserNav from "./components/navbar/AdminUserNav";
 
@@ -55,8 +54,8 @@
         methods: {
 
             ...mapActions({
-                logOut: 'auth/logOut',
-                refresh: 'auth/refresh',
+                logOut: 'adminAuth/logOut',
+                refresh: 'adminAuth/refresh',
             }),
 
 
@@ -106,9 +105,9 @@
         },
         computed: {
             ...mapGetters({
-                authenticated: 'auth/authenticated',
-                user: 'auth/user',
-                profileType: 'auth/profileType',
+                authenticated: 'adminAuth/authenticated',
+                user: 'adminAuth/user',
+                profileType: 'adminAuth/profileType',
             }),
 
         },
