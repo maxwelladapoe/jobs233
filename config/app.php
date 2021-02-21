@@ -176,7 +176,6 @@ return [
         TeamTNT\Scout\TNTSearchScoutServiceProvider::class,
         Laravel\Scout\ScoutServiceProvider::class,
         Unicodeveloper\Paystack\PaystackServiceProvider::class,
-
         MaxwellAdapoe\PasswordIsTooCommon\PasswordIsTooCommonServiceProvider::class,
 
     ],
@@ -230,7 +229,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Paystack' => Unicodeveloper\Paystack\Facades\PasswordIsTooCommon::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
 
     ],
 
