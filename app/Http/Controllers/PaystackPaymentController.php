@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
-use Unicodeveloper\Paystack\Facades\PasswordIsTooCommon;
+use Unicodeveloper\Paystack\Facades\Paystack;
 use Unicodeveloper\Paystack\TransRef;
 
 
@@ -36,7 +36,7 @@ class PaystackPaymentController extends Controller
         try {
 
             return response()->json(['success' => true,
-                'redirect_route' => PasswordIsTooCommon::getAuthorizationUrl()], 200);
+                'redirect_route' => Paystack::getAuthorizationUrl()], 200);
 
 
         } catch (\Exception $e) {
@@ -99,7 +99,7 @@ class PaystackPaymentController extends Controller
                     try {
 
                         return response()->json(['success' => true,
-                            'redirect_route' => PasswordIsTooCommon::getAuthorizationUrl()], 200);
+                            'redirect_route' => Paystack::getAuthorizationUrl()], 200);
 
 
                     } catch (\Exception $e) {
@@ -133,7 +133,7 @@ class PaystackPaymentController extends Controller
 
         try {
 
-            $paymentDetails = PasswordIsTooCommon::getPaymentData();
+            $paymentDetails = Paystack::getPaymentData();
 
 
             $user = Auth::user();
