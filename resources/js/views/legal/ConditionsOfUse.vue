@@ -9,7 +9,7 @@
                     <div class="columns is-multiline">
 
                         <div class="column is-12">
-                            <h1 class="title t-white t-1 t-bold">Privacy Policy</h1>
+                            <h1 class="title t-white t-1 t-bold">Conditions of Use</h1>
                             <p class="subtitle t-white">Effective 5th March 2021</p>
 
                         </div>
