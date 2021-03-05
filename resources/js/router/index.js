@@ -18,6 +18,8 @@ import Blog from "../views/others/Blog";
 import EmailVerified from "../views/auth/EmailVerified";
 import Forbidden from "../views/errors/Forbidden";
 import NotFound from "../views/errors/NotFound";
+import ConditionsOfUse from "../views/legal/ConditionsOfUse";
+import PrivacyPolicy from "../views/legal/PrivacyPolicy";
 
 Vue.use(VueRouter);
 
@@ -57,6 +59,18 @@ const routes = [
         path: '/blog',
         name: 'Blog',
         component: Blog,
+        meta: {requiresAuth: false}
+
+    }, {
+        path: '/conditions-of-use',
+        name: 'ConditionsOfUse',
+        component: ConditionsOfUse,
+        meta: {requiresAuth: false}
+
+    },{
+        path: '/privacy-policy',
+        name: 'PrivacyPolicy',
+        component: PrivacyPolicy,
         meta: {requiresAuth: false}
 
     }, {

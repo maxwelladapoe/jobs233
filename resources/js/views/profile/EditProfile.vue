@@ -6,7 +6,7 @@
                 <div class="container">
 
 
-                    <div class="columns is is-multiline is-mobile">
+                    <div class="columns is-multiline is-mobile">
 
                         <div
                             class="column is-12-mobile is-8-tablet  is-offset-2-tablet is-offset-0-desktop is-3-desktop  mb-5 ">
@@ -94,7 +94,66 @@
                                         </form>
                                     </ValidationObserver>
                                 </div>
+
+
+                                <p>Preferred Categories</p>
+                                <div class="">
+                                    <ValidationObserver v-slot="{handleSubmit}" ref="skillsForm">
+                                        <form>
+                                            <ValidationProvider
+                                                persist
+                                                name="categories"
+                                                :rules="{ required: true,max:150}"
+                                                v-slot="{ errors, valid }" slim
+                                            >
+                                                <b-field
+                                                    id="categories"
+                                                    :message="errors"
+                                                    expanded
+                                                    class="mt-5"
+                                                    :type="{ 'is-danger': errors[0], 'is-success': valid }"
+                                                    label-for="skills"
+                                                >
+
+                                                    <b-autocomplete
+                                                        input-id="tags-separators"
+                                                        name="categories"
+                                                        :data="categoriesListFiltered"
+                                                        expanded
+                                                        field="name"
+                                                        :clearable="true"
+                                                        @typing="getFilteredSkills"
+                                                        placeholder="Add a skill"
+                                                        v-model="categories">
+
+                                                    </b-autocomplete>
+
+                                                </b-field>
+
+                                            </ValidationProvider>
+
+                                            <b-taglist v-if="userSkills">
+                                                <b-tag
+                                                    v-for="(skill, index) in userSkills"
+                                                    :key="skill"
+                                                    :title="skill"
+                                                    closable
+                                                    close-type='is-danger'
+                                                    aria-close-label="Close tag"
+                                                    class="mr-1"
+                                                    type="is-success"
+                                                    @close="removeSkill(skill, index)"
+                                                >{{ skill }}
+                                                </b-tag>
+
+
+                                            </b-taglist>
+
+                                        </form>
+                                    </ValidationObserver>
+                                </div>
                             </div>
+
 
 
                         </div>
@@ -638,7 +697,12 @@ export default {
             skillsList: [],
             additionalSkill: '',
             userSkills: [],
-            skills: [],
+            skills: '',
+            categoriesList:[],
+            categoriesListFiltered:[],
+            categories:'',
+
+
         }
     },
     methods: {
@@ -764,6 +828,14 @@ export default {
                     .indexOf(text.toLowerCase()) >= 0
             })
         },
+        getFilteredCategories(text) {
+            this.categoriesListFiltered = this.categoriesList.filter((option) => {
+                return option.name
+                    .toString()
+                    .toLowerCase()
+                    .indexOf(text.toLowerCase()) >= 0
+            })
+        },
 
         addSkill() {
             axios.post('profile/skills', {skill: this.additionalSkill}).then(({data}) => {
@@ -788,19 +860,21 @@ export default {
         this.profileDetails = {...this.user.profile};
         this.imagePreview = this.profileDetails.picture;
         this.userDetails = {...this.user};
-        console.log(this.user.skills.skills === '')
-        if (this.user.skills.skills != '') {
+
+
+        if (this.user.skills) {
             this.userSkills = this.user.skills.skills.split(',')
         }
 
-
-        axios.get('skills').then(({data}) => {
+        axios.get('projects/categories-skills').then(({data}) => {
             this.skillsList = data.skills;
+            this.categoriesList = data.categories;
         })
 
         axios.get('portfolio').then(({data}) => {
             this.portfolioItems = data.portfolio;
         })
+
 
         delete this.userDetails.profile;
     },

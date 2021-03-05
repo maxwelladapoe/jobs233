@@ -24,8 +24,11 @@
                     <div class="column is-3">
                         <p class="jb-footer-header  t-bold ">ASSIST</p>
                         <ul class="footer-align">
-                            <li class="footer-item"><a class="footer-link" href="help">Help</a></li>
-                            <li class="footer-item"><a class="footer-link" href="faq">FAQ</a></li>
+                            <li class="footer-item"><router-link class="footer-link" :to="{name:'HowItWorks'}">How it
+                                works</router-link></li>
+                            <li class="footer-item"><router-link class="footer-link"
+                                                                 :to="{name:'HowItWorks',params:{type:'faq'}}">FAQ
+                            </router-link></li>
                             <li class="footer-item">
                                 <router-link class="footer-link" :to="{name:'Contact'}">Contact us</router-link>
                             </li>
@@ -47,8 +50,14 @@
                                 blog</router-link></li>
 
 
-                            <li class="footer-item"><a class=footer-link href="conditions.html">Conditions of Use</a></li>
-                            <li class="footer-item"><a class="footer-link" href="privacy.html">Privacy Notice</a></li>
+                            <li
+                                class="footer-item">
+                                <router-link class=footer-link :to="{name:'ConditionsOfUse'}">Conditions of
+                                Use</router-link>
+                            </li>
+                            <li class="footer-item">
+                                <router-link class="footer-link" :to="{name:'PrivacyPolicy'}">Privacy
+                                    Policy</router-link></li>
                         </ul>
                         <br>
                         <p>© Copyright {{copyrightYear}} Poe Studios </p>

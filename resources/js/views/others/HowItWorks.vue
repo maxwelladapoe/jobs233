@@ -23,11 +23,18 @@
                             <div class="jb-player-wrapper">
                                 <div class="jb-player-overlay"></div>
 
-                                <img src="/images/play.png" class="jb-play-icon"/>
+                                <div class="jb-play-btn cursor-pointer" @click="isVideoModalActive=!isVideoModalActive">
+                                    <img src="/images/play.png" class="jb-play-icon"/>
+                                </div>
+
+
+
                                 <img src="/images/img2.webp" class="jb-section-img">
                             </div>
                         </div>
                     </div>
+
+
 
                 </div>
 
@@ -55,7 +62,7 @@
                                     <div>
 
                                         <router-link :to="{name:'createProject'}">
-                                        <b-button class="button mt-3">Post a project</b-button>
+                                            <b-button class="button mt-3">Post a project</b-button>
                                         </router-link>
 
 
@@ -135,7 +142,7 @@
                                         direct employers to you</p>
                                     <div>
                                         <router-link :to="{name:'Projects'}">
-                                        <b-button class="button mt-3">Browse projects</b-button>
+                                            <b-button class="button mt-3">Browse projects</b-button>
                                         </router-link>
                                     </div>
                                 </div>
@@ -208,18 +215,32 @@
                 </div>
             </div>
         </div>
+
+
+
+        <b-modal v-model="isVideoModalActive">
+            <div class="video is-4by3">
+                <video class="jb-video" src="/videos/how_it_works_simple1.WebM" controls
+                       autoplay/>
+            </div>
+        </b-modal>
     </div>
 
 </template>
 
 <script>
-    export default {
-        name: "HowItWorks",
-        metaInfo: {
-            // if no subcomponents specify a metaInfo.title, this title will be used
-            title: 'How It Works',
-        },
+export default {
+    name: "HowItWorks",
+    metaInfo: {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        title: 'How It Works',
+    },
+    data(){
+        return{
+            isVideoModalActive:false
+        }
     }
+}
 </script>
 
 <style scoped>

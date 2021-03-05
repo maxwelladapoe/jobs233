@@ -44,7 +44,7 @@
                                                     </p>
 
 
-                                                    <div class="buttons mt-3">
+                                                    <div class="buttons mt-3  is-justify-content-center">
 
                                                         <router-link :to="{name:'Login'}">
                                                             <b-button type="is-primary">
