@@ -43,6 +43,4 @@ Route::get('/payment/callback', [App\Http\Controllers\PaystackPaymentController:
 Route::get('back_end_service/', [App\Http\Controllers\Admin\AdminController::class, 'index'])->where('any', '.*');
 Route::get('back_end_service/{any}', [App\Http\Controllers\Admin\AdminController::class, 'index'])->where('any', '.*');
 
-
-
 Route::get('/{any}', [App\Http\Controllers\HomeController::class, 'index'])->where('any', '.*');

@@ -46,9 +46,9 @@ mix.js('resources/js/app.js', 'public/js')
 
 
 
-mix.js('resources/admin/js/app.js', 'public/admin/js')
-    .sass('resources/admin/sass/app.scss', 'public/admin/css')
-    .version();
+// mix.js('resources/admin/js/app.js', 'public/admin/js')
+//     .sass('resources/admin/sass/app.scss', 'public/admin/css')
+//     .version();
 
 
 
