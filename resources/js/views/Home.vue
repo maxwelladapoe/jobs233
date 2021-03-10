@@ -25,8 +25,8 @@
 
                 <div class="section no-padding-margin-top-bottom">
 
-                    <div class="container">
-                        <div class="columns is-mobile  is-multiline">
+                    <div class="container ">
+                        <div class="columns is-mobile  is-multiline is-vcentered">
                             <div class="column is-12-mobile is-6-desktop">
                                 <h1 class="title t-bold t-orange t-mont">Get more done, <br>hire a freelancer</h1>
                                 <p class="t-meri t-normal">Speed up your workflow by hiring an experienced freelancer in
@@ -43,13 +43,35 @@
                                     be a freelancer to get it done.</p>
                             </div>
 
-                            <div class=" column is-12-mobile is-6-desktop">
+                            <div class="column is-12-mobile is-offset-1-desktop is-5-desktop">
 
-                                <div class="jb-player-wrapper">
-                                    <div class="jb-player-overlay"></div>
+                                <!--                                <div class="jb-player-wrapper">-->
+                                <!--                                    <div class="jb-player-overlay"></div>-->
 
-                                    <img src="/images/play.png" class="jb-play-icon"/>
-                                    <img src="/images/img2.webp" class="jb-section-img">
+                                <!--                                    <img src="/images/play.png" class="jb-play-icon"/>-->
+                                <!--                                    <img src="/images/img2.webp" class="jb-section-img">-->
+                                <!--                                </div>-->
+
+                                <div class="jb-square-images">
+                                    <div>
+
+
+
+                                    <div class="square has-border">
+                                        <img src="/images/square1.jpg"/>
+                                    </div>
+                                    <div class="square has-border has-offset">
+                                        <img src="/images/square2.jpg"/>
+                                    </div>
+                                    <div class="square has-offset-2 is-small has-background-grey">
+                                        <div>
+                                            <p class="t-white t-mont t-bold ">Engage a network of trusted
+                                                freelancers</p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
                                 </div>
 
 
@@ -251,7 +273,7 @@ import {mapGetters} from "vuex";
 export default {
     metaInfo: {
         // if no subcomponents specify a metaInfo.title, this title will be used
-        title: 'Jobs 233',
+        title: 'Jobs 233 - A freelance market place',
         titleTemplate: false,
         meta: [
             {

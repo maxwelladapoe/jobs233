@@ -11,23 +11,15 @@
                         <div class="column is-12">
                             <h1 class="title t-white t-1 t-bold">Conditions of Use</h1>
                             <p class="subtitle t-white">Effective 5th March 2021</p>
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
-
-
         </div>
 
-
         <div class="jb-main-section-wrapper-alt">
-
             <div class="section">
                 <div class="container">
-
                     <p class="t-bold t-orange">INTRODUCTION</p>
                     <p class="mt-2"> The Jobs233 Site Terms of Use describe when and the conditions under which you are
                         allowed to

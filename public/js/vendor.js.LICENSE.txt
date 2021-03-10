@@ -27,7 +27,7 @@
  */
 
 /*!
- * vue-i18n v8.22.4 
+ * vue-i18n v8.23.0 
  * (c) 2021 kazuya kawaguchi
  * Released under the MIT License.
  */
@@ -39,8 +39,8 @@
  */
 
 /*!
- * vuex v3.6.0
- * (c) 2020 Evan You
+ * vuex v3.6.2
+ * (c) 2021 Evan You
  * @license MIT
  */
 

@@ -32,6 +32,7 @@
         "pusher-js": "^7.0.2",
         "v-idle": "^0.2.0",
         "vee-validate": "^3.4.5",
+        "vue-chocolat": "^1.1.4",
         "vue-i18n": "^8.22.3",
         "vue-infinite-loading": "^2.4.5",
         "vue-ionicons": "^3.0.5",

@@ -5,7 +5,7 @@
 
         <b-carousel :arrow="false" :animated="'fade'" :interval="15000" :pause-info="false" :indicator="false">
             <b-carousel-item v-for="(carousel, i) in carousels" :key="i">
-                <section class="hero">
+                <section class="hero ">
                     <div class="hero-bg">
                         <div class="overlay bg-black"></div>
 
